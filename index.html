@@ -400,133 +400,146 @@
 <br><br><br>
                 <p>One more thing that excites me is meeting the gradient-color cloud and lonely tree. I'd like to capture them and share them with others!</p>
             </div>
-
-<title>Carousel Example</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Include Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <!-- Include jQuery and Bootstrap JS -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <!-- Custom Styles -->
-  <style>
-    /* Adjust carousel controls opacity */
-    .carousel-control .glyphicon-chevron-left,
-    .carousel-control .glyphicon-chevron-right {
-      opacity: 0.5;
-    }
-    .carousel-control:hover .glyphicon-chevron-left,
-    .carousel-control:hover .glyphicon-chevron-right {
-      opacity: 0.8;
-    }
-    /* Move carousel indicators below the image */
-    .carousel-indicators {
-      position: static;
-      margin-top: 10px;
-    }
-  </style>
+<meta charset="UTF-8">
+    <title>Homepage</title>
+    <!-- 引入 Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- 引入 jQuery 和 Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- 自定义样式 -->
+    <style>
+        /* 调整轮播图容器 */
+        .carousel {
+            width: 80%;
+            margin: 0 auto;
+        }
+        /* 固定图片高度并居中 */
+        .carousel-inner > .item > img {
+            height: 480px;
+            width: auto;
+            margin: 0 auto;
+        }
+        /* 调整轮播图指示器的位置 */
+        .carousel-indicators {
+            bottom: -30px;
+        }
+        /* 确保指示器不遮挡图片 */
+        .carousel .carousel-indicators li {
+            border: 1px solid #ccc;
+        }
+        .carousel .carousel-indicators .active {
+            background-color: #333;
+        }
+        /* 调整左右控制按钮的样式 */
+        .carousel-control.left,
+        .carousel-control.right {
+            background-image: none;
+            width: 5%;
+        }
+        .carousel-control .glyphicon-chevron-left,
+        .carousel-control .glyphicon-chevron-right {
+            color: #333;
+            font-size: 30px;
+        }
+    </style>
 </head>
 <body>
 
 <div class="container">
-  <h2>Carousel Example</h2>  
-  <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="4000" data-pause="hover">
-    <!-- Wrapper for slides -->
-                <div class="carousel-inner">
-                    <div class="item active">
-                        <img src="img/img/1.jpg" alt="Image 1">
-                        <div class="carousel-caption">
-                            <h3>Nanshan</h3>
-                            <p>Days of self-isolation at hotel</p>
-                        </div>
-                    </div>
-    
-                    <div class="item">
-                        <img src="img/img/2.jpg" alt="Image 2">
-                        <div class="carousel-caption">
-                            <h3>Hebei</h3>
-                            <p>Same perspective before and after basketball</p>
-                        </div>
-                    </div>
-    
-                    <div class="item">
-                        <img src="img/img/3.jpg" alt="Image 3">
-                        <div class="carousel-caption">
-                            <h3>SIGS</h3>
-                            <p>Dormitory</p>
-                        </div>
-                    </div>
-    
-                    <!-- Add more items as needed -->
-                    <div class="item">
-                        <img src="img/img/4.jpg" alt="Image 4">
-                        <div class="carousel-caption">
-                            <h3>Wuhan</h3>
-                            <p>Lake behind school</p>
-                        </div>
-                    </div>
-    
-                    <div class="item">
-                        <img src="img/img/5.jpg" alt="Image 5">
-                        <div class="carousel-caption">
-                            <h3>Wuhan</h3>
-                            <p>Golden lake</p>
-                        </div>
-                    </div>
-    
-                    <div class="item">
-                        <img src="img/img/6.jpg" alt="Image 6">
-                        <div class="carousel-caption">
-                            <h3>Hebei</h3>
-                            <p>Street corner but nobody</p>
-                        </div>
-                    </div>
-    
-                    <div class="item">
-                        <img src="img/img/7.jpg" alt="Image 7">
-                        <div class="carousel-caption">
-                            <h3>HUST</h3>
-                            <p>Street with students</p>
-                        </div>
-                    </div>
-    
-                    <div class="item">
-                        <img src="img/img/8.jpg" alt="Image 8">
-                        <div class="carousel-caption">
-                            <h3>HUST</h3>
-                            <p>Gorgeous pink</p>
-                        </div>
-                    </div>
+    <!-- 您可以根据需要调整标题或移除 -->
+    <h2 style="text-align: center;">Carousel Example</h2>
+    <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="4000" data-pause="hover">
+        <!-- 轮播图项目 -->
+        <div class="carousel-inner">
+            <div class="item active">
+                <img src="img/img/1.jpg" alt="Image 1">
+                <div class="carousel-caption">
+                    <h3>Nanshan</h3>
+                    <p>Days of self-isolation at hotel</p>
                 </div>
-    
+            </div>
 
-    <!-- Left and right controls -->
-    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-      <span class="glyphicon glyphicon-chevron-left" style="opacity: 0.5;"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" data-slide="next">
-      <span class="glyphicon glyphicon-chevron-right" style="opacity: 0.5;"></span>
-      <span class="sr-only">Next</span>
-    </a>
+            <div class="item">
+                <img src="img/img/2.jpg" alt="Image 2">
+                <div class="carousel-caption">
+                    <h3>Hebei</h3>
+                    <p>Same perspective before and after basketball</p>
+                </div>
+            </div>
 
-    <!-- Indicators moved below the image -->
-    <ol class="carousel-indicators">
-      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-      <li data-target="#myCarousel" data-slide-to="1"></li>
-      <li data-target="#myCarousel" data-slide-to="2"></li>
-      <li data-target="#myCarousel" data-slide-to="3"></li>
-      <li data-target="#myCarousel" data-slide-to="4"></li>
-      <li data-target="#myCarousel" data-slide-to="5"></li>
-      <li data-target="#myCarousel" data-slide-to="6"></li>
-      <li data-target="#myCarousel" data-slide-to="7"></li>
-    </ol>
-  </div>
+            <div class="item">
+                <img src="img/img/3.jpg" alt="Image 3">
+                <div class="carousel-caption">
+                    <h3>SIGS</h3>
+                    <p>Dormitory</p>
+                </div>
+            </div>
+
+            <!-- 更多项目 -->
+            <div class="item">
+                <img src="img/img/4.jpg" alt="Image 4">
+                <div class="carousel-caption">
+                    <h3>Wuhan</h3>
+                    <p>Lake behind school</p>
+                </div>
+            </div>
+
+            <div class="item">
+                <img src="img/img/5.jpg" alt="Image 5">
+                <div class="carousel-caption">
+                    <h3>Wuhan</h3>
+                    <p>Golden lake</p>
+                </div>
+            </div>
+
+            <div class="item">
+                <img src="img/img/6.jpg" alt="Image 6">
+                <div class="carousel-caption">
+                    <h3>Hebei</h3>
+                    <p>Street corner but nobody</p>
+                </div>
+            </div>
+
+            <div class="item">
+                <img src="img/img/7.jpg" alt="Image 7">
+                <div class="carousel-caption">
+                    <h3>HUST</h3>
+                    <p>Street with students</p>
+                </div>
+            </div>
+
+            <div class="item">
+                <img src="img/img/8.jpg" alt="Image 8">
+                <div class="carousel-caption">
+                    <h3>HUST</h3>
+                    <p>Gorgeous pink</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 左右控制按钮 -->
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+
+        <!-- 轮播图指示器 -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+            <li data-target="#myCarousel" data-slide-to="3"></li>
+            <li data-target="#myCarousel" data-slide-to="4"></li>
+            <li data-target="#myCarousel" data-slide-to="5"></li>
+            <li data-target="#myCarousel" data-slide-to="6"></li>
+            <li data-target="#myCarousel" data-slide-to="7"></li>
+        </ol>
+    </div>
 </div>
 
-    
-        </div>
     </main>
     <div class="nav-wrap">
         <div class="nav">
