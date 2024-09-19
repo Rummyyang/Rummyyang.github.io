@@ -25,10 +25,10 @@
             text-align: center;
         }
         .carousel {
-            position: relative;
+            width: 80%; /* 设置与上文内容一致的宽度 */
+            margin: 0 auto; /* 使其居中对齐 */
             display: flex;
-            align-items: center;
-            justify-content: center;
+            justify-content: center; /* 让内容居中 */
         }
         .carousel-inner {
             position: relative;
@@ -47,15 +47,15 @@
             opacity: 1;
         }
         .carousel-item img {
-            max-height: 500px;
+            height: 480px; /* 固定图片高度 */
             width: auto;
             margin: 0 auto;
-            display: block;
+            display: block; /* 水平居中对齐 */
         }
         /* 将左右控制按钮移动到图像外部 */
         .carousel-control {
             position: absolute;
-            top: 50%; /* 将按钮移动到容器的中间 */
+            top: 50%; /* 将按钮移动到容器中间 */
             transform: translateY(-50%); /* 使按钮居中对齐 */
             font-size: 48px;
             color: #333;
