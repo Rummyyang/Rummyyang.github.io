@@ -2,9 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Include Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <!-- Other meta tags -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, maximum-scale=5">
     <title>Homepage</title>
@@ -13,7 +10,7 @@
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/all.min.css">
     <meta name="generator" content="Hexo 5.4.0">
-    <!-- Custom Styles -->
+    <!-- 添加图片画廊的样式 -->
     <style>
         /* 图片画廊样式调整 */
         .image-gallery {
@@ -27,52 +24,67 @@
             margin: 0 auto 20px auto;
             text-align: center;
         }
-        /* Adjust carousel controls opacity */
-        .carousel-control .glyphicon-chevron-left,
-        .carousel-control .glyphicon-chevron-right {
-            opacity: 0.5;
+        .carousel {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .carousel-control:hover .glyphicon-chevron-left,
-        .carousel-control:hover .glyphicon-chevron-right {
-            opacity: 0.8;
+        .carousel-inner {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
         }
-        /* Move carousel indicators below the image */
-        .carousel-indicators {
-            position: static;
-            margin-top: 10px;
+        .carousel-item {
+            display: none;
+            position: absolute;
+            width: 100%;
+            transition: opacity 0.5s ease-in-out;
         }
-        /* Adjust image width and alignment */
-        .carousel-inner .item img {
+        .carousel-item.active {
             display: block;
-            margin-left: auto;
-            margin-right: auto;
-            max-width: 100%;
-            height: auto;
+            position: relative;
+            opacity: 1;
         }
-        /* Adjust container width */
-        .container {
-            max-width: 800px; /* Adjust the maximum width as needed */
+        .carousel-item img {
+            max-height: 500px;
+            width: auto;
             margin: 0 auto;
+            display: block;
         }
-        /* Move controls below the images */
-        .carousel-controls {
-            text-align: center;
-            margin-top: 10px;
-        }
-        .carousel-controls .carousel-control {
-            position: static;
-            display: inline-block;
-        }
-        /* Adjust indicators */
-        .carousel-indicators {
-            margin-top: 10px;
-        }
-        /* Ensure links have underlines */
-        a {
-            text-decoration: underline;
-        }
-        a:hover {
+        /* 将左右控制按钮移动到图像外部 */
+        .carousel-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 48px;
+            color: #333;
             text-decoration: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .carousel-control.prev {
+            left: -50px;
+        }
+        .carousel-control.next {
+            right: -50px;
+        }
+        .thumbnails {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .thumbnails img {
+            width: 100px;
+            height: 60px;
+            object-fit: cover;
+            margin: 0 5px;
+            cursor: pointer;
+            opacity: 0.6;
+        }
+        .thumbnails img.active {
+            border: 2px solid #333;
+            opacity: 1;
         }
         /* 调整访客统计样式 */
         .visitor-counter {
@@ -85,43 +97,364 @@
 </head>
 <body>
     <header id="page_header">
-        <!-- Your existing header content -->
+        <div class="header_wrap">
+            <div id="blog_name">
+                <a class="blog_title" id="site-name" href="https://RummyYang.github.io"> Homepage</a>
+            </div>
+            <button class="menus_icon">
+                <div class="navicon"></div>
+            </button>
+            <ul class="menus_items">
+                <li class="menus_item">
+                    <a class="site-page" href="https://rummyyang.github.io#Publications"> Publications</a>
+                </li>
+                <li class="menus_item">
+                    <a class="site-page" href="https://www.zhihu.com/people/yang-run-ming/posts" target="_blank" rel="noopener"> Blog</a>
+                </li>
+            </ul>
+        </div>
     </header>
     <main id="page_main">
-        <!-- Your existing main content up to the carousel -->
-        <!-- 描述文本框 -->
-        <div class="gallery-description">
-            <p>(Last updated on September, 2024)</p>
-            <br><br><br>
-            <p>One more thing that excites me is meeting the gradient-color cloud and lonely tree. I'd like to capture them and share them with others!</p>
-        </div>
+        <!-- 添加头像，放置在左侧 -->
+        <div class="side-card sticky">
+            <div class="card-wrap" itemscope itemtype="http://schema.org/Person">
+                <div>
+    <img src="img/photo1.jpeg" alt="avatar" style="width: 250px; height: 250px; object-fit: cover;">
+                </div>
 
-        <!-- Carousel Start -->
-        <div class="container">
-            <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="4000" data-pause="hover">
-                <!-- Wrapper for slides -->
+                <div class="author-discrip">
+                    <h3>Runming Yang <br> 杨润明</h3>
+                    <p class="author-bio"> Master student in Tsinghua</p>
+                </div>
+                
+                <div class="author-links is-close">
+                    <button class="btn m-social-links">Links</button>
+                    
+                    <ul class="social-icons">
+                                                <li>
+                            <a class="social-icon" href="https://www.zhihu.com/people/yang-run-ming/posts" target="_blank">
+                                <i class="fas fa-blog" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="social-icon" href="https://huggingface.co/yang31210999" target="_blank">
+                                <i class="fas fa-brain" aria-hidden="true"></i>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="social-icon" href="https://github.com/yang3121099" target="_blank">
+                                <i class="fab fa-github" aria-hidden="true"></i>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="social-icon" href="mailto://yrm22@mails.tsinghua.edu.cn" target="_blank">
+                                <i class="fas fa-envelope" aria-hidden="true"></i>
+                            </a>
+                        </li>
+
+
+                    </ul>
+
+                    <ul class="social-links">
+
+                                                <li>
+                            <a class="e-social-link" href="https://www.zhihu.com/people/yang-run-ming/posts" target="_blank">
+                                <i class="fas fa-blog" aria-hidden="true"></i>
+                                <span> Zhihu</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="e-social-link" href="https://huggingface.co/yang31210999" target="_blank">
+                                <i class="fas fa-brain" aria-hidden="true"></i>
+                                <span> Hugging Face</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="e-social-link" href="https://github.com/yang3121099" target="_blank">
+                                <i class="fab fa-github" aria-hidden="true"></i>
+                                <span> Github</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="e-social-link" href="mailto://yrm22@mails.tsinghua.edu.cn" target="_blank">
+                                <i class="fas fa-envelope" aria-hidden="true"></i>
+                                <span> Email</span>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="page" itemscope itemtype="http://schema.org/CreativeWork">
+            <article>
+                <h1 id="Biography">
+                    <a href="#Biography" class="headerlink" title="Biography"></a>
+                    <font color="#336699">Biography</font>
+                </h1>
+                <p>
+                    I am now a master student in Tsinghua University, studying in <a href="https://sites.google.com/view/iigroup-thu" target="_blank">IIG group</a> in Shenzhen International Graduate School, 
+                    supervised by Prof. <a href="https://scholar.google.com/citations?user=4gH3sxsAAAAJ&hl=zh-CN" target="_blank">Yujiu Yang</a>. 
+                    I received my bachelor degree in Department of Artificial Intelligence and Automation from Huazhong University of Science and Technology in 2021.
+                    <br>
+                    <br>
+                    I am on track to graduate in June 2025 and intend to apply for a PhD program in Fall 2025.
+
+
+<!--                     My research interests lie in Knowledge Distillation and LLM efficiency. Recently, I have some works on LLM efficiency. -->
+                </p>
+                <br/>
+
+                <h1 id="Research Intersets">
+                    <a href="#Research Intersets" class="headerlink" title="Research Intersets"></a>
+                    <font color="#336699">Research Intersets</font>
+                </h1>
+                <p>
+                    My research interests lie in Knowledge Distillation and LLM efficiency. Recently, I have some works on LLM efficiency.
+                </p>
+
+                
+                <h1 id="Publications">
+                    <a href="#Publications" class="headerlink" title="Publications"></a>
+                    <font color="#336699">Publications and preprint</font>
+                </h1>
+                                <small>* indicates equal contribution.</small>
+
+                <ul>
+
+                    <li>
+                        <p>
+                            <font color="#336699">LoCa: Logit Calibration for Knowledge Distillation</font>
+                        </p>
+                        <ul>
+                            <li>
+                                <b>Runming Yang</b>, Taiqiang Wu, Yujiu Yang.
+                            </li>
+                            <li>
+                                <em>ECAI 24'</em> (Accepted)
+                                [<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2409.04778">pdf</a>]
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p>
+                            <font color="#336699">LLM-Neo: Parameter Efficient Knowledge Distillation for Large Language Models</font>
+                        </p>
+                        <ul>
+                            <li>
+                                <b>Runming Yang*</b>, Taiqiang Wu*, Jiahao Wang, Pengfei Hu, Ngai Wong, Yujiu Yang.
+                            </li>
+                            <li>
+                                <em>ICASSP 25'</em> (Under Review)
+                                [<a target="_blank" rel="noopener" href="https://huggingface.co/collections/yang31210999/llm-neo-66e3c882f5579b829ff57eba">model</a>]
+                                [Coming soon for pdf and code]
+
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p>
+                            <font color="#336699">Rethinking Kullback-Leibler Divergence in Knowledge Distillation for Large Language Models</font>
+                        </p>
+                        <ul>
+                            <li>
+                                Taiqiang Wu, Chaofan Tao, Jiahao Wang, <b> Runming Yang</b>, Zhe Zhao, Ngai Wong.
+                            </li>
+                            <li>
+                                <em>COLING 25'</em> (Under Review)
+                                [<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2404.02657">pdf</a>]
+                            </li>
+                        </ul>
+                    </li>                </ul>
+<!-- 
+                <h1 id="Internship">
+                    <a href="#Interns" class="headerlink" title="Internship"></a>
+                    <font color="#336699">Internship</font>
+                </h1>
+                <ul>
+                    <li>2023.11~Present, PCG , Tencent</li>
+                </ul> -->
+<!-- <h1 id="Internship" style="display: flex; align-items: center;">
+    <a href="#Interns" class="headerlink" title="Internship"></a>
+    <font color="#336699" style="flex-grow: 1;">Internship</font>
+    <img src="img/e.jpeg" alt="Icon" style="max-width: 30%; height: auto; margin-left: 10px;">
+</h1>
+<ul>
+    <li>2023.11~Present, PCG , Tencent</li>
+</ul> -->
+
+                
+<h1 id="Internship" style="display: flex; align-items: center;">
+    <a href="#Interns" class="headerlink" title="Internship"></a>
+    <span style="color: #336699; flex-grow: 0;">Internship</span>
+<!--     <img src="img/e.jpeg" alt="Icon" style="max-width: 30%; height: auto; margin-left: 5px;"> -->
+</h1>
+<!-- <ul>
+    <li>2023.11~Present, PCG , Tencent</li>
+</ul> -->
+<ul>
+    <li style="display: flex; align-items: center;">
+        2023.11~Present, PCG, Tencent
+        <img src="img/e.jpeg" alt="Icon" style="max-width: 30%; height: auto; margin-left: 80px;">
+    </li>
+</ul>
+
+            </article>
+
+            
+<!-- Projects Section -->
+<h1 id="Projects">
+    <a href="#Projects" class="headerlink" title="Projects"></a>
+    <font color="#336699">Projects</font>
+</h1>
+
+<div class="projects">
+
+    <!-- Project Item -->
+    <div class="project-item">
+        <div class="project-image">
+            <img src="img/project/loca.png" alt="Project 1 Image">
+        </div>
+        <div class="project-description">
+            <h2>LoCa <em> (ECAI 24') </em> </h2>
+
+                    <p>
+            <li>Identify that misclassification by the teacher during distillation harms student learning.</li>
+            <li>Propose LoCa, calibrating the logits distribution of misclassified samples to ensure target label accuracy.</li>
+            <li>Conduct experiments on image classification and natural language generation tasks; easily extendable to LLMs.</li>
+            <li>Improve accuracy while adding only 1% computational cost as an enhanced plug-in.</li>
+        </p>
+            <!-- Optional: Add links to the project -->
+            <a href="https://arxiv.org/abs/2409.04778" target="_blank">arxiv</a>
+        </div>
+    </div>
+
+
+        <!-- Project Item -->
+    <div class="project-item">
+        <div class="project-image">
+            <img src="img/project/neo.png" alt="Project 2 Image">
+        </div>
+        <div class="project-description">
+            <h2>LLM-Neo <em> (submitted to COLING 25') </em> </h2>
+<p>
+            <li>Discover similarities between Knowledge Distillation  and Low-rank Adapter methods in knowledge transfer for LLMs.</li>
+            <li>Combine both ideas to create a more efficient knowledge transfer strategy, LLM-Neo.</li>
+            <li>Demonstrate better performance on the <a href="https://llama.meta.com/" target="_blank">Llama 3.1</a> series compared to SFT, LoRA, and KD</li>
+        </p>
+            <!-- Optional: Add links to the project -->
+            <a href="https://huggingface.co/collections/yang31210999/llm-neo-66e3c882f5579b829ff57eba" target="_blank">huggingface</a>
+        </div>
+    </div>
+
+
+            <!-- Project Item -->
+    <div class="project-item">
+        <div class="project-image">
+            <img src="img/project/kaggle.png" alt="Project 2 Image">
+        </div>
+        <div class="project-description">
+            <h2>Kaggle <em> (🥈Silver Medal) </em> </h2>
+<p>
+            <li> Aim to assess juniors' English writing proficiency, which is few-samples and long-text.</li>
+            <li> Utilize techniques like data augmentation, token truncation and dropout regularization.</li>
+            <li> Achieve a silver medal via 8 models (i.e., RoBERTa) ensembled and 5-fold validation.</li>
+        </p>
+            <!-- Optional: Add links to the project -->
+            <a href="https://huggingface.co/collections/yang31210999/llm-neo-66e3c882f5579b829ff57eba" target="_blank">kaggle</a>
+        </div>
+    </div>
+
+
+
+            <!-- Project Item -->
+    <div class="project-item">
+        <div class="project-image">
+            <img src="img/project/vfs.jpeg" alt="Project 2 Image">
+        </div>
+        <div class="project-description">
+            <h2>  Need for Speed <em> (HUST Undergraduate Course Design) </em> </h2>
+<p>
+            <li> A copy of "Need for Speed" game using pure C language.</li>
+            <li> Pixel style, retro sentiment </li>
+            <li> Implemente key game mechanics, i.e., acceleration, turning, drifting, and collision handling.</li>
+        </p>
+            <!-- Optional: Add links to the project -->
+        </div>
+    </div>
+    <!-- 您可以复制并粘贴上面的结构，添加更多项目 -->
+
+</div>
+
+
+
+            
+            <!-- 描述文本框 -->
+            <div class="gallery-description">
+                                        <p>(Last updated on September, 2024)</p>
+<br><br><br>
+                <p>One more thing that excites me is meeting the gradient-color cloud and lonely tree. I'd like to capture them and share them with others!</p>
+            </div>
+
+<title>Carousel Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <!-- Include jQuery and Bootstrap JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <!-- Custom Styles -->
+  <style>
+    /* Adjust carousel controls opacity */
+    .carousel-control .glyphicon-chevron-left,
+    .carousel-control .glyphicon-chevron-right {
+      opacity: 0.5;
+    }
+    .carousel-control:hover .glyphicon-chevron-left,
+    .carousel-control:hover .glyphicon-chevron-right {
+      opacity: 0.8;
+    }
+    /* Move carousel indicators below the image */
+    .carousel-indicators {
+      position: static;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Carousel Example</h2>  
+  <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="4000" data-pause="hover">
+    <!-- Wrapper for slides -->
                 <div class="carousel-inner">
                     <div class="item active">
                         <img src="img/img/1.jpg" alt="Image 1">
                         <div class="carousel-caption">
-                            <h3>Text default</h3>
-                            <p>Text default</p>
+                            <h3>Nanshan</h3>
+                            <p>Days of self-isolation at hotel</p>
                         </div>
                     </div>
     
                     <div class="item">
                         <img src="img/img/2.jpg" alt="Image 2">
                         <div class="carousel-caption">
-                            <h3>Text default</h3>
-                            <p>Text default</p>
+                            <h3>Hebei</h3>
+                            <p>Same perspective before and after basketball</p>
                         </div>
                     </div>
     
                     <div class="item">
                         <img src="img/img/3.jpg" alt="Image 3">
                         <div class="carousel-caption">
-                            <h3>Text default</h3>
-                            <p>Text default</p>
+                            <h3>SIGS</h3>
+                            <p>Dormitory</p>
                         </div>
                     </div>
     
@@ -129,84 +462,101 @@
                     <div class="item">
                         <img src="img/img/4.jpg" alt="Image 4">
                         <div class="carousel-caption">
-                            <h3>Text default</h3>
-                            <p>Text default</p>
+                            <h3>Wuhan</h3>
+                            <p>Lake behind school</p>
                         </div>
                     </div>
     
                     <div class="item">
                         <img src="img/img/5.jpg" alt="Image 5">
                         <div class="carousel-caption">
-                            <h3>Text default</h3>
-                            <p>Text default</p>
+                            <h3>Wuhan</h3>
+                            <p>Golden lake</p>
                         </div>
                     </div>
     
                     <div class="item">
                         <img src="img/img/6.jpg" alt="Image 6">
                         <div class="carousel-caption">
-                            <h3>Text default</h3>
-                            <p>Text default</p>
+                            <h3>Hebei</h3>
+                            <p>Street corner but nobody</p>
                         </div>
                     </div>
     
                     <div class="item">
                         <img src="img/img/7.jpg" alt="Image 7">
                         <div class="carousel-caption">
-                            <h3>Text default</h3>
-                            <p>Text default</p>
+                            <h3>HUST</h3>
+                            <p>Street with students</p>
                         </div>
                     </div>
     
                     <div class="item">
                         <img src="img/img/8.jpg" alt="Image 8">
                         <div class="carousel-caption">
-                            <h3>Text default</h3>
-                            <p>Text default</p>
+                            <h3>HUST</h3>
+                            <p>Gorgeous pink</p>
                         </div>
                     </div>
                 </div>
     
-                <!-- Indicators moved below the image -->
-                <ol class="carousel-indicators">
-                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                    <li data-target="#myCarousel" data-slide-to="1"></li>
-                    <li data-target="#myCarousel" data-slide-to="2"></li>
-                    <li data-target="#myCarousel" data-slide-to="3"></li>
-                    <li data-target="#myCarousel" data-slide-to="4"></li>
-                    <li data-target="#myCarousel" data-slide-to="5"></li>
-                    <li data-target="#myCarousel" data-slide-to="6"></li>
-                    <li data-target="#myCarousel" data-slide-to="7"></li>
-                </ol>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" style="opacity: 0.5;"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" style="opacity: 0.5;"></span>
+      <span class="sr-only">Next</span>
+    </a>
+
+    <!-- Indicators moved below the image -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+      <li data-target="#myCarousel" data-slide-to="3"></li>
+      <li data-target="#myCarousel" data-slide-to="4"></li>
+      <li data-target="#myCarousel" data-slide-to="5"></li>
+      <li data-target="#myCarousel" data-slide-to="6"></li>
+      <li data-target="#myCarousel" data-slide-to="7"></li>
+    </ol>
+  </div>
+</div>
+
     
-                <!-- Left and right controls moved below the images -->
-                <div class="carousel-controls">
-                    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div>
-            </div>
         </div>
-        <!-- Carousel End -->
-        
-        <!-- The rest of your main content -->
     </main>
     <div class="nav-wrap">
-        <!-- Your existing navigation content -->
+        <div class="nav">
+            <button class="site-nav">
+                <div class="navicon"></div>
+            </button>
+            <ul class="nav_items">
+                <li class="nav_item">
+                    <a class="nav-page" href="/#Publications"> Publications</a>
+                </li>
+            </ul>
+        </div>
+        <div class="cd-top">
+            <i class="fa fa-arrow-up" aria-hidden="true"></i>
+        </div>
     </div>
     <footer id="page_footer">
-        <!-- Your existing footer content -->
+        <div class="footer_wrap">
+            <div class="copyright">&copy;2024 by Runming Yang. </div>
+            <div class="theme-info">
+                Powered by 
+                <a target="_blank" href="https://hexo.io" rel="nofollow noopener">Hexo</a>
+                 & 
+                <a target="_blank" href="https://github.com/PhosphorW/hexo-theme-academia" rel="nofollow noopener">Academia Theme</a>
+            </div>
+        </div>
+
     </footer>
     <!-- 添加访客统计代码 -->
-    <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=5za01h9q3xq&amp;m=7&amp;c=54ff00&amp;cr1=ff8a00&amp;f=arial&amp;l=1&amp;rs=10&amp;as=30" async="async"></script>
-    <!-- Include jQuery and Bootstrap JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <!-- Your custom scripts if any -->
+<script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=5za01h9q3xq&amp;m=7&amp;c=54ff00&amp;cr1=ff8a00&amp;f=arial&amp;l=1&amp;rs=10&amp;as=30" async="async"></script>
+    <!-- 添加图片画廊的脚本 -->
 </body>
 </html>
