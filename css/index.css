@@ -16,6 +16,97 @@
 figure.highlight {
   position: relative;
 }
+
+/* Projects Section */
+.projects {
+    display: flex;
+    flex-direction: column;
+    gap: 40px; /* 项目之间的间距 */
+    margin: 40px 0;
+}
+
+.project-item {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.project-image {
+    flex: 0 0 50%;
+    max-width: 50%;
+    box-sizing: border-box;
+    padding-right: 20px;
+}
+
+.project-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.project-description {
+    flex: 1;
+    max-width: 50%;
+    box-sizing: border-box;
+    padding-left: 20px;
+}
+
+.project-description h2 {
+    margin-top: 0;
+    color: #336699;
+}
+
+.project-description p {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.project-description ul {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+.project-description ul li {
+    margin-bottom: 8px;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.project-description a {
+    display: inline-block;
+    margin-top: 15px;
+    color: #336699;
+    text-decoration: none;
+}
+
+.project-description a:hover {
+    text-decoration: underline;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .project-item {
+        flex-direction: column;
+    }
+    .project-image,
+    .project-description {
+        max-width: 100%;
+        flex: none;
+    }
+    .project-image {
+        padding-right: 0;
+    }
+    .project-description {
+        padding-left: 0;
+        margin-top: 20px;
+    }
+}
+
+
+
 .page .highlight code {
   padding: 0.2rem 0.3rem;
   word-wrap: break-word;
