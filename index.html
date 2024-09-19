@@ -55,8 +55,8 @@
         /* 将左右控制按钮移动到图像外部 */
         .carousel-control {
             position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
+            top: 50%; /* 将按钮移动到容器的中间 */
+            transform: translateY(-50%); /* 使按钮居中对齐 */
             font-size: 48px;
             color: #333;
             text-decoration: none;
@@ -92,6 +92,20 @@
             bottom: 0;
             left: 0;
             z-index: 1000;
+        }
+
+        /* 调整左右控制按钮的位置，使其垂直居中对齐 */
+        .carousel-control.left,
+        .carousel-control.right {
+            background-image: none;
+            width: 5%;
+            top: 50%; /* 将按钮移动到容器中间位置 */
+            transform: translateY(-50%); /* 使按钮居中对齐 */
+        }
+        .carousel-control .glyphicon-chevron-left,
+        .carousel-control .glyphicon-chevron-right {
+            color: #333;
+            font-size: 30px;
         }
     </style>
 </head>
