@@ -30,11 +30,11 @@
             </ul>
         </div>
     </header>
+
     <main id="page_main">
         <div class="side-card sticky">
             <div class="card-wrap" itemscope itemtype="http://schema.org/Person">
                 <div class="author-avatar">
-                    <!-- 修改样式：移除透明度问题，调整尺寸和object-fit属性 -->
                     <img class="avatar-img" src="img/photo.jpeg" onerror="this.onerror=null;this.src='img/photo.png'" alt="avatar" style="width: 250px; height: 250px; object-fit: cover; border-radius: 50%; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
                 </div>
                 <div class="author-discrip">
@@ -102,6 +102,7 @@
                 </div>
             </div>
         </div>
+
         <div class="page" itemscope itemtype="http://schema.org/CreativeWork">
             <article>
                 <h1 id="Biography">
@@ -181,7 +182,22 @@
                 <p>(Last updated on September, 2024)</p>
             </article>
         </div>
+
+        <!-- 图片展览部分，放在页面底部 -->
+        <div style="text-align: center; margin-top: 50px;">
+            <h2>Photo Gallery</h2>
+            <div id="slideshow" style="max-width: 100%; position: relative;">
+                <img id="gallery-image" src="img/pic/1.jpg" style="width: 80%; max-height: 500px; object-fit: cover; border: 2px solid #ccc;" alt="Photo Gallery">
+            </div>
+        </div>
+
     </main>
+
+    <!-- 地球统计功能，放在左下角 -->
+    <div style="position: fixed; bottom: 10px; left: 10px; z-index: 1000;">
+        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=5za01h9q3xq&amp;m=7&amp;c=54ff00&amp;cr1=ff8a00&amp;f=arial&amp;l=1&amp;rs=10&amp;as=30" async="async"></script>
+    </div>
+
     <div class="nav-wrap">
         <div class="nav">
             <button class="site-nav">
@@ -208,8 +224,75 @@
             </div>
         </div>
     </footer>
+
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery.pjax.min.js"></script>
     <script src="js/main.js"></script>
+
+<!-- 图片展览部分 -->
+<div style="text-align: center; margin-top: 50px;">
+    <h2>Photo Gallery</h2>
+    <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+        <!-- 左侧按钮 -->
+        <button id="prev" style="cursor: pointer; background-color: transparent; border: none; font-size: 24px;">&#10094;</button>
+
+        <!-- 大图片 -->
+        <div style="flex-grow: 2;">
+            <img id="large-image" src="img/pic/1.jpg" style="width: 100%; max-width: 600px; height: auto; object-fit: cover; border: 2px solid #ccc;" alt="Large Photo">
+        </div>
+
+        <!-- 小图片 -->
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            <img id="small-image-1" src="img/pic/2.jpg" style="width: 100px; height: 100px; object-fit: cover; border: 2px solid #ccc;" alt="Small Photo 1">
+            <img id="small-image-2" src="img/pic/3.jpg" style="width: 100px; height: 100px; object-fit: cover; border: 2px solid #ccc;" alt="Small Photo 2">
+        </div>
+
+        <!-- 右侧按钮 -->
+        <button id="next" style="cursor: pointer; background-color: transparent; border: none; font-size: 24px;">&#10095;</button>
+    </div>
+</div>
+
+<script>
+    let currentIndex = 1;
+    const totalImages = 5; // 图片总数为5张
+    const largeImage = document.getElementById('large-image');
+    const smallImage1 = document.getElementById('small-image-1');
+    const smallImage2 = document.getElementById('small-image-2');
+
+    // 更新图片
+    function updateImages() {
+        largeImage.src = 'img/pic/' + currentIndex + '.jpg';
+        smallImage1.src = 'img/pic/' + ((currentIndex % totalImages) + 1) + '.jpg';
+        smallImage2.src = 'img/pic/' + (((currentIndex + 1) % totalImages) + 1) + '.jpg';
+    }
+
+    // 左侧按钮事件
+    document.getElementById('prev').addEventListener('click', function() {
+        currentIndex--;
+        if (currentIndex < 1) {
+            currentIndex = totalImages;
+        }
+        updateImages();
+    });
+
+    // 右侧按钮事件
+    document.getElementById('next').addEventListener('click', function() {
+        currentIndex++;
+        if (currentIndex > totalImages) {
+            currentIndex = 1;
+        }
+        updateImages();
+    });
+
+    // 自动切换图片，每3秒切换一次
+    setInterval(function() {
+        currentIndex++;
+        if (currentIndex > totalImages) {
+            currentIndex = 1;
+        }
+        updateImages();
+    }, 3000);
+</script>
+
 </body>
 </html>
