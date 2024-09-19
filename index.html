@@ -19,16 +19,21 @@
             margin: 50px auto;
             overflow: hidden;
         }
+        .container {
+    width: 80%;
+    margin: 0 auto;
+}
+
         .gallery-description {
             width: 80%;
             margin: 0 auto 20px auto;
             text-align: center;
         }
         .carousel {
-            width: 80%; /* 设置与上文内容一致的宽度 */
-            margin: 0 auto; /* 使其居中对齐 */
+            position: relative;
             display: flex;
-            justify-content: center; /* 让内容居中 */
+            align-items: center;
+            justify-content: center;
         }
         .carousel-inner {
             position: relative;
@@ -47,15 +52,15 @@
             opacity: 1;
         }
         .carousel-item img {
-            height: 480px; /* 固定图片高度 */
+            max-height: 500px;
             width: auto;
             margin: 0 auto;
-            display: block; /* 水平居中对齐 */
+            display: block;
         }
         /* 将左右控制按钮移动到图像外部 */
         .carousel-control {
             position: absolute;
-            top: 50%; /* 将按钮移动到容器中间 */
+            top: 50%; /* 将按钮移动到容器的中间 */
             transform: translateY(-50%); /* 使按钮居中对齐 */
             font-size: 48px;
             color: #333;
@@ -413,51 +418,7 @@
                                         <p>(Last updated on September, 2024)</p>
 <br><br><br>
                 <p>One more thing that excites me is meeting the gradient-color cloud and lonely tree. I'd like to capture them and share them with others!</p>
-            </div>
-<meta charset="UTF-8">
-    <title>Homepage</title>
-    <!-- 引入 Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <!-- 引入 jQuery 和 Bootstrap JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <!-- 自定义样式 -->
-    <style>
-        /* 调整轮播图容器 */
-        .carousel {
-            width: 80%;
-            margin: 0 auto;
-        }
-        /* 固定图片高度并居中 */
-        .carousel-inner > .item > img {
-            height: 480px;
-            width: auto;
-            margin: 0 auto;
-        }
-        /* 调整轮播图指示器的位置 */
-        .carousel-indicators {
-            bottom: -30px;
-        }
-        /* 确保指示器不遮挡图片 */
-        .carousel .carousel-indicators li {
-            border: 1px solid #ccc;
-        }
-        .carousel .carousel-indicators .active {
-            background-color: #333;
-        }
-        /* 调整左右控制按钮的样式 */
-        .carousel-control.left,
-        .carousel-control.right {
-            background-image: none;
-            width: 5%;
-        }
-        .carousel-control .glyphicon-chevron-left,
-        .carousel-control .glyphicon-chevron-right {
-            color: #333;
-            font-size: 30px;
-        }
-    </style>
-
+           
 
 <div class="container">
     <!-- 您可以根据需要调整标题或移除 -->
@@ -584,6 +545,5 @@
     <!-- 添加访客统计代码 -->
 <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=5za01h9q3xq&amp;m=7&amp;c=54ff00&amp;cr1=ff8a00&amp;f=arial&amp;l=1&amp;rs=10&amp;as=30" async="async"></script>
     <!-- 添加图片画廊的脚本 -->
-</head>
-
+</body>
 </html>
