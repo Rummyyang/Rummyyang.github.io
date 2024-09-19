@@ -735,8 +735,8 @@ blockquote p {
     text-align: center;
   }
   .author-avatar img {
-    padding: 5px;
-    border: 1px solid #f2f3f3;
+/*     padding: 5px;
+    border: 1px solid #f2f3f3; */
   }
   .author-discrip {
     display: block;
