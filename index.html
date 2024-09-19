@@ -18,17 +18,14 @@
             width: 80%;
             margin: 50px auto;
             overflow: hidden;
-        }
-        .gallery-description {
-            width: 80%;
-            margin: 0 auto 20px auto;
-            text-align: center;
-        }
-        .carousel {
-            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        .carousel {
+            position: relative;
+            width: 60%;
+            overflow: hidden;
         }
         .carousel-inner {
             position: relative;
@@ -69,19 +66,20 @@
             right: -50px;
         }
         .thumbnails {
+            width: 20%;
             display: flex;
-            justify-content: center;
-            margin-top: 20px;
+            flex-direction: column;
+            align-items: center;
         }
-        .thumbnails img {
+        .thumbnail {
             width: 100px;
             height: 60px;
             object-fit: cover;
-            margin: 0 5px;
+            margin: 10px 0;
             cursor: pointer;
             opacity: 0.6;
         }
-        .thumbnails img.active {
+        .thumbnail.active {
             border: 2px solid #333;
             opacity: 1;
         }
@@ -91,6 +89,19 @@
             bottom: 0;
             left: 0;
             z-index: 1000;
+        }
+        /* 新的头像样式 */
+        .author-avatar-new {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .author-avatar-new img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
     </style>
 </head>
@@ -114,77 +125,11 @@
         </div>
     </header>
     <main id="page_main">
-        <div class="side-card sticky">
-            <div class="card-wrap" itemscope itemtype="http://schema.org/Person">
-                <div class="author-avatar">
-                    <!-- 修改样式：移除圆形框和白色蒙版 -->
-                    <img class="avatar-img" src="img/photo.jpeg" onerror="this.onerror=null;this.src='img/photo.png'" alt="avatar" style="width: 250px; height: 250px; object-fit: cover;">
-                </div>
-                <div class="author-discrip">
-                    <h3>Runming Yang</h3>
-                    <p class="author-bio"> Master student in Tsinghua</p>
-                </div>
-                <div class="author-links is-close">
-                    <button class="btn m-social-links">Links</button>
-                    
-                    <ul class="social-icons">
-                        <li>
-                            <a class="social-icon" href="https://huggingface.co/yang31210999" target="_blank">
-                                <i class="fas fa-brain" aria-hidden="true"></i>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a class="social-icon" href="https://github.com/yang3121099" target="_blank">
-                                <i class="fab fa-github" aria-hidden="true"></i>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a class="social-icon" href="mailto://yrm22@mails.tsinghua.edu.cn" target="_blank">
-                                <i class="fas fa-envelope" aria-hidden="true"></i>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a class="social-icon" href="https://www.zhihu.com/people/yang-run-ming" target="_blank">
-                                <i class="fas fa-blog" aria-hidden="true"></i>
-                            </a>
-                        </li>
-                    </ul>
-
-                    <ul class="social-links">
-                        <li>
-                            <a class="e-social-link" href="https://huggingface.co/yang31210999" target="_blank">
-                                <i class="fas fa-brain" aria-hidden="true"></i>
-                                <span> Hugging Face</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a class="e-social-link" href="https://github.com/yang3121099" target="_blank">
-                                <i class="fab fa-github" aria-hidden="true"></i>
-                                <span> Github</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a class="e-social-link" href="mailto://yrm22@mails.tsinghua.edu.cn" target="_blank">
-                                <i class="fas fa-envelope" aria-hidden="true"></i>
-                                <span> Email</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a class="e-social-link" href="https://www.zhihu.com/people/yang-run-ming" target="_blank">
-                                <i class="fas fa-blog" aria-hidden="true"></i>
-                                <span> Zhihu</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+        <!-- 新的头像区域 -->
+        <div class="author-avatar-new">
+            <img src="img/photo.jpeg" onerror="this.onerror=null;this.src='img/photo.png'" alt="avatar">
         </div>
+
         <div class="page" itemscope itemtype="http://schema.org/CreativeWork">
             <article>
                 <h1 id="Biography">
@@ -266,11 +211,15 @@
 
             <!-- 描述文本框 -->
             <div class="gallery-description">
-                <p>Another thing that I am excited about is meeting the gradual cloud and lonely tree. I like taking pictures of them and I also want to share them with you!</p>
+                <p>这里是图片画廊的描述文本，您可以在这里添加您想要的内容。</p>
             </div>
 
             <!-- 图片画廊开始 -->
             <div class="image-gallery">
+                <div class="thumbnails">
+                    <!-- 左侧缩略图 -->
+                    <img src="img/img/prev.jpg" alt="Previous Thumbnail" class="thumbnail" onclick="prevSlide()">
+                </div>
                 <div class="carousel">
                     <a class="carousel-control prev" onclick="prevSlide()">&#10094;</a>
                     <div class="carousel-inner">
@@ -299,23 +248,13 @@
                         <div class="carousel-item">
                             <img src="img/img/8.jpg" alt="Image 8">
                         </div>
-                        <div class="carousel-item">
-                            <img src="img/img/9.jpg" alt="Image 9">
-                        </div>
+
                     </div>
                     <a class="carousel-control next" onclick="nextSlide()">&#10095;</a>
                 </div>
                 <div class="thumbnails">
-                    <!-- 缩略图，点击可跳转到对应的图片 -->
-                    <img src="img/img/1.jpg" alt="Thumbnail 1" onclick="goToSlide(0)" class="active">
-                    <img src="img/img/2.jpg" alt="Thumbnail 2" onclick="goToSlide(1)">
-                    <img src="img/img/3.jpg" alt="Thumbnail 3" onclick="goToSlide(2)">
-                    <img src="img/img/4.jpg" alt="Thumbnail 4" onclick="goToSlide(3)">
-                    <img src="img/img/5.jpg" alt="Thumbnail 5" onclick="goToSlide(4)">
-                    <img src="img/img/6.jpg" alt="Thumbnail 6" onclick="goToSlide(5)">
-                    <img src="img/img/7.jpg" alt="Thumbnail 7" onclick="goToSlide(6)">
-                    <img src="img/img/8.jpg" alt="Thumbnail 8" onclick="goToSlide(7)">
-                    <img src="img/img/9.jpg" alt="Thumbnail 9" onclick="goToSlide(8)">
+                    <!-- 右侧缩略图 -->
+                    <img src="img/img/next.jpg" alt="Next Thumbnail" class="thumbnail" onclick="nextSlide()">
                 </div>
             </div>
             <!-- 图片画廊结束 -->
@@ -360,7 +299,7 @@
         let slideIndex = 0;
         const slides = document.getElementsByClassName('carousel-item');
         const totalSlides = slides.length;
-        const thumbnails = document.querySelectorAll('.thumbnails img');
+        let slideInterval;
 
         function showSlide(index) {
             if (index >= totalSlides) { slideIndex = 0; }
@@ -369,39 +308,37 @@
 
             for (let i = 0; i < totalSlides; i++) {
                 slides[i].classList.remove('active');
-                thumbnails[i].classList.remove('active');
             }
             slides[slideIndex].classList.add('active');
-            thumbnails[slideIndex].classList.add('active');
+
+            // 更新左侧和右侧缩略图
+            const prevIndex = (slideIndex - 1 + totalSlides) % totalSlides;
+            const nextIndex = (slideIndex + 1) % totalSlides;
+            document.querySelectorAll('.thumbnail')[0].src = slides[prevIndex].getElementsByTagName('img')[0].src;
+            document.querySelectorAll('.thumbnail')[1].src = slides[nextIndex].getElementsByTagName('img')[0].src;
         }
 
         function nextSlide() {
             showSlide(slideIndex + 1);
+            resetInterval();
         }
 
         function prevSlide() {
             showSlide(slideIndex - 1);
+            resetInterval();
         }
 
-        function goToSlide(index) {
-            showSlide(index);
-        }
-
-        // 自动切换
-        let slideInterval = setInterval(() => {
-            nextSlide();
-        }, 5000); // 每5秒切换一次
-
-        // 鼠标悬停时暂停自动切换
-        const carouselInner = document.querySelector('.carousel-inner');
-        carouselInner.addEventListener('mouseover', () => {
+        function resetInterval() {
             clearInterval(slideInterval);
-        });
-        carouselInner.addEventListener('mouseout', () => {
             slideInterval = setInterval(() => {
                 nextSlide();
             }, 5000);
-        });
+        }
+
+        // 自动切换
+        slideInterval = setInterval(() => {
+            nextSlide();
+        }, 5000); // 每5秒切换一次
 
         // 初始化显示第一张幻灯片
         showSlide(slideIndex);
