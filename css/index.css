@@ -18,6 +18,17 @@ figure.highlight {
 }
 
 /* Projects Section */
+
+.project-image img {
+    /* ...之前的样式... */
+    transition: transform 0.3s ease;
+}
+
+.project-image img:hover {
+    transform: scale(1.05);
+}
+
+
 .projects {
     display: flex;
     flex-direction: column;
