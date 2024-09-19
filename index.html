@@ -9,8 +9,9 @@
     <link rel="shortcut icon" href="img/favicon.jpg">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/all.min.css">
-    <meta name="generator" content="Hexo 5.4.0">
-    <!-- 添加图片画廊的样式 -->
+    <!-- 引入 Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- 自定义样式 -->
     <style>
         /* 图片画廊样式调整 */
         .image-gallery {
@@ -19,17 +20,14 @@
             margin: 50px auto;
             overflow: hidden;
         }
-        .container {
-    width: 80%;
-    margin: 0 auto;
-}
-
         .gallery-description {
             width: 80%;
             margin: 0 auto 20px auto;
             text-align: center;
         }
         .carousel {
+            width: 80%;
+            margin: 0 auto;
             position: relative;
             display: flex;
             align-items: center;
@@ -112,7 +110,17 @@
             color: #333;
             font-size: 30px;
         }
+
+        /* 自定义画廊容器，使其居中 */
+        .gallery-container {
+            width: 80%;
+            margin: 0 auto;
+        }
     </style>
+    <!-- 引入 jQuery 和 Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta name="generator" content="Hexo 5.4.0">
 </head>
 <body>
     <header id="page_header">
@@ -138,19 +146,19 @@
         <div class="side-card sticky">
             <div class="card-wrap" itemscope itemtype="http://schema.org/Person">
                 <div>
-    <img src="img/photo1.jpeg" alt="avatar" style="width: 250px; height: 250px; object-fit: cover;">
+                    <img src="img/photo1.jpeg" alt="avatar" style="width: 250px; height: 250px; object-fit: cover;">
                 </div>
 
                 <div class="author-discrip">
                     <h3>Runming Yang <br> 杨润明</h3>
                     <p class="author-bio"> Master student in Tsinghua</p>
                 </div>
-                
+
                 <div class="author-links is-close">
                     <button class="btn m-social-links">Links</button>
-                    
+
                     <ul class="social-icons">
-                                                <li>
+                        <li>
                             <a class="social-icon" href="https://www.zhihu.com/people/yang-run-ming/posts" target="_blank">
                                 <i class="fas fa-blog" aria-hidden="true"></i>
                             </a>
@@ -172,13 +180,10 @@
                                 <i class="fas fa-envelope" aria-hidden="true"></i>
                             </a>
                         </li>
-
-
                     </ul>
 
                     <ul class="social-links">
-
-                                                <li>
+                        <li>
                             <a class="e-social-link" href="https://www.zhihu.com/people/yang-run-ming/posts" target="_blank">
                                 <i class="fas fa-blog" aria-hidden="true"></i>
                                 <span> Zhihu</span>
@@ -204,13 +209,12 @@
                                 <span> Email</span>
                             </a>
                         </li>
-
-
                     </ul>
                 </div>
             </div>
         </div>
         <div class="page" itemscope itemtype="http://schema.org/CreativeWork">
+            
             <article>
                 <h1 id="Biography">
                     <a href="#Biography" class="headerlink" title="Biography"></a>
@@ -412,108 +416,107 @@
 
 
 
-            
-            <!-- 描述文本框 -->
             <div class="gallery-description">
-                                        <p>(Last updated on September, 2024)</p>
-<br><br><br>
+                <p>(Last updated on September, 2024)</p>
+                <br><br><br>
                 <p>One more thing that excites me is meeting the gradient-color cloud and lonely tree. I'd like to capture them and share them with others!</p>
-           
-
-<div class="container">
-    <!-- 您可以根据需要调整标题或移除 -->
-    <h2 style="text-align: center;"> </h2>
-    <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="4000" data-pause="hover">
-        <!-- 轮播图项目 -->
-        <div class="carousel-inner">
-            <div class="item active">
-                <img src="img/img/1.jpg" alt="Image 1">
-                <div class="carousel-caption">
-                    <h3>Nanshan</h3>
-                    <p>Days of self-isolation at hotel</p>
-                </div>
             </div>
 
-            <div class="item">
-                <img src="img/img/2.jpg" alt="Image 2">
-                <div class="carousel-caption">
-                    <h3>Hebei</h3>
-                    <p>Same perspective before and after basketball</p>
-                </div>
-            </div>
+            <!-- 图片画廊开始 -->
+            <div class="gallery-container">
+                <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="4000" data-pause="hover">
+                    <!-- 轮播图项目 -->
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <img src="img/img/1.jpg" alt="Image 1">
+                            <div class="carousel-caption">
+                                <h3>Nanshan</h3>
+                                <p>Days of self-isolation at hotel</p>
+                            </div>
+                        </div>
 
-            <div class="item">
-                <img src="img/img/3.jpg" alt="Image 3">
-                <div class="carousel-caption">
-                    <h3>SIGS</h3>
-                    <p>Dormitory</p>
-                </div>
-            </div>
+                        <div class="item">
+                            <img src="img/img/2.jpg" alt="Image 2">
+                            <div class="carousel-caption">
+                                <h3>Hebei</h3>
+                                <p>Same perspective before and after basketball</p>
+                            </div>
+                        </div>
 
-            <!-- 更多项目 -->
-            <div class="item">
-                <img src="img/img/4.jpg" alt="Image 4">
-                <div class="carousel-caption">
-                    <h3>Wuhan</h3>
-                    <p>Lake behind school</p>
-                </div>
-            </div>
+                        <div class="item">
+                            <img src="img/img/3.jpg" alt="Image 3">
+                            <div class="carousel-caption">
+                                <h3>SIGS</h3>
+                                <p>Dormitory</p>
+                            </div>
+                        </div>
 
-            <div class="item">
-                <img src="img/img/5.jpg" alt="Image 5">
-                <div class="carousel-caption">
-                    <h3>Wuhan</h3>
-                    <p>Golden lake</p>
-                </div>
-            </div>
+                        <!-- 更多项目 -->
+                        <div class="item">
+                            <img src="img/img/4.jpg" alt="Image 4">
+                            <div class="carousel-caption">
+                                <h3>Wuhan</h3>
+                                <p>Lake behind school</p>
+                            </div>
+                        </div>
 
-            <div class="item">
-                <img src="img/img/6.jpg" alt="Image 6">
-                <div class="carousel-caption">
-                    <h3>Hebei</h3>
-                    <p>Street corner but nobody</p>
-                </div>
-            </div>
+                        <div class="item">
+                            <img src="img/img/5.jpg" alt="Image 5">
+                            <div class="carousel-caption">
+                                <h3>Wuhan</h3>
+                                <p>Golden lake</p>
+                            </div>
+                        </div>
 
-            <div class="item">
-                <img src="img/img/7.jpg" alt="Image 7">
-                <div class="carousel-caption">
-                    <h3>HUST</h3>
-                    <p>Street with students</p>
-                </div>
-            </div>
+                        <div class="item">
+                            <img src="img/img/6.jpg" alt="Image 6">
+                            <div class="carousel-caption">
+                                <h3>Hebei</h3>
+                                <p>Street corner but nobody</p>
+                            </div>
+                        </div>
 
-            <div class="item">
-                <img src="img/img/8.jpg" alt="Image 8">
-                <div class="carousel-caption">
-                    <h3>HUST</h3>
-                    <p>Gorgeous pink</p>
+                        <div class="item">
+                            <img src="img/img/7.jpg" alt="Image 7">
+                            <div class="carousel-caption">
+                                <h3>HUST</h3>
+                                <p>Street with students</p>
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <img src="img/img/8.jpg" alt="Image 8">
+                            <div class="carousel-caption">
+                                <h3>HUST</h3>
+                                <p>Gorgeous pink</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 左右控制按钮 -->
+                    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                    </a>
+                    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </a>
+
+                    <!-- 轮播图指示器 -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#myCarousel" data-slide-to="1"></li>
+                        <li data-target="#myCarousel" data-slide-to="2"></li>
+                        <li data-target="#myCarousel" data-slide-to="3"></li>
+                        <li data-target="#myCarousel" data-slide-to="4"></li>
+                        <li data-target="#myCarousel" data-slide-to="5"></li>
+                        <li data-target="#myCarousel" data-slide-to="6"></li>
+                        <li data-target="#myCarousel" data-slide-to="7"></li>
+                    </ol>
                 </div>
             </div>
+            <!-- 图片画廊结束 -->
+
         </div>
-
-        <!-- 左右控制按钮 -->
-        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left"></span>
-        </a>
-        <a class="right carousel-control" href="#myCarousel" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right"></span>
-        </a>
-
-        <!-- 轮播图指示器 -->
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-            <li data-target="#myCarousel" data-slide-to="3"></li>
-            <li data-target="#myCarousel" data-slide-to="4"></li>
-            <li data-target="#myCarousel" data-slide-to="5"></li>
-            <li data-target="#myCarousel" data-slide-to="6"></li>
-            <li data-target="#myCarousel" data-slide-to="7"></li>
-        </ol>
-    </div>
-</div>
-
     </main>
     <div class="nav-wrap">
         <div class="nav">
@@ -534,16 +537,16 @@
         <div class="footer_wrap">
             <div class="copyright">&copy;2024 by Runming Yang. </div>
             <div class="theme-info">
-                Powered by 
+                Powered by
                 <a target="_blank" href="https://hexo.io" rel="nofollow noopener">Hexo</a>
-                 & 
+                &
                 <a target="_blank" href="https://github.com/PhosphorW/hexo-theme-academia" rel="nofollow noopener">Academia Theme</a>
             </div>
         </div>
 
     </footer>
     <!-- 添加访客统计代码 -->
-<script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=5za01h9q3xq&amp;m=7&amp;c=54ff00&amp;cr1=ff8a00&amp;f=arial&amp;l=1&amp;rs=10&amp;as=30" async="async"></script>
+    <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=5za01h9q3xq&amp;m=7&amp;c=54ff00&amp;cr1=ff8a00&amp;f=arial&amp;l=1&amp;rs=10&amp;as=30" async="async"></script>
     <!-- 添加图片画廊的脚本 -->
 </body>
 </html>
