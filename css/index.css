@@ -16,7 +16,9 @@
 figure.highlight {
   position: relative;
 }
-
+a {
+  text-decoration: underline;
+}
 
 /* Projects Section */
 
