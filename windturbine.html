@@ -2,381 +2,480 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>风车 V5 — HAWT 三维交互式审阅</title>
+<title>风车 V6 — 量产展示版</title>
 <style>
-  body { margin: 0; overflow: hidden; background: #1a1f2e;
+  * { box-sizing: border-box; }
+  body { margin: 0; overflow: hidden;
+         background: radial-gradient(ellipse at 50% 30%, #2b3a5c 0%, #141a28 70%, #0c0f17 100%);
          font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Microsoft YaHei", sans-serif; }
   #c { display: block; }
-  #info {
-    position: absolute; top: 12px; left: 12px; color: #eee;
-    background: rgba(0,0,0,0.55); padding: 12px 16px; border-radius: 8px;
-    font-size: 13px; line-height: 1.7; max-width: 320px;
-    border: 1px solid rgba(255,255,255,0.1);
+  .panel {
+    position: absolute; color: #e8edf5;
+    background: rgba(18, 24, 38, 0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
   }
-  #info h1 { margin: 0 0 8px 0; font-size: 16px; color: #ffd76b; }
-  #info table { border-collapse: collapse; margin-top: 6px; }
-  #info td { padding: 2px 10px 2px 0; font-size: 12px; }
-  #info td:first-child { color: #aaa; }
-  #info td:last-child { color: #fff; }
-  #info .new { color: #4fc3f7; font-weight: 600; }
-  #ctrls {
-    position: absolute; bottom: 14px; left: 12px; color: #eee;
-    background: rgba(0,0,0,0.55); padding: 10px 14px; border-radius: 8px;
-    font-size: 12px; line-height: 1.6;
-    border: 1px solid rgba(255,255,255,0.1);
-  }
+  #info { top: 16px; left: 16px; padding: 16px 20px; max-width: 300px; }
+  #info h1 { margin: 0 0 4px 0; font-size: 17px;
+             background: linear-gradient(90deg, #ffd76b, #ffb347);
+             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+             background-clip: text; }
+  #info .sub { font-size: 11px; color: #8b97ad; margin-bottom: 10px; }
+  #info table { border-collapse: collapse; }
+  #info td { padding: 3px 10px 3px 0; font-size: 11.5px; }
+  #info td:first-child { color: #8b97ad; }
+  #info td:last-child { color: #fff; font-weight: 500; }
+  #legend { top: 16px; right: 16px; padding: 14px 18px; font-size: 11.5px; line-height: 1.9; }
+  .swatch { display: inline-block; width: 13px; height: 13px; border-radius: 4px;
+            vertical-align: middle; margin-right: 7px; box-shadow: 0 1px 3px rgba(0,0,0,0.4); }
+  #ctrls { bottom: 16px; left: 16px; padding: 14px 18px; font-size: 12px; line-height: 1.7; }
   #ctrls button {
-    background: #ffd76b; color: #1a1f2e; border: none;
-    padding: 5px 12px; border-radius: 5px; cursor: pointer;
-    font-weight: 600; margin: 4px 4px 0 0;
+    background: linear-gradient(135deg, #ffd76b, #ffb347); color: #1a1f2e; border: none;
+    padding: 7px 16px; border-radius: 8px; cursor: pointer;
+    font-weight: 700; margin: 6px 5px 0 0; font-size: 12px;
+    box-shadow: 0 3px 10px rgba(255,180,71,0.3); transition: transform 0.1s;
   }
-  #ctrls button.off { background: rgba(255,255,255,0.18); color: #eee; }
-  #legend {
-    position: absolute; top: 12px; right: 12px; color: #eee;
-    background: rgba(0,0,0,0.55); padding: 10px 14px; border-radius: 8px;
-    font-size: 12px; line-height: 1.7;
-    border: 1px solid rgba(255,255,255,0.1);
+  #ctrls button:active { transform: scale(0.95); }
+  #ctrls button.off { background: rgba(255,255,255,0.16); color: #e8edf5; box-shadow: none; }
+  #ctrls .hint { color: #8b97ad; }
+  #views { bottom: 16px; right: 16px; padding: 12px 16px; font-size: 11.5px; }
+  #views button {
+    background: rgba(255,255,255,0.1); color: #e8edf5; border: 1px solid rgba(255,255,255,0.15);
+    padding: 6px 12px; border-radius: 7px; cursor: pointer; margin: 4px 4px 0 0; font-size: 11px;
+    transition: background 0.15s;
   }
-  .swatch { display: inline-block; width: 14px; height: 14px; border-radius: 3px;
-            vertical-align: middle; margin-right: 6px; border: 1px solid rgba(0,0,0,0.3);}
+  #views button:hover { background: rgba(255,255,255,0.22); }
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
 
-<div id="info">
-  <h1>🌀 风车 V5 — HAWT 修正版</h1>
+<div id="info" class="panel">
+  <h1>🌀 风车 V6 · 量产展示</h1>
+  <div class="sub">HAWT 水平轴 · 封闭梯形支架</div>
   <table>
-    <tr><td>布局</td><td>水平轴（扇叶在竖直面）</td></tr>
     <tr><td>底座</td><td>3 × 100×100×2.5</td></tr>
-    <tr><td>立柱</td><td class="new">实心方柱 40×60×250</td></tr>
-    <tr><td>顶盖</td><td>60×40×2.5</td></tr>
-    <tr><td>梯形支架</td><td>60→10, h=45, W=30 (空心)</td></tr>
-    <tr><td>轴</td><td>∅10 钢轴</td></tr>
-    <tr><td>轮毂法兰</td><td class="new">∅30 小法兰（替代∅60盘）</td></tr>
-    <tr><td>扇叶</td><td class="new">六边形 + R3 圆角</td></tr>
-    <tr><td>固定</td><td class="new">6 颗 ∅3 铆钉</td></tr>
-    <tr><td>Pitch 角</td><td>20°</td></tr>
+    <tr><td>立柱</td><td>实心 40×60×250</td></tr>
+    <tr><td>梯形支架</td><td>封闭 60→10, h45, W30</td></tr>
+    <tr><td>轴 / 套筒</td><td>∅10 / ∅15</td></tr>
+    <tr><td>轮毂法兰</td><td>∅30, 6×∅3 铆钉</td></tr>
+    <tr><td>扇叶</td><td>六边形+R3, ×3, 20°</td></tr>
   </table>
 </div>
 
-<div id="legend">
-  <div><span class="swatch" style="background:#a8b5c4;"></span>钢/铝板</div>
-  <div><span class="swatch" style="background:#7a8aa0;"></span>实心方柱</div>
-  <div><span class="swatch" style="background:#cf8a4a;"></span>梯形支架</div>
-  <div><span class="swatch" style="background:#4a4a4a;"></span>钢轴 ∅10</div>
-  <div><span class="swatch" style="background:#c0c0c0;"></span>轮毂法兰</div>
-  <div><span class="swatch" style="background:#f0c674;"></span>扇叶 (×3)</div>
+<div id="legend" class="panel">
+  <div><span class="swatch" style="background:linear-gradient(135deg,#bcc6d4,#94a1b5);"></span>钣金结构件</div>
+  <div><span class="swatch" style="background:linear-gradient(135deg,#8593a8,#5d6b80);"></span>实心方柱</div>
+  <div><span class="swatch" style="background:linear-gradient(135deg,#e0a060,#c47a35);"></span>封闭梯形支架</div>
+  <div><span class="swatch" style="background:linear-gradient(135deg,#5a5a5a,#3a3a3a);"></span>钢轴</div>
+  <div><span class="swatch" style="background:linear-gradient(135deg,#d8d8d8,#b0b0b0);"></span>轮毂法兰</div>
+  <div><span class="swatch" style="background:linear-gradient(135deg,#f5d486,#e0b050);"></span>扇叶 ×3</div>
 </div>
 
-<div id="ctrls">
-  🖱 <b>左键拖动</b> 旋转 · <b>滚轮</b> 缩放<br>
-  <button id="b-spin">▶ 让风车转起来</button>
-  <button id="b-reset" class="off">↺ 重置视角</button>
+<div id="ctrls" class="panel">
+  <div class="hint">🖱 拖动旋转 · 滚轮缩放</div>
+  <button id="b-spin">▶ 旋转风车</button>
+  <button id="b-auto" class="off">🔄 自动环绕</button>
+</div>
+
+<div id="views" class="panel">
+  <button data-v="top">⬇ 俯视全貌</button>
+  <button data-v="front">→ 正面迎风</button>
+  <button data-v="iso">◈ 立体视角</button>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 const canvas = document.getElementById('c');
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x1a1f2e);
-scene.fog = new THREE.Fog(0x1a1f2e, 800, 1600);
+scene.fog = new THREE.FogExp2(0x141a28, 0.0008);
 
 const W = window.innerWidth, H = window.innerHeight;
-const camera = new THREE.PerspectiveCamera(40, W / H, 1, 3000);
+const camera = new THREE.PerspectiveCamera(42, W / H, 1, 5000);
 
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-renderer.setPixelRatio(window.devicePixelRatio);
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(W, H);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.15;
+renderer.outputEncoding = THREE.sRGBEncoding;
 
-// Lighting
-scene.add(new THREE.AmbientLight(0xffffff, 0.45));
-const sun = new THREE.DirectionalLight(0xffffff, 0.9);
-sun.position.set(200, 400, 250);
-sun.castShadow = true;
-sun.shadow.mapSize.width = 1024;
-sun.shadow.mapSize.height = 1024;
-sun.shadow.camera.left = -350; sun.shadow.camera.right = 350;
-sun.shadow.camera.top = 450; sun.shadow.camera.bottom = -50;
-sun.shadow.camera.near = 1; sun.shadow.camera.far = 1500;
-scene.add(sun);
+// ============================================================
+// Procedural environment map for nice metal reflections
+// ============================================================
+function makeEnvMap() {
+  const c = document.createElement('canvas');
+  c.width = 256; c.height = 256;
+  const ctx = c.getContext('2d');
+  const g = ctx.createLinearGradient(0, 0, 0, 256);
+  g.addColorStop(0, '#6f8bc4');   // sky top
+  g.addColorStop(0.45, '#aebfd8');
+  g.addColorStop(0.5, '#dde4ee');  // horizon
+  g.addColorStop(0.55, '#3a4254');
+  g.addColorStop(1, '#1a1f2b');    // ground
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, 256, 256);
+  // a couple soft highlights
+  const hl = ctx.createRadialGradient(80, 60, 5, 80, 60, 70);
+  hl.addColorStop(0, 'rgba(255,255,255,0.9)');
+  hl.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = hl; ctx.fillRect(0, 0, 256, 256);
+  const tex = new THREE.CanvasTexture(c);
+  tex.mapping = THREE.EquirectangularReflectionMapping;
+  tex.encoding = THREE.sRGBEncoding;
+  return tex;
+}
+const envMap = makeEnvMap();
+scene.environment = envMap;
 
-const fill = new THREE.DirectionalLight(0xaaccff, 0.25);
-fill.position.set(-200, 100, -150);
-scene.add(fill);
+// ============================================================
+// Lighting — key + fill + rim, warm/cool contrast
+// ============================================================
+scene.add(new THREE.AmbientLight(0xb0c4de, 0.35));
 
-// Ground
-const ground = new THREE.Mesh(
-  new THREE.PlaneGeometry(800, 800),
-  new THREE.MeshStandardMaterial({ color: 0x2a3142, roughness: 0.9 })
-);
+const keyLight = new THREE.DirectionalLight(0xfff0d8, 1.35);
+keyLight.position.set(180, 420, 280);
+keyLight.castShadow = true;
+keyLight.shadow.mapSize.set(2048, 2048);
+keyLight.shadow.camera.left = -300; keyLight.shadow.camera.right = 300;
+keyLight.shadow.camera.top = 480; keyLight.shadow.camera.bottom = -60;
+keyLight.shadow.camera.near = 1; keyLight.shadow.camera.far = 1600;
+keyLight.shadow.bias = -0.0004;
+keyLight.shadow.radius = 4;
+scene.add(keyLight);
+
+const fillLight = new THREE.DirectionalLight(0x88aaff, 0.5);
+fillLight.position.set(-220, 160, -120);
+scene.add(fillLight);
+
+const rimLight = new THREE.DirectionalLight(0xffd9a0, 0.7);
+rimLight.position.set(-100, 250, 300);
+scene.add(rimLight);
+
+// subtle point light near rotor for sparkle
+const sparkle = new THREE.PointLight(0xffe8c0, 0.6, 600, 2);
+sparkle.position.set(90, 320, 80);
+scene.add(sparkle);
+
+// ============================================================
+// Ground — soft gradient disc with shadow catching
+// ============================================================
+const groundGeo = new THREE.CircleGeometry(600, 64);
+const groundMat = new THREE.MeshStandardMaterial({
+  color: 0x222a3a, roughness: 0.85, metalness: 0.1
+});
+const ground = new THREE.Mesh(groundGeo, groundMat);
 ground.rotation.x = -Math.PI / 2;
 ground.receiveShadow = true;
 scene.add(ground);
 
-const grid = new THREE.GridHelper(700, 35, 0x444a5e, 0x333744);
-grid.position.y = 0.1;
+// faint radial grid
+const grid = new THREE.PolarGridHelper(560, 16, 10, 64, 0x3a4658, 0x2a3344);
+grid.position.y = 0.2;
 scene.add(grid);
 
+// ============================================================
 // Materials
-const matSteel = new THREE.MeshStandardMaterial({ color: 0xa8b5c4, roughness: 0.4, metalness: 0.7 });
-const matSolidCol = new THREE.MeshStandardMaterial({ color: 0x7a8aa0, roughness: 0.5, metalness: 0.6 });
-const matSteelDark = new THREE.MeshStandardMaterial({ color: 0x4a4a4a, roughness: 0.5, metalness: 0.8 });
-const matTrap = new THREE.MeshStandardMaterial({ color: 0xcf8a4a, roughness: 0.5, metalness: 0.5 });
-const matSleeve = new THREE.MeshStandardMaterial({ color: 0x808080, roughness: 0.45, metalness: 0.75 });
-const matFlange = new THREE.MeshStandardMaterial({ color: 0xc0c0c0, roughness: 0.35, metalness: 0.8 });
-const matBlade = new THREE.MeshStandardMaterial({
-  color: 0xf0c674, roughness: 0.4, metalness: 0.6, side: THREE.DoubleSide
+// ============================================================
+const matSheet = new THREE.MeshStandardMaterial({
+  color: 0xb4c0d0, roughness: 0.32, metalness: 0.85, envMap, envMapIntensity: 1.1
 });
-const matRivet = new THREE.MeshStandardMaterial({ color: 0x333333, roughness: 0.5, metalness: 0.9 });
+const matColumn = new THREE.MeshStandardMaterial({
+  color: 0x6d7b91, roughness: 0.55, metalness: 0.45, envMap, envMapIntensity: 0.7
+});
+const matShaft = new THREE.MeshStandardMaterial({
+  color: 0x44484f, roughness: 0.28, metalness: 0.95, envMap, envMapIntensity: 1.2
+});
+const matTrap = new THREE.MeshStandardMaterial({
+  color: 0xd28a42, roughness: 0.38, metalness: 0.6, envMap, envMapIntensity: 1.0
+});
+const matSleeve = new THREE.MeshStandardMaterial({
+  color: 0x787e88, roughness: 0.3, metalness: 0.9, envMap, envMapIntensity: 1.1
+});
+const matFlange = new THREE.MeshStandardMaterial({
+  color: 0xd0d4d8, roughness: 0.22, metalness: 0.95, envMap, envMapIntensity: 1.3
+});
+const matBlade = new THREE.MeshStandardMaterial({
+  color: 0xf3cf78, roughness: 0.3, metalness: 0.78, envMap, envMapIntensity: 1.15,
+  side: THREE.DoubleSide
+});
+const matRivet = new THREE.MeshStandardMaterial({
+  color: 0x2a2a2a, roughness: 0.35, metalness: 0.95, envMap, envMapIntensity: 1.0
+});
 
 function cast(geo, mat) {
   const m = new THREE.Mesh(geo, mat);
-  m.castShadow = true;
-  m.receiveShadow = true;
+  m.castShadow = true; m.receiveShadow = true;
   return m;
 }
 
 // ============================================================
-// HAWT layout: world Y is up, X = wind/shaft direction, Z = lateral
+// Geometry — world Y up, X = shaft/wind, Z = lateral
 // ============================================================
+const root = new THREE.Group();
+scene.add(root);
 
 // BASE
 for (let i = 0; i < 3; i++) {
-  const plate = cast(new THREE.BoxGeometry(100, 2.5, 100), matSteel);
+  const plate = cast(new THREE.BoxGeometry(100, 2.5, 100), matSheet);
   plate.position.y = 1.25 + i * 2.5;
-  scene.add(plate);
+  root.add(plate);
 }
 const baseTop = 7.5;
 
-// *** SOLID COLUMN 40×60×250 (replaces L-shape) ***
-const column = cast(new THREE.BoxGeometry(40, 250, 60), matSolidCol);
+// SOLID COLUMN
+const column = cast(new THREE.BoxGeometry(40, 250, 60), matColumn);
 column.position.set(0, baseTop + 125, 0);
-scene.add(column);
+root.add(column);
 const colTop = baseTop + 250;
 
-// TOP CAP 40×2.5×60
-const topCap = cast(new THREE.BoxGeometry(40, 2.5, 60), matSteel);
+// TOP CAP
+const topCap = cast(new THREE.BoxGeometry(40, 2.5, 60), matSheet);
 topCap.position.set(0, colTop + 1.25, 0);
-scene.add(topCap);
+root.add(topCap);
 const capTop = colTop + 2.5;
 
-// TRAPEZOIDAL SUPPORT (2 plates, with shaft hole)
+// ============================================================
+// CLOSED TRAPEZOIDAL SUPPORT
+//   2 trapezoid plates (front/back) + 2 slanted side walls (NEW closure)
+// ============================================================
+const W_DEPTH = 30;
+const TRAP_H = 45, TRAP_BOT = 60, TRAP_TOP = 10;
+
+// Front & back trapezoid plates (with shaft hole)
 function buildTrapShape() {
-  const shape = new THREE.Shape();
-  shape.moveTo(-30, 0); shape.lineTo(30, 0);
-  shape.lineTo(5, 45); shape.lineTo(-5, 45);
-  shape.lineTo(-30, 0);
+  const s = new THREE.Shape();
+  s.moveTo(-TRAP_BOT/2, 0); s.lineTo(TRAP_BOT/2, 0);
+  s.lineTo(TRAP_TOP/2, TRAP_H); s.lineTo(-TRAP_TOP/2, TRAP_H);
+  s.lineTo(-TRAP_BOT/2, 0);
   const hole = new THREE.Path();
   hole.absarc(0, 40, 5, 0, Math.PI * 2, true);
-  shape.holes.push(hole);
-  return shape;
+  s.holes.push(hole);
+  return s;
 }
 const trapGeo = new THREE.ExtrudeGeometry(buildTrapShape(), { depth: 2.5, bevelEnabled: false });
 
-const W_DEPTH = 30;
-const plate1 = cast(trapGeo, matTrap);
-plate1.rotation.y = -Math.PI / 2;
-plate1.position.set(-W_DEPTH/2, capTop, 0);
-scene.add(plate1);
+const plateBack = cast(trapGeo, matTrap);
+plateBack.rotation.y = -Math.PI / 2;
+plateBack.position.set(-W_DEPTH/2, capTop, 0);
+root.add(plateBack);
 
-const plate2 = cast(trapGeo, matTrap);
-plate2.rotation.y = -Math.PI / 2;
-plate2.position.set(W_DEPTH/2 + 2.5, capTop, 0);
-scene.add(plate2);
+const plateFront = cast(trapGeo, matTrap);
+plateFront.rotation.y = -Math.PI / 2;
+plateFront.position.set(W_DEPTH/2 + 2.5, capTop, 0);
+root.add(plateFront);
 
-const trapTop = capTop + 45;
-const shaftY = trapTop - 5;  // shaft passes through hole
+// SIDE WALLS (the closure). Each is a planar quad connecting the slant edges.
+// Use a DOUBLE-SIDED material so both walls render regardless of winding.
+const matTrapWall = new THREE.MeshStandardMaterial({
+  color: 0xd28a42, roughness: 0.38, metalness: 0.6, envMap, envMapIntensity: 1.0,
+  side: THREE.DoubleSide
+});
+// Left slant edge (Z negative side): bottom (Z=-30,Y=0) to top (Z=-5,Y=45) [relative capTop]
+function buildSideWall(sign) {
+  // sign = -1 for left (Z-), +1 for right (Z+)
+  const zBot = sign * TRAP_BOT/2;
+  const zTop = sign * TRAP_TOP/2;
+  // 4 corners (x, y, z) with x spanning the W_DEPTH gap
+  const xB = -W_DEPTH/2, xF = W_DEPTH/2 + 2.5;
+  const yB = capTop, yT = capTop + TRAP_H;
+  const verts = new Float32Array([
+    xB, yB, zBot,   xF, yB, zBot,   xF, yT, zTop,
+    xB, yB, zBot,   xF, yT, zTop,   xB, yT, zTop,
+  ]);
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(verts, 3));
+  geo.computeVertexNormals();
+  const wall = new THREE.Mesh(geo, matTrapWall);
+  wall.castShadow = true; wall.receiveShadow = true;
+  return wall;
+}
+root.add(buildSideWall(-1));
+root.add(buildSideWall(+1));
 
-// SHAFT along X axis
-const shaftGeo = new THREE.CylinderGeometry(5, 5, 100, 24);
-const shaft = cast(shaftGeo, matSteelDark);
+const trapTop = capTop + TRAP_H;
+const shaftY = trapTop - 5;
+
+// SHAFT
+const shaft = cast(new THREE.CylinderGeometry(5, 5, 110, 32), matShaft);
 shaft.rotation.z = Math.PI / 2;
 shaft.position.set(25, shaftY, 0);
-scene.add(shaft);
+root.add(shaft);
 
 // ============================================================
-// HUB ASSEMBLY (rotates around shaft)
-// CRITICAL FIX: hubGroup is positioned at the shaft so blades rotate AROUND it
+// ROTATING HUB ASSEMBLY (positioned AT the shaft — bug fixed)
 // ============================================================
-const flangeX = W_DEPTH/2 + 2.5 + 20 + 2.5;  // past front plate + sleeve(20) + flange thickness midpoint
-const hubGroup = new THREE.Group();
-hubGroup.position.set(flangeX, shaftY, 0);  // <-- centered on the shaft, at hub
-scene.add(hubGroup);
+const flangeX = W_DEPTH/2 + 2.5 + 20 + 1.25;
+const hub = new THREE.Group();
+hub.position.set(flangeX, shaftY, 0);
+root.add(hub);
 
-// HUB SLEEVE (∅15 × 20mm) — in front of hub group, attached to shaft
-// Placed in hubGroup so it spins with everything
-const sleeveGeo = new THREE.CylinderGeometry(7.5, 7.5, 20, 24);
-const sleeve = cast(sleeveGeo, matSleeve);
+// Sleeve
+const sleeve = cast(new THREE.CylinderGeometry(7.5, 7.5, 20, 32), matSleeve);
 sleeve.rotation.z = Math.PI / 2;
-sleeve.position.set(-11.25, 0, 0);  // just before flange in hubGroup local frame
-hubGroup.add(sleeve);
+sleeve.position.set(-11.25, 0, 0);
+hub.add(sleeve);
 
-// HUB FLANGE: ∅30 × 2.5 (SMALL, replaces ∅60 disc)
-const flangeR = 15;  // ∅30
-const flangeGeo = new THREE.CylinderGeometry(flangeR, flangeR, 2.5, 48);
-const flange = cast(flangeGeo, matFlange);
+// Flange ∅30
+const flangeR = 15;
+const flange = cast(new THREE.CylinderGeometry(flangeR, flangeR, 2.5, 48), matFlange);
 flange.rotation.z = Math.PI / 2;
-flange.position.set(0, 0, 0);  // centered in hubGroup
-hubGroup.add(flange);
+hub.add(flange);
 
-// RIVETS (6, in 3 pairs at 120°) — visible as small caps on flange face
-const rivetGeo = new THREE.CylinderGeometry(1.5, 1.5, 1.5, 12);
+// Rivets (6, decorative caps)
+const rivetGeo = new THREE.CylinderGeometry(1.5, 1.5, 2.5, 14);
 for (let k = 0; k < 3; k++) {
   const ang = (k * 2 * Math.PI) / 3;
   for (const r of [9, 12]) {
     const rivet = new THREE.Mesh(rivetGeo, matRivet);
     rivet.rotation.z = Math.PI / 2;
-    // Position on flange front face, at radius r, angle ang
-    rivet.position.set(2.0, r * Math.cos(ang), r * Math.sin(ang));
-    hubGroup.add(rivet);
+    rivet.position.set(1.8, r * Math.cos(ang), r * Math.sin(ang));
+    rivet.castShadow = true;
+    hub.add(rivet);
   }
 }
 
 // ============================================================
-// BLADES: hexagon with rounded corners
+// BLADES — hexagon with rounded corners
 // ============================================================
 function buildBladeShape() {
-  const shape = new THREE.Shape();
-  const r = 3;  // fillet radius
-  // Hexagon vertices: P0(0,0) P1(100,0) P2(100,20) P3(40,30) P4(20,10) P5(0,10)
-  // With fillets at P1 (90° corner), P2 (99.5° corner), P3 (peak, ~125°)
-  shape.moveTo(0, 0);
-  // P0 -> P1 edge, stop r before P1
-  shape.lineTo(100 - r, 0);
-  // Fillet at P1 (center at 100-r, r): quarter circle
-  shape.absarc(100 - r, r, r, -Math.PI/2, 0, false);
-  // P1 -> P2 edge, stop r before P2
-  shape.lineTo(100, 20 - r);
-  // Fillet at P2: arc from (100, 20-r) to approximately (100-2.5, 20.4). 
-  // For simpler approximation, use quadraticCurveTo
-  shape.quadraticCurveTo(100, 20, 100 - 2.5, 20.4);
-  // P2 -> P3 edge
-  shape.lineTo(42.5, 29.6);
-  // Fillet at P3 (peak)
-  shape.quadraticCurveTo(40, 30, 38, 29);
-  // P3 -> P4 edge
-  shape.lineTo(20, 10);
-  // P4 -> P5 (no fillet, keep concave sharp)
-  shape.lineTo(0, 10);
-  shape.lineTo(0, 0);
-  return shape;
+  const s = new THREE.Shape();
+  const r = 3;
+  s.moveTo(0, 0);
+  s.lineTo(100 - r, 0);
+  s.absarc(100 - r, r, r, -Math.PI/2, 0, false);
+  s.lineTo(100, 20 - r);
+  s.quadraticCurveTo(100, 20, 100 - 2.5, 20.4);
+  s.lineTo(42.5, 29.6);
+  s.quadraticCurveTo(40, 30, 38, 29);
+  s.lineTo(20, 10);
+  s.lineTo(0, 10);
+  s.lineTo(0, 0);
+  return s;
 }
-const bladeGeo = new THREE.ExtrudeGeometry(buildBladeShape(), { depth: 0.3, bevelEnabled: false });
+const bladeGeo = new THREE.ExtrudeGeometry(buildBladeShape(),
+  { depth: 0.3, bevelEnabled: false });
 
 const pitchRad = THREE.MathUtils.degToRad(20);
-const hubRadius = flangeR;  // 15 (blade root at flange edge)
+const hubRadius = flangeR;
 
 for (let i = 0; i < 3; i++) {
-  // Arm group: rotates around shaft axis (X axis in hubGroup local frame)
-  // for 120° spacing between blades
   const arm = new THREE.Group();
   arm.rotation.x = (i * 2 * Math.PI) / 3;
-  hubGroup.add(arm);
+  hub.add(arm);
 
-  // Pitch group: applies pitch around the radial direction (Y axis in arm local frame)
   const pitchG = new THREE.Group();
   pitchG.rotation.y = pitchRad;
   arm.add(pitchG);
 
-  // Blade mesh with quaternion to map shape axes to arm axes:
-  // shape X (radial 0..100) → arm Y (further out)
-  // shape Y (transverse 0..30) → arm Z (transverse, in rotation plane)
-  // shape Z (thickness)        → arm X (along shaft, perpendicular to blade)
   const blade = cast(bladeGeo, matBlade);
   const q = new THREE.Quaternion();
   q.setFromAxisAngle(new THREE.Vector3(1, 1, 1).normalize(), 2 * Math.PI / 3);
   blade.quaternion.copy(q);
-  // Position P0 at hub flange edge (radial = hubRadius along arm +Y)
   blade.position.y = hubRadius;
-  // Small offset along arm X so blade is in front of flange face (visible)
   blade.position.x = 1.5;
-
   pitchG.add(blade);
 }
 
 // ============================================================
-// Camera & controls
+// Camera control — orbit with elevation; default high top-down
 // ============================================================
-const cameraTarget = new THREE.Vector3(30, 180, 0);
-let camDistance = 540;
-let camAzimuth = -Math.PI / 4;
-let camElevation = 0.25;
+const target = new THREE.Vector3(20, 285, 0);  // aim at rotor height
+// Default: further out, FRONT-facing (look toward rotor along shaft) + top-down
+let dist = 720, azimuth = 1.15, elevation = 0.52;
 
-function updateCamera() {
-  camera.position.x = cameraTarget.x + camDistance * Math.cos(camElevation) * Math.sin(camAzimuth);
-  camera.position.z = cameraTarget.z + camDistance * Math.cos(camElevation) * Math.cos(camAzimuth);
-  camera.position.y = cameraTarget.y + camDistance * Math.sin(camElevation);
-  camera.lookAt(cameraTarget);
+function updateCam() {
+  camera.position.x = target.x + dist * Math.cos(elevation) * Math.sin(azimuth);
+  camera.position.z = target.z + dist * Math.cos(elevation) * Math.cos(azimuth);
+  camera.position.y = target.y + dist * Math.sin(elevation);
+  camera.lookAt(target);
 }
-updateCamera();
+updateCam();
 
 let dragging = false, lastX = 0, lastY = 0;
-canvas.addEventListener('mousedown', (e) => {
-  dragging = true; lastX = e.clientX; lastY = e.clientY;
-});
+canvas.addEventListener('mousedown', e => { dragging = true; lastX = e.clientX; lastY = e.clientY; autoOrbit = false; });
 window.addEventListener('mouseup', () => dragging = false);
-window.addEventListener('mousemove', (e) => {
+window.addEventListener('mousemove', e => {
   if (!dragging) return;
-  const dx = e.clientX - lastX, dy = e.clientY - lastY;
+  azimuth -= (e.clientX - lastX) * 0.008;
+  elevation += (e.clientY - lastY) * 0.006;
+  elevation = Math.max(-0.2, Math.min(1.45, elevation));
   lastX = e.clientX; lastY = e.clientY;
-  camAzimuth -= dx * 0.008;
-  camElevation += dy * 0.006;
-  camElevation = Math.max(-1.3, Math.min(1.3, camElevation));
-  updateCamera();
+  updateCam();
 });
-
-canvas.addEventListener('touchstart', (e) => {
-  if (e.touches.length === 1) {
-    dragging = true; lastX = e.touches[0].clientX; lastY = e.touches[0].clientY;
-  }
+canvas.addEventListener('touchstart', e => {
+  if (e.touches.length === 1) { dragging = true; lastX = e.touches[0].clientX; lastY = e.touches[0].clientY; autoOrbit = false; }
 }, { passive: true });
 canvas.addEventListener('touchend', () => dragging = false);
-canvas.addEventListener('touchmove', (e) => {
+canvas.addEventListener('touchmove', e => {
   if (!dragging || e.touches.length !== 1) return;
-  const dx = e.touches[0].clientX - lastX, dy = e.touches[0].clientY - lastY;
+  azimuth -= (e.touches[0].clientX - lastX) * 0.008;
+  elevation += (e.touches[0].clientY - lastY) * 0.006;
+  elevation = Math.max(-0.2, Math.min(1.45, elevation));
   lastX = e.touches[0].clientX; lastY = e.touches[0].clientY;
-  camAzimuth -= dx * 0.008;
-  camElevation += dy * 0.006;
-  camElevation = Math.max(-1.3, Math.min(1.3, camElevation));
-  updateCamera();
+  updateCam();
 }, { passive: true });
-
-canvas.addEventListener('wheel', (e) => {
+canvas.addEventListener('wheel', e => {
   e.preventDefault();
-  camDistance *= e.deltaY > 0 ? 1.08 : 0.92;
-  camDistance = Math.max(120, Math.min(1400, camDistance));
-  updateCamera();
+  dist *= e.deltaY > 0 ? 1.08 : 0.92;
+  dist = Math.max(140, Math.min(1500, dist));
+  updateCam();
 }, { passive: false });
 
-let spinning = false;
+// View preset buttons
+const presets = {
+  top:   { dist: 720, azimuth: 1.15, elevation: 1.30 },  // near straight-down
+  front: { dist: 600, azimuth: 1.50, elevation: 0.15 },  // rotor face straight on
+  iso:   { dist: 720, azimuth: 1.15, elevation: 0.52 },  // default front top-down
+};
+let animTarget = null;
+document.querySelectorAll('#views button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    autoOrbit = false;
+    animTarget = presets[btn.dataset.v];
+  });
+});
+
+// Spin & auto-orbit — both ON by default
+let spinning = true, autoOrbit = true;
 const btnSpin = document.getElementById('b-spin');
-const btnReset = document.getElementById('b-reset');
+const btnAuto = document.getElementById('b-auto');
+btnSpin.textContent = '⏸ 暂停旋转';
+btnSpin.classList.remove('off');
+btnAuto.classList.remove('off');
 btnSpin.addEventListener('click', () => {
   spinning = !spinning;
-  btnSpin.textContent = spinning ? '⏸ 暂停' : '▶ 让风车转起来';
+  btnSpin.textContent = spinning ? '⏸ 暂停旋转' : '▶ 旋转风车';
   btnSpin.classList.toggle('off', !spinning);
 });
-btnReset.addEventListener('click', () => {
-  camDistance = 540; camAzimuth = -Math.PI / 4; camElevation = 0.25;
-  updateCamera();
+btnAuto.addEventListener('click', () => {
+  autoOrbit = !autoOrbit;
+  btnAuto.classList.toggle('off', !autoOrbit);
 });
 
 window.addEventListener('resize', () => {
-  const w = window.innerWidth, h = window.innerHeight;
-  camera.aspect = w / h;
+  camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
-  renderer.setSize(w, h);
+  renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// Animate
 function animate() {
   requestAnimationFrame(animate);
-  if (spinning) {
-    // Rotate the entire hubGroup around X axis (the shaft direction)
-    hubGroup.rotation.x += 0.012;
+  if (spinning) hub.rotation.x += 0.014;
+  if (autoOrbit) { azimuth += 0.004; updateCam(); }
+  if (animTarget) {
+    dist += (animTarget.dist - dist) * 0.1;
+    azimuth += (animTarget.azimuth - azimuth) * 0.1;
+    elevation += (animTarget.elevation - elevation) * 0.1;
+    updateCam();
+    if (Math.abs(animTarget.dist - dist) < 1 &&
+        Math.abs(animTarget.azimuth - azimuth) < 0.01 &&
+        Math.abs(animTarget.elevation - elevation) < 0.01) animTarget = null;
   }
   renderer.render(scene, camera);
 }
