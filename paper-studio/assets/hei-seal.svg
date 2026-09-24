@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 150" fill="none">
+<path d="M43 27h123l14 100H52z" fill="#e4dccb" opacity=".48" transform="rotate(-8 110 75)"/>
+<g transform="rotate(-10 82 73)"><rect x="35" y="24" width="87" height="95" rx="3" fill="#292820"/><rect x="41" y="30" width="75" height="83" rx="1" stroke="#d8c99f" stroke-width="1"/><text x="78.5" y="88" text-anchor="middle" font-family="Songti SC,STSong,serif" font-size="53" fill="#e5d8b6">黑</text></g>
+<g transform="rotate(8 146 84)"><rect x="110" y="49" width="69" height="75" rx="2" fill="#807050"/><rect x="115" y="54" width="59" height="65" stroke="#efe2c5" stroke-width=".8"/><text x="144.5" y="100" text-anchor="middle" font-family="Songti SC,STSong,serif" font-size="42" fill="#fff5df">黑</text></g>
+<path d="M51 132h117" stroke="#99866a" stroke-width=".6"/><text x="189" y="41" text-anchor="middle" font-family="Georgia,serif" font-size="23" fill="#786543">2</text>
+</svg>

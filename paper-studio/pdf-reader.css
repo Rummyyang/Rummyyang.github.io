@@ -1,0 +1,45 @@
+/* Load after styles.css. Page placeholders retain scroll position while canvases are released. */
+.pdf-continuous { --pdf-reader-height: 61svh; width: 100%; min-width: 0; }
+.pdf-continuous.pdf-expanded { --pdf-reader-height: 62svh; }
+.pdf-continuous .pdf-controls { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 5px 2px 10px; color: #685d53; font-size: 12px; }
+.pdf-continuous .pdf-controls button { min-width: 40px; min-height: 36px; border: 1px solid #ddd4c8; border-radius: 7px; background: #fffdfa; color: #483f37; font-size: 21px; line-height: 1; touch-action: manipulation; }
+.pdf-continuous .pdf-controls button:disabled { opacity: .4; cursor: default; }
+.pdf-continuous .pdf-page-count { min-width: 58px; text-align: center; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pdf-continuous .pdf-controls .pdf-zoom { margin-left: auto; min-width: 58px; padding: 7px 10px; font-size: 12px; }
+.pdf-continuous .pdf-page-scroll,
+#reader-content .pdf-continuous .pdf-page-scroll {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--pdf-reader-height);
+  min-height: 220px;
+  max-height: var(--pdf-reader-height);
+  padding: 12px;
+  overflow: auto;
+  overflow-anchor: none;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: #b9ada0 #ece7e1;
+  border-radius: 6px;
+  background: #ece7e1;
+  text-align: left;
+  touch-action: pan-x pan-y pinch-zoom;
+  -webkit-overflow-scrolling: touch;
+}
+.pdf-continuous .pdf-page-scroll:focus-visible,
+.pdf-continuous button:focus-visible { outline: 2px solid #96765e; outline-offset: 2px; }
+.pdf-continuous .pdf-page-stack { display: flex; flex-direction: column; gap: 16px; margin: 0 auto; padding: 0; }
+.pdf-continuous .pdf-page-slot { position: relative; flex: 0 0 auto; box-sizing: content-box; margin: 0; padding: 0; overflow: hidden; border: 0; background: white; box-shadow: 0 1px 7px #342d2520; contain: layout paint; }
+.pdf-continuous .pdf-page-canvas { display: block; position: absolute; inset: 0; max-width: none; margin: 0; box-shadow: none; background: white; }
+.pdf-continuous .pdf-page-placeholder { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; margin: 0; padding: 20px; color: #786f66; background: #fffdfa; font-size: 12px; line-height: 1.7; text-align: center; }
+.pdf-continuous .pdf-page-placeholder[hidden] { display: none; }
+.pdf-continuous .pdf-page-retry { padding: 6px 12px; border: 1px solid #ded2c4; border-radius: 6px; background: #faf4eb; color: #5d4838; font-size: 12px; }
+.pdf-continuous .pdf-loading { margin: 0; padding: 36px 18px; color: #71665b; font-size: 13px; line-height: 1.8; text-align: center; }
+@media (max-width: 640px) {
+  .pdf-continuous .pdf-controls { gap: 8px; }
+  .pdf-continuous .pdf-controls button { min-width: 42px; min-height: 40px; }
+  .pdf-continuous .pdf-page-scroll,
+  #reader-content .pdf-continuous .pdf-page-scroll { padding: 8px; }
+}
+@media print { .pdf-continuous .pdf-controls { display: none; } }
