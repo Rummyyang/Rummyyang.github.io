@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400" fill="none" role="img" aria-labelledby="orbit-fellows-title orbit-fellows-desc">
+  <title id="orbit-fellows-title">并肩研究的轨道搭档</title>
+  <desc id="orbit-fellows-desc">两位以黑洞和环状轨道为头部的抽象科研搭档，一同查看手稿上的波形；左侧搭档扶着手稿，右侧搭档拿着观测笔。</desc>
+  <defs>
+    <radialGradient id="of-hole" cx="0" cy="0" r="1" gradientTransform="translate(-13 -17) rotate(57) scale(83)">
+      <stop offset=".42" stop-color="#101B18"/>
+      <stop offset=".8" stop-color="#183F34"/>
+      <stop offset="1" stop-color="#446556"/>
+    </radialGradient>
+    <linearGradient id="of-gold" x1="-93" y1="-10" x2="90" y2="17" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8D7751"/>
+      <stop offset=".36" stop-color="#EEE0AF"/>
+      <stop offset=".65" stop-color="#C8AD73"/>
+      <stop offset="1" stop-color="#A88D5C"/>
+    </linearGradient>
+    <linearGradient id="of-jacket" x1="83" y1="177" x2="188" y2="301" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#335B4C"/>
+      <stop offset="1" stop-color="#17372D"/>
+    </linearGradient>
+    <linearGradient id="of-coat" x1="244" y1="185" x2="324" y2="292" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ECEADB"/>
+      <stop offset="1" stop-color="#BFC7B6"/>
+    </linearGradient>
+    <linearGradient id="of-paper" x1="146" y1="219" x2="240" y2="282" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF9E8"/>
+      <stop offset="1" stop-color="#E8DAB8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- One shared footing; the background remains transparent. -->
+  <ellipse cx="204" cy="356" rx="147" ry="14" fill="#16392D" opacity=".1"/>
+  <path d="M78 356H335" stroke="#C5B58F" stroke-width="1.5" stroke-linecap="round" opacity=".6"/>
+
+  <!-- The taller fellow, turned toward the shared manuscript. -->
+  <path d="M100 285L99 332C99 343 104 349 113 349H129L136 287" fill="#1A2C25"/>
+  <path d="M138 287L146 333C148 344 152 349 162 349H178L171 282" fill="#223E32"/>
+  <path d="M100 335C110 338 119 338 130 335L132 354H90C87 346 91 339 100 335Z" fill="#14231E"/>
+  <path d="M148 336C157 339 165 339 175 335L190 347C194 350 191 354 187 354H147L148 336Z" fill="#14231E"/>
+  <path d="M102 177C84 180 76 200 78 223L88 286C89 297 97 301 111 301H158C173 301 181 294 181 282L181 214C180 191 165 176 145 174L102 177Z" fill="url(#of-jacket)"/>
+  <path d="M111 174L120 206L139 195L153 176" fill="#122D24"/>
+  <path d="M121 203L136 295" stroke="#6B8066" stroke-width="1.5" opacity=".65"/>
+  <path d="M95 186C79 183 66 195 63 213L61 248C61 263 72 272 87 269L118 257L110 239L86 246L89 218" fill="#28503F"/>
+  <path d="M111 240L129 236C137 235 142 240 141 246C141 252 136 255 130 256L116 259L111 240Z" fill="#E4DFC7"/>
+  <path d="M149 178C164 180 176 191 183 207L190 226L174 237L156 213" fill="#3C6450"/>
+  <path d="M117 168L120 182C129 187 143 185 150 178L147 164" fill="#AA9669"/>
+
+  <!-- The second fellow carries the observation pen. -->
+  <path d="M246 283L236 334C234 343 239 350 249 350H264L278 287" fill="#234333"/>
+  <path d="M280 288L290 337C292 346 298 351 309 350L321 347L311 280" fill="#1A342A"/>
+  <path d="M237 336C247 340 255 340 265 337L265 354H224C221 347 226 340 237 336Z" fill="#14231E"/>
+  <path d="M291 337C301 341 310 340 319 336L332 347C336 351 332 354 329 354H291V337Z" fill="#14231E"/>
+  <path d="M257 185C237 190 228 207 229 229L232 282C233 296 244 303 262 303H301C317 303 325 295 323 281L315 219C312 197 297 184 279 183L257 185Z" fill="url(#of-coat)"/>
+  <path d="M259 184L270 209L286 202L295 190" fill="#32533F"/>
+  <path d="M270 209L280 296" stroke="#718372" stroke-width="1.5"/>
+  <path d="M293 232L309 229L312 251L296 254L293 232Z" fill="#55705B"/>
+  <path d="M299 236L305 235" stroke="#E1D2A7" stroke-width="2" stroke-linecap="round"/>
+  <path d="M307 195C323 195 333 208 337 226L340 253C342 267 331 278 318 274L283 256L292 238L315 249L310 224" fill="#CDD0BC"/>
+  <path d="M286 238L273 233C265 230 259 234 259 240C259 246 264 249 270 252L281 259L291 246L286 238Z" fill="#EDE5CB"/>
+  <path d="M255 193C241 196 233 207 228 222L218 242L235 252L252 231" fill="#DCE0CF"/>
+  <path d="M259 177L261 190C270 195 284 193 291 186L287 174" fill="#AA9669"/>
+
+  <!-- Orbit heads: clean silhouettes and a luminous, inclined accretion band. -->
+  <g transform="translate(125 117) rotate(-18)">
+    <ellipse rx="89" ry="25" stroke="#A99464" stroke-width="2" opacity=".6"/>
+    <circle r="56" fill="url(#of-hole)"/>
+    <circle r="47" stroke="#789177" stroke-width="1" opacity=".45"/>
+    <circle r="35" fill="#101916"/>
+    <path d="M-88 1C-77 31 72 40 89 5" stroke="url(#of-gold)" stroke-width="8" stroke-linecap="round"/>
+    <path d="M-75 11C-35 29 42 32 76 14" stroke="#F3E8C7" stroke-width="1.5" stroke-linecap="round" opacity=".85"/>
+    <circle cx="85" cy="-8" r="4" fill="#D6C48E"/>
+  </g>
+  <g transform="translate(277 135) rotate(18)">
+    <ellipse rx="78" ry="22" stroke="#A99464" stroke-width="2" opacity=".6"/>
+    <circle r="46" fill="url(#of-hole)"/>
+    <circle r="38" stroke="#8FA080" stroke-width="1" opacity=".4"/>
+    <circle r="28" fill="#101916"/>
+    <path d="M-77 1C-65 27 63 35 78 3" stroke="url(#of-gold)" stroke-width="7" stroke-linecap="round"/>
+    <path d="M-66 10C-28 25 37 26 67 12" stroke="#F3E8C7" stroke-width="1.4" stroke-linecap="round" opacity=".85"/>
+    <circle cx="-73" cy="-6" r="3.5" fill="#D6C48E"/>
+  </g>
+
+  <!-- A single shared research sheet, supported from both sides. -->
+  <path d="M151 225L239 216L256 274L163 288L151 225Z" fill="#16352B" opacity=".16"/>
+  <path d="M145 218L235 208L251 267L158 281L145 218Z" fill="url(#of-paper)" stroke="#BDA97A" stroke-width="1.4" stroke-linejoin="round"/>
+  <path d="M158 230L209 224" stroke="#C2B598" stroke-width="2" stroke-linecap="round"/>
+  <path d="M162 264L235 254" stroke="#C2B598" stroke-width="1.4" stroke-linecap="round"/>
+  <path d="M161 250L174 248L179 237L187 258L195 233L203 254L211 242L233 239" stroke="#315A46" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M138 229C143 225 149 226 152 232L158 246C161 253 157 259 151 257L140 250C134 245 133 234 138 229Z" fill="#E8E1C7"/>
+  <path d="M240 251C245 249 250 251 251 256C253 264 246 269 239 268L230 266C226 264 227 259 232 257L240 251Z" fill="#E9E3CA"/>
+  <path d="M264 221L221 245" stroke="#182D24" stroke-width="5" stroke-linecap="round"/>
+  <path d="M264 221L228 242" stroke="#D6C18A" stroke-width="2.8" stroke-linecap="round"/>
+  <path d="M221 245L216 248L219 242L221 245Z" fill="#8B744F"/>
+  <path d="M267 226C272 225 275 229 274 234C273 238 269 240 266 238L258 233L261 227L267 226Z" fill="#EDE5CB"/>
+
+  <!-- Sparse observations, not a decorative backdrop. -->
+  <path d="M225 57V69M219 63H231" stroke="#B9A373" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="344" cy="193" r="3" fill="#4B6A52"/>
+  <circle cx="55" cy="173" r="2.5" fill="#B9A373"/>
+</svg>

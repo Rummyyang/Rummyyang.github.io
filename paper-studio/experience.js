@@ -1,10 +1,12 @@
 (() => {
  'use strict';
  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
- const editions={orbit:{name:'双黑洞 · 引力书房',asset:'assets/hei-orbit.svg',alt:'两个黑洞相互环绕，黑哥与小小黑的共同引力'},folio:{name:'双墨印 · 私人藏书',asset:'assets/hei-seal.svg?v=20260924-rose04',alt:'两枚相叠的黑字藏书印，黑哥与小小黑的共同落款'}};
+ const editions={orbit:{name:'双黑洞 · 引力书房',asset:'assets/hei-orbit.svg',alt:'两个黑洞相互环绕，黑哥与小小黑的共同引力',companion:'assets/orbit-fellows.svg?v=20260924-fellows05',companionAlt:'两位以黑洞为头部的抽象科研搭档，拿着手稿与观测笔并肩研究波形',deskLabel:'TWO MINDS, ONE DISCOVERY',deskTitle:['小小黑，','一起把这篇做扎实。'],welcomeLines:['黑哥 × 小小黑，科研搭档就位。','从好想法到好论文，Codex 接着把细节做好。']},folio:{name:'双墨印 · 私人藏书',asset:'assets/hei-seal.svg?v=20260924-rose04',alt:'两枚相叠的黑字藏书印，黑哥与小小黑的共同落款',companion:'assets/study-companion.png',companionAlt:'田曦薇甜美气质灵感的学习伙伴与黑猫插画',deskLabel:'YOUR EDITORIAL DESK',deskTitle:['小小黑，','这篇我来跟进。'],welcomeLines:['黑哥 × 小小黑，刚好黑的平方。','你安心读稿，细节交给 Codex 逐一打磨。']}};
+ function setLines(node,lines){node.replaceChildren();lines.forEach((line,index)=>{if(index)node.append(document.createElement('br'));node.append(document.createTextNode(line));});}
  function applyEdition(name,persist=true){
   if(!Object.hasOwn(editions,name))name='orbit';const design=editions[name];document.body.dataset.edition=name;
   $$('.edition-mark').forEach(img=>{img.src=design.asset;if(img.alt)img.alt=design.alt;});$('#edition-caption').textContent=design.name;
+  $$('.edition-companion').forEach(img=>{img.src=design.companion;img.alt=design.companionAlt;});$('#companion-label').textContent=design.deskLabel;setLines($('#companion-title'),design.deskTitle);setLines($('#welcome-message'),design.welcomeLines);
   $$('[data-edition-choice]').forEach(button=>{const selected=button.dataset.editionChoice===name;button.setAttribute('aria-pressed',String(selected));button.querySelector('.edition-choice-label').textContent=selected?'正在使用 ✓':'使用这个风格 ↗';});
   if(persist)try{localStorage.setItem('hei2:edition',name);}catch{}
  }

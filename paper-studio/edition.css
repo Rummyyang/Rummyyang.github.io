@@ -59,3 +59,10 @@ body[data-edition="folio"] :focus-visible{outline-color:#9d637f}
 
 .option-folio[aria-pressed="true"]{border-color:#b77891;box-shadow:0 0 0 2px #b7789125}
 .option-folio>span:not(.edition-number),.option-folio>small{opacity:.9}
+
+body[data-edition="orbit"] .companion-note .edition-companion{width:132px;height:132px;flex-basis:132px;filter:none}
+body[data-edition="orbit"] .companion-note{background:linear-gradient(120deg,#fffef9,#e9edde);padding-right:6px}
+body[data-edition="orbit"] .companion-note h2{font-size:18px;max-width:178px}
+body[data-edition="orbit"] #companion-label{font-size:6.5px;letter-spacing:.6px}
+body[data-edition="orbit"] .welcome-dialog>.edition-companion{filter:drop-shadow(0 12px 18px #26372814)}
+@media(max-width:640px){body[data-edition="orbit"] .companion-note .edition-companion{width:128px;height:128px;flex-basis:128px}body[data-edition="orbit"] .companion-note h2{font-size:18px}}
