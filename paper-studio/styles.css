@@ -8,3 +8,5 @@
 .project-card p,.round-card>p,.library-intro p,.history-intro p,.direction-card>p,.assistant-card>p,.field-hint,.help-list p,.timeline-card p,.document-card p{color:#65725f}.message-date,.journal-tag-row,.workflow-step small,.deliverable-row small,.source-row small{color:#707c66}.reader-paragraph h2{font-size:23px;margin-top:12px}.reader-paragraph h3{font-size:17px;margin:28px 0 12px}.reader-paragraph h4{font-size:15px}.reader-paragraph li{margin-bottom:9px}.feed-filters{flex-wrap:wrap;gap:16px}
 
 @media(max-width:680px){.nav{white-space:nowrap;flex:1;font-size:12px}.nav-icon{display:none}}
+
+.reader-table{overflow-x:auto;margin:20px 0}.reader-table table{border-collapse:collapse;min-width:560px;font-size:12px}.reader-table th,.reader-table td{padding:10px 12px;border:1px solid var(--line);text-align:left;line-height:1.8}.reader-table th{background:var(--soft)}.reader-paragraph a{color:#315e8b;text-decoration:underline;overflow-wrap:anywhere}
