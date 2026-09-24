@@ -1,178 +1,123 @@
 (() => {
-  'use strict';
-  const $ = (s, root = document) => root.querySelector(s);
-  const $$ = (s, root = document) => [...root.querySelectorAll(s)];
-  const variantNames = { zh: '中文稿', en: '英文稿', journal: '投稿润色' };
-  const state = { config: null, paper: 'paper-1', variant: 'zh', anchor: null, filter: 'open', issues: [], loaded: false, local: null, pdfUrl: null, next: null, syncing: false };
-  let toastTimer;
-  const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n; };
-  function icon(name) { const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); const use = document.createElementNS(svg.namespaceURI, 'use'); use.setAttribute('href', `#i-${name}`); svg.setAttribute('aria-hidden', 'true'); svg.append(use); return svg; }
-  function link(text, href, cls = '') { const a = el('a', cls, text); a.href = href; a.target = '_blank'; a.rel = 'noopener noreferrer'; return a; }
-  const paper = () => state.config.papers.find(p => p.id === state.paper);
-  const version = () => paper().versions[state.variant];
-  const repoUrl = () => `https://github.com/${state.config.repository}`;
-  const apiBase = () => `https://api.github.com/repos/${state.config.repository}`;
-  const storage = { read(k) { try { return localStorage.getItem(k); } catch { return null; } }, write(k, v) { try { localStorage.setItem(k, v); return true; } catch { return false; } } };
-  function toast(message) { $('#toast').textContent = message; $('#toast').hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => { $('#toast').hidden = true; }, 5000); }
-  function setStatus(text, error = false) { $('#sync-status').textContent = text; $('#sync-status').classList.toggle('error', error); }
-  function key() { return `paper-studio:draft:${state.paper}:${state.variant}:${version().id}`; }
-  function saveDraft() { if (!state.config || state.local) return; const ok = storage.write(key(), JSON.stringify({ body: $('#comment-body').value, category: $('#comment-category').value, anchor: state.anchor })); $('#draft-status').textContent = ok ? '草稿仅保存在此浏览器' : '无法保存草稿，请勿关闭页面'; }
-  function restoreDraft() { let d; try { d = JSON.parse(storage.read(key())); } catch {} $('#comment-body').value = typeof d?.body === 'string' ? d.body.slice(0, 600) : ''; $('#comment-category').value = ['内容与结构', '数据与方法', '翻译与表达', '期刊与格式', '其他建议'].includes(d?.category) ? d.category : '内容与结构'; state.anchor = d?.anchor && typeof d.anchor.id === 'string' && typeof d.anchor.quote === 'string' && findParagraph(d.anchor.id) ? d.anchor : null; $('#char-count').textContent = $('#comment-body').value.length; updateAnchor(); }
-  function readHash() { const q = new URLSearchParams(location.hash.slice(1)); const p = q.get('paper'); const v = q.get('version'); if (state.config.papers.some(x => x.id === p)) state.paper = p; if (Object.hasOwn(variantNames, v)) state.variant = v; return q.get('paragraph'); }
-  function pageUrl(anchor) { const u = new URL(location.href); u.search = ''; u.hash = new URLSearchParams({ paper: state.paper, version: state.variant, ...(anchor ? { paragraph: anchor } : {}) }).toString(); return u.href; }
-  function updateUrl() { history.replaceState(null, '', pageUrl(state.anchor?.id)); }
-  function findParagraph(id) { return (version().sections || []).flatMap(s => s.paragraphs).find(p => p.id === id); }
-  function switchView(p, v) { saveDraft(); exitLocal(false); state.paper = p; state.variant = v; state.anchor = null; render(); restoreDraft(); updateUrl(); }
-  function render() {
-    const p = paper(), v = version();
-    $('#paper-nav').replaceChildren(...state.config.papers.map((item, i) => {
-      const b = el('button', `paper-link${item.id === state.paper ? ' active' : ''}`); b.setAttribute('aria-current', item.id === state.paper ? 'page' : 'false');
-      b.append(el('span', 'paper-number', `0${i + 1}`)); const label = el('span'); label.append(el('strong', '', item.name), el('small', '', item.versions.zh.status === 'published' ? '稿件已发布' : '等待拆分与定稿')); b.append(label); if (item.id === state.paper) b.append(el('span', 'nav-indicator', '›')); b.onclick = () => switchView(item.id, state.variant); return b;
-    }));
-    $('#workspace-title').textContent = p.name; $('#breadcrumb-paper').textContent = p.name; $('#workspace-subtitle').textContent = p.subtitle; $('#target-journal').textContent = p.journal || '待确定';
-    document.title = `${p.name} · ${variantNames[state.variant]} | 小小黑的论文工作台`;
-    $$('.stage').forEach((n, i) => n.classList.toggle('current', i === (p.stage || 0)));
-    $$('#language-tabs button').forEach(n => { const active = n.dataset.variant === state.variant; n.setAttribute('aria-selected', String(active)); n.tabIndex = active ? 0 : -1; });
-    $('#version-label').textContent = v.label; $('#all-discussions').href = `${repoUrl()}/issues?q=${encodeURIComponent('is:issue "[论文批注]"')}`;
-    $('#preview-notice').hidden = v.status === 'published';
-    $('#preview-notice span').textContent = v.status === 'demo' ? '示例' : '待准备';
-    $('#preview-notice p').textContent = v.status === 'demo' ? '尚未上传论文正文。可以先体验段落批注，或就拆分方向发起讨论。' : '此版本尚未发布，欢迎先留下你希望关注的问题。';
-    renderDocument(v); renderComments(); updateAnchor();
-  }
-  function renderDocument(v) {
-    const doc = $('#document'); doc.replaceChildren();
-    if (v.pdf) {
-      const url = new URL(v.pdf, location.href);
-      if (url.origin !== location.origin && url.protocol !== 'blob:') throw new Error('PDF 必须使用本站文件');
-      doc.append(el('div', 'doc-eyebrow', 'MANUSCRIPT / PDF'), el('h2', 'doc-title', v.title));
-      const frame = el('iframe', 'pdf-frame'); frame.src = url.href; frame.title = v.title; doc.append(link('单独打开 PDF ↗', url.href, 'pdf-download'), frame);
-      $('#reading-tip-text').textContent = 'PDF 批注请在评论中注明页码；段落定位适用于文字稿。';
-    } else {
-      $('#reading-tip-text').textContent = state.local ? '这是本地文件预览，其他人无法访问。' : '选中文字，或点击段落旁的批注按钮。';
-      doc.append(el('div', 'doc-eyebrow', `${state.paper.toUpperCase().replace('-', ' / ')} · ${state.variant === 'zh' ? 'CHINESE' : state.variant === 'en' ? 'ENGLISH' : 'JOURNAL'}`));
-      if (!v.sections?.length) { const empty = el('div', 'document-empty'); const box = el('div', 'empty-icon'); box.append(icon('file')); empty.append(box, el('h3', '', v.title), el('p', '', v.subtitle)); doc.append(empty); }
-      else {
-        doc.append(el('h2', 'doc-title', v.title), el('div', 'doc-subtitle', v.subtitle || ''));
-        v.sections.forEach((section, i) => { const s = el('section', 'doc-section'); const h = el('h3'); h.append(el('span', '', String(i + 1).padStart(2, '0')), document.createTextNode(section.title)); s.append(h);
-          section.paragraphs.forEach(p => { const row = el('div', 'paragraph'); row.dataset.paragraph = p.id; row.id = `paragraph-${p.id}`; row.append(el('p', '', p.text));
-            if (!state.local) { const b = el('button', 'annotate'); b.type = 'button'; b.title = '批注这一段'; b.setAttribute('aria-label', `批注：${p.text.slice(0, 24)}`); b.append(icon('comment')); b.onclick = () => selectAnchor(p.id, p.text); row.append(b); } s.append(row);
-          }); doc.append(s);
-        });
-      }
-    }
-    const count = (v.sections || []).reduce((n, s) => n + s.paragraphs.length, 0);
-    $('#document-meta').textContent = state.local ? '仅本地预览 · 未上传' : `${v.label} · ${count ? `${count} 个段落` : '尚无正文'}`;
-  }
-  function selectAnchor(id, quote) { if (state.local || !findParagraph(id)) return; state.anchor = { id, quote: quote.slice(0, 180) }; updateAnchor(); saveDraft(); updateUrl(); $('#selection-button').hidden = true; $('#comment-form').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); $('#comment-body').focus({ preventScroll: true }); }
-  function updateAnchor() { const n = $('#anchor-context'); n.textContent = state.anchor ? `“${state.anchor.quote}”` : '针对当前版本的整体建议'; n.classList.toggle('is-selected', Boolean(state.anchor)); $('#clear-anchor').hidden = !state.anchor; $$('.paragraph').forEach(p => p.classList.toggle('selected', p.dataset.paragraph === state.anchor?.id)); }
-  function inspectSelection() {
-    const s = window.getSelection(); const b = $('#selection-button'); b.hidden = true;
-    if (state.local || !s || s.isCollapsed || !s.rangeCount) return;
-    const start = s.anchorNode?.parentElement?.closest('.paragraph'), end = s.focusNode?.parentElement?.closest('.paragraph');
-    if (!start || start !== end || !$('#document').contains(start)) return;
-    const quote = s.toString().trim(); if (!quote) return;
-    const rect = s.getRangeAt(0).getBoundingClientRect(); b.style.left = `${Math.max(10, Math.min(rect.left, innerWidth - 180))}px`; b.style.top = `${Math.max(10, Math.min(rect.bottom + 8, innerHeight - 50))}px`; b.hidden = false;
-    b.onpointerdown = e => e.preventDefault(); b.onclick = () => selectAnchor(start.dataset.paragraph, quote);
-  }
-  function parseIssue(issue) {
-    if (issue.pull_request || typeof issue.body !== 'string' || !Number.isSafeInteger(issue.number)) return null;
-    const match = issue.body.match(/<!-- paper-studio:v1 (\{[^\n]{1,1200}\}) -->/); if (!match) return null;
-    let meta; try { meta = JSON.parse(match[1]); } catch { return null; }
-    if (!state.config.papers.some(p => p.id === meta.paper) || typeof meta.variant !== 'string' || !Object.hasOwn(variantNames, meta.variant) || typeof meta.revision !== 'string' || !/^[\w.-]{1,80}$/.test(meta.revision) || !(meta.paragraph === null || (typeof meta.paragraph === 'string' && /^[\w.-]{1,100}$/.test(meta.paragraph)))) return null;
-    const delimiter = '\n### 评论\n'; const start = issue.body.indexOf(delimiter); const body = start >= 0 ? issue.body.slice(start + delimiter.length) : null;
-    const quoted = issue.body.match(/\n### 引用\n([\s\S]*?)\n### 评论\n/)?.[1]?.trim().replace(/^> ?/gm, '') || '';
-    return { ...issue, meta, quote: quoted, reviewText: body ? body.trim() : issue.body.replace(match[0], '').trim(), url: `${repoUrl()}/issues/${issue.number}` };
-  }
-  function visibleIssues() { return state.issues.filter(i => i.meta.paper === state.paper && i.meta.variant === state.variant); }
-  function renderComments() {
-    const all = visibleIssues(), shown = all.filter(i => state.filter === 'all' || i.state === state.filter); $('#comment-count').textContent = all.length;
-    const list = $('#comments-list'); list.replaceChildren();
-    if (!shown.length) { const empty = el('div', 'empty-comments'); empty.append(icon('comment'), el('h3', '', !state.loaded ? '正在连接讨论区' : state.filter === 'closed' ? '还没有已解决的批注' : '这里留给你的第一条建议'), el('p', '', !state.loaded ? '共享批注会显示在这里。' : '可以讨论一个段落，也可以聊聊整篇论文。')); list.append(empty); }
-    shown.forEach(i => {
-      const card = el('article', `comment-card ${i.state}`); const top = el('div', 'comment-author'); const date = new Date(i.created_at); const time = el('time', '', Number.isNaN(date.getTime()) ? '' : date.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' }));
-      top.append(link(i.user?.login || 'GitHub 用户', i.url), time); card.append(top);
-      const location = el('button', 'comment-location'); const old = i.meta.revision !== version().id; const existing = i.meta.paragraph && findParagraph(i.meta.paragraph);
-      location.textContent = `${i.state === 'closed' ? '已解决 · ' : ''}${old ? `历史版本 ${i.meta.revision} · ` : ''}${i.meta.paragraph ? existing ? '查看对应段落' : '原段落已移除' : '全文评论'}`;
-      location.disabled = !existing || Boolean(state.local); location.onclick = () => { const row = document.getElementById(`paragraph-${i.meta.paragraph}`); row?.scrollIntoView({ behavior: 'smooth', block: 'center' }); state.anchor = { id: i.meta.paragraph, quote: existing.text.slice(0, 180) }; updateAnchor(); saveDraft(); updateUrl(); };
-      card.append(location); if (i.quote) card.append(el('blockquote', 'comment-quote', i.quote)); card.append(el('p', 'comment-text', i.reviewText)); const actions = el('div', 'comment-actions'); actions.append(link('回复 / 处理 ↗', i.url));
-      if (i.comments > 0) { const b = el('button', '', `${i.comments} 条回复`); b.onclick = () => loadReplies(i, card, b); actions.append(b); } actions.append(el('span', '', `#${i.number}`)); card.append(actions); list.append(card);
-    });
-    if (state.next) { const b = el('button', 'load-more', '加载更早的讨论'); b.onclick = () => syncIssues(false, true); list.append(b); }
-    $$('.annotate .annotation-badge').forEach(b => b.remove());
-    $$('.paragraph').forEach(p => { const count = all.filter(i => i.meta.paragraph === p.dataset.paragraph && i.state === 'open' && i.meta.revision === version().id).length; if (count && $('.annotate', p)) $('.annotate', p).append(el('span', 'annotation-badge', String(count))); });
-  }
-  async function githubGet(url) {
-    const parsed = new URL(url); if (parsed.origin !== 'https://api.github.com' || !parsed.pathname.startsWith(`/repos/${state.config.repository}/issues`)) throw new Error('无效的讨论地址');
-    const response = await fetch(url, { headers: { Accept: 'application/vnd.github+json' }, signal: AbortSignal.timeout(18000) });
-    if (!response.ok) { if (response.status === 403 || response.status === 429) throw new Error('GitHub 暂时限制访问频率，请稍后刷新或直接打开 GitHub 讨论。'); throw new Error('暂时无法读取共享批注，请稍后重试或直接打开 GitHub 讨论。'); }
-    const data = await response.json(); if (!Array.isArray(data)) throw new Error('讨论数据格式异常');
-    const next = response.headers.get('link')?.match(/<([^>]+)>; rel="next"/)?.[1] || null; return { data, next };
-  }
-  async function syncIssues(force = false, more = false) {
-    if (state.syncing) return; state.syncing = true; $('#refresh-button').disabled = true;
-    const cacheKey = `paper-studio:issues:${state.config.repository}`;
-    try {
-      if (!more) {
-        let cached; try { cached = JSON.parse(storage.read(cacheKey)); } catch {}
-        if (cached && Array.isArray(cached.data)) { state.issues = cached.data.map(parseIssue).filter(Boolean); state.loaded = true; state.next = cached.next || null; renderComments(); if (!force && Date.now() - cached.time < 180000) { setStatus('已读取共享批注 · 3 分钟内的缓存'); return; } }
-      }
-      setStatus('正在同步 GitHub 讨论…');
-      let next = more ? state.next : `${apiBase()}/issues?state=all&per_page=100&sort=updated&direction=desc`;
-      let collected = more ? [...state.issues] : []; let pages = 0;
-      while (next && pages < 3) { const result = await githubGet(next); collected.push(...result.data.map(parseIssue).filter(Boolean)); next = result.next; pages++; }
-      const unique = new Map(collected.map(i => [i.number, i])); state.issues = [...unique.values()]; state.next = next; state.loaded = true;
-      storage.write(cacheKey, JSON.stringify({ data: state.issues, next, time: Date.now() })); renderComments(); setStatus(next ? '已同步最近讨论，可继续加载更早的记录。' : `已同步 · ${new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}`);
-    } catch (e) { setStatus(`${state.loaded ? '显示上次读取的记录。' : '批注读取失败。'}${e.message}`, true); if (!state.loaded) { const empty = el('div', 'empty-comments'); empty.append(el('h3', '', '暂时无法读取讨论'), link('到 GitHub 查看批注 ↗', `${repoUrl()}/issues`)); $('#comments-list').replaceChildren(empty); } }
-    finally { state.syncing = false; $('#refresh-button').disabled = false; }
-  }
-  async function loadReplies(issue, card, b) {
-    if ($('.comment-replies', card)) { const replies = $('.comment-replies', card); replies.hidden = !replies.hidden; return; }
-    b.disabled = true; b.textContent = '读取中…';
-    try { const { data, next } = await githubGet(`${apiBase()}/issues/${issue.number}/comments?per_page=100`); const replies = el('div', 'comment-replies'); data.forEach(r => { const row = el('div', 'reply'); row.append(el('strong', '', r.user?.login || 'GitHub 用户'), el('div', '', r.body || '')); replies.append(row); }); if (next) replies.append(link('到 GitHub 查看全部回复 ↗', issue.url)); card.append(replies); b.textContent = `${issue.comments} 条回复`; }
-    catch (e) { toast(e.message); b.textContent = '重试读取回复'; } finally { b.disabled = false; }
-  }
-  function prepareIssue() {
-    if (state.local) throw new Error('本地预览尚未共享，请先发布稿件。');
-    const text = $('#comment-body').value.trim(); if (!text) throw new Error('请先填写评论内容。');
-    const meta = { paper: state.paper, variant: state.variant, revision: version().id, paragraph: state.anchor?.id || null };
-    const body = `<!-- paper-studio:v1 ${JSON.stringify(meta)} -->\n\n### 位置\n${paper().name} · ${variantNames[state.variant]} · ${version().label} (${version().id})\n类型：${$('#comment-category').value}\n段落：${state.anchor?.id || '全文'}\n页面：${pageUrl(state.anchor?.id)}\n${state.anchor ? `\n### 引用\n> ${state.anchor.quote.replace(/\n/g, '\n> ')}\n` : ''}\n### 评论\n${text}`;
-    const url = new URL(`${repoUrl()}/issues/new`); url.searchParams.set('title', `[论文批注] ${paper().name} · ${variantNames[state.variant]} · ${state.anchor?.id || '全文建议'}`); url.searchParams.set('body', body);
-    if (url.href.length > 7800) throw new Error('评论与引用合计过长，请缩短后再发布。'); return { url: url.href, body };
-  }
-  async function importFile(file) {
-    if (!file) return;
-    if (file.size > 30 * 1024 * 1024) { toast('请使用小于 30 MB 的文件。'); return; }
-    const ext = file.name.split('.').pop().toLowerCase(); if (!['pdf', 'txt', 'md'].includes(ext)) { toast('支持 PDF、Markdown 和 TXT 文件。'); return; }
-    if (ext !== 'pdf' && file.size > 1024 * 1024) { toast('文字稿请使用小于 1 MB 的文件。'); return; }
-    saveDraft(); exitLocal(false);
-    const local = { title: file.name, subtitle: '仅在当前浏览器预览，未上传到共享页面。', sections: [] };
-    if (ext === 'pdf') { state.pdfUrl = URL.createObjectURL(file); local.pdf = state.pdfUrl; }
-    else { const text = await file.text(); let s = { title: '文件内容', paragraphs: [] }; local.sections.push(s); text.split(/\n\s*\n/).forEach((part, i) => { const trimmed = part.trim(); if (!trimmed) return; if (/^#{1,6}\s+/.test(trimmed) && !trimmed.includes('\n')) { s = { title: trimmed.replace(/^#{1,6}\s+/, ''), paragraphs: [] }; local.sections.push(s); } else s.paragraphs.push({ id: `local-${i}`, text: trimmed }); }); local.sections = local.sections.filter(s => s.paragraphs.length); }
-    state.local = local; state.anchor = null; $('#preview-notice').hidden = false; $('#preview-notice span').textContent = '本地'; $('#preview-notice p').textContent = '文件未上传，其他人无法访问。退出预览可继续为共享稿件批注。'; $('#restore-button').hidden = false; $('#version-label').textContent = '本地预览'; $('#publish-comment').disabled = true; $('#comment-body').disabled = true; $('#comment-category').disabled = true; $('#publish-hint').textContent = '当前文件只在此浏览器中预览。发布稿件后才能进行共享批注。'; $('#selection-button').hidden = true; renderDocument(local); updateAnchor(); renderComments(); toast('文件已在本地打开，没有上传。');
-  }
-  function exitLocal(redraw = true) { if (state.pdfUrl) URL.revokeObjectURL(state.pdfUrl); state.pdfUrl = null; state.local = null; $('#restore-button').hidden = true; $('#publish-comment').disabled = false; $('#comment-body').disabled = false; $('#comment-category').disabled = false; $('#publish-hint').textContent = '将打开 GitHub，登录后确认提交。发布后回到这里刷新即可看到。'; if (redraw && state.config) { render(); restoreDraft(); } }
-  function registerTools() {
-    if (!document.modelContext?.registerTool) return;
-    const tools = [
-      { name: 'read_paper_workspace', title: '读取论文工作台', description: '读取当前论文、版本、段落和共享批注状态。', inputSchema: { type: 'object', properties: {}, additionalProperties: false }, annotations: { readOnlyHint: true, untrustedContentHint: true }, execute: () => ({ paper: state.paper, variant: state.variant, revision: version().id, localPreview: Boolean(state.local), paragraphs: (version().sections || []).flatMap(s => s.paragraphs), commentsLoaded: state.loaded, comments: visibleIssues().map(i => ({ number: i.number, state: i.state, text: i.reviewText, url: i.url })) }) },
-      { name: 'navigate_paper_version', title: '切换论文版本', description: '切换当前论文与语言版本，不发布评论。', inputSchema: { type: 'object', properties: { paper: { type: 'string', enum: state.config.papers.map(p => p.id) }, variant: { type: 'string', enum: Object.keys(variantNames) } }, required: ['paper', 'variant'], additionalProperties: false }, annotations: { readOnlyHint: false }, execute: input => { if (!input || typeof input.variant !== 'string' || !state.config.papers.some(p => p.id === input.paper) || !Object.hasOwn(variantNames, input.variant)) throw new Error('无效的论文或版本'); switchView(input.paper, input.variant); return { paper: state.paper, variant: state.variant }; } }
-    ];
-    tools.forEach(t => { try { Promise.resolve(document.modelContext.registerTool(t)).catch(() => {}); } catch {} });
-  }
-  async function init() {
-    try { const response = await fetch('./papers.json', { cache: 'no-cache' }); if (!response.ok) throw new Error('数据文件读取失败'); state.config = await response.json(); if (!/^[\w.-]+\/[\w.-]+$/.test(state.config.repository) || !state.config.papers?.length) throw new Error('论文配置无效'); const anchor = readHash(); render(); restoreDraft(); if (anchor && findParagraph(anchor)) { if (state.anchor?.id !== anchor) state.anchor = { id: anchor, quote: findParagraph(anchor).text.slice(0, 180) }; updateAnchor(); document.getElementById(`paragraph-${anchor}`)?.scrollIntoView({ block: 'center' }); } syncIssues(); registerTools(); }
-    catch (e) { $('#document').replaceChildren(el('h2', 'doc-title', '暂时无法读取论文'), el('p', '', '请刷新页面重试。')); setStatus(e.message, true); $('#publish-comment').disabled = true; }
-  }
-  $$('#language-tabs button').forEach(b => { b.onclick = () => switchView(state.paper, b.dataset.variant); b.onkeydown = e => { const tabs = $$('#language-tabs button'); let i = tabs.indexOf(b); if (e.key === 'ArrowRight') i = (i + 1) % tabs.length; else if (e.key === 'ArrowLeft') i = (i + tabs.length - 1) % tabs.length; else if (e.key === 'Home') i = 0; else if (e.key === 'End') i = tabs.length - 1; else return; e.preventDefault(); tabs[i].click(); tabs[i].focus(); }; });
-  $$('.review-filters button').forEach(b => b.onclick = () => { state.filter = b.dataset.filter; $$('.review-filters button').forEach(n => n.setAttribute('aria-pressed', String(n === b))); renderComments(); });
-  $('#clear-anchor').onclick = () => { state.anchor = null; updateAnchor(); saveDraft(); updateUrl(); };
-  $('#comment-body').oninput = () => { $('#char-count').textContent = $('#comment-body').value.length; saveDraft(); }; $('#comment-category').onchange = saveDraft;
-  $('#comment-form').onsubmit = e => { e.preventDefault(); try { const draft = prepareIssue(); saveDraft(); const a = link('', draft.url); document.body.append(a); a.click(); a.remove(); toast('请在 GitHub 确认提交；返回后点击刷新。'); } catch (error) { toast(error.message); } };
-  $('#refresh-button').onclick = () => syncIssues(true);
-  $('#share-button').onclick = async () => { try { await navigator.clipboard.writeText(pageUrl(state.anchor?.id)); toast(state.local ? '已复制共享稿件链接（不包含本地文件）。' : '链接已复制，可发给小小黑。'); } catch { toast('无法访问剪贴板，请复制浏览器地址。'); } };
-  $('#help-button').onclick = () => $('#help-dialog').showModal(); $('#close-help').onclick = () => $('#help-dialog').close(); $('#help-dialog').onclick = e => { if (e.target === $('#help-dialog')) { const r = e.target.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) e.target.close(); } };
-  $('#import-button').onclick = () => $('#file-input').click(); $('#file-input').onchange = async e => { try { await importFile(e.target.files[0]); } catch { exitLocal(); toast('文件预览失败，请换一个文件重试。'); } e.target.value = ''; }; $('#restore-button').onclick = () => exitLocal();
-  document.addEventListener('selectionchange', inspectSelection); window.addEventListener('scroll', () => { $('#selection-button').hidden = true; }, { passive: true });
-  window.addEventListener('hashchange', () => { if (!state.config) return; saveDraft(); exitLocal(false); const anchor = readHash(); render(); restoreDraft(); if (anchor && findParagraph(anchor)) { if (state.anchor?.id !== anchor) state.anchor = { id: anchor, quote: findParagraph(anchor).text.slice(0, 180) }; updateAnchor(); document.getElementById(`paragraph-${anchor}`)?.scrollIntoView({ block: 'center' }); } });
-  init();
+'use strict';
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const S={api:'',key:'',data:null,round:null,scope:'project',view:'work',libraryFilter:'all',filter:'all',messages:[],before:null,reply:null,anchor:null,edit:null,deletion:null,document:null,blob:null,busy:false,draftId:crypto.randomUUID()};
+const labels={project:'全项目', 'paper-1':'论文一','paper-2':'论文二','paper-3':'论文三'},variants={source:'原稿 / 材料',zh:'中文稿',en:'英文稿',journal:'投稿润色',plan:'论文方案',deliverable:'工作成果'},kinds={suggestion:'方向建议',question:'待确认问题',decision:'方向结论',update:'修改进展',annotation:'细节批注'},statuses={open:'待讨论',adopted:'已采纳',done:'已落实','needs-owner':'待你确认'};
+const el=(t,c,text)=>{const n=document.createElement(t);if(c)n.className=c;if(text!==undefined)n.textContent=text;return n;};
+const store={get(k){try{return localStorage.getItem(k);}catch{return null;}},set(k,v){try{localStorage.setItem(k,v);return true;}catch{return false;}}};
+const date=t=>new Date(t).toLocaleString('zh-CN',{month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'});
+const active=()=>S.data?.rounds.find(r=>r.state==='active');
+const chosen=()=>S.data?.rounds.find(r=>r.id===S.round);
+const manager=()=>['owner','agent'].includes(S.data?.me.role);
+function toast(t){$('#toast').textContent=t;$('#toast').hidden=false;clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('#toast').hidden=true,5000);}
+function connection(t,error=false){$('#cloud-status').textContent=t;$('#cloud-status').classList.toggle('error',error);}
+function access(){if(S.data)return true;$('#login-dialog').showModal();return false;}
+function draftKey(){return `cottage:draft:${S.data?.me.role||'guest'}:${S.round}:${S.scope}`;}
+function draftSnapshot(){return{body:$('#message-body').value,kind:$('#message-kind').value,reply:S.reply,anchor:S.anchor,id:S.draftId,attempt:S.draftAttempt||null};}
+function sameDraft(a,b){return a?.body===b.body&&a.kind===b.kind&&JSON.stringify(a.reply||null)===JSON.stringify(b.reply||null)&&JSON.stringify(a.anchor||null)===JSON.stringify(b.anchor||null);}
+function saveDraft(){if(!S.data)return;const ok=store.set(draftKey(),JSON.stringify(draftSnapshot()));$('#draft-status').textContent=ok?'草稿仅在此设备':'草稿未能保存，请勿关闭';}
+function restoreDraft(){let d;try{d=JSON.parse(store.get(draftKey()));}catch{}$('#message-body').value=typeof d?.body==='string'?d.body:'';$('#message-kind').value=Object.hasOwn(kinds,d?.kind)?d.kind:'suggestion';S.reply=d?.reply||null;S.anchor=d?.anchor||null;S.draftId=typeof d?.id==='string'?d.id:crypto.randomUUID();S.draftAttempt=typeof d?.attempt==='string'?d.attempt:null;renderReply();}
+async function api(path,options={}){
+ const headers=new Headers({'X-Cottage-Key':S.key});new Headers(options.headers).forEach((value,name)=>headers.set(name,value));const binary=options.body instanceof ArrayBuffer||ArrayBuffer.isView(options.body)||options.body instanceof Blob;if(options.body&&!(options.body instanceof FormData)&&!headers.has('Content-Type'))headers.set('Content-Type',binary?'application/octet-stream':'application/json');
+ const{timeoutMs,raw,...init}=options,response=await fetch(`${S.api}/api${path}`,{...init,headers,signal:AbortSignal.timeout(timeoutMs??(path.endsWith('/complete')?180000:binary||options.body instanceof FormData?120000:30000))});
+ if(!response.ok){let detail;try{detail=(await response.json()).error;}catch{}const err=new Error(detail||'云端暂时没有回应，请保留内容再试一次');err.status=response.status;if(response.status===401){connection('需要重新进入',true);$('#login-dialog').showModal();}throw err;}
+ return options.raw?response:response.json();
+}
+async function login(key){$('#login-error').textContent='';S.key=key.trim();if(/[^\x00-\x7f]/.test(S.key))S.key=[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(S.key)))].map(x=>x.toString(16).padStart(2,'0')).join('');try{const data=await api('/state');S.data=data;S.round=active()?.id||null;try{sessionStorage.setItem('cottage:key',S.key);}catch{}$('#access-key').value='';$('#login-dialog').close();renderMeta();restoreDraft();await loadMessages();connection('云端已连接');}catch(e){S.key='';$('#login-error').textContent=e.message;throw e;}}
+async function refresh(quiet=false){if(!S.key)return;if(S.busy)return;S.busy=true;try{const data=await api('/state');const oldRound=active()?.id;S.data=data;if(!S.round)S.round=active()?.id;renderMeta();if(S.view==='talk')await loadMessages();else if(S.view==='library')renderLibrary();else if(S.view==='history')renderHistory();else renderWork();connection('已同步 '+new Date().toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'}));if(oldRound&&oldRound!==active()?.id&&S.round===oldRound)toast('新一轮讨论已经开始，可在进度页进入。');}catch(e){connection('同步未完成',true);if(!quiet)toast(e.message);}finally{S.busy=false;}}
+function renderMeta(){
+ const d=S.data,r=chosen()||active();$('#account-button').textContent=d?`${d.me.name} · 离开`:'进入工作台';
+ $('#export-button').hidden=!d;$('#upload-button').hidden=!d;$('#new-round-button').hidden=!manager()||r?.state!=='active';$('#edit-instructions').hidden=d?.me.role!=='owner';$('#decision-option').hidden=!manager();
+ $('#composer-name').textContent=d?.me.role==='owner'?'项目负责人 · 确认研究要求':'小小黑，请留下你的意见';$('.composer-header .avatar').textContent=d?.me.role==='owner'?'主':'黑';$('.composer-header .avatar').className=`avatar ${d?.me.role||'reviewer'}`;
+ if(r){$('#round-number').textContent=`第 ${String(r.id).padStart(2,'0')} 轮`;$('#round-title').textContent=r.title;$('#round-goal').textContent=r.goal;$('#round-state').textContent=r.state==='active'?'正在讨论':'已收进历史';$('#historical-conclusion').hidden=!r.conclusion;$('#historical-conclusion').textContent=r.conclusion;$('#composer').hidden=r.state!=='active';}
+ $('#owner-instructions').textContent=d?.settings.owner_instructions?.value||'按照已确认的研究边界推进。';
+ if(d?.lastRun){$('#agent-summary').textContent=d.lastRun.summary;$('#agent-last-seen').textContent='最近更新 · '+date(d.lastRun.created_at);}
+ renderScopes();renderCarryover();renderWork();
+}
+function renderScopes(){
+ $('#paper-tabs').replaceChildren(...Object.entries(labels).map(([id,name])=>{const b=el('button',S.scope===id?'active':'',name);b.setAttribute('aria-pressed',String(S.scope===id));b.onclick=()=>setScope(id);return b;}));
+ $('#side-papers').replaceChildren(...Object.entries(labels).filter(([id])=>id!=='project').map(([id,name],i)=>{const b=el('button',`side-paper${S.scope===id?' active':''}`);b.append(el('span','',String(i+1).padStart(2,'0')),document.createTextNode(name));b.onclick=()=>goCurrentTalk(id);return b;}));
+}
+function setScope(id){saveDraft();S.scope=id;renderScopes();restoreDraft();if(S.view==='talk'){renderFeed();renderCarryover();}else if(S.view==='library')renderLibrary();else if(S.view==='work')renderWork();}
+function goCurrentTalk(scope='project'){saveDraft();const next=active()?.id||S.round;if(next!==S.round){S.messages=[];S.before=null;}S.round=next;S.scope=scope;restoreDraft();renderMeta();setView('talk');}
+function setView(view){S.view=view;$$('.nav').forEach(n=>n.classList.toggle('active',n.dataset.view===view));$$('.view').forEach(n=>n.hidden=n.id!==`${view}-view`);$('#paper-tabs').hidden=['work','history'].includes(view);
+ const copy={work:['PROJECT OVERVIEW','你的研究，正在推进'],talk:['DISCUSSION','讨论与反馈'],library:['DOCUMENTS','材料与成果'],history:['REVISION HISTORY','轮次记录']}[view];$('#view-eyebrow').textContent=copy[0];$('#view-title').textContent=copy[1];if(view==='work')renderWork();if(view==='library')renderLibrary();if(view==='history')renderHistory();if(view==='talk'){renderFeed();if(S.data)loadMessages().catch(e=>toast(e.message));}
+}
+async function loadMessages(more=false){if(!S.round){S.messages=[];renderFeed();return;}const roundAtRequest=S.round,sequence=S.loadSequence=(S.loadSequence||0)+1;const cursor=more&&S.before?`&before=${S.before.time}&beforeId=${encodeURIComponent(S.before.id)}`:'';const result=await api(`/messages?round=${S.round}${cursor}`);if(S.round!==roundAtRequest||S.loadSequence!==sequence)return;S.messages=more?[...result.messages,...S.messages]:result.messages;S.before=result.before;renderFeed();}
+function matching(m){return S.scope==='project'||m.paper_id===S.scope;}
+function renderFeed(){const feed=$('#discussion-feed');feed.replaceChildren();const filtered=S.messages.filter(m=>matching(m)&&(S.filter==='all'||S.filter==='decisions'&&(m.kind==='decision'||m.status==='done')||S.filter==='pending'&&['open','adopted','needs-owner'].includes(m.status)||S.filter==='questions'&&m.kind==='question'&&m.status!=='done')),matched=new Set(filtered.map(m=>m.id));
+ const roots=S.messages.filter(m=>(!m.parent_id||!S.messages.some(p=>p.id===m.parent_id))&&(matched.has(m.id)||S.messages.some(r=>r.parent_id===m.id&&matched.has(r.id))));$('#message-count').textContent=`${filtered.length} 条`;$('#more-messages').hidden=!S.before;
+ if(!roots.length){const box=el('div','empty');box.append(el('span','','✧'),el('h3','',S.filter==='decisions'?'暂无已确认事项':'等待你的反馈'),el('p','',S.filter==='decisions'?'确认后的决定会显示在这里。':'Codex 会在这里回复，并更新工作成果。'));feed.append(box);}
+ roots.forEach(m=>{const card=messageCard(m);const replies=S.messages.filter(x=>x.parent_id===m.id);replies.forEach(r=>card.append(messageCard(r,true)));feed.append(card);});
+}
+function messageCard(m,reply=false){const card=el('article',reply?'reply-card':'message-card'),top=el('div','message-top'),avatar=el('span',`avatar ${m.author_role}`,m.author_role==='reviewer'?'黑':m.author_role==='owner'?'主':'C'),who=el('div');who.append(el('div','message-author',m.author_name),el('div','message-date',`${date(m.created_at)} · ${labels[m.paper_id]||'讨论'}${m.revision>1?' · 已更新':''}`));top.append(avatar,who);if(!reply)top.append(el('span',`badge ${m.status}`,statuses[m.status]||'待讨论'));card.append(top);
+ if(m.anchor?.quote)card.append(el('blockquote','message-quote',m.anchor.quote));if(m.document_id){const doc=S.data.documents.find(d=>d.id===m.document_id);const b=el('button','text-button',doc?`↗ ${doc.title}`:'关联稿件已移除');b.disabled=!doc;b.onclick=()=>openDocument(doc);card.append(b);}
+ card.append(el('p','message-text',m.body));const actions=el('div','message-actions');
+ const replyButton=el('button','','回复');replyButton.onclick=()=>startReply(m);actions.append(replyButton);
+ if(S.data&&(S.data.me.role===m.author_role||S.data.me.role==='owner')){const edit=el('button','','修改'),del=el('button','','删除');edit.onclick=()=>openEdit('message',m);del.onclick=()=>confirmDelete('message',m);actions.append(edit,del);}
+ if(manager()&&!reply){const select=el('select');select.setAttribute('aria-label','处理这条意见');Object.entries(statuses).forEach(([value,label])=>{const o=el('option','',label);o.value=value;o.selected=value===m.status;select.append(o);});select.onchange=async()=>{select.disabled=true;try{await api(`/messages/${m.id}`,{method:'PATCH',body:JSON.stringify({revision:m.revision,status:select.value})});await refresh();}catch(e){toast(e.message);select.value=m.status;}finally{select.disabled=false;}};actions.append(select);}card.append(actions);return card;
+}
+function renderCarryover(){const pending=(S.data?.carried||[]).filter(m=>matching(m));const box=$('#carryover');box.replaceChildren();box.hidden=!pending.length||chosen()?.state!=='active';if(box.hidden)return;const detail=el('details','carryover-card');detail.append(el('summary','',`前几轮还有 ${pending.length} 项待处理`));pending.forEach(m=>{const row=el('div');row.append(el('p','',`第 ${m.round_id} 轮 · ${labels[m.paper_id]}\n${m.body}`));const b=el('button','text-button','继续反馈 ↗');b.onclick=()=>{const input=$('#message-body'),quote=`接着第 ${m.round_id} 轮的意见聊：\n“${m.body.slice(0,300)}”\n\n`,next=input.value+(input.value?'\n\n':'')+quote;if(next.length>input.maxLength){toast('草稿较长，请先保存当前意见，再接着讨论。');return;}input.value=next;saveDraft();renderReply();input.focus();};row.append(b);if(manager()){const done=el('button','text-button','　标为已落实');done.onclick=async()=>{try{await api(`/messages/${m.id}`,{method:'PATCH',body:JSON.stringify({revision:m.revision,status:'done'})});await refresh();}catch(e){toast(e.message);}};row.append(done);}detail.append(row);});box.append(detail);}
+function startReply(m){if(chosen()?.state!=='active'){toast('本轮已归档，请在当前轮次继续反馈。');return;}S.reply={id:m.parent_id||m.id,name:m.author_name,text:m.body.slice(0,200),paperId:m.paper_id};S.anchor=null;renderReply();saveDraft();$('#message-body').focus();$('#composer').scrollIntoView({behavior:'smooth',block:'center'});}
+function renderReply(){const c=$('#reply-context');c.replaceChildren();c.hidden=!S.reply&&!S.anchor;if(c.hidden)return;c.append(el('span','',S.anchor?`批注「${S.anchor.title}」：${S.anchor.quote}`:`回复 ${S.reply.name}：${S.reply.text}`));const b=el('button','','取消');b.type='button';b.onclick=()=>{S.reply=null;S.anchor=null;renderReply();saveDraft();};c.append(b);}
+async function sendMessage(e){
+ e.preventDefault();if(!access())return;const draft=draftSnapshot();if(!draft.body.trim()||S.sending)return;
+ const payload={roundId:S.round,paperId:draft.reply?.paperId||S.scope,kind:draft.anchor?'annotation':draft.kind,body:draft.body.trim(),parentId:draft.reply?.id||null,documentId:draft.anchor?.documentId||null,anchor:draft.anchor?{paragraph:draft.anchor.paragraph.trim(),quote:draft.anchor.quote.trim()}:null},signature=JSON.stringify(payload);
+ if(S.draftAttempt&&S.draftAttempt!==signature)S.draftId=crypto.randomUUID();S.draftAttempt=signature;saveDraft();const sent={key:draftKey(),id:S.draftId,draft:draftSnapshot(),payload};S.sending=true;const b=$('#send-button');b.disabled=true;
+ try{const result=await api('/messages',{method:'POST',body:JSON.stringify({id:sent.id,...payload})}),m=result.message;
+  const confirmed=m&&m.id===sent.id&&m.round_id===payload.roundId&&m.paper_id===payload.paperId&&m.kind===payload.kind&&m.body===payload.body&&(m.parent_id||null)===payload.parentId&&(m.document_id||null)===payload.documentId&&(m.anchor?.paragraph||null)===(payload.anchor?.paragraph||null)&&(m.anchor?.quote||null)===(payload.anchor?.quote||null);
+  let saved;try{saved=JSON.parse(store.get(sent.key));}catch{}const nextId=crypto.randomUUID();if(saved?.id===sent.id)store.set(sent.key,JSON.stringify({...saved,id:nextId,attempt:null,...(confirmed&&sameDraft(saved,sent.draft)?{body:'',reply:null,anchor:null}:{})}));
+  if(draftKey()===sent.key&&S.draftId===sent.id){const unchanged=sameDraft(draftSnapshot(),sent.draft);S.draftId=nextId;S.draftAttempt=null;if(confirmed&&unchanged){$('#message-body').value='';S.reply=null;S.anchor=null;}saveDraft();renderReply();}
+  await refresh();toast(confirmed?'反馈已保存到云端。':'云端保存的是先前提交的内容，当前修改已保留为草稿，请再次提交。');
+ }catch(err){toast(err.message);}finally{S.sending=false;b.disabled=false;}
+}
+function openEdit(type,record){if(!access())return;S.edit={type,record,updatedAt:type==='instructions'?S.data.settings.owner_instructions?.updatedAt:undefined};$('#edit-title').textContent=type==='instructions'?'Codex · 执行要点':'编辑反馈';$('#edit-label').textContent=type==='instructions'?'对本轮研究的关键意见（优先执行）':'修改意见';$('#edit-body').value=type==='instructions'?S.data.settings.owner_instructions?.value||'':record.body;$('#edit-body').required=type!=='instructions';$('#edit-dialog').showModal();}
+function confirmDelete(type,record){S.deletion={type,record};$('#confirm-text').textContent=type==='message'?'删除后，工作台中将不再保留这条意见的正文。已有的独立回复会保留。这个操作无法在页面中撤回。':'删除后，这份稿件将从书架和云端文件存储移除。这个操作无法在页面中撤回。';$('#confirm-dialog').showModal();}
+function renderLibrary(){const grid=$('#document-grid');grid.replaceChildren();const categories={all:'全部',source:'原始材料',plan:'论文方案',zh:'中文稿',en:'英文稿',journal:'投稿稿',deliverable:'工作成果'};$('#library-filters').replaceChildren(...Object.entries(categories).map(([id,label])=>{const b=el('button',S.libraryFilter===id?'active':'',label);b.onclick=()=>{S.libraryFilter=id;renderLibrary();};return b;}));const docs=(S.data?.documents||[]).filter(d=>(S.scope==='project'||d.paper_id===S.scope)&&(S.libraryFilter==='all'||d.variant===S.libraryFilter));if(!docs.length){Object.entries(labels).filter(([id])=>id!=='project'&&(S.scope==='project'||S.scope===id)).forEach(([id,name])=>{const card=el('article','document-card');card.append(el('div','doc-symbol','▤'),el('span','soft-tag',name),el('h3','','等待稿件'),el('p','','中文稿 → 英文稿 → 投稿润色\n确认方案后开始撰写。'));const b=el('button','button quiet','＋ 上传文件');b.onclick=()=>openUpload(id);card.append(b);grid.append(card);});return;}
+ docs.forEach(d=>{const c=el('article','document-card');c.append(el('div','doc-symbol',d.content_type==='application/pdf'?'PDF':'▤'),el('span','soft-tag',`${labels[d.paper_id]} · ${variants[d.variant]}`),el('h3','',d.title),el('p','',`第 ${d.round_id} 轮 · ${date(d.created_at)}\n${(d.size/1024).toFixed(0)} KB · ${d.filename}`));const b=el('button','button secondary','预览文件 ↗');b.onclick=()=>openDocument(d);c.append(b);if(S.data.me.role==='owner'){const del=el('button','delete-doc','移除');del.onclick=()=>confirmDelete('document',d);c.append(del);}grid.append(c);});
+}
+function journalTargets(){try{return JSON.parse(S.data?.settings.journal_targets?.value||'{}');}catch{return {};}}
+function openJournal(paper){if(!access())return;S.journalVersion=S.data.settings.journal_targets?.updatedAt;$('#journal-paper').value=paper;const target=journalTargets()[paper]||'待确认';$('#journal-choice').value=['BSSA','SDEE','EESD','GJI'].includes(target)?target:'待确认';$('#journal-dialog').showModal();}
+function renderWork(){const docs=S.data?.documents||[],sources=docs.filter(d=>d.variant==='source'),plans=docs.filter(d=>d.variant==='plan'),drafts=docs.filter(d=>d.variant==='zh'),outputs=docs.filter(d=>d.variant!=='source');const steps=[['原始材料',sources.length?`${sources.length} 份已接收`:'等待资料'],['论文方案',plans.length?`${plans.length} 份可查看`:'分析与核查'],['中文稿',drafts.length?`${drafts.length} 份稿件`:'方案确认后推进'],['投稿准备',docs.some(d=>d.variant==='journal')?'已有投稿稿':'后续阶段']];$('#workflow-strip').replaceChildren(...steps.map(([title,status],i)=>{const n=el('div','workflow-step'+(i===1?' current':''));const body=el('div');body.append(el('strong','',title),el('small','',status));n.append(el('span','',String(i+1).padStart(2,'0')),body);return n;}));const targets=journalTargets();$('#project-cards').replaceChildren(...['paper-1','paper-2','paper-3'].map((id,i)=>{const plan=docs.find(d=>d.paper_id===id&&d.variant==='plan'),draft=docs.find(d=>d.paper_id===id&&d.variant==='zh'),c=el('article','project-card'),body=el('div'),meta=el('div','project-meta');body.append(el('h3','',plan?.title||`${labels[id]} · 研究方案`),el('p','',draft?'已有中文稿，等待反馈与修订':plan?'查看方案，确认贡献边界与补充工作':'先核对现有成果，再确定独立贡献'));meta.append(el('span','soft-tag',draft?'中文稿修订':plan?'方案待确认':'准备中'),el('span','soft-tag',targets[id]||'期刊待确认'));body.append(meta);const b=el('button','text-button',plan?'查看方案 ↗':'进入项目 ↗');b.onclick=()=>{if(plan)openDocument(plan);else goCurrentTalk(id)};c.append(el('span','project-number',String(i+1).padStart(2,'0')),body,b);return c;}));const list=$('#latest-deliverables');list.replaceChildren();if(!outputs.length)list.append(el('div','empty',S.data?'首轮成果整理中。':'进入工作台后查看你的材料与成果。'));outputs.slice(0,5).forEach(d=>{const b=el('button','deliverable-row'),body=el('div');body.append(el('strong','',d.title),el('small','',`${variants[d.variant]} · ${date(d.created_at)}`));b.append(el('span','','▤'),body,el('span','','↗'));b.onclick=()=>openDocument(d);list.append(b);});$('#journal-tags').replaceChildren(...['paper-1','paper-2','paper-3'].map(id=>{const row=el('div','journal-tag-row'),b=el('button','',targets[id]||'待确认');b.onclick=()=>openJournal(id);row.append(el('span','',labels[id]),b);return row;}));const src=$('#source-list');src.replaceChildren();if(!sources.length)src.append(el('p','field-hint','原始论文与参考材料上传一次。'));sources.slice(0,5).forEach(d=>{const b=el('button','source-row'),body=el('div');body.append(el('strong','',d.title),el('small','',`${(d.size/1024/1024).toFixed(1)} MB`));b.append(body);b.onclick=()=>openDocument(d);src.append(b);});if(S.data?.lastRun){$('#work-summary').textContent=S.data.lastRun.summary;$('#work-last-seen').textContent='更新于 '+date(S.data.lastRun.created_at);}}
+function renderHistory(){const list=$('#round-timeline');list.replaceChildren();if(!S.data?.rounds.length){list.append(el('div','empty','进入工作台后，我们的讨论记录会出现在这里。'));return;}S.data.rounds.forEach(r=>{const card=el('article','timeline-card');card.append(el('span','soft-tag',`第 ${String(r.id).padStart(2,'0')} 轮 · ${r.state==='active'?'正在进行':'已整理'}`),el('h3','',r.title),el('p','',r.conclusion||r.goal));const b=el('button','text-button',r.state==='active'?'回到这轮讨论 ↗':'翻看这轮讨论 ↗');b.onclick=async()=>{saveDraft();S.round=r.id;setView('talk');renderMeta();restoreDraft();try{await loadMessages();}catch(e){toast(e.message);}};card.append(b);list.append(card);});}
+function openUpload(paperId=S.scope){if(!access())return;$('#document-paper').value=paperId;$('#upload-dialog').showModal();}
+async function uploadHash(bytes){return [...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(value=>value.toString(16).padStart(2,'0')).join('');}
+async function uploadFile(file,metadata,progress){
+ const token=S.key,identity=await uploadHash(new TextEncoder().encode(token)),request=async(path,options={})=>{if(S.key!==token)throw new Error('进入身份已变化，请重新进入后继续上传。');return api(path,{...options,headers:{...options.headers,'X-Cottage-Key':token}});};
+ if(file.size<=3*1024*1024){const form=new FormData();for(const[key,value]of Object.entries({id:crypto.randomUUID(),...metadata}))form.set(key,String(value));form.set('file',file);return request('/documents',{method:'POST',body:form});}
+ progress('正在校验原始文件…');const sha256=await uploadHash(await file.arrayBuffer()),signature=await uploadHash(new TextEncoder().encode(JSON.stringify([S.api,identity,sha256,metadata.paperId,metadata.variant,metadata.roundId,metadata.title,file.name,file.size]))),storageKey=`cottage:upload:${signature}`;
+ let record;try{record=JSON.parse(store.get(storageKey));}catch{}const persist=()=>{if(!store.set(storageKey,JSON.stringify(record)))throw new Error('无法保存续传记录，请允许浏览器保存本地数据后重试。');};
+ if(record?.id){let previous;try{previous=await request(`/uploads/${encodeURIComponent(record.id)}`);}catch(err){if(err.status!==404)throw err;}if(previous?.state==='complete')return{id:record.id,duplicate:true};if(previous?.state==='aborted')record=null;else if(previous&&Date.now()-(record.createdAt||0)>6*24*60*60*1000){await request(`/uploads/${encodeURIComponent(record.id)}`,{method:'DELETE'});record=null;}}
+ if(!record?.id){record={id:crypto.randomUUID(),tokenFingerprint:identity,sha256,metadata:{...metadata,filename:file.name,size:file.size,sha256},createdAt:Date.now(),parts:[]};persist();}
+ let status=await request('/uploads',{method:'POST',body:JSON.stringify({id:record.id,...record.metadata})});if(status.state==='complete')return{id:record.id,duplicate:true};if(status.state!=='uploading'&&status.state!=='completing')throw new Error('上传任务已结束，请重新选择文件。');if(![4*1024*1024,8*1024*1024].includes(status.chunkSize))throw new Error('云端分片配置不匹配，请稍后重试。');
+ const completed=new Map(status.parts.map(part=>[part.partNumber,part])),count=Math.ceil(file.size/status.chunkSize),retry=async(path,options)=>{for(let attempt=0;attempt<3;attempt++){try{return await request(path,options);}catch(err){if(attempt===2||err.status&&err.status<500&&err.status!==429)throw err;progress('网络暂时中断，正在重试…');await new Promise(resolve=>setTimeout(resolve,1000*(attempt+1)));}}};
+ for(let number=1;number<=count;number++){const offset=(number-1)*status.chunkSize,bytes=await file.slice(offset,Math.min(offset+status.chunkSize,file.size)).arrayBuffer(),hash=await uploadHash(bytes),saved=completed.get(number);if(saved&&(saved.sha256!==hash||saved.size!==bytes.byteLength))throw new Error('文件分片与续传记录不一致，请保留原文件。');
+  if(!saved){progress(`正在上传 ${number} / ${count} 分片…`);const receipt=await retry(`/uploads/${record.id}/parts/${number}`,{method:'PUT',body:bytes,headers:{'Content-Type':'application/octet-stream','X-Upload-SHA256':hash},timeoutMs:120000});completed.set(number,receipt);record.parts=[...completed.values()];persist();}progress(`已上传 ${Math.round(Math.min(offset+status.chunkSize,file.size)/file.size*100)}%（${number}/${count}）`);
+ }
+ progress('正在确认完整文件…');const result=await retry(`/uploads/${record.id}/complete`,{method:'POST',timeoutMs:120000});record.completedAt=Date.now();record.result=result;persist();return result;
+}
+function discussDocument(d,paragraph='whole-document',quote='关于这份文件的反馈'){if(!d||!active()){toast('请先建立当前讨论轮次。');return;}saveDraft();const changedRound=S.round!==active().id;S.round=active().id;S.scope=d.paper_id;if(changedRound){S.messages=[];S.before=null;}restoreDraft();S.reply=null;S.anchor={documentId:d.id,title:d.title,paragraph,quote};setView('talk');renderMeta();renderReply();saveDraft();$('#reader-dialog').close();$('#message-body').focus();loadMessages().catch(e=>toast(e.message));}
+async function openDocument(d){if(!access())return;const sequence=S.documentSequence=(S.documentSequence||0)+1,isCurrent=()=>S.documentSequence===sequence&&S.document===d&&$('#reader-dialog').open;if(S.blob)URL.revokeObjectURL(S.blob);S.blob=null;$('#document-download').disabled=true;S.document=d;$('#document-download').textContent='下载文件';$('#reader-title').textContent=d.title;$('#reader-content').replaceChildren(el('p','','正在从云端取回稿件…'));$('#reader-dialog').showModal();if(d.content_type!=='application/pdf'&&!d.content_type.startsWith('text/')){$('#reader-content').replaceChildren(el('div','empty','原始 Word 文件已保留。点击下载查阅，或在讨论区补充意见。'));$('#document-download').disabled=false;return;}try{const response=await api(`/documents/${d.id}`,{raw:true,timeoutMs:180000});const blob=await response.blob();if(!isCurrent())return;$('#document-download').disabled=false;if(S.blob)URL.revokeObjectURL(S.blob);S.blob=URL.createObjectURL(blob);const reader=$('#reader-content');reader.replaceChildren();
+ if(d.content_type==='application/pdf'){const frame=el('iframe');frame.title=d.title;frame.src=S.blob;reader.append(frame);}
+ else if(d.content_type.startsWith('text/')){const text=await blob.text();if(!isCurrent())return;if(text.length>1500000){reader.append(el('p','','文字稿较大，请下载阅读。'));return;}text.split(/\n\s*\n/).filter(Boolean).forEach((text,i)=>{const p=el('div','reader-paragraph');const heading=text.match(/^(#{1,3})\s+(.+)$/);if(heading)p.append(el('h'+Math.min(heading[1].length+1,4),'',heading[2]));else if(text.split('\n').every(line=>/^(?:- |\d+\. )/.test(line))){const list=el(/^\d/.test(text)?'ol':'ul');text.split('\n').forEach(line=>list.append(el('li','',line.replace(/^(?:- |\d+\. )/,''))));p.append(list);}else p.append(el('p','',text));const b=el('button','','＋');b.title='批注这一段';b.setAttribute('aria-label',`批注第 ${i+1} 段`);b.onclick=()=>discussDocument(d,`p-${i+1}`,text.slice(0,800));p.append(b);reader.append(p);});}
+ else reader.append(el('div','empty','这份 Word 稿件可以下载到本地阅读。助手也可以据此生成便于批注的文字稿。'));
+ }catch(e){if(isCurrent())$('#reader-content').replaceChildren(el('p','',e.message));}}
+function downloadBlob(blob,name){const a=el('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
+function registerTools(){if(!document.modelContext?.registerTool)return;const tools=[{name:'read_cottage_workspace',description:'读取已进入的论文工作台当前轮次、讨论和稿件列表；不会返回口令。',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true,untrustedContentHint:true},execute:()=>S.data?{role:S.data.me.role,view:S.view,scope:S.scope,round:chosen(),instructions:S.data.settings.owner_instructions?.value||'',messages:S.messages,documents:S.data.documents}:{locked:true}},{name:'navigate_cottage_view',description:'切换工作台的方向讨论、稿件书架或轮次历史，不提交任何内容。',inputSchema:{type:'object',properties:{view:{type:'string',enum:['work','talk','library','history']},scope:{type:'string',enum:Object.keys(labels)}},required:['view'],additionalProperties:false},annotations:{readOnlyHint:false},execute:input=>{if(!input||!['work','talk','library','history'].includes(input.view)||input.scope&&!Object.keys(labels).includes(input.scope))throw new Error('无效的工作台页面');if(input.scope)setScope(input.scope);setView(input.view);return{view:S.view,scope:S.scope};}}];for(const tool of tools){try{Promise.resolve(document.modelContext.registerTool(tool)).catch(()=>{});}catch{}}}
+async function init(){registerTools();renderScopes();setView('work');const config=await fetch('cloud-config.json',{cache:'no-cache'}).then(r=>r.json());S.api=['localhost','127.0.0.1'].includes(location.hostname)?'':config.api;const hash=new URLSearchParams(location.hash.slice(1));let key=hash.get('invite');if(key)history.replaceState(null,'',location.pathname);else try{key=sessionStorage.getItem('cottage:key');}catch{}if(key){try{await login(key);}catch{$('#login-dialog').showModal();}}else $('#login-dialog').showModal();}
+$$('.nav').forEach(n=>n.onclick=()=>n.dataset.view==='talk'?goCurrentTalk(S.scope):setView(n.dataset.view));$$('.feed-filters button').forEach(b=>b.onclick=()=>{S.filter=b.dataset.filter;$$('.feed-filters button').forEach(n=>n.classList.toggle('active',n===b));renderFeed();});
+$('#login-form').onsubmit=async e=>{e.preventDefault();const b=$('button',e.target);b.disabled=true;try{await login($('#access-key').value);}catch{}finally{b.disabled=false;}};
+$('#login-dialog').addEventListener('cancel',e=>{e.preventDefault();});
+$('#account-button').onclick=()=>{if(!S.data){$('#login-dialog').showModal();return;}saveDraft();try{sessionStorage.removeItem('cottage:key');}catch{}location.reload();};
+$('#refresh-button').onclick=()=>{if(access())refresh();};$('#message-body').oninput=saveDraft;$('#message-kind').onchange=saveDraft;$('#composer').onsubmit=sendMessage;
+$('#edit-instructions').onclick=()=>openEdit('instructions');$('#edit-form').onsubmit=async e=>{e.preventDefault();const b=$('[type=submit]',e.target);b.disabled=true;try{if(S.edit.type==='instructions')await api('/instructions',{method:'PUT',body:JSON.stringify({value:$('#edit-body').value,updatedAt:S.edit.updatedAt})});else await api(`/messages/${S.edit.record.id}`,{method:'PATCH',body:JSON.stringify({body:$('#edit-body').value,revision:S.edit.record.revision})});$('#edit-dialog').close();await refresh();toast('修改已经保存到云端。');}catch(err){toast(err.message);}finally{b.disabled=false;}};
+$('#new-round-button').onclick=()=>{S.roundEdit={previousId:active()?.id};$('#round-dialog').showModal();};$('#round-form').onsubmit=async e=>{e.preventDefault();const b=$('[type=submit]',e.target);b.disabled=true;try{await api('/rounds',{method:'POST',body:JSON.stringify({previousId:S.roundEdit?.previousId,conclusion:$('#round-conclusion-input').value,title:$('#next-round-title').value,goal:$('#next-round-goal').value})});saveDraft();S.round=null;$('#round-dialog').close();e.target.reset();await refresh();restoreDraft();toast('新轮次已建立，旧轮次已归档。');}catch(err){toast(err.message);}finally{b.disabled=false;}};
+$('#upload-button').onclick=()=>openUpload();$('#upload-form').onsubmit=async e=>{e.preventDefault();if(S.uploading||!access())return;const file=$('#document-file').files[0];if(!file||!file.size||file.size>300*1024*1024){toast('请选择 300 MB 以内的非空文件。');return;}if(!active()){toast('请先建立第一轮讨论。');return;}const metadata={title:$('#document-title').value.trim(),paperId:$('#document-paper').value,variant:$('#document-variant').value,roundId:active().id},b=$('[type=submit]',e.target),previous=b.textContent,controls=[...e.target.elements].filter(control=>!control.classList.contains('close-dialog')).map(control=>[control,control.disabled]);S.uploading=true;controls.forEach(([control])=>control.disabled=true);b.textContent='正在保存稿件…';try{await uploadFile(file,metadata,text=>b.textContent=text);$('#upload-dialog').close();e.target.reset();await refresh();setView('library');toast('文件已保存到云端。');}catch(err){toast(err.message+(file.size>3*1024*1024?' 已完成的分片会保留，重新选择同一文件和相同信息可继续上传。':''));}finally{S.uploading=false;controls.forEach(([control,disabled])=>control.disabled=disabled);b.textContent=previous;}};
+$('#confirm-delete').onclick=async()=>{const b=$('#confirm-delete');b.disabled=true;try{const d=S.deletion;await api(`/${d.type==='message'?'messages':'documents'}/${d.record.id}`,{method:'DELETE',body:JSON.stringify({revision:d.record.revision})});$('#confirm-dialog').close();await refresh();toast('内容已从工作台移除。');}catch(e){toast(e.message);}finally{b.disabled=false;}};
+$('#document-download').onclick=async()=>{const d=S.document;if(!d)return;if(S.blob){const a=el('a');a.href=S.blob;a.download=d.filename;a.click();return;}const b=$('#document-download'),sequence=S.documentSequence;b.disabled=true;const prior=b.textContent;b.textContent='正在下载…';try{const response=await api(`/documents/${d.id}`,{raw:true,timeoutMs:300000});downloadBlob(await response.blob(),d.filename);}catch(e){toast(e.message);}finally{if(S.documentSequence===sequence){b.disabled=false;b.textContent=prior;}}};$('#document-discuss').onclick=()=>discussDocument(S.document);$('#reader-dialog').addEventListener('close',()=>{if($('#reader-dialog').open)return;S.documentSequence=(S.documentSequence||0)+1;S.document=null;if(S.blob)URL.revokeObjectURL(S.blob);S.blob=null;});
+$('#go-feedback').onclick=()=>goCurrentTalk();$('#all-deliverables').onclick=()=>{S.libraryFilter='all';setView('library');};$('#journal-paper').onchange=()=>{$('#journal-choice').value=journalTargets()[$('#journal-paper').value]||'待确认';};$('#journal-form').onsubmit=async e=>{e.preventDefault();const b=$('[type=submit]',e.target);b.disabled=true;try{const targets={...journalTargets(),[$('#journal-paper').value]:$('#journal-choice').value};await api('/journal-targets',{method:'PUT',body:JSON.stringify({targets,updatedAt:S.journalVersion})});$('#journal-dialog').close();await refresh();toast('拟投方向已保存。');}catch(err){toast(err.message);}finally{b.disabled=false;}};
+$('#more-messages').onclick=()=>loadMessages(true).catch(e=>toast(e.message));$('#export-button').onclick=async()=>{try{const data=await api('/export');downloadBlob(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),`论文工作台记录-${new Date().toISOString().slice(0,10)}.json`);}catch(e){toast(e.message);}};
+$('#help-button').onclick=()=>$('#help-dialog').showModal();$('#help-top-button').onclick=()=>$('#help-dialog').showModal();$$('.close-dialog').forEach(b=>b.onclick=()=>b.closest('dialog').close());
+window.addEventListener('beforeunload',saveDraft);setInterval(()=>{if(!document.hidden&&S.data&&!$$('dialog[open]').length)refresh(true);},60000);
+init().catch(()=>{connection('连接配置读取失败',true);toast('工作台暂时未能连接，请刷新后重试。');});
 })();
