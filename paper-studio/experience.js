@@ -1,7 +1,7 @@
 (() => {
  'use strict';
  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
- const editions={orbit:{name:'双黑洞 · 引力书房',asset:'assets/hei-orbit.svg',alt:'两个黑洞相互环绕，黑哥与小小黑的共同引力'},folio:{name:'双墨印 · 私人藏书',asset:'assets/hei-seal.svg',alt:'两枚相叠的黑字藏书印，黑哥与小小黑的共同落款'}};
+ const editions={orbit:{name:'双黑洞 · 引力书房',asset:'assets/hei-orbit.svg',alt:'两个黑洞相互环绕，黑哥与小小黑的共同引力'},folio:{name:'双墨印 · 私人藏书',asset:'assets/hei-seal.svg?v=20260924-rose04',alt:'两枚相叠的黑字藏书印，黑哥与小小黑的共同落款'}};
  function applyEdition(name,persist=true){
   if(!Object.hasOwn(editions,name))name='orbit';const design=editions[name];document.body.dataset.edition=name;
   $$('.edition-mark').forEach(img=>{img.src=design.asset;if(img.alt)img.alt=design.alt;});$('#edition-caption').textContent=design.name;
