@@ -8,9 +8,10 @@
   $$('[data-edition-choice]').forEach(button=>{const selected=button.dataset.editionChoice===name;button.setAttribute('aria-pressed',String(selected));button.querySelector('.edition-choice-label').textContent=selected?'正在使用 ✓':'使用这个风格 ↗';});
   if(persist)try{localStorage.setItem('hei2:edition',name);}catch{}
  }
+ function selectEdition(name){applyEdition(name);const url=new URL(location.href);if(url.searchParams.has('edition')){url.searchParams.set('edition',name);history.replaceState(null,'',url.pathname+url.search+url.hash);}}
  let edition=new URLSearchParams(location.search).get('edition');if(!edition)try{edition=localStorage.getItem('hei2:edition');}catch{}applyEdition(edition||'orbit');
  $('#edition-button').onclick=()=>$('#edition-dialog').showModal();
- $$('[data-edition-choice]').forEach(button=>button.onclick=()=>{applyEdition(button.dataset.editionChoice);const url=new URL(location.href);if(url.searchParams.has('edition')){url.searchParams.set('edition',button.dataset.editionChoice);history.replaceState(null,'',url.pathname+url.search+url.hash);}$('#edition-dialog').close();$('#edition-button').focus({preventScroll:true});});
+ $$('[data-edition-choice]').forEach(button=>button.onclick=()=>{selectEdition(button.dataset.editionChoice);$('#edition-dialog').close();$('#edition-button').focus({preventScroll:true});});
  $('#access-visibility').onclick=()=>{const input=$('#access-key'),masked=input.classList.toggle('concealed');$('#access-visibility').textContent=masked?'显示':'隐藏';$('#access-visibility').setAttribute('aria-pressed',String(masked));input.focus();};
  function showEntry(cue){
   if(!['hei','kiss'].includes(cue))return;
@@ -23,5 +24,9 @@
  }
  $('#entry-continue').onclick=()=>{$('#entry-dialog').close();$('#paper-title').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});};
  $('#entry-dialog').addEventListener('close',()=>$('#entry-continue').blur());
- window.HeiExperience={showEntry};
+ function onAuthenticated(cue,{celebrate=false}={}){
+  const name=cue==='hei'?'orbit':cue==='kiss'?'folio':null;if(!name)return;
+  selectEdition(name);if(celebrate)showEntry(cue);
+ }
+ window.HeiExperience={onAuthenticated};
 })();

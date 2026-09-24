@@ -28,7 +28,7 @@ async function login(key,{celebrate=false}={}){
  try{await S.configReady;}catch{const error=new Error('连接信息暂未取回，请刷新页面后重试。');$('#login-error').textContent=error.message;throw error;}
  const session=S.sessionGeneration=(S.sessionGeneration||0)+1;S.key='';S.refreshPending=false;S.refreshFollowActive=false;$('#login-error').textContent='';let accessKey=key.normalize('NFKC').trim();if(/[^\x00-\x7f]/.test(accessKey))accessKey=[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(accessKey)))].map(x=>x.toString(16).padStart(2,'0')).join('');if(S.sessionGeneration!==session)return;S.key=accessKey;
  const current=()=>S.sessionGeneration===session&&S.key===accessKey;let data;try{data=await api('/state');if(!current())return;}catch(e){if(!current())return;S.key='';$('#login-error').textContent=e.message;throw e;}
- S.data=data;S.round=active()?.id||null;try{sessionStorage.setItem('cottage:key',S.key);}catch{}$('#access-key').value='';$('#login-dialog').close();renderMeta();restoreDraft();connection('云端已连接');if(celebrate)window.HeiExperience?.showEntry(data.me.entryCue);
+ S.data=data;S.round=active()?.id||null;try{sessionStorage.setItem('cottage:key',S.key);}catch{}$('#access-key').value='';$('#login-dialog').close();renderMeta();restoreDraft();connection('云端已连接');window.HeiExperience?.onAuthenticated(data.me.entryCue,{celebrate});
  try{await loadMessages();}catch(e){if(current()){connection('讨论暂未同步',true);toast('已进入，讨论暂时没有取回。请稍后点「刷新内容」，草稿会保留。');}}
 }
 async function refresh(quiet=false,{followActive=false}={}){
