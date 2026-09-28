@@ -71,7 +71,8 @@ function renderActivity(){
  const title=work.state==='working'&&!expired?'Codex 正在处理':queue?'新反馈已收到':expired?'等待继续处理':work.state==='waiting'?'等待你的材料或选择':work.state==='error'?'处理暂时受阻':'本轮已更新';
  $('#activity-title').textContent=title;box.dataset.state=expired?'waiting':work.state||'idle';
  $('#activity-summary').textContent=expired?'上次工作状态已过期，恢复检查后会更新进度。':work.summary||'新意见会先保存，再由 Codex 核对和修订。';
- $('#activity-meta').textContent=(queue?`有 ${queue} 项新提交/修改待检查 · `:'')+(work.updatedAt?`进度更新 ${date(work.updatedAt)} · `:'')+`目标检测间隔 ${work.pollMinutes||15} 分钟`;
+ const pollMinutes=work.pollMinutes||720,pollLabel=pollMinutes%60===0?`${pollMinutes/60} 小时`:`${pollMinutes} 分钟`;
+ $('#activity-meta').textContent=(queue?`有 ${queue} 项新提交/修改待检查 · `:'')+(work.updatedAt?`进度更新 ${date(work.updatedAt)} · `:'')+`目标检测间隔 ${pollLabel}`;
 }
 function responseOptions(m){return m.kind==='question'&&!m.parent_id&&m.status!=='done'?[...m.body.matchAll(/^\[([A-D])\]\s+(.+)$/gm)].slice(0,4):[];}
 function chooseResponse(m,option){if(chosen()?.state!=='active'){toast('请在当前轮次继续反馈。');return;}startReply(m);S.reply.revision=m.revision;fillOptionDraft(option);}
