@@ -52,6 +52,11 @@ async function refresh(quiet=false,{followActive=false}={}){
 }
 function renderMeta(){
  const d=S.data,r=chosen()||active();$('#account-button').textContent=d?`${d.me.name} · 退出`:'访问设置';
+ for(const [i,id] of ['paper-1','paper-2','paper-3'].entries()){
+  const latest=(d?.documents||[]).filter(x=>x.paper_id===id&&x.round_id===r?.id&&x.variant==='zh').sort((a,b)=>b.created_at-a.created_at)[0];
+  labels[id]=/^支撑材料(?:\s|·|｜)/.test(latest?.title||'')?'支撑材料':['论文一','论文二','论文三'][i];
+  for(const option of $$(`#document-paper option[value="${id}"], #journal-paper option[value="${id}"]`))option.textContent=labels[id];
+ }
  $('#export-button').hidden=!d;$('#upload-button').hidden=!d;$('#new-round-button').hidden=!manager()||r?.state!=='active';$('#edit-instructions').hidden=d?.me.role!=='owner';$('#decision-option').hidden=!manager();
  $('#composer-name').textContent=d?.me.role==='owner'?'黑哥 · 说说你的想法':'小小黑，说说你的想法';$('.composer-header .avatar').textContent=d?.me.role==='owner'?'黑':'黑²';$('.composer-header .avatar').className=`avatar ${d?.me.role||'reviewer'}`;
  $('#guest-note').hidden=!!d;$('#composer').hidden=!d||r?.state!=='active';$('#return-current').hidden=!d||r?.state==='active';$('.round-info').hidden=!d;$('#current-todos').hidden=!d;$('#mobile-feedback').hidden=!d||S.view!=='talk';
@@ -139,8 +144,8 @@ function paperDocuments(){
 }
 async function renderPaper(){
  const sequence=S.paperSequence=(S.paperSequence||0)+1,box=$('#paper-preview'),scope=S.scope,docs=paperDocuments();
- $('#discussion-title').textContent=`${labels[scope]} · 讨论`;$('#paper-number').textContent=scope==='project'?'THE BIG PICTURE':`PAPER ${scope.slice(-1).padStart(2,'0')}`;
- $('#journal-chip').hidden=!S.data||scope==='project';$('#journal-chip').textContent=(journalTargets()[scope]||'拟投待确认')+' ↗';
+ $('#discussion-title').textContent=`${labels[scope]} · 讨论`;$('#paper-number').textContent=scope==='project'?'THE BIG PICTURE':labels[scope]==='支撑材料'?'SUPPORTING MATERIAL':`PAPER ${scope.slice(-1).padStart(2,'0')}`;
+ $('#journal-chip').hidden=!S.data||scope==='project'||labels[scope]==='支撑材料';$('#journal-chip').textContent=(journalTargets()[scope]||'拟投待确认')+' ↗';
  $$('#language-picker button').forEach(b=>{b.classList.toggle('active',b.dataset.language===S.language);b.setAttribute('aria-pressed',String(b.dataset.language===S.language));});
  const selected=S.selectedDocuments[scope+S.language],d=docs.find(x=>x.id===selected)||docs[0];S.paperDocument=d||null;
  $('#version-picker').hidden=docs.length<2;$('#paper-version').replaceChildren(...docs.map(x=>{const o=el('option','',x.title);o.value=x.id;o.selected=x.id===d?.id;return o;}));$('#full-reader-button').hidden=!d;
