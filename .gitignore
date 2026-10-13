@@ -1,0 +1,8 @@
+__pycache__/
+cv/*.aux
+cv/*.log
+cv/*.out
+cv/*.synctex.gz
+cv/*.fls
+cv/*.fdb_latexmk
+.DS_Store

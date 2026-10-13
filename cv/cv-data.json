@@ -1,0 +1,210 @@
+{
+  "updated": "2026-10-13",
+  "name": "Runming Yang",
+  "chinese_name": "杨润明",
+  "email": "yang3121099@126.com",
+  "phone": "+86 173 6299 5487",
+  "homepage": "https://rummyyang.github.io/",
+  "github": "https://github.com/yang3121099",
+  "tagline": "Ph.D. student at the University of Hong Kong working on efficient LLM post-training, knowledge distillation, and low-bit quantization.",
+  "interests": [
+    "Efficient LLM post-training",
+    "Knowledge distillation",
+    "Low-bit quantization",
+    "Efficient reasoning"
+  ],
+  "education": [
+    {
+      "institution": "The University of Hong Kong",
+      "degree": "Ph.D. in Electrical and Electronic Engineering",
+      "dates": "Oct. 2025 - Present",
+      "details": [
+        "Expected graduation: Sep. 2029",
+        "Advisor: Prof. Ngai Wong",
+        "Research: LLM efficiency and post-training"
+      ]
+    },
+    {
+      "institution": "Tsinghua University",
+      "degree": "M.Eng. in Big Data Engineering",
+      "dates": "Sep. 2022 - Jun. 2025",
+      "details": [
+        "Advisor: Prof. Yujiu Yang",
+        "GPA: 3.73/4.00",
+        "Research: model compression and knowledge distillation"
+      ]
+    },
+    {
+      "institution": "Huazhong University of Science and Technology",
+      "degree": "B.Eng. in AI and Automation",
+      "dates": "Sep. 2017 - Jun. 2021",
+      "details": [
+        "Science and Engineering Cross-Innovation Experimental Class"
+      ]
+    }
+  ],
+  "highlights": [
+    {
+      "id": "research-shadow-ft",
+      "title": "Shadow-FT: transferring fine-tuning updates",
+      "role": "Equal contribution",
+      "description": "Studies weight similarity between paired base and instruction-tuned models. Fine-tuning updates learned on the base model are transferred to its instruction-tuned counterpart.",
+      "paper_id": "shadow-ft"
+    },
+    {
+      "id": "research-ptqtp",
+      "title": "PTQTP: low-bit LLM inference",
+      "role": "Equal contribution",
+      "description": "Decomposes weights into two ternary trit-planes for multiplication-free inference. Reports 4.63-fold higher end-to-end generation throughput than FP16 for LLaMA-2 7B on an RTX 3090 (batch size 1; 512 input and 512 generated tokens).",
+      "paper_id": "ptqtp"
+    },
+    {
+      "id": "research-loca",
+      "title": "LoCa: logit calibration for distillation",
+      "role": "First author",
+      "description": "Calibrates teacher logits for misclassified samples to improve knowledge distillation with limited additional computation.",
+      "paper_id": "loca"
+    }
+  ],
+  "experience": [
+    {
+      "organization": "Tencent PCG",
+      "title": "Algorithm Intern, Social Secure Center",
+      "dates": "Nov. 2023 - Jun. 2025",
+      "bullets": [
+        "Built domain-specific multimodal datasets for model development and evaluation.",
+        "Conducted model post-training and evaluation on domain-specific tasks.",
+        "Investigated cross-modal feature fusion for multimodal modeling."
+      ]
+    }
+  ],
+  "publications": [
+    {
+      "id": "model-interpolation",
+      "title": "Revisiting Model Interpolation for Efficient Reasoning",
+      "authors": "Taiqiang Wu, Runming Yang, Tao Liu, Jiahao Wang, Ngai Wong",
+      "venue": "ACL 2026 (Main)",
+      "status": "Published",
+      "type": "publication",
+      "year": 2026,
+      "summary": "A training-free, three-stage interpolation framework between fast- and slow-thinking models for shorter chains of thought.",
+      "authors_short": "T. Wu, R. Yang, T. Liu, J. Wang, N. Wong",
+      "paper_url": "https://aclanthology.org/2026.acl-long.389/",
+      "code_url": "https://github.com/wutaiqiang/MI"
+    },
+    {
+      "id": "profit",
+      "title": "ProFit: Leveraging High-Value Signals in SFT via Probability-Guided Token Selection",
+      "authors": "Tao Liu*, Taiqiang Wu*, Runming Yang, Shaoning Sun, Junjie Wang, Yujiu Yang",
+      "venue": "ACL 2026 (Findings)",
+      "status": "Published",
+      "type": "publication",
+      "year": 2026,
+      "summary": "Uses current-policy information to guide token selection and relax token-level alignment during supervised fine-tuning.",
+      "authors_short": "T. Liu*, T. Wu*, R. Yang, S. Sun, J. Wang, Y. Yang",
+      "paper_url": "https://aclanthology.org/2026.findings-acl.755/",
+      "code_url": "https://github.com/Utaotao/ProFit"
+    },
+    {
+      "id": "memristor-reasoning",
+      "title": "Can We Trust LLMs on Memristors? Diving into Reasoning Ability under Non-Ideality",
+      "authors": "Taiqiang Wu*, Yuxin Cheng*, Chenchen Ding*, Runming Yang, Xincheng Feng, Wenyong Zhou, Zhengwu Liu, Ngai Wong",
+      "venue": "COLM 2026",
+      "status": "Accepted",
+      "type": "publication",
+      "year": 2026,
+      "summary": "Studies how memristor non-idealities affect LLM reasoning and evaluates training-free mitigation strategies.",
+      "authors_short": "T. Wu*, Y. Cheng*, C. Ding*, R. Yang, X. Feng, W. Zhou, Z. Liu, N. Wong",
+      "paper_url": "https://arxiv.org/abs/2603.13725"
+    },
+    {
+      "id": "adaptive-kl",
+      "title": "Rethinking Kullback-Leibler Divergence in Knowledge Distillation for Large Language Models",
+      "authors": "Taiqiang Wu, Chaofan Tao, Jiahao Wang, Runming Yang, Zhe Zhao, Ngai Wong",
+      "venue": "COLING 2025 (Oral)",
+      "status": "Published",
+      "type": "publication",
+      "year": 2025,
+      "paper_url": "https://aclanthology.org/2025.coling-main.383/",
+      "summary": "Compares forward and reverse KL divergence for LLM distillation and introduces Adaptive KL.",
+      "authors_short": "T. Wu, C. Tao, J. Wang, R. Yang, Z. Zhao, N. Wong",
+      "code_url": "https://github.com/wutaiqiang/LLM_KD_AKL"
+    },
+    {
+      "id": "loca",
+      "title": "LoCa: Logit Calibration for Knowledge Distillation",
+      "authors": "Runming Yang, Taiqiang Wu, Yujiu Yang",
+      "venue": "ECAI 2024",
+      "status": "Published",
+      "type": "publication",
+      "year": 2024,
+      "paper_url": "https://arxiv.org/abs/2409.04778",
+      "summary": "Calibrates teacher logits for misclassified samples during knowledge distillation.",
+      "authors_short": "R. Yang, T. Wu, Y. Yang"
+    },
+    {
+      "id": "fluxbin",
+      "title": "FluxBin: Flexible LUT-based Ultra-low-bit LLM Inference by Algorithm-Kernel Synergy",
+      "authors": "Qingyao Yang, Runming Yang, He Xiao, Wendong Xu, Junyu Chen, Haobo Liu, Chenchen Ding, Ruihan Hu, Yik-Chung Wu, Ngai Wong",
+      "authors_short": "Q. Yang, R. Yang, H. Xiao, W. Xu, J. Chen, H. Liu, C. Ding, R. Hu, Y.-C. Wu, N. Wong",
+      "venue": "arXiv:2608.15602 (2026)",
+      "status": "Preprint",
+      "type": "preprint",
+      "year": 2026,
+      "paper_url": "https://arxiv.org/abs/2608.15602",
+      "code_url": "https://github.com/nicyyyy/FluxBin",
+      "summary": "Co-designs ultra-low-bit post-training quantization and lookup-table CUDA kernels for efficient LLM inference."
+    },
+    {
+      "id": "shadow-ft",
+      "title": "Shadow-FT: Tuning Instruct Model via Training on Paired Base Model",
+      "authors": "Taiqiang Wu*, Runming Yang*, Jiayi Li, Pengfei Hu, Yik-Chung Wu, Ngai Wong, Yujiu Yang",
+      "venue": "arXiv:2505.12716 (2025)",
+      "status": "Preprint",
+      "type": "preprint",
+      "year": 2025,
+      "summary": "Transfers fine-tuning updates from a base model to its paired instruction-tuned model.",
+      "authors_short": "T. Wu*, R. Yang*, J. Li, P. Hu, Y.-C. Wu, N. Wong, Y. Yang",
+      "paper_url": "https://arxiv.org/abs/2505.12716",
+      "code_url": "https://github.com/wutaiqiang/Shadow-FT"
+    },
+    {
+      "id": "timber",
+      "title": "Timber: Training-free Instruct Model Refining with Base via Effective Rank",
+      "authors": "Taiqiang Wu, Runming Yang, Tao Liu, Jiahao Wang, Zenan Xu, Ngai Wong",
+      "venue": "arXiv:2509.23595 (2025)",
+      "status": "Preprint",
+      "type": "preprint",
+      "year": 2025,
+      "summary": "Uses effective rank to analyze post-training weight changes and refine instruction-tuned models without additional training.",
+      "authors_short": "T. Wu, R. Yang, T. Liu, J. Wang, Z. Xu, N. Wong",
+      "paper_url": "https://arxiv.org/abs/2509.23595",
+      "code_url": "https://github.com/wutaiqiang/Timber"
+    },
+    {
+      "id": "ptqtp",
+      "title": "PTQTP: Post-Training Quantization to Trit-Planes for Large Language Models",
+      "authors": "He Xiao*, Runming Yang*, Qingyao Yang*, Wendong Xu, Zhen Li, Yupeng Su, Zhengwu Liu, Hongxia Yang, Ngai Wong",
+      "venue": "arXiv:2509.16989 (2025)",
+      "status": "Preprint",
+      "type": "preprint",
+      "year": 2025,
+      "summary": "Decomposes LLM weights into two ternary trit-planes for multiplication-free inference.",
+      "authors_short": "H. Xiao*, R. Yang*, Q. Yang*, W. Xu, Z. Li, Y. Su, Z. Liu, H. Yang, N. Wong",
+      "paper_url": "https://arxiv.org/abs/2509.16989",
+      "project_url": "https://github.com/HeXiao-55/PTQTP"
+    },
+    {
+      "id": "quantization-reasoning",
+      "title": "Quantization Meets Reasoning: Exploring and Mitigating Degradation of Low-Bit LLMs in Mathematical Reasoning",
+      "authors": "Zhen Li*, Yupeng Su*, Songmiao Wang, Runming Yang, Congkai Xie, Aofan Liu, Ming Li, Jiannong Cao, Yuan Xie, Ngai Wong, Hongxia Yang",
+      "venue": "arXiv:2505.11574 (2025)",
+      "status": "Preprint",
+      "type": "preprint",
+      "year": 2025,
+      "summary": "Analyzes step-level reasoning errors in quantized LLMs and uses targeted preference pairs to improve 4-bit mathematical reasoning.",
+      "authors_short": "Z. Li*, Y. Su*, S. Wang, R. Yang, C. Xie, A. Liu, M. Li, J. Cao, Y. Xie, N. Wong, H. Yang",
+      "paper_url": "https://arxiv.org/abs/2505.11574"
+    }
+  ]
+}

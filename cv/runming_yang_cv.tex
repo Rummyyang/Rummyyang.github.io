@@ -1,0 +1,71 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=17mm,headheight=14pt,footskip=9mm]{geometry}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\definecolor{ink}{HTML}{172D40}
+\definecolor{accent}{HTML}{246E77}
+\definecolor{muted}{HTML}{526374}
+\hypersetup{colorlinks=true,urlcolor=accent,linkcolor=accent,pdftitle={Runming Yang - Curriculum Vitae},pdfauthor={Runming Yang}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\setlist[itemize]{leftmargin=1.2em,itemsep=1pt,topsep=2pt,parsep=0pt}
+\titleformat{\section}{\large\bfseries\color{ink}}{}{0pt}{}[\vspace{2pt}\color{accent}\titlerule]
+\titlespacing*{\section}{0pt}{12pt}{7pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[L]{\footnotesize\color{muted}Runming Yang | Curriculum Vitae}
+\fancyfoot[R]{\footnotesize\color{muted}13 Oct 2026\quad |\quad \thepage}
+\newcommand{\entry}[2]{\textbf{#1}\hfill{\small\color{muted}#2}\par}
+\newcommand{\paperentry}[4]{\vspace{4pt}{\small\textbf{#1}\par}{\small #2\par}{\small\color{muted}#3\hspace{6pt}#4\par}\vspace{2pt}}
+\begin{document}
+{\fontsize{27}{31}\selectfont\bfseries\color{ink}Runming Yang}\par
+\vspace{2pt}
+
+{\small \href{mailto:yang3121099@126.com}{yang3121099@126.com} $\cdot$ +86 173 6299 5487 $\cdot$ \href{https://rummyyang.github.io/}{Homepage} $\cdot$ \href{https://github.com/yang3121099}{GitHub}}\par
+\vspace{5pt}{\color{muted}Ph.D. student at the University of Hong Kong working on efficient LLM post-training, knowledge distillation, and low-bit quantization.}\par
+\section*{Education}
+\entry{The University of Hong Kong}{Oct. 2025 - Present}
+Ph.D. in Electrical and Electronic Engineering\par
+{\small\color{muted}Expected graduation: Sep. 2029; Advisor: Prof. Ngai Wong; Research: LLM efficiency and post-training}\par\vspace{3pt}
+\entry{Tsinghua University}{Sep. 2022 - Jun. 2025}
+M.Eng. in Big Data Engineering\par
+{\small\color{muted}Advisor: Prof. Yujiu Yang; GPA: 3.73/4.00; Research: model compression and knowledge distillation}\par\vspace{3pt}
+\entry{Huazhong University of Science and Technology}{Sep. 2017 - Jun. 2021}
+B.Eng. in AI and Automation\par
+{\small\color{muted}Science and Engineering Cross-Innovation Experimental Class}\par\vspace{3pt}
+\section*{Research Highlights}
+\textbf{\href{https://arxiv.org/abs/2505.12716}{Shadow-FT: transferring fine-tuning updates}}\hfill{\small\color{muted}Equal contribution}\par
+Studies weight similarity between paired base and instruction-tuned models. Fine-tuning updates learned on the base model are transferred to its instruction-tuned counterpart.\par\vspace{4pt}
+\textbf{\href{https://arxiv.org/abs/2509.16989}{PTQTP: low-bit LLM inference}}\hfill{\small\color{muted}Equal contribution}\par
+Decomposes weights into two ternary trit-planes for multiplication-free inference. Reports 4.63-fold higher end-to-end generation throughput than FP16 for LLaMA-2 7B on an RTX 3090 (batch size 1; 512 input and 512 generated tokens).\par\vspace{4pt}
+\textbf{\href{https://arxiv.org/abs/2409.04778}{LoCa: logit calibration for distillation}}\hfill{\small\color{muted}First author}\par
+Calibrates teacher logits for misclassified samples to improve knowledge distillation with limited additional computation.\par\vspace{4pt}
+\section*{Industry Experience}
+\entry{Tencent PCG}{Nov. 2023 - Jun. 2025}
+\textit{Algorithm Intern, Social Secure Center}\par\begin{itemize}
+\item Built domain-specific multimodal datasets for model development and evaluation.
+\item Conducted model post-training and evaluation on domain-specific tasks.
+\item Investigated cross-modal feature fusion for multimodal modeling.
+\end{itemize}
+\newpage
+{\Large\bfseries\color{ink}Publications and Manuscripts}\par
+{\small\color{muted}* indicates equal contribution.}\par
+\section*{Publications}
+\paperentry{1. Revisiting Model Interpolation for Efficient Reasoning}{T. Wu, \textbf{R. Yang}, T. Liu, J. Wang, N. Wong}{ACL 2026 (Main)}{\href{https://aclanthology.org/2026.acl-long.389/}{Paper} $\cdot$ \href{https://github.com/wutaiqiang/MI}{Code}}
+\paperentry{2. ProFit: Leveraging High-Value Signals in SFT via Probability-Guided Token Selection}{T. Liu*, T. Wu*, \textbf{R. Yang}, S. Sun, J. Wang, Y. Yang}{ACL 2026 (Findings)}{\href{https://aclanthology.org/2026.findings-acl.755/}{Paper} $\cdot$ \href{https://github.com/Utaotao/ProFit}{Code}}
+\paperentry{3. Can We Trust LLMs on Memristors? Diving into Reasoning Ability under Non-Ideality}{T. Wu*, Y. Cheng*, C. Ding*, \textbf{R. Yang}, X. Feng, W. Zhou, Z. Liu, N. Wong}{COLM 2026}{\href{https://arxiv.org/abs/2603.13725}{Paper}}
+\paperentry{4. Rethinking Kullback-Leibler Divergence in Knowledge Distillation for Large Language Models}{T. Wu, C. Tao, J. Wang, \textbf{R. Yang}, Z. Zhao, N. Wong}{COLING 2025 (Oral)}{\href{https://aclanthology.org/2025.coling-main.383/}{Paper} $\cdot$ \href{https://github.com/wutaiqiang/LLM_KD_AKL}{Code}}
+\paperentry{5. LoCa: Logit Calibration for Knowledge Distillation}{\textbf{R. Yang}, T. Wu, Y. Yang}{ECAI 2024}{\href{https://arxiv.org/abs/2409.04778}{Paper}}
+\section*{Preprints and Manuscripts}
+\paperentry{1. FluxBin: Flexible LUT-based Ultra-low-bit LLM Inference by Algorithm-Kernel Synergy}{Q. Yang, \textbf{R. Yang}, H. Xiao, W. Xu, J. Chen, H. Liu, C. Ding, R. Hu, Y.-C. Wu, N. Wong}{arXiv:2608.15602 (2026)}{\href{https://arxiv.org/abs/2608.15602}{Paper} $\cdot$ \href{https://github.com/nicyyyy/FluxBin}{Code}}
+\paperentry{2. Shadow-FT: Tuning Instruct Model via Training on Paired Base Model}{T. Wu*, \textbf{R. Yang*}, J. Li, P. Hu, Y.-C. Wu, N. Wong, Y. Yang}{arXiv:2505.12716 (2025)}{\href{https://arxiv.org/abs/2505.12716}{Paper} $\cdot$ \href{https://github.com/wutaiqiang/Shadow-FT}{Code}}
+\paperentry{3. Timber: Training-free Instruct Model Refining with Base via Effective Rank}{T. Wu, \textbf{R. Yang}, T. Liu, J. Wang, Z. Xu, N. Wong}{arXiv:2509.23595 (2025)}{\href{https://arxiv.org/abs/2509.23595}{Paper} $\cdot$ \href{https://github.com/wutaiqiang/Timber}{Code}}
+\paperentry{4. PTQTP: Post-Training Quantization to Trit-Planes for Large Language Models}{H. Xiao*, \textbf{R. Yang*}, Q. Yang*, W. Xu, Z. Li, Y. Su, Z. Liu, H. Yang, N. Wong}{arXiv:2509.16989 (2025)}{\href{https://arxiv.org/abs/2509.16989}{Paper} $\cdot$ \href{https://github.com/HeXiao-55/PTQTP}{Project}}
+\paperentry{5. Quantization Meets Reasoning: Exploring and Mitigating Degradation of Low-Bit LLMs in Mathematical Reasoning}{Z. Li*, Y. Su*, S. Wang, \textbf{R. Yang}, C. Xie, A. Liu, M. Li, J. Cao, Y. Xie, N. Wong, H. Yang}{arXiv:2505.11574 (2025)}{\href{https://arxiv.org/abs/2505.11574}{Paper}}
+\end{document}
