@@ -75,13 +75,13 @@ for e in DATA["experience"]:
     lines.append(r"\textbf{" + tex(organization) + "}, " + tex(role) + r"\hfill " + tex(e["dates"]) + r"\\")
     lines.append(tex("Built domain-specific multimodal datasets; conducted model post-training and evaluation; investigated cross-modal feature fusion."))
 lines.append(r"\end{rSection}")
-for kind, heading in [("preprint", "Preprints"), ("publication", "Publications")]:
+for kind, heading in [("publication", "Publications"), ("preprint", "Preprints")]:
     lines.append(r"\begin{rSection}{" + heading + r"}\small")
     lines.append(r"* indicates equal contribution.\begin{itemize}")
     for p in [x for x in DATA["publications"] if x["type"] == kind]:
         links = " ".join(href(p[key], "[" + label + "]") for key, label in [("paper_url", "Paper"), ("code_url", "Code"), ("project_url", "Project")] if p.get(key))
-        lines.append(r"\begin{samepage}\item " + pub_author(p.get("authors_short", p["authors"])) + ". " + r"\textit{" + tex(p["title"]) + ".} " + tex(p["venue"]) + " " + links + r"\\")
-        lines.append(tex(p["summary"]) + r"\end{samepage}")
+        lines.append(r"\item\begin{samepage} " + pub_author(p.get("authors_short", p["authors"])) + ". " + r"\textit{" + tex(p["title"]) + ".} " + tex(p["venue"]) + " " + links + r"\\")
+        lines.append(tex(p["summary"]) + r"\par\end{samepage}")
     lines.append(r"\end{itemize}\end{rSection}")
 lines.append(r"\par\vspace{2pt}{\parfillskip=0pt\noindent\rule{\linewidth}{0.4pt}\par}")
 lines.append(r"\begin{center}\footnotesize Last updated: " + DATA["updated"].replace("-", ".") + r"\end{center}")

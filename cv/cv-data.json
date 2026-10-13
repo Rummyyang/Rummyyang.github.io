@@ -274,7 +274,7 @@
       "id": "quantization-reasoning",
       "title": "Quantization Meets Reasoning: Exploring and Mitigating Degradation of Low-Bit LLMs in Mathematical Reasoning",
       "authors": "Zhen Li*, Yupeng Su*, Songmiao Wang, Runming Yang, Congkai Xie, Aofan Liu, Ming Li, Jiannong Cao, Yuan Xie, Ngai Wong, Hongxia Yang",
-      "venue": "arXiv:2505.11574 (2025)",
+      "venue": "arXiv:2505.11574 (2025; revised 2026)",
       "status": "Preprint",
       "type": "preprint",
       "year": 2025,
@@ -288,22 +288,9 @@
       ],
       "previous_titles": [
         "InfiJanice: Joint Analysis and In-situ Correction Engine for Quantization-Induced Math Degradation in Large Language Models"
-      ]
-    },
-    {
-      "id": "quantization-reasoning-early",
-      "title": "Quantization Meets Reasoning: Exploring LLM Low-Bit Quantization Degradation for Mathematical Reasoning",
-      "authors": "Zhen Li*, Yupeng Su*, Runming Yang, Congkai Xie, Zheng Wang, Zhongwei Xie, Ngai Wong, Hongxia Yang",
-      "authors_short": "Z. Li*, Y. Su*, R. Yang, C. Xie, Z. Wang, Z. Xie, N. Wong, H. Yang",
-      "venue": "arXiv:2501.03035 (2025)",
-      "status": "Preprint",
-      "type": "preprint",
-      "year": 2025,
-      "paper_url": "https://arxiv.org/abs/2501.03035",
-      "summary": "Evaluates low-bit quantization on mathematical reasoning and studies error diagnosis and targeted recovery with task-specific examples.",
-      "arxiv_id": "2501.03035",
-      "scholar_entry_ids": [
-        "HhTh7rQAAAAJ:2osOgNQ5qMEC"
+      ],
+      "related_preprint_ids": [
+        "2501.03035"
       ]
     },
     {
@@ -330,12 +317,11 @@
     "scholar_url": "https://scholar.google.com/citations?user=HhTh7rQAAAAJ&hl=en",
     "scholar_rows": 17,
     "unique_bibliographic_records": 14,
-    "method": "Read all 17 rows of the live Google Scholar profile; Show More was disabled. Cross-checked arXiv author search, paper PDFs, and official proceedings. Matched versions by arXiv identifiers and paper titles.",
+    "method": "Read all 17 rows of the live Google Scholar profile; Show More was disabled. Cross-checked arXiv author search, paper PDFs, and official proceedings. Deduplicated title variants, then consolidated a substantially overlapping earlier study after full-text comparison.",
     "added_ids": [
       "lieq",
       "llm-neo",
-      "simple-opd",
-      "quantization-reasoning-early"
+      "simple-opd"
     ],
     "duplicate_groups": [
       {
@@ -351,8 +337,58 @@
         "reason": "InfiJanice is the previous title of arXiv:2505.11574."
       }
     ],
-    "related_records_note": "arXiv:2501.03035 and arXiv:2505.11574 have similar current titles, different author lists and separate entries in Scholar and the first author homepage. Retained as two public preprint records; this does not assert their research is entirely independent.",
+    "related_records_note": "Full-text comparison supports treating arXiv:2505.11574 as an expanded study on the same research line as arXiv:2501.03035 for CV presentation. Shared format-alignment, error-attribution and targeted-restoration pipeline and reused case studies support consolidation. Later experiments and results were revised and broadened; this is an editorial inference, not a formal arXiv replacement declaration. Display only 2505.11574 in the CV.",
     "related_records_source": "https://ethanli24.github.io/",
-    "scholar_profile_modified": false
+    "scholar_profile_modified": false,
+    "cv_publication_entries": 13,
+    "related_work_consolidations": [
+      {
+        "display_id": "quantization-reasoning",
+        "earlier_record": {
+          "id": "quantization-reasoning-early",
+          "title": "Quantization Meets Reasoning: Exploring LLM Low-Bit Quantization Degradation for Mathematical Reasoning",
+          "authors": "Zhen Li*, Yupeng Su*, Runming Yang, Congkai Xie, Zheng Wang, Zhongwei Xie, Ngai Wong, Hongxia Yang",
+          "authors_short": "Z. Li*, Y. Su*, R. Yang, C. Xie, Z. Wang, Z. Xie, N. Wong, H. Yang",
+          "venue": "arXiv:2501.03035 (2025)",
+          "status": "Preprint",
+          "type": "preprint",
+          "year": 2025,
+          "paper_url": "https://arxiv.org/abs/2501.03035",
+          "summary": "Evaluates low-bit quantization on mathematical reasoning and studies error diagnosis and targeted recovery with task-specific examples.",
+          "arxiv_id": "2501.03035",
+          "scholar_entry_ids": [
+            "HhTh7rQAAAAJ:2osOgNQ5qMEC"
+          ]
+        },
+        "decision": "Keep only arXiv:2505.11574 in the public CV; retain the earlier record here for provenance.",
+        "confidence": "Strong evidence of substantive continuity and expanded scope; no explicit formal replacement declaration located.",
+        "evidence": [
+          {
+            "old_section": "3.2",
+            "new_section": "3.1.2",
+            "finding": "Shared format-alignment stage using LoRA/QLoRA and PRM800K, with near-identical explanatory passages."
+          },
+          {
+            "old_section": "4.3",
+            "new_section": "3.1.3",
+            "finding": "Shared first-error assessment using the same five judge models, DeepSeek-R1 baseline, majority voting and 2% human audit."
+          },
+          {
+            "old_section": "Appendices A/B",
+            "new_section": "Appendix D",
+            "finding": "The same four worked case identifiers (#93, #128, #342, #3812) and corresponding model outputs are carried over."
+          },
+          {
+            "old_section": "3-4",
+            "new_section": "3-4 and appendices",
+            "finding": "The later manuscript extends the Llama/AWQ/GPTQ/MATH study to additional models, SmoothQuant and additional reasoning/generalization benchmarks; numerical results and recovery samples change."
+          }
+        ],
+        "sources": [
+          "https://arxiv.org/html/2501.03035v4",
+          "https://arxiv.org/html/2505.11574v4"
+        ]
+      }
+    ]
   }
 }
