@@ -19,7 +19,7 @@ def a(url, label):
 def h(label, id):
     return f'<h1 id="{id}"><span style="color: #336699">{label}</span></h1>'
 
-parts = [start_marker, h("Biography", "Biography"), '<p>I am a Ph.D. student in Electrical and Electronic Engineering at the University of Hong Kong, supervised by '+a('https://scholar.google.com/citations?user=PM_uMYIAAAAJ&hl=en', 'Prof. Ngai Wong')+'. I received my M.Eng. in Big Data Engineering from Tsinghua University in 2025, advised by '+a('https://scholar.google.com/citations?user=4gH3sxsAAAAJ&hl=en','Prof. Yujiu Yang')+', and my B.Eng. from Huazhong University of Science and Technology in 2021.</p>', '<p><strong>'+a('/cv/', 'View my academic CV')+'</strong> &nbsp; · &nbsp; '+a('/cv/runming_yang_cv.pdf', 'Download PDF')+'</p>', h('Research Interests','Research-Interests'), '<p>'+escape('; '.join(data['interests']))+'. My work explores model compression and efficient reasoning in large language models.</p>', h('Selected Publications','Publications'), '<p>Selected published and accepted papers. '+a('/cv/#publications', 'Full publications and preprints')+'.</p>', '<p><small>* indicates equal contribution.</small></p>', '<ul>']
+parts = [start_marker, h("Biography", "Biography"), '<p>I am a Ph.D. student in Electrical and Electronic Engineering at the University of Hong Kong, supervised by '+a('https://scholar.google.com/citations?user=PM_uMYIAAAAJ&hl=en', 'Prof. Ngai Wong')+'. I received my M.Eng. in Big Data Engineering from Tsinghua University in 2025, advised by '+a('https://scholar.google.com/citations?user=4gH3sxsAAAAJ&hl=en','Prof. Yujiu Yang')+', and my B.Eng. from Huazhong University of Science and Technology in 2021.</p>', '<p><strong>'+a('/cv/runming_yang_cv.pdf', 'View my academic CV (PDF)')+'</strong> &nbsp; · &nbsp; '+a('/cv/runming_yang_cv.pdf', 'Download PDF')+'</p>', h('Research Interests','Research-Interests'), '<p>'+escape('; '.join(data['interests']))+'. My work explores model compression and efficient reasoning in large language models.</p>', h('Selected Publications','Publications'), '<p>Selected published and accepted papers. '+a('/cv/runming_yang_cv.pdf#page=2', 'Full publications and preprints (PDF)')+'.</p>', '<p><small>* indicates equal contribution.</small></p>', '<ul>']
 for p in [x for x in data['publications'] if x['type']=='publication']:
     title = a(p['paper_url'],p['title']) if p.get('paper_url') else escape(p['title'])
     authors = escape(p['authors']).replace('Runming Yang', '<strong>Runming Yang</strong>').replace('R. Yang', '<strong>R. Yang</strong>')
@@ -38,9 +38,12 @@ else:
     page = page[:start] + new + '\n' + page[end:]
 page = re.sub(r'<p class="author-bio">.*?</p>', '<p class="author-bio">Ph.D. student at the University of Hong Kong<br>'+a('mailto:'+data['email'], data['email'])+'</p>', page, flags=re.S)
 page = re.sub(r'href="mailto:[^"]*"', lambda _: 'href="mailto:'+escape(data['email'], quote=True)+'"', page)
-if 'href="/cv/"> CV</a>' not in page:
-    page = page.replace('<ul class="menus_items">', '<ul class="menus_items">\n                <li class="menus_item"><a class="site-page" href="/cv/"> CV</a></li>', 1)
-page = page.replace('<a class="site-page" href="/cv/">', '<a class="site-page" data-pjax="false" href="/cv/">')
+cv_nav = '<li class="menus_item"><a class="site-page" data-pjax="false" href="/cv/runming_yang_cv.pdf"> CV (PDF)</a></li>'
+nav_pattern = r'<li class="menus_item">\s*<a[^>]*href="/cv/(?:runming_yang_cv\.pdf)?"[^>]*>\s*CV(?: \(PDF\))?</a>\s*</li>'
+if re.search(nav_pattern, page):
+    page = re.sub(nav_pattern, lambda _: cv_nav, page)
+else:
+    page = page.replace('<ul class="menus_items">', '<ul class="menus_items">\n                '+cv_nav, 1)
 page = page.replace('<title>Homepage</title>', '<title>Runming Yang | LLM Efficiency &amp; Post-Training</title>')
 page = page.replace("<h2>LLM-Neo <em> (submitted to ICASSP 25') </em> </h2>", '<h2>LLM-Neo</h2>')
 page = re.sub(r'\(Last updated(?: on |: )[^)]+\)', '(Last updated: '+escape(data['updated'])+')', page)

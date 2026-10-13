@@ -6,11 +6,11 @@ Thanks to the source code from https://wutaiqiang.github.io/ and the help from h
 
 ## Academic CV
 
-The online CV is published at `/cv/`, with a PDF and standalone LaTeX source available from that page. Edit `cv/cv-data.json` to update the shared content, then regenerate:
+The official CV is the fixed-layout PDF at `/cv/runming_yang_cv.pdf`. The homepage opens that PDF directly, and the older `/cv/` URL redirects to it. There is no separate HTML version of the CV. Edit `cv/cv-data.json` to update the shared content, then regenerate:
 
 ```sh
 python3 scripts/build_cv_tex.py
-python3 scripts/build_cv_page.py
+python3 scripts/build_cv_redirect.py
 python3 scripts/sync_homepage_cv.py
 ```
 
@@ -21,4 +21,4 @@ cd cv
 pdflatex -no-shell-escape -interaction=nonstopmode -halt-on-error runming_yang_cv.tex
 ```
 
-Commit the data, generated HTML/LaTeX, and PDF together. GitHub Pages serves the repository root on `main`. Keep publication status, author order, and equal-contribution markers consistent with the linked primary sources. A `project_url` labels a project page separately from released code (`code_url`).
+Commit the data, generated LaTeX, PDF, homepage, and compatibility redirect together. GitHub Pages serves the repository root on `main`. Keep publication status, author order, and equal-contribution markers consistent with the linked primary sources. A `project_url` labels a project page separately from released code (`code_url`).
