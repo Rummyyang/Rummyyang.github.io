@@ -14,7 +14,7 @@ python3 scripts/build_cv_redirect.py
 python3 scripts/sync_homepage_cv.py
 ```
 
-Compile `cv/runming_yang_cv.tex` to update the downloadable PDF. The source works in the Codex LaTeX editor; for a local PDF export with TeX Live:
+Compile `cv/runming_yang_cv.tex` to update the downloadable PDF. The source preserves the original 2604 resume typography (Computer Modern, centered header, black section rules, author-first publication bullets) and flows naturally across pages. It works in the Codex LaTeX editor; for a local PDF export with TeX Live:
 
 ```sh
 cd cv

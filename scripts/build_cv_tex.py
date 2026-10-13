@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Build the standalone LaTeX CV from the shared, factual CV dataset."""
+"""Build a standalone CV using the user's original 2604 resume typography."""
 import json
 import re
 from pathlib import Path
-from datetime import date
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = json.loads((ROOT / "cv/cv-data.json").read_text())
@@ -18,76 +17,75 @@ def href(url, label):
     return r"\href{" + url.replace("%", r"\%").replace("#", r"\#") + "}{" + tex(label) + "}"
 
 
-def bold(value):
-    return r"\textbf{" + tex(value) + "}"
-
-
 def pub_author(value):
-    return re.sub(r"(?<!\w)(?:Runming Yang|R\. Yang)(?:\*)?(?!\w)", lambda m: r"\textbf{"+m.group(0)+"}", tex(value))
+    return re.sub(r"(?<!\w)(?:Runming Yang|R\. Yang)(?:\*)?(?!\w)", lambda m: r"\textbf{" + m.group(0) + "}", tex(value))
 
 
-updated = date.fromisoformat(DATA["updated"]).strftime("%d %b %Y")
-lines = [r"""\documentclass[11pt,a4paper]{article}
-\usepackage[T1]{fontenc}
-\usepackage{lmodern}
-\usepackage[margin=17mm,headheight=14pt,footskip=9mm]{geometry}
-\usepackage{xcolor}
-\usepackage{enumitem}
-\usepackage{titlesec}
-\usepackage{fancyhdr}
+lines = [r"""% Original resume template: Copyright (C) 2010 by Trey Hunner.
+% Created by Trey Hunner and modified by www.LaTeXTemplates.com.
+% Copying and distribution, with or without modification, are permitted in any
+% medium without royalty provided this copyright notice and notice are preserved.
+% This file is offered as-is, without any warranty.
+% The original class typography is inlined for standalone editor compilation.
+\documentclass[11pt,a4paper]{article}
+\usepackage[left=0.4in,top=0.4in,right=0.4in,bottom=0.3in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage{array}
 \usepackage{hyperref}
-\definecolor{ink}{HTML}{172D40}
-\definecolor{accent}{HTML}{246E77}
-\definecolor{muted}{HTML}{526374}
-\hypersetup{colorlinks=true,urlcolor=accent,linkcolor=accent,pdftitle={Runming Yang - Curriculum Vitae},pdfauthor={Runming Yang}}
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{3pt}
-\setlist[itemize]{leftmargin=1.2em,itemsep=1pt,topsep=2pt,parsep=0pt}
-\titleformat{\section}{\large\bfseries\color{ink}}{}{0pt}{}[\vspace{2pt}\color{accent}\titlerule]
-\titlespacing*{\section}{0pt}{12pt}{7pt}
-\pagestyle{fancy}
-\fancyhf{}
-\renewcommand{\headrulewidth}{0pt}
-\fancyfoot[L]{\footnotesize\color{muted}Runming Yang | Curriculum Vitae}
-\fancyfoot[R]{\footnotesize\color{muted}UPDATED_DATE\quad |\quad \thepage}
-\newcommand{\entry}[2]{\textbf{#1}\hfill{\small\color{muted}#2}\par}
-\newcommand{\paperentry}[4]{\vspace{4pt}{\small\textbf{#1}\par}{\small #2\par}{\small\color{muted}#3\hspace{6pt}#4\par}\vspace{2pt}}
+\usepackage{needspace}
+\hypersetup{colorlinks=true,linkcolor=blue,filecolor=magenta,urlcolor=cyan,
+ pdftitle={Yang Runming - Curriculum Vitae},pdfauthor={Runming Yang}}
+\pagestyle{empty}
+\newenvironment{rSection}[1]{
+  \Needspace{9\baselineskip}\medskip
+  \MakeUppercase{\textbf{#1}}\medskip\hrule
+  \begin{list}{}{\setlength{\leftmargin}{0em}}\item[]
+}{\end{list}}
 \begin{document}
-{\fontsize{27}{31}\selectfont\bfseries\color{ink}Runming Yang}\par
-\vspace{2pt}
-""".replace("UPDATED_DATE", tex(updated))]
-lines.append(r"{\small " + r" $\cdot$ ".join([href("mailto:"+DATA["email"], DATA["email"]),tex(DATA["phone"]),href(DATA["homepage"],"Homepage"),href(DATA["github"],"GitHub")]) + r"}\par")
-lines.append(r"\vspace{5pt}{\color{muted}" + tex(DATA["tagline"]) + r"}\par")
-lines.append(r"\section*{Education}")
+\begingroup
+  \centering{\LARGE\bfseries Yang Runming}\par\medskip
+\endgroup
+"""]
+lines.append(r"\begingroup\centering " + r" $\diamond$ ".join([
+    "Tel: (+86) 17362995487", href("mailto:" + DATA["email"], DATA["email"]),
+    href(DATA["homepage"], DATA["homepage"])
+]) + r"\par\endgroup\smallskip")
+lines.append(r"\begin{rSection}{Education}")
 for e in DATA["education"]:
-    lines.append(r"\entry{"+tex(e["institution"])+"}{"+tex(e["dates"])+"}")
-    lines.append(tex(e["degree"])+r"\par")
-    lines.append(r"{\small\color{muted}"+"; ".join(tex(x) for x in e["details"])+r"}\par\vspace{3pt}")
-lines.append(r"\section*{Research Highlights}")
-pub_by_id = {p["id"]:p for p in DATA["publications"]}
-for h in DATA["highlights"]:
-    p = pub_by_id[h["paper_id"]]
-    label = href(p["paper_url"], h["title"]) if p.get("paper_url") else tex(h["title"])
-    lines.append(r"\textbf{"+label+r"}\hfill{\small\color{muted}"+tex(h["role"])+r"}\par")
-    lines.append(tex(h["description"])+r"\par\vspace{4pt}")
-lines.append(r"\section*{Industry Experience}")
+    details = e["details"]
+    degree = e["degree"]
+    if e["institution"] == "The University of Hong Kong":
+        degree = "Ph.D. student in Electrical and Electronic Engineering"
+    gpa = next((d.removeprefix("GPA: ") for d in details if d.startswith("GPA: ")), None)
+    if gpa:
+        degree += " (GPA: " + gpa + ")"
+    lines.append(r"\textbf{" + tex(e["institution"]) + "}, " + tex(degree) + r"\hfill " + tex(e["dates"]) + r"\\")
+    if e["institution"] == "The University of Hong Kong":
+        detail_line = "Advisor: " + href("https://scholar.google.com/citations?user=PM_uMYIAAAAJ&hl=en", "Prof. Ngai Wong") + r"\quad |\quad Research: LLM Efficiency and Post-Training"
+    elif e["institution"] == "Tsinghua University":
+        detail_line = "Advisor: " + href("https://scholar.google.com/citations?user=4gH3sxsAAAAJ&hl=zh-CN", "Prof. Yujiu Yang") + r"\quad |\quad Research: Model Compression and Knowledge Distillation"
+    else:
+        detail_line = "; ".join(tex(d) for d in details)
+    lines.append(detail_line + "\n")
+lines.append(r"\end{rSection}")
+lines.append(r"\begin{rSection}{Internship}")
 for e in DATA["experience"]:
-    lines.append(r"\entry{"+tex(e["organization"])+"}{"+tex(e["dates"])+"}")
-    lines.append(r"\textit{"+tex(e["title"])+r"}\par\begin{itemize}")
-    lines.extend(r"\item "+tex(b) for b in e["bullets"])
-    lines.append(r"\end{itemize}")
-lines.append(r"\newpage")
-lines.append(r"{\Large\bfseries\color{ink}Publications and Manuscripts}\par")
-lines.append(r"{\small\color{muted}* indicates equal contribution.}\par")
-for group, heading in [("publication", "Publications"),("other", "Preprints and Manuscripts")]:
-    lines.append(r"\section*{"+heading+"}")
-    pubs=[p for p in DATA["publications"] if (p["type"]=="publication")== (group=="publication")]
-    for i,p in enumerate(pubs,1):
-        title = f"{i}. {p['title']}"
-        links = r" $\cdot$ ".join(href(p[key], label) for key,label in [("paper_url","Paper"),("code_url","Code"),("project_url","Project")] if p.get(key))
-        venue = p["venue"] or p["status"]
-        lines.append(r"\paperentry{"+tex(title)+"}{"+pub_author(p.get("authors_short",p["authors"]))+"}{"+tex(venue)+"}{"+links+"}")
+    role, _, team = e["title"].partition(", ")
+    organization = e["organization"] + (" " + team if team else "")
+    lines.append(r"\textbf{" + tex(organization) + "}, " + tex(role) + r"\hfill " + tex(e["dates"]) + r"\\")
+    lines.append(tex("Built domain-specific multimodal datasets; conducted model post-training and evaluation; investigated cross-modal feature fusion."))
+lines.append(r"\end{rSection}")
+for kind, heading in [("preprint", "Preprints"), ("publication", "Publications")]:
+    lines.append(r"\begin{rSection}{" + heading + r"}\small")
+    lines.append(r"* indicates equal contribution.\begin{itemize}")
+    for p in [x for x in DATA["publications"] if x["type"] == kind]:
+        links = " ".join(href(p[key], "[" + label + "]") for key, label in [("paper_url", "Paper"), ("code_url", "Code"), ("project_url", "Project")] if p.get(key))
+        lines.append(r"\begin{samepage}\item " + pub_author(p.get("authors_short", p["authors"])) + ". " + r"\textit{" + tex(p["title"]) + ".} " + tex(p["venue"]) + " " + links + r"\\")
+        lines.append(tex(p["summary"]) + r"\end{samepage}")
+    lines.append(r"\end{itemize}\end{rSection}")
+lines.append(r"\par\vspace{2pt}{\parfillskip=0pt\noindent\rule{\linewidth}{0.4pt}\par}")
+lines.append(r"\begin{center}\footnotesize Last updated: " + DATA["updated"].replace("-", ".") + r"\end{center}")
 lines.append(r"\end{document}")
 output = ROOT / "cv/runming_yang_cv.tex"
-output.write_text("\n".join(lines)+"\n")
+output.write_text("\n".join(lines) + "\n")
 print(output)

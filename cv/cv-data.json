@@ -90,7 +90,11 @@
       "summary": "A training-free, three-stage interpolation framework between fast- and slow-thinking models for shorter chains of thought.",
       "authors_short": "T. Wu, R. Yang, T. Liu, J. Wang, N. Wong",
       "paper_url": "https://aclanthology.org/2026.acl-long.389/",
-      "code_url": "https://github.com/wutaiqiang/MI"
+      "code_url": "https://github.com/wutaiqiang/MI",
+      "arxiv_id": "2510.10977",
+      "scholar_entry_ids": [
+        "HhTh7rQAAAAJ:Tyk-4Ss8FVUC"
+      ]
     },
     {
       "id": "profit",
@@ -103,7 +107,11 @@
       "summary": "Uses current-policy information to guide token selection and relax token-level alignment during supervised fine-tuning.",
       "authors_short": "T. Liu*, T. Wu*, R. Yang, S. Sun, J. Wang, Y. Yang",
       "paper_url": "https://aclanthology.org/2026.findings-acl.755/",
-      "code_url": "https://github.com/Utaotao/ProFit"
+      "code_url": "https://github.com/Utaotao/ProFit",
+      "arxiv_id": "2601.09195",
+      "scholar_entry_ids": [
+        "HhTh7rQAAAAJ:W7OEmFMy1HYC"
+      ]
     },
     {
       "id": "memristor-reasoning",
@@ -115,7 +123,29 @@
       "year": 2026,
       "summary": "Studies how memristor non-idealities affect LLM reasoning and evaluates training-free mitigation strategies.",
       "authors_short": "T. Wu*, Y. Cheng*, C. Ding*, R. Yang, X. Feng, W. Zhou, Z. Liu, N. Wong",
-      "paper_url": "https://arxiv.org/abs/2603.13725"
+      "paper_url": "https://arxiv.org/abs/2603.13725",
+      "arxiv_id": "2603.13725",
+      "scholar_entry_ids": [
+        "HhTh7rQAAAAJ:WF5omc3nYNoC"
+      ]
+    },
+    {
+      "id": "lieq",
+      "title": "Exploring Layer-wise Information Effectiveness for Post-Training Quantization in Small Language Models",
+      "authors": "He Xiao, Qingyao Yang, Dirui Xie, Wendong Xu, Zunhai Su, Runming Yang, Haobo Liu, Wenyong Zhou, Zhengwu Liu, Ngai Wong",
+      "authors_short": "H. Xiao, Q. Yang, D. Xie, W. Xu, Z. Su, R. Yang, H. Liu, W. Zhou, Z. Liu, N. Wong",
+      "venue": "ACL 2026 (Findings)",
+      "status": "Published",
+      "type": "publication",
+      "year": 2026,
+      "paper_url": "https://aclanthology.org/2026.findings-acl.771/",
+      "arxiv_url": "https://arxiv.org/abs/2508.03332",
+      "project_url": "https://github.com/HeXiao-55/LieQ-official",
+      "summary": "Uses layer-wise information effectiveness to allocate mixed precision across layers for low-bit quantization of small language models.",
+      "arxiv_id": "2508.03332",
+      "scholar_entry_ids": [
+        "HhTh7rQAAAAJ:ufrVoPGSRksC"
+      ]
     },
     {
       "id": "adaptive-kl",
@@ -128,7 +158,11 @@
       "paper_url": "https://aclanthology.org/2025.coling-main.383/",
       "summary": "Compares forward and reverse KL divergence for LLM distillation and introduces Adaptive KL.",
       "authors_short": "T. Wu, C. Tao, J. Wang, R. Yang, Z. Zhao, N. Wong",
-      "code_url": "https://github.com/wutaiqiang/LLM_KD_AKL"
+      "code_url": "https://github.com/wutaiqiang/LLM_KD_AKL",
+      "arxiv_id": "2404.02657",
+      "scholar_entry_ids": [
+        "HhTh7rQAAAAJ:u-x6o8ySG0sC"
+      ]
     },
     {
       "id": "loca",
@@ -140,7 +174,11 @@
       "year": 2024,
       "paper_url": "https://arxiv.org/abs/2409.04778",
       "summary": "Calibrates teacher logits for misclassified samples during knowledge distillation.",
-      "authors_short": "R. Yang, T. Wu, Y. Yang"
+      "authors_short": "R. Yang, T. Wu, Y. Yang",
+      "arxiv_id": "2409.04778",
+      "scholar_entry_ids": [
+        "HhTh7rQAAAAJ:d1gkVwhDpl0C"
+      ]
     },
     {
       "id": "fluxbin",
@@ -153,7 +191,28 @@
       "year": 2026,
       "paper_url": "https://arxiv.org/abs/2608.15602",
       "code_url": "https://github.com/nicyyyy/FluxBin",
-      "summary": "Co-designs ultra-low-bit post-training quantization and lookup-table CUDA kernels for efficient LLM inference."
+      "summary": "Co-designs ultra-low-bit post-training quantization and lookup-table CUDA kernels for efficient LLM inference.",
+      "arxiv_id": "2608.15602",
+      "scholar_entry_ids": [
+        "HhTh7rQAAAAJ:LkGwnXOMwfcC"
+      ]
+    },
+    {
+      "id": "simple-opd",
+      "title": "Simple-OPD: Demystifying Warm-up for On-policy Distillation",
+      "authors": "Tao Liu*, Taiqiang Wu*, Mao Zheng, Xuan Luo, Runming Yang, Xuewei Yang, Junjie Wang, Yujiu Yang",
+      "authors_short": "T. Liu*, T. Wu*, M. Zheng, X. Luo, R. Yang, X. Yang, J. Wang, Y. Yang",
+      "venue": "arXiv:2608.06802 (2026)",
+      "status": "Preprint",
+      "type": "preprint",
+      "year": 2026,
+      "paper_url": "https://arxiv.org/abs/2608.06802",
+      "summary": "Studies warm-up for on-policy distillation and initializes students with LoRA on teacher-generated chains of thought.",
+      "code_url": "https://github.com/Utaotao/Simple-OPD",
+      "arxiv_id": "2608.06802",
+      "scholar_entry_ids": [
+        "HhTh7rQAAAAJ:_FxGoFyzp5QC"
+      ]
     },
     {
       "id": "shadow-ft",
@@ -166,7 +225,16 @@
       "summary": "Transfers fine-tuning updates from a base model to its paired instruction-tuned model.",
       "authors_short": "T. Wu*, R. Yang*, J. Li, P. Hu, Y.-C. Wu, N. Wong, Y. Yang",
       "paper_url": "https://arxiv.org/abs/2505.12716",
-      "code_url": "https://github.com/wutaiqiang/Shadow-FT"
+      "code_url": "https://github.com/wutaiqiang/Shadow-FT",
+      "arxiv_id": "2505.12716",
+      "scholar_entry_ids": [
+        "HhTh7rQAAAAJ:YsMSGLbcyi4C",
+        "HhTh7rQAAAAJ:qjMakFHDy7sC",
+        "HhTh7rQAAAAJ:eQOLeE2rZwMC"
+      ],
+      "previous_titles": [
+        "Shadow-FT: Tuning Instruct via Base"
+      ]
     },
     {
       "id": "timber",
@@ -179,7 +247,11 @@
       "summary": "Uses effective rank to analyze post-training weight changes and refine instruction-tuned models without additional training.",
       "authors_short": "T. Wu, R. Yang, T. Liu, J. Wang, Z. Xu, N. Wong",
       "paper_url": "https://arxiv.org/abs/2509.23595",
-      "code_url": "https://github.com/wutaiqiang/Timber"
+      "code_url": "https://github.com/wutaiqiang/Timber",
+      "arxiv_id": "2509.23595",
+      "scholar_entry_ids": [
+        "HhTh7rQAAAAJ:zYLM7Y9cAGgC"
+      ]
     },
     {
       "id": "ptqtp",
@@ -192,7 +264,11 @@
       "summary": "Decomposes LLM weights into two ternary trit-planes for multiplication-free inference.",
       "authors_short": "H. Xiao*, R. Yang*, Q. Yang*, W. Xu, Z. Li, Y. Su, Z. Liu, H. Yang, N. Wong",
       "paper_url": "https://arxiv.org/abs/2509.16989",
-      "project_url": "https://github.com/HeXiao-55/PTQTP"
+      "project_url": "https://github.com/HeXiao-55/PTQTP",
+      "arxiv_id": "2509.16989",
+      "scholar_entry_ids": [
+        "HhTh7rQAAAAJ:IjCSPb-OGe4C"
+      ]
     },
     {
       "id": "quantization-reasoning",
@@ -204,7 +280,79 @@
       "year": 2025,
       "summary": "Analyzes step-level reasoning errors in quantized LLMs and uses targeted preference pairs to improve 4-bit mathematical reasoning.",
       "authors_short": "Z. Li*, Y. Su*, S. Wang, R. Yang, C. Xie, A. Liu, M. Li, J. Cao, Y. Xie, N. Wong, H. Yang",
-      "paper_url": "https://arxiv.org/abs/2505.11574"
+      "paper_url": "https://arxiv.org/abs/2505.11574",
+      "arxiv_id": "2505.11574",
+      "scholar_entry_ids": [
+        "HhTh7rQAAAAJ:Y0pCki6q_DkC",
+        "HhTh7rQAAAAJ:UeHWp8X0CEIC"
+      ],
+      "previous_titles": [
+        "InfiJanice: Joint Analysis and In-situ Correction Engine for Quantization-Induced Math Degradation in Large Language Models"
+      ]
+    },
+    {
+      "id": "quantization-reasoning-early",
+      "title": "Quantization Meets Reasoning: Exploring LLM Low-Bit Quantization Degradation for Mathematical Reasoning",
+      "authors": "Zhen Li*, Yupeng Su*, Runming Yang, Congkai Xie, Zheng Wang, Zhongwei Xie, Ngai Wong, Hongxia Yang",
+      "authors_short": "Z. Li*, Y. Su*, R. Yang, C. Xie, Z. Wang, Z. Xie, N. Wong, H. Yang",
+      "venue": "arXiv:2501.03035 (2025)",
+      "status": "Preprint",
+      "type": "preprint",
+      "year": 2025,
+      "paper_url": "https://arxiv.org/abs/2501.03035",
+      "summary": "Evaluates low-bit quantization on mathematical reasoning and studies error diagnosis and targeted recovery with task-specific examples.",
+      "arxiv_id": "2501.03035",
+      "scholar_entry_ids": [
+        "HhTh7rQAAAAJ:2osOgNQ5qMEC"
+      ]
+    },
+    {
+      "id": "llm-neo",
+      "title": "LLM-NEO: Parameter Efficient Knowledge Distillation for Large Language Models",
+      "authors": "Runming Yang*, Taiqiang Wu*, Jiahao Wang, Pengfei Hu, Yik-Chung Wu, Ngai Wong, Yujiu Yang",
+      "authors_short": "R. Yang*, T. Wu*, J. Wang, P. Hu, Y.-C. Wu, N. Wong, Y. Yang",
+      "venue": "arXiv:2411.06839 (2024; revised 2025)",
+      "status": "Preprint",
+      "type": "preprint",
+      "year": 2024,
+      "paper_url": "https://arxiv.org/abs/2411.06839",
+      "code_url": "https://github.com/yang3121099/LLM-Neo",
+      "summary": "Combines low-rank adaptation and knowledge distillation for parameter-efficient knowledge transfer from large teachers to compact students.",
+      "arxiv_id": "2411.06839",
+      "scholar_entry_ids": [
+        "HhTh7rQAAAAJ:9yKSN-GCB0IC"
+      ]
     }
-  ]
+  ],
+  "scholar": "https://scholar.google.com/citations?user=HhTh7rQAAAAJ&hl=en",
+  "publication_audit": {
+    "checked_on": "2026-10-13",
+    "scholar_url": "https://scholar.google.com/citations?user=HhTh7rQAAAAJ&hl=en",
+    "scholar_rows": 17,
+    "unique_bibliographic_records": 14,
+    "method": "Read all 17 rows of the live Google Scholar profile; Show More was disabled. Cross-checked arXiv author search, paper PDFs, and official proceedings. Matched versions by arXiv identifiers and paper titles.",
+    "added_ids": [
+      "lieq",
+      "llm-neo",
+      "simple-opd",
+      "quantization-reasoning-early"
+    ],
+    "duplicate_groups": [
+      {
+        "id": "shadow-ft",
+        "scholar_rows": 3,
+        "cv_rows": 1,
+        "reason": "Old and current titles and a second current-title entry refer to Shadow-FT."
+      },
+      {
+        "id": "quantization-reasoning",
+        "scholar_rows": 2,
+        "cv_rows": 1,
+        "reason": "InfiJanice is the previous title of arXiv:2505.11574."
+      }
+    ],
+    "related_records_note": "arXiv:2501.03035 and arXiv:2505.11574 have similar current titles, different author lists and separate entries in Scholar and the first author homepage. Retained as two public preprint records; this does not assert their research is entirely independent.",
+    "related_records_source": "https://ethanli24.github.io/",
+    "scholar_profile_modified": false
+  }
 }
