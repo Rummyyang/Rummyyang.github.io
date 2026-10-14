@@ -14,7 +14,7 @@ python3 scripts/build_cv_redirect.py
 python3 scripts/sync_homepage_cv.py
 ```
 
-The Chinese source remains `cv/runming_yang_cv.tex`; the English source is `cv/runming_yang_cv_en.tex`. Both are standalone and work in the Codex LaTeX editor. The original academic style is retained, with a centered header, black section rules, author-first entries, and Computer Modern Latin typography. Chinese uses Fandol fonts through `ctex`. Conference names appear in separate high-contrast badges; publications and preprints have separate numbering without heading counts. Submitted papers are explicitly labeled, and manuscripts are ordered by the author position of Runming Yang. For a local PDF export with existing TeX Live:
+The Chinese source remains `cv/runming_yang_cv.tex`; the English source is `cv/runming_yang_cv_en.tex`. Both are standalone and work in the Codex LaTeX editor. The original academic style is retained, with a centered header, black section rules, author-first entries, and Computer Modern Latin typography. Chinese uses Fandol fonts through `ctex`. Conference names appear inline on muted backgrounds, and each paper includes a short description; publications and preprints have separate numbering without heading counts. Submitted papers are explicitly labeled, and manuscripts are ordered by the author position of Runming Yang, with LLM-NEO and PTQTP placed last at the author’s request. For a local PDF export with existing TeX Live:
 
 ```sh
 cd cv

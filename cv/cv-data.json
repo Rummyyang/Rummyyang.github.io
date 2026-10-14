@@ -42,7 +42,7 @@
         "Research: model compression and knowledge distillation"
       ],
       "institution_zh": "清华大学",
-      "degree_zh": "大数据工程硕士",
+      "degree_zh": "大数据工程 硕士",
       "dates_zh": "2022.09 - 2025.06",
       "details_zh": [
         "导师：杨余久 教授；GPA：3.73/4.00",
@@ -96,15 +96,15 @@
       "bullets": [
         "Synthesized multimodal data and conducted model post-training and evaluation for image-text content moderation in QQ group chats, Qzone, and short-video comments.",
         "Worked on tiered deployment and inference acceleration; trained models were deployed in internal risk-control systems, improving throughput and reducing false-positive rates over the previous solution.",
-        "Researched large/small model collaboration, data distillation, and lightweight modeling; contributed to two academic papers and one company patent."
+        "Researched large/small model collaboration, data distillation, and lightweight modeling; contributed to two academic papers (Shadow-FT and LLM-NEO) and one company patent."
       ],
       "organization_zh": "腾讯 AI Lab",
       "title_zh": "科研实习生，信息安全部门",
       "dates_zh": "2023.11 - 2025.06",
       "bullets_zh": [
-        "面向 QQ 群聊、QQ 空间（Qzone）及短视频评论等场景的图文内容审核，开展多模态数据合成、模型后训练与测评。",
+        "面向 QQ 群聊、空间及短视频评论等场景的图文内容审核，开展多模态数据合成、模型后训练与测评。",
         "参与模型分级部署与推理加速，训练模型已在内部风控系统上线，相较前代方案提升吞吐率并降低误杀率。",
-        "研究大小模型协作、数据蒸馏与模型轻量化，产出两篇学术论文及一项公司专利。"
+        "研究大小模型协作、数据蒸馏与模型轻量化，产出两篇学术论文（Shadow-FT 和 LLM-NEO）及一项公司专利。"
       ]
     }
   ],
@@ -117,7 +117,7 @@
       "status": "Published",
       "type": "publication",
       "year": 2026,
-      "summary": "A training-free, three-stage interpolation framework between fast- and slow-thinking models for shorter chains of thought.",
+      "summary": "Interpolates fast- and slow-thinking models without training to balance reasoning quality and chain-of-thought length.",
       "authors_short": "T. Wu*, R. Yang*, T. Liu, J. Wang, N. Wong",
       "paper_url": "https://aclanthology.org/2026.acl-long.389/",
       "code_url": "https://github.com/wutaiqiang/MI",
@@ -239,25 +239,7 @@
       ],
       "summary_zh": "将基础模型的微调更新迁移至配对的指令模型。",
       "submission_venue": "NAACL 2027",
-      "venue_zh": "投稿至 NAACL 2027"
-    },
-    {
-      "id": "llm-neo",
-      "title": "LLM-NEO: Parameter Efficient Knowledge Distillation for Large Language Models",
-      "authors": "Runming Yang*, Taiqiang Wu*, Jiahao Wang, Pengfei Hu, Yik-Chung Wu, Ngai Wong, Yujiu Yang",
-      "authors_short": "R. Yang*, T. Wu*, J. Wang, P. Hu, Y.-C. Wu, N. Wong, Y. Yang",
-      "venue": "arXiv:2411.06839",
-      "status": "Preprint",
-      "type": "preprint",
-      "year": 2024,
-      "paper_url": "https://arxiv.org/abs/2411.06839",
-      "code_url": "https://github.com/yang3121099/LLM-Neo",
-      "summary": "Combines low-rank adaptation and knowledge distillation for parameter-efficient knowledge transfer from large teachers to compact students.",
-      "arxiv_id": "2411.06839",
-      "scholar_entry_ids": [
-        "HhTh7rQAAAAJ:9yKSN-GCB0IC"
-      ],
-      "summary_zh": "结合低秩适配与知识蒸馏，实现参数高效的知识迁移。"
+      "venue_zh": "Submitted to NAACL 2027"
     },
     {
       "id": "fluxbin",
@@ -277,7 +259,7 @@
       ],
       "summary_zh": "联合设计超低比特量化与查表 CUDA 算子，加速推理。",
       "submission_venue": "NAACL 2027",
-      "venue_zh": "投稿至 NAACL 2027"
+      "venue_zh": "Submitted to NAACL 2027"
     },
     {
       "id": "timber",
@@ -297,25 +279,7 @@
       ],
       "summary_zh": "以有效秩分析权重变化，无需训练即可优化指令模型。",
       "submission_venue": "NAACL 2027",
-      "venue_zh": "投稿至 NAACL 2027"
-    },
-    {
-      "id": "ptqtp",
-      "title": "PTQTP: Post-Training Quantization to Trit-Planes for Large Language Models",
-      "authors": "He Xiao*, Runming Yang*, Qingyao Yang*, Wendong Xu, Zhen Li, Yupeng Su, Zhengwu Liu, Hongxia Yang, Ngai Wong",
-      "venue": "arXiv:2509.16989",
-      "status": "Preprint",
-      "type": "preprint",
-      "year": 2025,
-      "summary": "Decomposes LLM weights into two ternary trit-planes with lookup-table kernels for efficient inference.",
-      "authors_short": "H. Xiao*, R. Yang*, Q. Yang*, W. Xu, Z. Li, Y. Su, Z. Liu, H. Yang, N. Wong",
-      "paper_url": "https://arxiv.org/abs/2509.16989",
-      "project_url": "https://github.com/HeXiao-55/PTQTP",
-      "arxiv_id": "2509.16989",
-      "scholar_entry_ids": [
-        "HhTh7rQAAAAJ:IjCSPb-OGe4C"
-      ],
-      "summary_zh": "结合双三值平面权重表示与查表算子，实现高效推理。"
+      "venue_zh": "Submitted to NAACL 2027"
     },
     {
       "id": "finif",
@@ -323,11 +287,14 @@
       "authors": "Yuanzhen Zhang, Taiqiang Wu, Runming Yang, Tao Liu, Junjie Wang, Yujiu Yang",
       "authors_short": "Y. Zhang, T. Wu, R. Yang, T. Liu, J. Wang, Y. Yang",
       "venue": "Submitted to EMNLP 2027",
-      "venue_zh": "投稿至 EMNLP 2027",
+      "venue_zh": "Submitted to EMNLP 2027",
       "submission_venue": "EMNLP 2027",
       "status": "Submitted",
       "type": "preprint",
-      "year": 2027
+      "year": 2027,
+      "summary": "Studies instruction-following evaluation in financial tasks, focusing on whether model responses satisfy task requirements.",
+      "summary_zh": "研究金融领域的指令遵循评测，关注模型回答对任务要求的满足情况。",
+      "summary_basis": "Scope-only description based on the user-provided paper title; no unprovided methods or experimental results claimed."
     },
     {
       "id": "quantization-reasoning",
@@ -371,7 +338,43 @@
       ],
       "summary_zh": "研究 OPD 预热，以教师 CoT 和 LoRA 初始化学生模型。",
       "submission_venue": "NAACL 2027",
-      "venue_zh": "投稿至 NAACL 2027"
+      "venue_zh": "Submitted to NAACL 2027"
+    },
+    {
+      "id": "llm-neo",
+      "title": "LLM-NEO: Parameter Efficient Knowledge Distillation for Large Language Models",
+      "authors": "Runming Yang*, Taiqiang Wu*, Jiahao Wang, Pengfei Hu, Yik-Chung Wu, Ngai Wong, Yujiu Yang",
+      "authors_short": "R. Yang*, T. Wu*, J. Wang, P. Hu, Y.-C. Wu, N. Wong, Y. Yang",
+      "venue": "arXiv:2411.06839",
+      "status": "Preprint",
+      "type": "preprint",
+      "year": 2024,
+      "paper_url": "https://arxiv.org/abs/2411.06839",
+      "code_url": "https://github.com/yang3121099/LLM-Neo",
+      "summary": "Combines low-rank adaptation and knowledge distillation for parameter-efficient knowledge transfer from large teachers to compact students.",
+      "arxiv_id": "2411.06839",
+      "scholar_entry_ids": [
+        "HhTh7rQAAAAJ:9yKSN-GCB0IC"
+      ],
+      "summary_zh": "结合低秩适配与知识蒸馏，实现参数高效的知识迁移。"
+    },
+    {
+      "id": "ptqtp",
+      "title": "PTQTP: Post-Training Quantization to Trit-Planes for Large Language Models",
+      "authors": "He Xiao*, Runming Yang*, Qingyao Yang*, Wendong Xu, Zhen Li, Yupeng Su, Zhengwu Liu, Hongxia Yang, Ngai Wong",
+      "venue": "arXiv:2509.16989",
+      "status": "Preprint",
+      "type": "preprint",
+      "year": 2025,
+      "summary": "Decomposes LLM weights into two ternary trit-planes with lookup-table kernels for efficient inference.",
+      "authors_short": "H. Xiao*, R. Yang*, Q. Yang*, W. Xu, Z. Li, Y. Su, Z. Liu, H. Yang, N. Wong",
+      "paper_url": "https://arxiv.org/abs/2509.16989",
+      "project_url": "https://github.com/HeXiao-55/PTQTP",
+      "arxiv_id": "2509.16989",
+      "scholar_entry_ids": [
+        "HhTh7rQAAAAJ:IjCSPb-OGe4C"
+      ],
+      "summary_zh": "结合双三值平面权重表示与查表算子，实现高效推理。"
     }
   ],
   "scholar": "https://scholar.google.com/citations?user=HhTh7rQAAAAJ&hl=en",
@@ -496,6 +499,6 @@
     "Efficient Reasoning",
     "Quantization"
   ],
-  "display_name_zh": "杨润明  YANG Runming",
-  "display_name_en": "YANG Runming"
+  "display_name_zh": "杨润明  Yang Runming",
+  "display_name_en": "Yang Runming"
 }

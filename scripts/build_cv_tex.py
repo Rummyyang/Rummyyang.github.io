@@ -9,7 +9,8 @@ DATA = json.loads((ROOT / 'cv/cv-data.json').read_text())
 
 def tex(value):
     replacements = {'\\': r'\textbackslash{}', '&': r'\&', '%': r'\%', '$': r'\$', '#': r'\#', '_': r'\_', '{': r'\{', '}': r'\}', '~': r'\textasciitilde{}', '^': r'\textasciicircum{}'}
-    return ''.join(replacements.get(c, c) for c in str(value))
+    rendered = ''.join(replacements.get(c, c) for c in str(value))
+    return rendered.replace('杨余久 教授', r'杨余久\hspace{0.35em}教授').replace('大数据工程 硕士', r'大数据工程\hspace{0.35em}硕士')
 
 
 def href(url, label):
@@ -50,10 +51,12 @@ def render(lang):
 \usepackage{needspace}
 \usepackage{enumitem}
 \definecolor{venueblue}{RGB}{28,66,105}
-\definecolor{venuefill}{RGB}{17,65,112}
-\definecolor{submissionfill}{RGB}{230,239,248}
-\newcommand{\venuebadge}[1]{\begingroup\setlength{\fboxsep}{3pt}\colorbox{venuefill}{\textcolor{white}{\strut\bfseries #1}}\endgroup}
-\newcommand{\submissionbadge}[1]{\begingroup\setlength{\fboxsep}{3pt}\colorbox{submissionfill}{\textcolor{venuefill}{\strut\bfseries #1}}\endgroup}
+\definecolor{venuefill}{RGB}{235,241,245}
+\definecolor{submissionfill}{RGB}{244,243,240}
+\definecolor{venuetext}{RGB}{50,70,86}
+\definecolor{summarytext}{RGB}{65,65,65}
+\newcommand{\venuebadge}[1]{\begingroup\setlength{\fboxsep}{1.5pt}\colorbox{venuefill}{\textcolor{venuetext}{\bfseries #1}}\endgroup}
+\newcommand{\submissionbadge}[1]{\begingroup\setlength{\fboxsep}{1.5pt}\colorbox{submissionfill}{\textcolor{venuetext}{\bfseries #1}}\endgroup}
 \hypersetup{colorlinks=true,linkcolor=blue,urlcolor=venueblue,
 '''
     header += 'pdftitle={' + title + r'},pdfauthor={Runming Yang}}' + '\n'
@@ -67,7 +70,7 @@ def render(lang):
 }{\par}
 \begin{document}
 \begingroup\centering{\LARGE\bfseries '''
-    header += (r'杨润明\quad YANG Runming' if zh else 'YANG Runming') + r'}\par\medskip\endgroup' + '\n'
+    header += (r'杨润明\quad Yang Runming' if zh else 'Yang Runming') + r'}\par\medskip\endgroup' + '\n'
     lines = [header]
     lines.append(r'\begingroup\centering ' + r' $\diamond$ '.join(['(+86) 17362995487', href('mailto:' + DATA['email'], DATA['email']), href(DATA['homepage'], DATA['homepage'])]) + r'\par\endgroup\smallskip')
     lines.append(('研究方向：' if zh else 'Research interests: ') + tex(' · '.join(DATA['interests_zh']) if zh else '; '.join(DATA['interests'])))
@@ -99,7 +102,8 @@ def render(lang):
             elif row.get('submission_venue'):
                 venue = r'\submissionbadge{' + venue + '}'
             links = ' '.join(href(row[key], '[' + name + ']') for key, name in [('paper_url', 'Paper'), ('code_url', 'Code'), ('project_url', 'Project')] if row.get(key))
-            entry = authors(row.get('authors_short', row['authors'])) + '. ' + r'\textit{' + tex(row['title']) + r'.}\\[2pt] ' + venue + r'\quad ' + links
+            entry = authors(row.get('authors_short', row['authors'])) + '. ' + r'\textit{' + tex(row['title']) + '.} ' + venue + ' ' + links
+            entry += r'\\[1pt]{\textcolor{summarytext}{' + tex(choose(row, 'summary')) + '}}'
             out.append(r'\item\begin{samepage} ' + entry + r'\par\end{samepage}')
         out.append(r'\end{enumerate}\end{rSection}\normalsize')
         return out

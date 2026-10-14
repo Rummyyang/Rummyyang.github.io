@@ -23,7 +23,7 @@ parts = [start_marker, h("Biography", "Biography"), '<p>I am a Ph.D. student in 
 for p in [x for x in data['publications'] if x['type']=='publication']:
     title = a(p['paper_url'],p['title']) if p.get('paper_url') else escape(p['title'])
     authors = escape(p['authors']).replace('Runming Yang', '<strong>Runming Yang</strong>').replace('R. Yang', '<strong>R. Yang</strong>')
-    parts.append('<li><p>'+title+'<br><small>'+authors+'.<br><strong style="display: inline-block; color: #fff; background: #114170; padding: 3px 8px; margin-top: 3px; font-size: 1.05em">'+escape(p['venue'])+'</strong></small></p></li>')
+    parts.append('<li><p>'+title+'<br><small>'+authors+'. <strong style="display: inline; color: #324656; background: #ebf1f5; padding: 1px 4px">'+escape(p['venue'])+'</strong></small></p></li>')
 parts += ['</ul>', h('Industry Experience','Internship')]
 for e in data['experience']:
     parts.append('<p><strong>'+escape(e['organization'])+'</strong> — '+escape(e['title'])+'<br>'+escape(e['dates'])+'</p>')

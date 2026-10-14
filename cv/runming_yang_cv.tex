@@ -14,10 +14,12 @@
 \usepackage{needspace}
 \usepackage{enumitem}
 \definecolor{venueblue}{RGB}{28,66,105}
-\definecolor{venuefill}{RGB}{17,65,112}
-\definecolor{submissionfill}{RGB}{230,239,248}
-\newcommand{\venuebadge}[1]{\begingroup\setlength{\fboxsep}{3pt}\colorbox{venuefill}{\textcolor{white}{\strut\bfseries #1}}\endgroup}
-\newcommand{\submissionbadge}[1]{\begingroup\setlength{\fboxsep}{3pt}\colorbox{submissionfill}{\textcolor{venuefill}{\strut\bfseries #1}}\endgroup}
+\definecolor{venuefill}{RGB}{235,241,245}
+\definecolor{submissionfill}{RGB}{244,243,240}
+\definecolor{venuetext}{RGB}{50,70,86}
+\definecolor{summarytext}{RGB}{65,65,65}
+\newcommand{\venuebadge}[1]{\begingroup\setlength{\fboxsep}{1.5pt}\colorbox{venuefill}{\textcolor{venuetext}{\bfseries #1}}\endgroup}
+\newcommand{\submissionbadge}[1]{\begingroup\setlength{\fboxsep}{1.5pt}\colorbox{submissionfill}{\textcolor{venuetext}{\bfseries #1}}\endgroup}
 \hypersetup{colorlinks=true,linkcolor=blue,urlcolor=venueblue,
 pdftitle={杨润明 - 学术简历},pdfauthor={Runming Yang}}
 
@@ -29,7 +31,7 @@ pdftitle={杨润明 - 学术简历},pdfauthor={Runming Yang}}
   \textbf{#1}\smallskip\hrule\smallskip
 }{\par}
 \begin{document}
-\begingroup\centering{\LARGE\bfseries 杨润明\quad YANG Runming}\par\medskip\endgroup
+\begingroup\centering{\LARGE\bfseries 杨润明\quad Yang Runming}\par\medskip\endgroup
 
 \begingroup\centering (+86) 17362995487 $\diamond$ \href{mailto:yang3121099@126.com}{yang3121099@126.com} $\diamond$ \href{https://rummyyang.github.io/}{https://rummyyang.github.io/}\par\endgroup\smallskip
 研究方向：LLM Post-training · Knowledge Distillation · Efficient Reasoning · Quantization
@@ -38,7 +40,7 @@ pdftitle={杨润明 - 学术简历},pdfauthor={Runming Yang}}
 ECE PhD 在读\quad |\quad 导师：\href{https://scholar.google.com/citations?user=PM_uMYIAAAAJ&hl=en}{Prof. Ngai Wong}；预计 2029.09 毕业
 
 \textbf{清华大学}\hfill 2022.09 - 2025.06\\
-大数据工程硕士\quad |\quad 导师：\href{https://scholar.google.com/citations?user=4gH3sxsAAAAJ&hl=en}{杨余久 教授}；GPA：3.73/4.00
+大数据工程\hspace{0.35em}硕士\quad |\quad 导师：\href{https://scholar.google.com/citations?user=4gH3sxsAAAAJ&hl=en}{杨余久\hspace{0.35em}教授}；GPA：3.73/4.00
 
 \textbf{华中科技大学}\hfill 2017.09 - 2021.06\\
 人工智能与自动化工学学士\quad |\quad 理工交叉创新实验班
@@ -47,19 +49,19 @@ ECE PhD 在读\quad |\quad 导师：\href{https://scholar.google.com/citations?u
 \begin{rSection}{已发表论文 / Publications}\small\raggedright
 \textsuperscript{*} 共同第一作者。
 \begin{enumerate}[label={[\arabic*]}]
-\item\begin{samepage} T. Wu\textsuperscript{*}, \textbf{R. Yang}\textsuperscript{*}, T. Liu, J. Wang, N. Wong. \textit{Revisiting Model Interpolation for Efficient Reasoning.}\\[2pt] \venuebadge{ACL 2026 (Main)}\quad \href{https://aclanthology.org/2026.acl-long.389/}{[Paper]} \href{https://github.com/wutaiqiang/MI}{[Code]}\par\end{samepage}
-\item\begin{samepage} T. Liu\textsuperscript{*}, T. Wu\textsuperscript{*}, \textbf{R. Yang}, S. Sun, J. Wang, Y. Yang. \textit{ProFit: Leveraging High-Value Signals in SFT via Probability-Guided Token Selection.}\\[2pt] \venuebadge{ACL 2026 (Findings)}\quad \href{https://aclanthology.org/2026.findings-acl.755/}{[Paper]} \href{https://github.com/Utaotao/ProFit}{[Code]}\par\end{samepage}
-\item\begin{samepage} T. Wu\textsuperscript{*}, Y. Cheng\textsuperscript{*}, C. Ding\textsuperscript{*}, \textbf{R. Yang}, X. Feng, W. Zhou, Z. Liu, N. Wong. \textit{Can We Trust LLMs on Memristors? Diving into Reasoning Ability under Non-Ideality.}\\[2pt] \venuebadge{COLM 2026}\quad \href{https://arxiv.org/abs/2603.13725}{[Paper]}\par\end{samepage}
-\item\begin{samepage} H. Xiao, Q. Yang, D. Xie, W. Xu, Z. Su, \textbf{R. Yang}, H. Liu, W. Zhou, Z. Liu, N. Wong. \textit{Exploring Layer-wise Information Effectiveness for Post-Training Quantization in Small Language Models.}\\[2pt] \venuebadge{ACL 2026 (Findings)}\quad \href{https://aclanthology.org/2026.findings-acl.771/}{[Paper]} \href{https://github.com/HeXiao-55/LieQ-official}{[Project]}\par\end{samepage}
-\item\begin{samepage} T. Wu, C. Tao, J. Wang, \textbf{R. Yang}, Z. Zhao, N. Wong. \textit{Rethinking Kullback-Leibler Divergence in Knowledge Distillation for Large Language Models.}\\[2pt] \venuebadge{COLING 2025 (Oral)}\quad \href{https://aclanthology.org/2025.coling-main.383/}{[Paper]} \href{https://github.com/wutaiqiang/LLM_KD_AKL}{[Code]}\par\end{samepage}
-\item\begin{samepage} \textbf{R. Yang}, T. Wu, Y. Yang. \textit{LoCa: Logit Calibration for Knowledge Distillation.}\\[2pt] \venuebadge{ECAI 2024}\quad \href{https://arxiv.org/abs/2409.04778}{[Paper]}\par\end{samepage}
+\item\begin{samepage} T. Wu\textsuperscript{*}, \textbf{R. Yang}\textsuperscript{*}, T. Liu, J. Wang, N. Wong. \textit{Revisiting Model Interpolation for Efficient Reasoning.} \venuebadge{ACL 2026 (Main)} \href{https://aclanthology.org/2026.acl-long.389/}{[Paper]} \href{https://github.com/wutaiqiang/MI}{[Code]}\\[1pt]{\textcolor{summarytext}{通过快慢思考模型插值，无需训练即可缩短推理链。}}\par\end{samepage}
+\item\begin{samepage} T. Liu\textsuperscript{*}, T. Wu\textsuperscript{*}, \textbf{R. Yang}, S. Sun, J. Wang, Y. Yang. \textit{ProFit: Leveraging High-Value Signals in SFT via Probability-Guided Token Selection.} \venuebadge{ACL 2026 (Findings)} \href{https://aclanthology.org/2026.findings-acl.755/}{[Paper]} \href{https://github.com/Utaotao/ProFit}{[Code]}\\[1pt]{\textcolor{summarytext}{基于当前策略概率选择高价值词元，改善监督微调。}}\par\end{samepage}
+\item\begin{samepage} T. Wu\textsuperscript{*}, Y. Cheng\textsuperscript{*}, C. Ding\textsuperscript{*}, \textbf{R. Yang}, X. Feng, W. Zhou, Z. Liu, N. Wong. \textit{Can We Trust LLMs on Memristors? Diving into Reasoning Ability under Non-Ideality.} \venuebadge{COLM 2026} \href{https://arxiv.org/abs/2603.13725}{[Paper]}\\[1pt]{\textcolor{summarytext}{分析忆阻器非理想性对推理的影响，并评估免训练缓解方法。}}\par\end{samepage}
+\item\begin{samepage} H. Xiao, Q. Yang, D. Xie, W. Xu, Z. Su, \textbf{R. Yang}, H. Liu, W. Zhou, Z. Liu, N. Wong. \textit{Exploring Layer-wise Information Effectiveness for Post-Training Quantization in Small Language Models.} \venuebadge{ACL 2026 (Findings)} \href{https://aclanthology.org/2026.findings-acl.771/}{[Paper]} \href{https://github.com/HeXiao-55/LieQ-official}{[Project]}\\[1pt]{\textcolor{summarytext}{基于层间信息有效性分配混合精度，优化小语言模型量化。}}\par\end{samepage}
+\item\begin{samepage} T. Wu, C. Tao, J. Wang, \textbf{R. Yang}, Z. Zhao, N. Wong. \textit{Rethinking Kullback-Leibler Divergence in Knowledge Distillation for Large Language Models.} \venuebadge{COLING 2025 (Oral)} \href{https://aclanthology.org/2025.coling-main.383/}{[Paper]} \href{https://github.com/wutaiqiang/LLM_KD_AKL}{[Code]}\\[1pt]{\textcolor{summarytext}{分析正向与反向 KL 的差异，提出自适应蒸馏目标。}}\par\end{samepage}
+\item\begin{samepage} \textbf{R. Yang}, T. Wu, Y. Yang. \textit{LoCa: Logit Calibration for Knowledge Distillation.} \venuebadge{ECAI 2024} \href{https://arxiv.org/abs/2409.04778}{[Paper]}\\[1pt]{\textcolor{summarytext}{校准教师在误分类样本上的 logits，改善知识蒸馏。}}\par\end{samepage}
 \end{enumerate}\end{rSection}\normalsize
 \begin{rSection}{科研实习 / Research Internship}
 \textbf{腾讯 AI Lab}\quad 科研实习生，信息安全部门\hfill 2023.11 - 2025.06
 \begin{itemize}
-\item 面向 QQ 群聊、QQ 空间（Qzone）及短视频评论等场景的图文内容审核，开展多模态数据合成、模型后训练与测评。
+\item 面向 QQ 群聊、空间及短视频评论等场景的图文内容审核，开展多模态数据合成、模型后训练与测评。
 \item 参与模型分级部署与推理加速，训练模型已在内部风控系统上线，相较前代方案提升吞吐率并降低误杀率。
-\item 研究大小模型协作、数据蒸馏与模型轻量化，产出两篇学术论文及一项公司专利。
+\item 研究大小模型协作、数据蒸馏与模型轻量化，产出两篇学术论文（Shadow-FT 和 LLM-NEO）及一项公司专利。
 \end{itemize}
 \end{rSection}
 \newpage\vspace*{12pt}
@@ -74,14 +76,14 @@ ECE PhD 在读\quad |\quad 导师：\href{https://scholar.google.com/citations?u
 \begin{rSection}{预印本与投稿论文 / Preprints \& Submissions}\small\raggedright
 \textsuperscript{*} 共同第一作者。
 \begin{enumerate}[label={[P\arabic*]}]
-\item\begin{samepage} \textbf{R. Yang}\textsuperscript{*}, T. Wu\textsuperscript{*}, J. Li, P. Hu, Y.-C. Wu, N. Wong, Y. Yang. \textit{Shadow-FT: Tuning Instruct Model via Training on Paired Base Model.}\\[2pt] \submissionbadge{投稿至 NAACL 2027}\quad \href{https://arxiv.org/abs/2505.12716}{[Paper]} \href{https://github.com/wutaiqiang/Shadow-FT}{[Code]}\par\end{samepage}
-\item\begin{samepage} \textbf{R. Yang}\textsuperscript{*}, T. Wu\textsuperscript{*}, J. Wang, P. Hu, Y.-C. Wu, N. Wong, Y. Yang. \textit{LLM-NEO: Parameter Efficient Knowledge Distillation for Large Language Models.}\\[2pt] arXiv:2411.06839\quad \href{https://arxiv.org/abs/2411.06839}{[Paper]} \href{https://github.com/yang3121099/LLM-Neo}{[Code]}\par\end{samepage}
-\item\begin{samepage} Q. Yang, \textbf{R. Yang}, H. Xiao, W. Xu, J. Chen, H. Liu, C. Ding, R. Hu, Y.-C. Wu, N. Wong. \textit{FluxBin: Flexible LUT-based Ultra-low-bit LLM Inference by Algorithm-Kernel Synergy.}\\[2pt] \submissionbadge{投稿至 NAACL 2027}\quad \href{https://arxiv.org/abs/2608.15602}{[Paper]} \href{https://github.com/nicyyyy/FluxBin}{[Code]}\par\end{samepage}
-\item\begin{samepage} T. Wu, \textbf{R. Yang}, T. Liu, J. Wang, Z. Xu, N. Wong. \textit{Timber: Training-free Instruct Model Refining with Base Model via Effective Rank.}\\[2pt] \submissionbadge{投稿至 NAACL 2027}\quad \href{https://arxiv.org/abs/2509.23595}{[Paper]} \href{https://github.com/wutaiqiang/Timber}{[Code]}\par\end{samepage}
-\item\begin{samepage} H. Xiao\textsuperscript{*}, \textbf{R. Yang}\textsuperscript{*}, Q. Yang\textsuperscript{*}, W. Xu, Z. Li, Y. Su, Z. Liu, H. Yang, N. Wong. \textit{PTQTP: Post-Training Quantization to Trit-Planes for Large Language Models.}\\[2pt] arXiv:2509.16989\quad \href{https://arxiv.org/abs/2509.16989}{[Paper]} \href{https://github.com/HeXiao-55/PTQTP}{[Project]}\par\end{samepage}
-\item\begin{samepage} Y. Zhang, T. Wu, \textbf{R. Yang}, T. Liu, J. Wang, Y. Yang. \textit{From Answers to Obligations: Benchmarking Financial Instruction Following with FinIF.}\\[2pt] \submissionbadge{投稿至 EMNLP 2027}\quad \par\end{samepage}
-\item\begin{samepage} Z. Li\textsuperscript{*}, Y. Su\textsuperscript{*}, S. Wang, \textbf{R. Yang}, C. Xie, A. Liu, M. Li, J. Cao, Y. Xie, N. Wong, H. Yang. \textit{Quantization Meets Reasoning: Exploring and Mitigating Degradation of Low-Bit LLMs in Mathematical Reasoning.}\\[2pt] arXiv:2505.11574\quad \href{https://arxiv.org/abs/2505.11574}{[Paper]}\par\end{samepage}
-\item\begin{samepage} T. Liu\textsuperscript{*}, T. Wu\textsuperscript{*}, M. Zheng, X. Luo, \textbf{R. Yang}, X. Yang, J. Wang, Y. Yang. \textit{Simple-OPD: Demystifying Warm-up for On-policy Distillation.}\\[2pt] \submissionbadge{投稿至 NAACL 2027}\quad \href{https://arxiv.org/abs/2608.06802}{[Paper]} \href{https://github.com/Utaotao/Simple-OPD}{[Code]}\par\end{samepage}
+\item\begin{samepage} \textbf{R. Yang}\textsuperscript{*}, T. Wu\textsuperscript{*}, J. Li, P. Hu, Y.-C. Wu, N. Wong, Y. Yang. \textit{Shadow-FT: Tuning Instruct Model via Training on Paired Base Model.} \submissionbadge{Submitted to NAACL 2027} \href{https://arxiv.org/abs/2505.12716}{[Paper]} \href{https://github.com/wutaiqiang/Shadow-FT}{[Code]}\\[1pt]{\textcolor{summarytext}{将基础模型的微调更新迁移至配对的指令模型。}}\par\end{samepage}
+\item\begin{samepage} Q. Yang, \textbf{R. Yang}, H. Xiao, W. Xu, J. Chen, H. Liu, C. Ding, R. Hu, Y.-C. Wu, N. Wong. \textit{FluxBin: Flexible LUT-based Ultra-low-bit LLM Inference by Algorithm-Kernel Synergy.} \submissionbadge{Submitted to NAACL 2027} \href{https://arxiv.org/abs/2608.15602}{[Paper]} \href{https://github.com/nicyyyy/FluxBin}{[Code]}\\[1pt]{\textcolor{summarytext}{联合设计超低比特量化与查表 CUDA 算子，加速推理。}}\par\end{samepage}
+\item\begin{samepage} T. Wu, \textbf{R. Yang}, T. Liu, J. Wang, Z. Xu, N. Wong. \textit{Timber: Training-free Instruct Model Refining with Base Model via Effective Rank.} \submissionbadge{Submitted to NAACL 2027} \href{https://arxiv.org/abs/2509.23595}{[Paper]} \href{https://github.com/wutaiqiang/Timber}{[Code]}\\[1pt]{\textcolor{summarytext}{以有效秩分析权重变化，无需训练即可优化指令模型。}}\par\end{samepage}
+\item\begin{samepage} Y. Zhang, T. Wu, \textbf{R. Yang}, T. Liu, J. Wang, Y. Yang. \textit{From Answers to Obligations: Benchmarking Financial Instruction Following with FinIF.} \submissionbadge{Submitted to EMNLP 2027} \\[1pt]{\textcolor{summarytext}{研究金融领域的指令遵循评测，关注模型回答对任务要求的满足情况。}}\par\end{samepage}
+\item\begin{samepage} Z. Li\textsuperscript{*}, Y. Su\textsuperscript{*}, S. Wang, \textbf{R. Yang}, C. Xie, A. Liu, M. Li, J. Cao, Y. Xie, N. Wong, H. Yang. \textit{Quantization Meets Reasoning: Exploring and Mitigating Degradation of Low-Bit LLMs in Mathematical Reasoning.} arXiv:2505.11574 \href{https://arxiv.org/abs/2505.11574}{[Paper]}\\[1pt]{\textcolor{summarytext}{分析量化模型的步骤级推理错误，以针对性偏好对改善数学推理。}}\par\end{samepage}
+\item\begin{samepage} T. Liu\textsuperscript{*}, T. Wu\textsuperscript{*}, M. Zheng, X. Luo, \textbf{R. Yang}, X. Yang, J. Wang, Y. Yang. \textit{Simple-OPD: Demystifying Warm-up for On-policy Distillation.} \submissionbadge{Submitted to NAACL 2027} \href{https://arxiv.org/abs/2608.06802}{[Paper]} \href{https://github.com/Utaotao/Simple-OPD}{[Code]}\\[1pt]{\textcolor{summarytext}{研究 OPD 预热，以教师 CoT 和 LoRA 初始化学生模型。}}\par\end{samepage}
+\item\begin{samepage} \textbf{R. Yang}\textsuperscript{*}, T. Wu\textsuperscript{*}, J. Wang, P. Hu, Y.-C. Wu, N. Wong, Y. Yang. \textit{LLM-NEO: Parameter Efficient Knowledge Distillation for Large Language Models.} arXiv:2411.06839 \href{https://arxiv.org/abs/2411.06839}{[Paper]} \href{https://github.com/yang3121099/LLM-Neo}{[Code]}\\[1pt]{\textcolor{summarytext}{结合低秩适配与知识蒸馏，实现参数高效的知识迁移。}}\par\end{samepage}
+\item\begin{samepage} H. Xiao\textsuperscript{*}, \textbf{R. Yang}\textsuperscript{*}, Q. Yang\textsuperscript{*}, W. Xu, Z. Li, Y. Su, Z. Liu, H. Yang, N. Wong. \textit{PTQTP: Post-Training Quantization to Trit-Planes for Large Language Models.} arXiv:2509.16989 \href{https://arxiv.org/abs/2509.16989}{[Paper]} \href{https://github.com/HeXiao-55/PTQTP}{[Project]}\\[1pt]{\textcolor{summarytext}{结合双三值平面权重表示与查表算子，实现高效推理。}}\par\end{samepage}
 \end{enumerate}\end{rSection}\normalsize
 \par\vspace{2pt}{\parfillskip=0pt\noindent\rule{\linewidth}{0.4pt}\par}
 \begin{center}\footnotesize 更新日期：2026.10.14\end{center}
