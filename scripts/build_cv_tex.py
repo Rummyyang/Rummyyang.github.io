@@ -50,6 +50,10 @@ def render(lang):
 \usepackage{needspace}
 \usepackage{enumitem}
 \definecolor{venueblue}{RGB}{28,66,105}
+\definecolor{venuefill}{RGB}{17,65,112}
+\definecolor{submissionfill}{RGB}{230,239,248}
+\newcommand{\venuebadge}[1]{\begingroup\setlength{\fboxsep}{3pt}\colorbox{venuefill}{\textcolor{white}{\strut\bfseries #1}}\endgroup}
+\newcommand{\submissionbadge}[1]{\begingroup\setlength{\fboxsep}{3pt}\colorbox{submissionfill}{\textcolor{venuefill}{\strut\bfseries #1}}\endgroup}
 \hypersetup{colorlinks=true,linkcolor=blue,urlcolor=venueblue,
 '''
     header += 'pdftitle={' + title + r'},pdfauthor={Runming Yang}}' + '\n'
@@ -63,53 +67,56 @@ def render(lang):
 }{\par}
 \begin{document}
 \begingroup\centering{\LARGE\bfseries '''
-    header += ('杨润明（Runming Yang）' if zh else 'Runming Yang') + r'}\par\medskip\endgroup' + '\n'
+    header += (r'杨润明\quad YANG Runming' if zh else 'YANG Runming') + r'}\par\medskip\endgroup' + '\n'
     lines = [header]
     lines.append(r'\begingroup\centering ' + r' $\diamond$ '.join(['(+86) 17362995487', href('mailto:' + DATA['email'], DATA['email']), href(DATA['homepage'], DATA['homepage'])]) + r'\par\endgroup\smallskip')
     lines.append(('研究方向：' if zh else 'Research interests: ') + tex(' · '.join(DATA['interests_zh']) if zh else '; '.join(DATA['interests'])))
-    lines.append(r'\begin{rSection}{' + ('教育背景' if zh else 'EDUCATION') + '}')
+    lines.append(r'\begin{rSection}{' + ('教育背景 / Education' if zh else 'EDUCATION') + '}')
     for row in DATA['education']:
         degree = choose(row, 'degree')
         if not zh and row['institution'] == 'The University of Hong Kong':
             degree = 'Ph.D. student in Electrical and Electronic Engineering'
         lines.append(r'\textbf{' + tex(choose(row, 'institution')) + r'}\hfill ' + tex(choose(row, 'dates')) + r'\\')
         if row['institution'] == 'The University of Hong Kong':
-            details = ('导师：Ngai Wong 教授；预计 2029.09 毕业' if zh else 'Advisor: Prof. Ngai Wong; expected Sep. 2029')
+            details = ('导师：' if zh else 'Advisor: ') + href(row['advisor_url'], 'Prof. Ngai Wong') + ('；预计 2029.09 毕业' if zh else '; expected Sep. 2029')
         elif row['institution'] == 'Tsinghua University':
-            details = ('导师：Yujiu Yang 教授；GPA：3.73/4.00' if zh else 'Advisor: Prof. Yujiu Yang; GPA: 3.73/4.00')
+            details = ('导师：' if zh else 'Advisor: ') + href(row['advisor_url'], '杨余久 教授' if zh else 'Prof. Yujiu Yang') + ('；GPA：3.73/4.00' if zh else '; GPA: 3.73/4.00')
         else:
-            details = choose(row, 'details')[0]
-        lines.append(tex(degree) + r'\quad |\quad ' + tex(details) + '\n')
+            details = tex(choose(row, 'details')[0])
+        lines.append(tex(degree) + r'\quad |\quad ' + details + '\n')
     lines.append(r'\end{rSection}')
 
     def papers(kind):
         rows = [r for r in DATA['publications'] if r['type'] == kind]
-        label = ('已发表论文' if kind == 'publication' else '预印本与投稿论文') if zh else ('PUBLICATIONS' if kind == 'publication' else 'PREPRINTS AND SUBMITTED MANUSCRIPTS')
-        count = f'（{len(rows)} 篇）' if zh else f' ({len(rows)})'
-        out = [r'\begin{rSection}{' + label + count + r'}\small\raggedright']
-        out.append((r'\textsuperscript{*} 共同第一作者。' if zh else r'\textsuperscript{*} Equal contribution.') + ((' 预印本不计入上述已发表论文。' if zh else ' Preprints are counted separately from publications.') if kind == 'preprint' else ''))
+        label = ('已发表论文 / Publications' if kind == 'publication' else r'预印本与投稿论文 / Preprints \& Submissions') if zh else ('PUBLICATIONS' if kind == 'publication' else 'PREPRINTS AND SUBMITTED MANUSCRIPTS')
+        out = [r'\begin{rSection}{' + label + r'}\small\raggedright']
+        out.append(r'\textsuperscript{*} 共同第一作者。' if zh else r'\textsuperscript{*} Equal contribution.')
         out.append(r'\begin{enumerate}[label={' + (r'[\arabic*]' if kind == 'publication' else r'[P\arabic*]') + '}]')
         for row in rows:
-            venue = tex(row['venue'])
+            venue = tex(choose(row, 'venue'))
             if kind == 'publication':
-                venue = r'\mbox{\textcolor{venueblue}{\textbf{' + venue + '}}}'
+                venue = r'\venuebadge{' + venue + '}'
+            elif row.get('submission_venue'):
+                venue = r'\submissionbadge{' + venue + '}'
             links = ' '.join(href(row[key], '[' + name + ']') for key, name in [('paper_url', 'Paper'), ('code_url', 'Code'), ('project_url', 'Project')] if row.get(key))
-            entry = authors(row.get('authors_short', row['authors'])) + '. ' + r'\textit{' + tex(row['title']) + '.} ' + venue + ' ' + links
-            if row.get('author_order_note'):
-                entry += r'\\{\footnotesize ' + tex(choose(row, 'author_order_note')) + '}'
+            entry = authors(row.get('authors_short', row['authors'])) + '. ' + r'\textit{' + tex(row['title']) + r'.}\\[2pt] ' + venue + r'\quad ' + links
             out.append(r'\item\begin{samepage} ' + entry + r'\par\end{samepage}')
         out.append(r'\end{enumerate}\end{rSection}\normalsize')
         return out
 
     lines.extend(papers('publication'))
-    lines.append(r'\begin{rSection}{' + ('科研实习' if zh else 'RESEARCH INTERNSHIP') + '}')
+    lines.append(r'\begin{rSection}{' + ('科研实习 / Research Internship' if zh else 'RESEARCH INTERNSHIP') + '}')
     for row in DATA['experience']:
-        lines.append(r'\textbf{' + tex(choose(row, 'organization')) + r'}\hfill ' + tex(choose(row, 'dates')) + r'\\' + tex(choose(row, 'title')))
+        if zh:
+            lines.append(r'\textbf{' + tex(choose(row, 'organization')) + r'}\quad ' + tex(choose(row, 'title')) + r'\hfill ' + tex(choose(row, 'dates')))
+        else:
+            lines.append(r'\textbf{' + tex(row['organization']) + r'}\hfill ' + tex(row['dates']) + r'\\' + tex(row['title']))
         lines.append(r'\begin{itemize}')
         lines.extend(r'\item ' + tex(b) for b in choose(row, 'bullets'))
         lines.append(r'\end{itemize}')
     lines.append(r'\end{rSection}')
-    lines.append(r'\begin{rSection}{' + ('在研项目' if zh else 'ONGOING RESEARCH') + '}')
+    lines.append(r'\newpage\vspace*{12pt}')
+    lines.append(r'\begin{rSection}{' + ('在研项目 / Ongoing Research' if zh else 'ONGOING RESEARCH') + '}')
     for row in DATA['current_research']:
         lines.append(r'\textbf{' + tex(choose(row, 'title')) + r'}\hfill ' + tex(choose(row, 'dates')) + r'\\')
         lines.append('香港大学博士阶段与其他团队合作研究' if zh else 'Collaborative Ph.D. research at the University of Hong Kong')

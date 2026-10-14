@@ -24,12 +24,13 @@
         "Research: LLM efficiency and post-training"
       ],
       "institution_zh": "香港大学",
-      "degree_zh": "电气与电子工程博士（在读）",
+      "degree_zh": "ECE PhD 在读",
       "dates_zh": "2025.10 - 至今",
       "details_zh": [
-        "导师：Ngai Wong 教授；预计 2029.09 毕业",
+        "导师：Prof. Ngai Wong；预计 2029.09 毕业",
         "研究方向：大语言模型效率与后训练"
-      ]
+      ],
+      "advisor_url": "https://scholar.google.com/citations?user=PM_uMYIAAAAJ&hl=en"
     },
     {
       "institution": "Tsinghua University",
@@ -44,9 +45,10 @@
       "degree_zh": "大数据工程硕士",
       "dates_zh": "2022.09 - 2025.06",
       "details_zh": [
-        "导师：Yujiu Yang 教授；GPA：3.73/4.00",
+        "导师：杨余久 教授；GPA：3.73/4.00",
         "研究方向：模型压缩与知识蒸馏"
-      ]
+      ],
+      "advisor_url": "https://scholar.google.com/citations?user=4gH3sxsAAAAJ&hl=en"
     },
     {
       "institution": "Huazhong University of Science and Technology",
@@ -92,15 +94,15 @@
       "title": "Research Intern, Information Security Department",
       "dates": "Nov. 2023 - Jun. 2025",
       "bullets": [
-        "Synthesized image-text data and conducted model post-training and evaluation for QQ content recognition and moderation.",
+        "Synthesized multimodal data and conducted model post-training and evaluation for image-text content moderation in QQ group chats, Qzone, and short-video comments.",
         "Worked on tiered deployment and inference acceleration; trained models were deployed in internal risk-control systems, improving throughput and reducing false-positive rates over the previous solution.",
         "Researched large/small model collaboration, data distillation, and lightweight modeling; contributed to two academic papers and one company patent."
       ],
       "organization_zh": "腾讯 AI Lab",
-      "title_zh": "科研实习生，信息安全部门（信安）",
+      "title_zh": "科研实习生，信息安全部门",
       "dates_zh": "2023.11 - 2025.06",
       "bullets_zh": [
-        "面向 QQ 内容识别与审核，开展图文多模态数据合成、模型后训练与测评。",
+        "面向 QQ 群聊、QQ 空间（Qzone）及短视频评论等场景的图文内容审核，开展多模态数据合成、模型后训练与测评。",
         "参与模型分级部署与推理加速，训练模型已在内部风控系统上线，相较前代方案提升吞吐率并降低误杀率。",
         "研究大小模型协作、数据蒸馏与模型轻量化，产出两篇学术论文及一项公司专利。"
       ]
@@ -215,47 +217,11 @@
       "summary_zh": "校准教师在误分类样本上的 logits，改善知识蒸馏。"
     },
     {
-      "id": "fluxbin",
-      "title": "FluxBin: Flexible LUT-based Ultra-low-bit LLM Inference by Algorithm-Kernel Synergy",
-      "authors": "Qingyao Yang, Runming Yang, He Xiao, Wendong Xu, Junyu Chen, Haobo Liu, Chenchen Ding, Ruihan Hu, Yik-Chung Wu, Ngai Wong",
-      "authors_short": "Q. Yang, R. Yang, H. Xiao, W. Xu, J. Chen, H. Liu, C. Ding, R. Hu, Y.-C. Wu, N. Wong",
-      "venue": "arXiv:2608.15602 (2026)",
-      "status": "Preprint",
-      "type": "preprint",
-      "year": 2026,
-      "paper_url": "https://arxiv.org/abs/2608.15602",
-      "code_url": "https://github.com/nicyyyy/FluxBin",
-      "summary": "Co-designs ultra-low-bit post-training quantization and lookup-table CUDA kernels for efficient LLM inference.",
-      "arxiv_id": "2608.15602",
-      "scholar_entry_ids": [
-        "HhTh7rQAAAAJ:LkGwnXOMwfcC"
-      ],
-      "summary_zh": "联合设计超低比特量化与查表 CUDA 算子，加速推理。"
-    },
-    {
-      "id": "simple-opd",
-      "title": "Simple-OPD: Demystifying Warm-up for On-policy Distillation",
-      "authors": "Tao Liu*, Taiqiang Wu*, Mao Zheng, Xuan Luo, Runming Yang, Xuewei Yang, Junjie Wang, Yujiu Yang",
-      "authors_short": "T. Liu*, T. Wu*, M. Zheng, X. Luo, R. Yang, X. Yang, J. Wang, Y. Yang",
-      "venue": "arXiv:2608.06802 (2026)",
-      "status": "Preprint",
-      "type": "preprint",
-      "year": 2026,
-      "paper_url": "https://arxiv.org/abs/2608.06802",
-      "summary": "Studies warm-up for on-policy distillation and initializes students with LoRA on teacher-generated chains of thought.",
-      "code_url": "https://github.com/Utaotao/Simple-OPD",
-      "arxiv_id": "2608.06802",
-      "scholar_entry_ids": [
-        "HhTh7rQAAAAJ:_FxGoFyzp5QC"
-      ],
-      "summary_zh": "研究 OPD 预热，以教师 CoT 和 LoRA 初始化学生模型。"
-    },
-    {
       "id": "shadow-ft",
       "title": "Shadow-FT: Tuning Instruct Model via Training on Paired Base Model",
       "authors": "Runming Yang*, Taiqiang Wu*, Jiayi Li, Pengfei Hu, Yik-Chung Wu, Ngai Wong, Yujiu Yang",
-      "venue": "arXiv:2505.12716 (2025)",
-      "status": "Preprint",
+      "venue": "Submitted to NAACL 2027",
+      "status": "Submitted",
       "type": "preprint",
       "year": 2025,
       "summary": "Transfers fine-tuning updates from a base model to its paired instruction-tuned model.",
@@ -271,16 +237,54 @@
       "previous_titles": [
         "Shadow-FT: Tuning Instruct via Base"
       ],
-      "author_order_note": "Author order follows the submitted manuscript.",
-      "author_order_note_zh": "作者顺序按投稿版本。",
-      "summary_zh": "将基础模型的微调更新迁移至配对的指令模型。"
+      "summary_zh": "将基础模型的微调更新迁移至配对的指令模型。",
+      "submission_venue": "NAACL 2027",
+      "venue_zh": "投稿至 NAACL 2027"
+    },
+    {
+      "id": "llm-neo",
+      "title": "LLM-NEO: Parameter Efficient Knowledge Distillation for Large Language Models",
+      "authors": "Runming Yang*, Taiqiang Wu*, Jiahao Wang, Pengfei Hu, Yik-Chung Wu, Ngai Wong, Yujiu Yang",
+      "authors_short": "R. Yang*, T. Wu*, J. Wang, P. Hu, Y.-C. Wu, N. Wong, Y. Yang",
+      "venue": "arXiv:2411.06839",
+      "status": "Preprint",
+      "type": "preprint",
+      "year": 2024,
+      "paper_url": "https://arxiv.org/abs/2411.06839",
+      "code_url": "https://github.com/yang3121099/LLM-Neo",
+      "summary": "Combines low-rank adaptation and knowledge distillation for parameter-efficient knowledge transfer from large teachers to compact students.",
+      "arxiv_id": "2411.06839",
+      "scholar_entry_ids": [
+        "HhTh7rQAAAAJ:9yKSN-GCB0IC"
+      ],
+      "summary_zh": "结合低秩适配与知识蒸馏，实现参数高效的知识迁移。"
+    },
+    {
+      "id": "fluxbin",
+      "title": "FluxBin: Flexible LUT-based Ultra-low-bit LLM Inference by Algorithm-Kernel Synergy",
+      "authors": "Qingyao Yang, Runming Yang, He Xiao, Wendong Xu, Junyu Chen, Haobo Liu, Chenchen Ding, Ruihan Hu, Yik-Chung Wu, Ngai Wong",
+      "authors_short": "Q. Yang, R. Yang, H. Xiao, W. Xu, J. Chen, H. Liu, C. Ding, R. Hu, Y.-C. Wu, N. Wong",
+      "venue": "Submitted to NAACL 2027",
+      "status": "Submitted",
+      "type": "preprint",
+      "year": 2026,
+      "paper_url": "https://arxiv.org/abs/2608.15602",
+      "code_url": "https://github.com/nicyyyy/FluxBin",
+      "summary": "Co-designs ultra-low-bit post-training quantization and lookup-table CUDA kernels for efficient LLM inference.",
+      "arxiv_id": "2608.15602",
+      "scholar_entry_ids": [
+        "HhTh7rQAAAAJ:LkGwnXOMwfcC"
+      ],
+      "summary_zh": "联合设计超低比特量化与查表 CUDA 算子，加速推理。",
+      "submission_venue": "NAACL 2027",
+      "venue_zh": "投稿至 NAACL 2027"
     },
     {
       "id": "timber",
-      "title": "Timber: Training-free Instruct Model Refining with Base via Effective Rank",
+      "title": "Timber: Training-free Instruct Model Refining with Base Model via Effective Rank",
       "authors": "Taiqiang Wu, Runming Yang, Tao Liu, Jiahao Wang, Zenan Xu, Ngai Wong",
-      "venue": "arXiv:2509.23595 (2025)",
-      "status": "Preprint",
+      "venue": "Submitted to NAACL 2027",
+      "status": "Submitted",
       "type": "preprint",
       "year": 2025,
       "summary": "Uses effective rank to analyze post-training weight changes and refine instruction-tuned models without additional training.",
@@ -291,13 +295,15 @@
       "scholar_entry_ids": [
         "HhTh7rQAAAAJ:zYLM7Y9cAGgC"
       ],
-      "summary_zh": "以有效秩分析权重变化，无需训练即可优化指令模型。"
+      "summary_zh": "以有效秩分析权重变化，无需训练即可优化指令模型。",
+      "submission_venue": "NAACL 2027",
+      "venue_zh": "投稿至 NAACL 2027"
     },
     {
       "id": "ptqtp",
       "title": "PTQTP: Post-Training Quantization to Trit-Planes for Large Language Models",
       "authors": "He Xiao*, Runming Yang*, Qingyao Yang*, Wendong Xu, Zhen Li, Yupeng Su, Zhengwu Liu, Hongxia Yang, Ngai Wong",
-      "venue": "arXiv:2509.16989 (2025)",
+      "venue": "arXiv:2509.16989",
       "status": "Preprint",
       "type": "preprint",
       "year": 2025,
@@ -312,10 +318,22 @@
       "summary_zh": "结合双三值平面权重表示与查表算子，实现高效推理。"
     },
     {
+      "id": "finif",
+      "title": "From Answers to Obligations: Benchmarking Financial Instruction Following with FinIF",
+      "authors": "Yuanzhen Zhang, Taiqiang Wu, Runming Yang, Tao Liu, Junjie Wang, Yujiu Yang",
+      "authors_short": "Y. Zhang, T. Wu, R. Yang, T. Liu, J. Wang, Y. Yang",
+      "venue": "Submitted to EMNLP 2027",
+      "venue_zh": "投稿至 EMNLP 2027",
+      "submission_venue": "EMNLP 2027",
+      "status": "Submitted",
+      "type": "preprint",
+      "year": 2027
+    },
+    {
       "id": "quantization-reasoning",
       "title": "Quantization Meets Reasoning: Exploring and Mitigating Degradation of Low-Bit LLMs in Mathematical Reasoning",
       "authors": "Zhen Li*, Yupeng Su*, Songmiao Wang, Runming Yang, Congkai Xie, Aofan Liu, Ming Li, Jiannong Cao, Yuan Xie, Ngai Wong, Hongxia Yang",
-      "venue": "arXiv:2505.11574 (2025; revised 2026)",
+      "venue": "arXiv:2505.11574",
       "status": "Preprint",
       "type": "preprint",
       "year": 2025,
@@ -336,22 +354,24 @@
       "summary_zh": "分析量化模型的步骤级推理错误，以针对性偏好对改善数学推理。"
     },
     {
-      "id": "llm-neo",
-      "title": "LLM-NEO: Parameter Efficient Knowledge Distillation for Large Language Models",
-      "authors": "Runming Yang*, Taiqiang Wu*, Jiahao Wang, Pengfei Hu, Yik-Chung Wu, Ngai Wong, Yujiu Yang",
-      "authors_short": "R. Yang*, T. Wu*, J. Wang, P. Hu, Y.-C. Wu, N. Wong, Y. Yang",
-      "venue": "arXiv:2411.06839 (2024; revised 2025)",
-      "status": "Preprint",
+      "id": "simple-opd",
+      "title": "Simple-OPD: Demystifying Warm-up for On-policy Distillation",
+      "authors": "Tao Liu*, Taiqiang Wu*, Mao Zheng, Xuan Luo, Runming Yang, Xuewei Yang, Junjie Wang, Yujiu Yang",
+      "authors_short": "T. Liu*, T. Wu*, M. Zheng, X. Luo, R. Yang, X. Yang, J. Wang, Y. Yang",
+      "venue": "Submitted to NAACL 2027",
+      "status": "Submitted",
       "type": "preprint",
-      "year": 2024,
-      "paper_url": "https://arxiv.org/abs/2411.06839",
-      "code_url": "https://github.com/yang3121099/LLM-Neo",
-      "summary": "Combines low-rank adaptation and knowledge distillation for parameter-efficient knowledge transfer from large teachers to compact students.",
-      "arxiv_id": "2411.06839",
+      "year": 2026,
+      "paper_url": "https://arxiv.org/abs/2608.06802",
+      "summary": "Studies warm-up for on-policy distillation and initializes students with LoRA on teacher-generated chains of thought.",
+      "code_url": "https://github.com/Utaotao/Simple-OPD",
+      "arxiv_id": "2608.06802",
       "scholar_entry_ids": [
-        "HhTh7rQAAAAJ:9yKSN-GCB0IC"
+        "HhTh7rQAAAAJ:_FxGoFyzp5QC"
       ],
-      "summary_zh": "结合低秩适配与知识蒸馏，实现参数高效的知识迁移。"
+      "summary_zh": "研究 OPD 预热，以教师 CoT 和 LoRA 初始化学生模型。",
+      "submission_venue": "NAACL 2027",
+      "venue_zh": "投稿至 NAACL 2027"
     }
   ],
   "scholar": "https://scholar.google.com/citations?user=HhTh7rQAAAAJ&hl=en",
@@ -383,7 +403,7 @@
     "related_records_note": "Full-text comparison supports treating arXiv:2505.11574 as an expanded study on the same research line as arXiv:2501.03035 for CV presentation. Shared format-alignment, error-attribution and targeted-restoration pipeline and reused case studies support consolidation. Later experiments and results were revised and broadened; this is an editorial inference, not a formal arXiv replacement declaration. Display only 2505.11574 in the CV.",
     "related_records_source": "https://ethanli24.github.io/",
     "scholar_profile_modified": false,
-    "cv_publication_entries": 13,
+    "cv_publication_entries": 14,
     "related_work_consolidations": [
       {
         "display_id": "quantization-reasoning",
@@ -432,7 +452,11 @@
           "https://arxiv.org/html/2505.11574v4"
         ]
       }
-    ]
+    ],
+    "user_confirmed_update": {
+      "date": "2026-10-14",
+      "note": "User confirmed submission destinations: FluxBin, Simple-OPD, Timber and Shadow-FT to NAACL 2027; FinIF to EMNLP 2027, with six authors and no public arXiv record. These are submissions, not acceptances."
+    }
   },
   "current_research": [
     {
@@ -467,9 +491,11 @@
     "pdf_en": "runming_yang_cv_en.pdf"
   },
   "interests_zh": [
-    "大语言模型后训练",
-    "知识蒸馏",
-    "高效推理",
-    "低比特量化"
-  ]
+    "LLM Post-training",
+    "Knowledge Distillation",
+    "Efficient Reasoning",
+    "Quantization"
+  ],
+  "display_name_zh": "杨润明  YANG Runming",
+  "display_name_en": "YANG Runming"
 }

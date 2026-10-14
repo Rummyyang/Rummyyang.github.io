@@ -14,7 +14,7 @@ python3 scripts/build_cv_redirect.py
 python3 scripts/sync_homepage_cv.py
 ```
 
-The Chinese source remains `cv/runming_yang_cv.tex`; the English source is `cv/runming_yang_cv_en.tex`. Both are standalone and work in the Codex LaTeX editor. The original academic style is retained, with a centered header, black section rules, author-first entries, and Computer Modern Latin typography. Chinese uses Fandol fonts through `ctex`. Conference names are bold dark blue; publications and preprints have separate counts and numbering. For a local PDF export with existing TeX Live:
+The Chinese source remains `cv/runming_yang_cv.tex`; the English source is `cv/runming_yang_cv_en.tex`. Both are standalone and work in the Codex LaTeX editor. The original academic style is retained, with a centered header, black section rules, author-first entries, and Computer Modern Latin typography. Chinese uses Fandol fonts through `ctex`. Conference names appear in separate high-contrast badges; publications and preprints have separate numbering without heading counts. Submitted papers are explicitly labeled, and manuscripts are ordered by the author position of Runming Yang. For a local PDF export with existing TeX Live:
 
 ```sh
 cd cv
@@ -23,7 +23,7 @@ pdflatex -no-shell-escape -interaction=nonstopmode -halt-on-error runming_yang_c
 cp runming_yang_cv_zh.pdf runming_yang_cv.pdf
 ```
 
-Commit the data, generated LaTeX, PDFs, homepage, and compatibility redirect together. GitHub Pages serves the repository root on `main`. Keep publication status, author order, and equal-contribution markers accurate; user-confirmed submission-version differences are explicitly labeled instead of implying the linked public preprint changed. Current HKU research framing is a proposed approach and objective, not a claim of completed experiments. A `project_url` labels a project page separately from released code (`code_url`).
+Commit the data, generated LaTeX, PDFs, homepage, and compatibility redirect together. GitHub Pages serves the repository root on `main`. Keep publication status, author order, and equal-contribution markers accurate; authorship follows the user-confirmed manuscript version, while submission destinations are labeled as submissions rather than acceptances. Public preprint links may refer to earlier manuscript versions. Current HKU research framing is a proposed approach and objective, not a claim of completed experiments. A `project_url` labels a project page separately from released code (`code_url`).
 
 ## Research learning pages
 
