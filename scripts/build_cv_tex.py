@@ -1,100 +1,130 @@
 #!/usr/bin/env python3
-"""Build a standalone CV using the user's original 2604 resume typography."""
+"""Build concise Chinese/English CVs in the original academic resume style."""
 import json
-import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA = json.loads((ROOT / "cv/cv-data.json").read_text())
+DATA = json.loads((ROOT / 'cv/cv-data.json').read_text())
 
 
 def tex(value):
-    replacements = {"\\": r"\textbackslash{}", "&": r"\&", "%": r"\%", "$": r"\$", "#": r"\#", "_": r"\_", "{": r"\{", "}": r"\}", "~": r"\textasciitilde{}", "^": r"\textasciicircum{}"}
-    return "".join(replacements.get(c, c) for c in value)
+    replacements = {'\\': r'\textbackslash{}', '&': r'\&', '%': r'\%', '$': r'\$', '#': r'\#', '_': r'\_', '{': r'\{', '}': r'\}', '~': r'\textasciitilde{}', '^': r'\textasciicircum{}'}
+    return ''.join(replacements.get(c, c) for c in str(value))
 
 
 def href(url, label):
-    return r"\href{" + url.replace("%", r"\%").replace("#", r"\#") + "}{" + tex(label) + "}"
+    return r'\href{' + url.replace('%', r'\%').replace('#', r'\#') + '}{' + tex(label) + '}'
 
 
-def pub_author(value):
-    return re.sub(r"(?<!\w)(?:Runming Yang|R\. Yang)(?:\*)?(?!\w)", lambda m: r"\textbf{" + m.group(0) + "}", tex(value))
+def authors(value):
+    parts = []
+    for author in value.split(', '):
+        name = author.rstrip('*')
+        rendered = tex(name)
+        if name in ('Runming Yang', 'R. Yang'):
+            rendered = r'\textbf{' + rendered + '}'
+        if author.endswith('*'):
+            rendered += r'\textsuperscript{*}'
+        parts.append(rendered)
+    return ', '.join(parts)
 
 
-lines = [r"""% Original resume template: Copyright (C) 2010 by Trey Hunner.
+def render(lang):
+    zh = lang == 'zh'
+    choose = lambda row, key: row.get(key + '_zh', row[key]) if zh else row[key]
+    title = '杨润明 - 学术简历' if zh else 'Runming Yang - Curriculum Vitae'
+    header = r'''% Original resume template: Copyright (C) 2010 by Trey Hunner.
 % Created by Trey Hunner and modified by www.LaTeXTemplates.com.
 % Copying and distribution, with or without modification, are permitted in any
 % medium without royalty provided this copyright notice and notice are preserved.
 % This file is offered as-is, without any warranty.
-% The original class typography is inlined for standalone editor compilation.
-\documentclass[11pt,a4paper]{article}
+% Standalone source; Chinese edition uses XeLaTeX and bundled Fandol fonts.
+'''
+    header += ('% !TeX program = xelatex\n' + r'\documentclass[UTF8,fontset=fandol,11pt,a4paper]{ctexart}' if zh else r'\documentclass[11pt,a4paper]{article}')
+    header += r'''
 \usepackage[left=0.4in,top=0.4in,right=0.4in,bottom=0.3in]{geometry}
 \usepackage[parfill]{parskip}
 \usepackage{array}
+\usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage{needspace}
-\hypersetup{colorlinks=true,linkcolor=blue,filecolor=magenta,urlcolor=cyan,
- pdftitle={Yang Runming - Curriculum Vitae},pdfauthor={Runming Yang}}
+\usepackage{enumitem}
+\definecolor{venueblue}{RGB}{28,66,105}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=venueblue,
+'''
+    header += 'pdftitle={' + title + r'},pdfauthor={Runming Yang}}' + '\n'
+    header += r'''
 \pagestyle{empty}
+\setlist[itemize]{leftmargin=1.25em,itemsep=2pt,topsep=3pt,parsep=0pt}
+\setlist[enumerate]{leftmargin=2.5em,itemsep=5pt,topsep=3pt,parsep=0pt}
 \newenvironment{rSection}[1]{
-  \Needspace{9\baselineskip}\medskip
-  \MakeUppercase{\textbf{#1}}\medskip\hrule
-  \begin{list}{}{\setlength{\leftmargin}{0em}}\item[]
-}{\end{list}}
+  \Needspace{7\baselineskip}\medskip
+  \textbf{#1}\smallskip\hrule\smallskip
+}{\par}
 \begin{document}
-\begingroup
-  \centering{\LARGE\bfseries Yang Runming}\par\medskip
-\endgroup
-"""]
-lines.append(r"\begingroup\centering " + r" $\diamond$ ".join([
-    "Tel: (+86) 17362995487", href("mailto:" + DATA["email"], DATA["email"]),
-    href(DATA["homepage"], DATA["homepage"])
-]) + r"\par\endgroup\smallskip")
-lines.append(r"\begin{rSection}{Education}")
-for e in DATA["education"]:
-    details = e["details"]
-    degree = e["degree"]
-    if e["institution"] == "The University of Hong Kong":
-        degree = "Ph.D. student in Electrical and Electronic Engineering"
-    gpa = next((d.removeprefix("GPA: ") for d in details if d.startswith("GPA: ")), None)
-    if gpa:
-        degree += " (GPA: " + gpa + ")"
-    lines.append(r"\textbf{" + tex(e["institution"]) + "}, " + tex(degree) + r"\hfill " + tex(e["dates"]) + r"\\")
-    if e["institution"] == "The University of Hong Kong":
-        detail_line = "Advisor: " + href("https://scholar.google.com/citations?user=PM_uMYIAAAAJ&hl=en", "Prof. Ngai Wong") + r"\quad |\quad Research: LLM Efficiency and Post-Training"
-    elif e["institution"] == "Tsinghua University":
-        detail_line = "Advisor: " + href("https://scholar.google.com/citations?user=4gH3sxsAAAAJ&hl=zh-CN", "Prof. Yujiu Yang") + r"\quad |\quad Research: Model Compression and Knowledge Distillation"
-    else:
-        detail_line = "; ".join(tex(d) for d in details)
-    lines.append(detail_line + "\n")
-lines.append(r"\end{rSection}")
-lines.append(r"\begin{rSection}{Internship}")
-for e in DATA["experience"]:
-    role, _, team = e["title"].partition(", ")
-    organization = e["organization"] + (" " + team if team else "")
-    lines.append(r"\textbf{" + tex(organization) + "}, " + tex(role) + r"\hfill " + tex(e["dates"]))
-    lines.append(r"\begin{itemize}")
-    for bullet in e["bullets"]:
-        lines.append(r"\item " + tex(bullet))
-    lines.append(r"\end{itemize}")
-lines.append(r"\end{rSection}")
-if DATA.get("current_research"):
-    lines.append(r"\begin{rSection}{Current Research}")
-    for project in DATA["current_research"]:
-        lines.append(r"\textbf{" + tex(project["title"]) + r"}\hfill " + tex(project["dates"]) + r"\\")
-        lines.append(tex(project["summary"]))
-    lines.append(r"\end{rSection}")
-for kind, heading in [("publication", "Publications"), ("preprint", "Preprints")]:
-    lines.append(r"\begin{rSection}{" + heading + r"}\small")
-    lines.append(r"* indicates equal contribution.\begin{itemize}")
-    for p in [x for x in DATA["publications"] if x["type"] == kind]:
-        links = " ".join(href(p[key], "[" + label + "]") for key, label in [("paper_url", "Paper"), ("code_url", "Code"), ("project_url", "Project")] if p.get(key))
-        lines.append(r"\item\begin{samepage} " + pub_author(p.get("authors_short", p["authors"])) + ". " + r"\textit{" + tex(p["title"]) + ".} " + tex(p["venue"]) + " " + links + r"\\")
-        lines.append(tex(p["summary"]) + r"\par\end{samepage}")
-    lines.append(r"\end{itemize}\end{rSection}")
-lines.append(r"\par\vspace{2pt}{\parfillskip=0pt\noindent\rule{\linewidth}{0.4pt}\par}")
-lines.append(r"\begin{center}\footnotesize Last updated: " + DATA["updated"].replace("-", ".") + r"\end{center}")
-lines.append(r"\end{document}")
-output = ROOT / "cv/runming_yang_cv.tex"
-output.write_text("\n".join(lines) + "\n")
-print(output)
+\begingroup\centering{\LARGE\bfseries '''
+    header += ('杨润明（Runming Yang）' if zh else 'Runming Yang') + r'}\par\medskip\endgroup' + '\n'
+    lines = [header]
+    lines.append(r'\begingroup\centering ' + r' $\diamond$ '.join(['(+86) 17362995487', href('mailto:' + DATA['email'], DATA['email']), href(DATA['homepage'], DATA['homepage'])]) + r'\par\endgroup\smallskip')
+    lines.append(('研究方向：' if zh else 'Research interests: ') + tex(' · '.join(DATA['interests_zh']) if zh else '; '.join(DATA['interests'])))
+    lines.append(r'\begin{rSection}{' + ('教育背景' if zh else 'EDUCATION') + '}')
+    for row in DATA['education']:
+        degree = choose(row, 'degree')
+        if not zh and row['institution'] == 'The University of Hong Kong':
+            degree = 'Ph.D. student in Electrical and Electronic Engineering'
+        lines.append(r'\textbf{' + tex(choose(row, 'institution')) + r'}\hfill ' + tex(choose(row, 'dates')) + r'\\')
+        if row['institution'] == 'The University of Hong Kong':
+            details = ('导师：Ngai Wong 教授；预计 2029.09 毕业' if zh else 'Advisor: Prof. Ngai Wong; expected Sep. 2029')
+        elif row['institution'] == 'Tsinghua University':
+            details = ('导师：Yujiu Yang 教授；GPA：3.73/4.00' if zh else 'Advisor: Prof. Yujiu Yang; GPA: 3.73/4.00')
+        else:
+            details = choose(row, 'details')[0]
+        lines.append(tex(degree) + r'\quad |\quad ' + tex(details) + '\n')
+    lines.append(r'\end{rSection}')
+
+    def papers(kind):
+        rows = [r for r in DATA['publications'] if r['type'] == kind]
+        label = ('已发表论文' if kind == 'publication' else '预印本与投稿论文') if zh else ('PUBLICATIONS' if kind == 'publication' else 'PREPRINTS AND SUBMITTED MANUSCRIPTS')
+        count = f'（{len(rows)} 篇）' if zh else f' ({len(rows)})'
+        out = [r'\begin{rSection}{' + label + count + r'}\small\raggedright']
+        out.append((r'\textsuperscript{*} 共同第一作者。' if zh else r'\textsuperscript{*} Equal contribution.') + ((' 预印本不计入上述已发表论文。' if zh else ' Preprints are counted separately from publications.') if kind == 'preprint' else ''))
+        out.append(r'\begin{enumerate}[label={' + (r'[\arabic*]' if kind == 'publication' else r'[P\arabic*]') + '}]')
+        for row in rows:
+            venue = tex(row['venue'])
+            if kind == 'publication':
+                venue = r'\mbox{\textcolor{venueblue}{\textbf{' + venue + '}}}'
+            links = ' '.join(href(row[key], '[' + name + ']') for key, name in [('paper_url', 'Paper'), ('code_url', 'Code'), ('project_url', 'Project')] if row.get(key))
+            entry = authors(row.get('authors_short', row['authors'])) + '. ' + r'\textit{' + tex(row['title']) + '.} ' + venue + ' ' + links
+            if row.get('author_order_note'):
+                entry += r'\\{\footnotesize ' + tex(choose(row, 'author_order_note')) + '}'
+            out.append(r'\item\begin{samepage} ' + entry + r'\par\end{samepage}')
+        out.append(r'\end{enumerate}\end{rSection}\normalsize')
+        return out
+
+    lines.extend(papers('publication'))
+    lines.append(r'\begin{rSection}{' + ('科研实习' if zh else 'RESEARCH INTERNSHIP') + '}')
+    for row in DATA['experience']:
+        lines.append(r'\textbf{' + tex(choose(row, 'organization')) + r'}\hfill ' + tex(choose(row, 'dates')) + r'\\' + tex(choose(row, 'title')))
+        lines.append(r'\begin{itemize}')
+        lines.extend(r'\item ' + tex(b) for b in choose(row, 'bullets'))
+        lines.append(r'\end{itemize}')
+    lines.append(r'\end{rSection}')
+    lines.append(r'\begin{rSection}{' + ('在研项目' if zh else 'ONGOING RESEARCH') + '}')
+    for row in DATA['current_research']:
+        lines.append(r'\textbf{' + tex(choose(row, 'title')) + r'}\hfill ' + tex(choose(row, 'dates')) + r'\\')
+        lines.append('香港大学博士阶段与其他团队合作研究' if zh else 'Collaborative Ph.D. research at the University of Hong Kong')
+        lines.append(r'\begin{itemize}')
+        lines.extend(r'\item ' + tex(b) for b in choose(row, 'bullets'))
+        lines.append(r'\end{itemize}')
+    lines.append(r'\end{rSection}')
+    lines.extend(papers('preprint'))
+    lines.append(r'\par\vspace{2pt}{\parfillskip=0pt\noindent\rule{\linewidth}{0.4pt}\par}')
+    lines.append(r'\begin{center}\footnotesize ' + ('更新日期：' if zh else 'Last updated: ') + DATA['updated'].replace('-', '.') + r'\end{center}')
+    lines.append(r'\end{document}')
+    path = ROOT / ('cv/runming_yang_cv.tex' if zh else 'cv/runming_yang_cv_en.tex')
+    path.write_text('\n'.join(lines) + '\n')
+    print(path)
+
+
+for language in ('zh', 'en'):
+    render(language)

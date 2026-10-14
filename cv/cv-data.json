@@ -8,10 +8,10 @@
   "github": "https://github.com/yang3121099",
   "tagline": "Ph.D. student at the University of Hong Kong working on efficient LLM post-training, knowledge distillation, and low-bit quantization.",
   "interests": [
-    "Efficient LLM post-training",
+    "LLM post-training",
     "Knowledge distillation",
-    "Low-bit quantization",
-    "Efficient reasoning"
+    "Efficient reasoning",
+    "Low-bit quantization"
   ],
   "education": [
     {
@@ -22,6 +22,13 @@
         "Expected graduation: Sep. 2029",
         "Advisor: Prof. Ngai Wong",
         "Research: LLM efficiency and post-training"
+      ],
+      "institution_zh": "香港大学",
+      "degree_zh": "电气与电子工程博士（在读）",
+      "dates_zh": "2025.10 - 至今",
+      "details_zh": [
+        "导师：Ngai Wong 教授；预计 2029.09 毕业",
+        "研究方向：大语言模型效率与后训练"
       ]
     },
     {
@@ -32,6 +39,13 @@
         "Advisor: Prof. Yujiu Yang",
         "GPA: 3.73/4.00",
         "Research: model compression and knowledge distillation"
+      ],
+      "institution_zh": "清华大学",
+      "degree_zh": "大数据工程硕士",
+      "dates_zh": "2022.09 - 2025.06",
+      "details_zh": [
+        "导师：Yujiu Yang 教授；GPA：3.73/4.00",
+        "研究方向：模型压缩与知识蒸馏"
       ]
     },
     {
@@ -40,6 +54,12 @@
       "dates": "Sep. 2017 - Jun. 2021",
       "details": [
         "Science and Engineering Cross-Innovation Experimental Class"
+      ],
+      "institution_zh": "华中科技大学",
+      "degree_zh": "人工智能与自动化工学学士",
+      "dates_zh": "2017.09 - 2021.06",
+      "details_zh": [
+        "理工交叉创新实验班"
       ]
     }
   ],
@@ -47,7 +67,7 @@
     {
       "id": "research-shadow-ft",
       "title": "Shadow-FT: transferring fine-tuning updates",
-      "role": "Equal contribution",
+      "role": "Co-first author (listed first in the submitted manuscript)",
       "description": "Studies weight similarity between paired base and instruction-tuned models. Fine-tuning updates learned on the base model are transferred to its instruction-tuned counterpart.",
       "paper_id": "shadow-ft"
     },
@@ -68,13 +88,21 @@
   ],
   "experience": [
     {
-      "organization": "Tencent PCG",
-      "title": "Research Intern, QQ Social Safety",
+      "organization": "Tencent AI Lab",
+      "title": "Research Intern, Information Security Department",
       "dates": "Nov. 2023 - Jun. 2025",
       "bullets": [
-        "Synthesized image-text multimodal data and conducted model post-training and evaluation for QQ content recognition and moderation.",
-        "Worked on tiered deployment and inference acceleration; deployed trained models in internal risk-control systems, substantially improving throughput and reducing false-positive moderation rates over the previous solution.",
+        "Synthesized image-text data and conducted model post-training and evaluation for QQ content recognition and moderation.",
+        "Worked on tiered deployment and inference acceleration; trained models were deployed in internal risk-control systems, improving throughput and reducing false-positive rates over the previous solution.",
         "Researched large/small model collaboration, data distillation, and lightweight modeling; contributed to two academic papers and one company patent."
+      ],
+      "organization_zh": "腾讯 AI Lab",
+      "title_zh": "科研实习生，信息安全部门（信安）",
+      "dates_zh": "2023.11 - 2025.06",
+      "bullets_zh": [
+        "面向 QQ 内容识别与审核，开展图文多模态数据合成、模型后训练与测评。",
+        "参与模型分级部署与推理加速，训练模型已在内部风控系统上线，相较前代方案提升吞吐率并降低误杀率。",
+        "研究大小模型协作、数据蒸馏与模型轻量化，产出两篇学术论文及一项公司专利。"
       ]
     }
   ],
@@ -82,19 +110,20 @@
     {
       "id": "model-interpolation",
       "title": "Revisiting Model Interpolation for Efficient Reasoning",
-      "authors": "Taiqiang Wu, Runming Yang, Tao Liu, Jiahao Wang, Ngai Wong",
+      "authors": "Taiqiang Wu*, Runming Yang*, Tao Liu, Jiahao Wang, Ngai Wong",
       "venue": "ACL 2026 (Main)",
       "status": "Published",
       "type": "publication",
       "year": 2026,
       "summary": "A training-free, three-stage interpolation framework between fast- and slow-thinking models for shorter chains of thought.",
-      "authors_short": "T. Wu, R. Yang, T. Liu, J. Wang, N. Wong",
+      "authors_short": "T. Wu*, R. Yang*, T. Liu, J. Wang, N. Wong",
       "paper_url": "https://aclanthology.org/2026.acl-long.389/",
       "code_url": "https://github.com/wutaiqiang/MI",
       "arxiv_id": "2510.10977",
       "scholar_entry_ids": [
         "HhTh7rQAAAAJ:Tyk-4Ss8FVUC"
-      ]
+      ],
+      "summary_zh": "通过快慢思考模型插值，无需训练即可缩短推理链。"
     },
     {
       "id": "profit",
@@ -111,7 +140,8 @@
       "arxiv_id": "2601.09195",
       "scholar_entry_ids": [
         "HhTh7rQAAAAJ:W7OEmFMy1HYC"
-      ]
+      ],
+      "summary_zh": "基于当前策略概率选择高价值词元，改善监督微调。"
     },
     {
       "id": "memristor-reasoning",
@@ -127,7 +157,8 @@
       "arxiv_id": "2603.13725",
       "scholar_entry_ids": [
         "HhTh7rQAAAAJ:WF5omc3nYNoC"
-      ]
+      ],
+      "summary_zh": "分析忆阻器非理想性对推理的影响，并评估免训练缓解方法。"
     },
     {
       "id": "lieq",
@@ -145,7 +176,8 @@
       "arxiv_id": "2508.03332",
       "scholar_entry_ids": [
         "HhTh7rQAAAAJ:ufrVoPGSRksC"
-      ]
+      ],
+      "summary_zh": "基于层间信息有效性分配混合精度，优化小语言模型量化。"
     },
     {
       "id": "adaptive-kl",
@@ -162,7 +194,8 @@
       "arxiv_id": "2404.02657",
       "scholar_entry_ids": [
         "HhTh7rQAAAAJ:u-x6o8ySG0sC"
-      ]
+      ],
+      "summary_zh": "分析正向与反向 KL 的差异，提出自适应蒸馏目标。"
     },
     {
       "id": "loca",
@@ -178,7 +211,8 @@
       "arxiv_id": "2409.04778",
       "scholar_entry_ids": [
         "HhTh7rQAAAAJ:d1gkVwhDpl0C"
-      ]
+      ],
+      "summary_zh": "校准教师在误分类样本上的 logits，改善知识蒸馏。"
     },
     {
       "id": "fluxbin",
@@ -195,7 +229,8 @@
       "arxiv_id": "2608.15602",
       "scholar_entry_ids": [
         "HhTh7rQAAAAJ:LkGwnXOMwfcC"
-      ]
+      ],
+      "summary_zh": "联合设计超低比特量化与查表 CUDA 算子，加速推理。"
     },
     {
       "id": "simple-opd",
@@ -212,18 +247,19 @@
       "arxiv_id": "2608.06802",
       "scholar_entry_ids": [
         "HhTh7rQAAAAJ:_FxGoFyzp5QC"
-      ]
+      ],
+      "summary_zh": "研究 OPD 预热，以教师 CoT 和 LoRA 初始化学生模型。"
     },
     {
       "id": "shadow-ft",
       "title": "Shadow-FT: Tuning Instruct Model via Training on Paired Base Model",
-      "authors": "Taiqiang Wu*, Runming Yang*, Jiayi Li, Pengfei Hu, Yik-Chung Wu, Ngai Wong, Yujiu Yang",
+      "authors": "Runming Yang*, Taiqiang Wu*, Jiayi Li, Pengfei Hu, Yik-Chung Wu, Ngai Wong, Yujiu Yang",
       "venue": "arXiv:2505.12716 (2025)",
       "status": "Preprint",
       "type": "preprint",
       "year": 2025,
       "summary": "Transfers fine-tuning updates from a base model to its paired instruction-tuned model.",
-      "authors_short": "T. Wu*, R. Yang*, J. Li, P. Hu, Y.-C. Wu, N. Wong, Y. Yang",
+      "authors_short": "R. Yang*, T. Wu*, J. Li, P. Hu, Y.-C. Wu, N. Wong, Y. Yang",
       "paper_url": "https://arxiv.org/abs/2505.12716",
       "code_url": "https://github.com/wutaiqiang/Shadow-FT",
       "arxiv_id": "2505.12716",
@@ -234,7 +270,10 @@
       ],
       "previous_titles": [
         "Shadow-FT: Tuning Instruct via Base"
-      ]
+      ],
+      "author_order_note": "Author order follows the submitted manuscript.",
+      "author_order_note_zh": "作者顺序按投稿版本。",
+      "summary_zh": "将基础模型的微调更新迁移至配对的指令模型。"
     },
     {
       "id": "timber",
@@ -251,7 +290,8 @@
       "arxiv_id": "2509.23595",
       "scholar_entry_ids": [
         "HhTh7rQAAAAJ:zYLM7Y9cAGgC"
-      ]
+      ],
+      "summary_zh": "以有效秩分析权重变化，无需训练即可优化指令模型。"
     },
     {
       "id": "ptqtp",
@@ -268,7 +308,8 @@
       "arxiv_id": "2509.16989",
       "scholar_entry_ids": [
         "HhTh7rQAAAAJ:IjCSPb-OGe4C"
-      ]
+      ],
+      "summary_zh": "结合双三值平面权重表示与查表算子，实现高效推理。"
     },
     {
       "id": "quantization-reasoning",
@@ -291,7 +332,8 @@
       ],
       "related_preprint_ids": [
         "2501.03035"
-      ]
+      ],
+      "summary_zh": "分析量化模型的步骤级推理错误，以针对性偏好对改善数学推理。"
     },
     {
       "id": "llm-neo",
@@ -308,7 +350,8 @@
       "arxiv_id": "2411.06839",
       "scholar_entry_ids": [
         "HhTh7rQAAAAJ:9yKSN-GCB0IC"
-      ]
+      ],
+      "summary_zh": "结合低秩适配与知识蒸馏，实现参数高效的知识迁移。"
     }
   ],
   "scholar": "https://scholar.google.com/citations?user=HhTh7rQAAAAJ&hl=en",
@@ -394,11 +437,39 @@
   "current_research": [
     {
       "id": "phd-cot-collaboration",
-      "title": "Chain-of-Thought (CoT) Reasoning",
+      "title": "CoT Data and Efficient Reasoning Post-training",
       "institution": "The University of Hong Kong",
       "role": "Ph.D. Research",
       "dates": "Ongoing",
-      "summary": "Ph.D. research at the University of Hong Kong in collaboration with other research teams. Manuscript in preparation for submission."
+      "summary": "Collaborative Ph.D. research at the University of Hong Kong on CoT data and efficient reasoning. Planned comparison of offline CoT fine-tuning and on-policy distillation, with evaluation of accuracy, reasoning length, and training cost; manuscript in preparation.",
+      "title_zh": "CoT 数据与高效推理后训练",
+      "institution_zh": "香港大学及合作团队",
+      "role_zh": "博士阶段合作研究",
+      "dates_zh": "进行中",
+      "bullets": [
+        "Planned approach: compare offline CoT fine-tuning with on-policy distillation on student-generated trajectories, examining data quality and teacher-student distribution alignment.",
+        "Research objective: improve reasoning quality and efficiency under a controlled compute budget, with planned evaluation of accuracy, reasoning length, and training cost; manuscript in preparation."
+      ],
+      "bullets_zh": [
+        "研究思路：围绕 CoT 数据质量与师生分布匹配，拟比较离线 CoT 微调与学生生成轨迹上的蒸馏监督（OPD）。",
+        "研究目标：在可控计算预算下改善推理质量与效率，拟以准确率、推理长度和训练开销评估方案；论文准备中。"
+      ],
+      "framing_status": "Proposed approach and research objective; no experimental results claimed."
     }
+  ],
+  "cv_languages": {
+    "default": "zh",
+    "available": [
+      "zh",
+      "en"
+    ],
+    "pdf_zh": "runming_yang_cv_zh.pdf",
+    "pdf_en": "runming_yang_cv_en.pdf"
+  },
+  "interests_zh": [
+    "大语言模型后训练",
+    "知识蒸馏",
+    "高效推理",
+    "低比特量化"
   ]
 }
