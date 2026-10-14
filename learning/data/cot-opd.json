@@ -1,0 +1,684 @@
+{
+  "meta": {
+    "title": "CoT 数据 × OPD：从离线轨迹质量到动态监督质量",
+    "as_of": "2026-10-14",
+    "language": "zh-CN",
+    "scope": "科研面试阅读地图；10项主论文/官方报告，6项2026论文；8–9月首发3项，另1项9月修订。并非穷尽文献。",
+    "main_paper_count": 10,
+    "first_publication_2026_count": 6,
+    "aug_sep_first_publication_count": 3,
+    "aug_sep_revision_additional_count": 1,
+    "verification": "核查 arXiv 摘要页的首发/版本日期，阅读原文 HTML 相关方法、实验及局限；官方报告直接核查作者机构页面。未下载训练数据。",
+    "venue_rule": "明确核实的会议录才标正式 venue；未核实录用的近期工作标 arXiv 预印本，不将论文日期或修订日期冒充会议发表日期。"
+  },
+  "sources": [
+    {
+      "id": "akl",
+      "title": "Rethinking Kullback-Leibler Divergence in Knowledge Distillation for Large Language Models",
+      "url": "https://arxiv.org/abs/2404.02657v4",
+      "full_text": "https://arxiv.org/html/2404.02657v4",
+      "kind": "author_paper",
+      "sections": "Abstract; theoretical analysis; AKL experiments",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "akl_venue",
+      "title": "COLING 2025 official proceedings record",
+      "url": "https://aclanthology.org/2025.coling-main.383/",
+      "kind": "official_proceedings",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "openthoughts",
+      "title": "OpenThoughts: Data Recipes for Reasoning Models",
+      "url": "https://arxiv.org/abs/2506.04178v2",
+      "full_text": "https://arxiv.org/html/2506.04178v2",
+      "kind": "author_paper",
+      "sections": "4.2–4.5; Appendix F, H.1.3, H.1.4, H.3; Tables 17–18",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "openthoughts_release",
+      "title": "OpenThoughts official project and releases",
+      "url": "https://www.openthoughts.ai/",
+      "kind": "author_project",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "faithfulness",
+      "title": "Reasoning models don't always say what they think",
+      "url": "https://www.anthropic.com/research/reasoning-models-dont-say-think",
+      "full_text": "https://assets.anthropic.com/m/71876fabef0f0ed4/original/reasoning_models_paper.pdf",
+      "kind": "official_research_report",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "tml_opd",
+      "title": "On-Policy Distillation",
+      "url": "https://thinkingmachines.ai/blog/on-policy-distillation/",
+      "kind": "official_technical_report",
+      "sections": "Implementation; Distillation for reasoning; Discussion; compute-cost footnotes",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "tinker_recipe",
+      "title": "Model Distillation — Tinker Cookbook",
+      "url": "https://tinker-docs.thinkingmachines.ai/cookbook/recipes/distillation/",
+      "kind": "official_documentation",
+      "accessed": "2026-10-14",
+      "note": "当前文档已使用 Qwen3.5-9B 系列；不可把当前 recipe 的分数与2025博客的 Qwen3 实验混成同一运行。"
+    },
+    {
+      "id": "simple_opd",
+      "title": "Simple-OPD: Demystifying Warm-up for On-policy Distillation",
+      "url": "https://arxiv.org/abs/2608.06802v1",
+      "full_text": "https://arxiv.org/html/2608.06802v1",
+      "kind": "author_paper",
+      "sections": "2; 3.1–3.3; 4; Appendix A–C",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "art",
+      "title": "The Art of Efficient Reasoning: Data, Reward, and Optimization",
+      "url": "https://arxiv.org/abs/2602.20945v3",
+      "full_text": "https://arxiv.org/html/2602.20945v3",
+      "kind": "author_technical_report",
+      "sections": "2.3; 3.1; 3.2; Appendix B–C",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "rl_starts",
+      "title": "RL Starts before RL: On Policy Distillation for Better Reinforcement Learning",
+      "url": "https://arxiv.org/abs/2609.28145v2",
+      "full_text": "https://arxiv.org/html/2609.28145v2",
+      "kind": "author_paper",
+      "sections": "3; 4; 5; Table 1; Appendix D.1",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "stopping",
+      "title": "Solving Without Stopping: On-Policy Distillation at Small Scale",
+      "url": "https://arxiv.org/abs/2609.37326v1",
+      "full_text": "https://arxiv.org/html/2609.37326v1",
+      "kind": "author_paper",
+      "sections": "2–5; Appendix B; Appendix F Data notes",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "rethinking_opsd",
+      "title": "Rethinking On-Policy Self-Distillation for Thinking Models",
+      "url": "https://arxiv.org/abs/2607.05184v1",
+      "full_text": "https://arxiv.org/html/2607.05184v1",
+      "kind": "author_paper",
+      "sections": "2–4; 7 Limitations; Appendix B",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "guided_opd",
+      "title": "On-Policy Distillation with Curriculum Turn-level Guidance for Multi-turn Agents",
+      "url": "https://arxiv.org/abs/2606.15912v2",
+      "full_text": "https://arxiv.org/html/2606.15912v2",
+      "kind": "author_paper",
+      "sections": "3.1–3.3; experiments on ALFWorld, ScienceWorld, WebShop",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "s1_supplement",
+      "title": "s1: Simple test-time scaling",
+      "url": "https://arxiv.org/abs/2501.19393v3",
+      "full_text": "https://arxiv.org/html/2501.19393v3",
+      "kind": "supplementary_author_paper",
+      "note": "补充阅读，不计入10项主文献；首发2025-01-31，v3为2025-03-01。s1K的难度、多样性、质量与budget forcing是小数据锚点。",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "openthoughts_venue",
+      "title": "OpenThoughts — ICLR 2026 official proceedings",
+      "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/b010241b9f1cdfc7d4c392db899cef86-Abstract-Conference.html",
+      "kind": "official_proceedings",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "faithfulness_arxiv",
+      "title": "Reasoning Models Don't Always Say What They Think",
+      "url": "https://arxiv.org/abs/2505.05410v1",
+      "kind": "author_paper_metadata",
+      "accessed": "2026-10-14",
+      "note": "arXiv v1为2025-05-08；早于此的Anthropic官方报告日期为2025-04-03。"
+    },
+    {
+      "id": "NVIDIA_ULTRA_2026",
+      "title": "Nemotron 3 Ultra: Open, Efficient Mixture-of-Experts Hybrid Mamba-Transformer Model for Agentic Reasoning",
+      "url": "https://research.nvidia.com/labs/nemotron/files/NVIDIA-Nemotron-3-Ultra-Technical-Report.pdf",
+      "kind": "official_technical_report",
+      "accessed": "2026-10-14",
+      "note": "型号：Nemotron 3 Ultra 550B-A55B；报告日期：2026-06-09；定位：3.1.1 Data（PDF第16页） / 3.3.3 MOPD Warmup（PDF第27页） / 3.3.4 Results and Discussions、3.3.5 Limitations（PDF第28–29页）"
+    },
+    {
+      "id": "NVIDIA_CASCADE2_2026",
+      "title": "Nemotron-Cascade 2: Post-Training LLMs with Cascade RL and Multi-Domain On-Policy Distillation",
+      "url": "https://research.nvidia.com/labs/nemotron/files/Nemotron-Cascade-2.pdf",
+      "kind": "official_technical_report",
+      "accessed": "2026-10-14",
+      "note": "型号：Nemotron-Cascade-2-30B-A3B；报告日期：2026-03-19；定位：3.2 SFT Data Curation（PDF第7–9页） / 4.4 Multi-domain On-Policy Distillation（PDF第12–14页） / 4.7.1 Data Curation（PDF第15页）"
+    }
+  ],
+  "papers": [
+    {
+      "id": "akl",
+      "title": "Rethinking Kullback-Leibler Divergence in Knowledge Distillation for Large Language Models",
+      "short_title": "AKL：把采样分布与散度目标分开",
+      "first_date": "2024-04-03",
+      "version": "v4",
+      "version_date": "2024-12-08",
+      "venue": "COLING 2025（官方会议录已核实）",
+      "status": "published",
+      "source_ids": [
+        "akl",
+        "akl_venue"
+      ],
+      "existing_guide": true,
+      "question": "为什么不能简单用 mode-seeking / mean-seeking 判断 LLM 蒸馏目标？",
+      "method": "分析并比较 FKL、RKL 的优化行为，以自适应权重组合二者。",
+      "direct_evidence": "文中在其 KD 设置下发现早期 FKL 更关注分布头部、RKL 更关注尾部；AKL 在所测任务上改善质量与多样性。",
+      "interpretation_or_hypothesis": "这为在相同 student prefixes 上比较散度提供动机；并未证明 AKL 一定是长 CoT OPD 或 OPD→RL 的最优目标。",
+      "limitation": "不能把特定 KD 分析泛化为所有 KL 优化都不存在 mode-seeking 行为；更不能据此把 on-policy 与 RKL 画等号。",
+      "interview_bridge": "我会把轨迹由谁生成、教师提供何种监督、使用哪个散度作为三个独立轴来设计实验。"
+    },
+    {
+      "id": "openthoughts",
+      "title": "OpenThoughts: Data Recipes for Reasoning Models",
+      "short_title": "OpenThoughts：数据流水线需要控制实验",
+      "first_date": "2025-06-04",
+      "version": "v2",
+      "version_date": "2025-06-05",
+      "venue": "ICLR 2026（官方会议录已核实）；本文实验细节引用 arXiv v2",
+      "status": "published",
+      "source_ids": [
+        "openthoughts",
+        "openthoughts_release",
+        "openthoughts_venue"
+      ],
+      "question": "题源、题目筛选、生成、答案筛选各自贡献多少？",
+      "method": "1000余项控制实验拆解流水线，最终构建约120万条 OpenThoughts3。",
+      "direct_evidence": "所测题源混合并非越多越好；代码受益于难度筛选，数学/科学受益于基于生成长度的题目筛选。Appendix H 中部分 correctness/自动单测筛选未改善下游；更换答案提取器显著改变报告分数。",
+      "interpretation_or_hypothesis": "数据质量应由固定计算量下的学生学习收益定义，筛选分数只是代理；可将这一思想迁移到 OPD prompt pool。",
+      "limitation": "筛选器、学生与任务特定；并未证明正确性验证无用，也未证明所有多样性都有害。长度用于挑题，与机械删短/截短 CoT 不同。",
+      "interview_bridge": "我会同时控制题目数量和训练 token，并审计 verifier 的误判；避免把筛选后的数据量变化解释成质量增益。"
+    },
+    {
+      "id": "faithfulness",
+      "title": "Reasoning models don't always say what they think",
+      "short_title": "正确、可用、忠实是不同属性",
+      "first_date": "2025-04-03",
+      "version": "official report",
+      "version_date": "2025-04-03",
+      "venue": "Anthropic 官方研究报告及论文",
+      "status": "official_report",
+      "source_ids": [
+        "faithfulness",
+        "faithfulness_arxiv"
+      ],
+      "question": "答案正确且 CoT 看起来合理，是否代表推理忠实？",
+      "method": "注入会影响答案的提示，检查模型是否在 CoT 中承认使用；另研究 outcome RL 与可被利用的奖励捷径。",
+      "direct_evidence": "Claude 3.7 Sonnet 与 DeepSeek R1 在采用提示后，经常没有在 CoT 中提及它；outcome RL 带来的 faithfulness 改善会停滞。",
+      "interpretation_or_hypothesis": "仅按最终答案或可读性筛选 CoT，不能保证忠实性。训练效用也需要实际学生学习实验来衡量。",
+      "limitation": "提示依赖披露只是可操作的 faithfulness 测试，不是对模型全部内部计算的测量；任务和模型覆盖有限。",
+      "interview_bridge": "我会分别报告答案正确率、学生训练增益和干预后的忠实性指标，避免用一个 quality 分数代替三者。",
+      "arxiv_first_date": "2025-05-08",
+      "arxiv_version": "v1"
+    },
+    {
+      "id": "tml_opd",
+      "title": "On-Policy Distillation",
+      "short_title": "TML：动态轨迹上的密集教师反馈",
+      "first_date": "2025-10-27",
+      "version": "official blog; June 2026 recipe update noted",
+      "version_date": "2025-10-27",
+      "venue": "Thinking Machines Lab 官方技术报告",
+      "status": "official_report",
+      "source_ids": [
+        "tml_opd",
+        "tinker_recipe"
+      ],
+      "question": "能否在学生实际访问的状态上获得比终局奖励更密集的监督？",
+      "method": "学生 rollout，教师为其采样 token 计算 log probability，以 per-token reverse-KL 估计形成训练信号；主数学案例先做 SFT 初始化。",
+      "direct_evidence": "报告数学和持续学习案例中的效果与成本优势，并做 prompt 重用实验。该博客明确未使用 full/top-k logit distillation。",
+      "interpretation_or_hypothesis": "数据从静态 (prompt, teacher CoT) 扩展为 prompt 分布、动态学生轨迹、教师反馈和版本日志。single-prompt 特例不能推出不需要数据分布。",
+      "limitation": "9–30倍成本说法依赖是否计入/摊销 teacher 数据生成，以及外推的 SFT 基线；不能当作跨硬件和任务通用加速比。当前 cookbook 模型已更新。",
+      "interview_bridge": "比较SFT与OPD时，我会把教师生成、学生生成、教师评分、训练和验证全部计费，并同时给缓存/摊销视角。"
+    },
+    {
+      "id": "simple_opd",
+      "title": "Simple-OPD: Demystifying Warm-up for On-policy Distillation",
+      "short_title": "Simple-OPD：teacher-compatible CoT",
+      "first_date": "2026-08-07",
+      "version": "v1",
+      "version_date": "2026-08-07",
+      "venue": "arXiv 预印本；未核实会议录用",
+      "status": "preprint",
+      "source_ids": [
+        "simple_opd"
+      ],
+      "existing_guide": true,
+      "question": "OPD warm-up 需要正确答案，还是需要兼容后续教师的推理模式？",
+      "method": "控制有无CoT、CoT来源、同题正确/错误teacher轨迹，再比较LoRA/full SFT与warm-up时长。",
+      "direct_evidence": "同一OPD教师的配对正确与错误CoT在后续OPD中表现相近；更强外部CoT生成器并未自动带来更好初始化；适度LoRA warm-up在所测ID/OOD间更平衡。",
+      "interpretation_or_hypothesis": "warm-up可能主要改善学生与教师所访问/偏好的推理状态的兼容性；这是解释，不是已证明的唯一机制。",
+      "limitation": "主要消融基于Qwen3-1.7B-Base与8B教师、数学prompt；不能推广成任意错轨迹都好、correctness无价值，或新项目已完成这些结果。",
+      "interview_bridge": "我想把teacher compatibility从事后解释变成可预测的数据选择信号，并检验它是否超过correctness和长度。"
+    },
+    {
+      "id": "art",
+      "title": "The Art of Efficient Reasoning: Data, Reward, and Optimization",
+      "short_title": "Art：难度与负轨迹决定有效信号",
+      "first_date": "2026-02-24",
+      "version": "v3",
+      "version_date": "2026-03-20",
+      "venue": "arXiv 技术报告；未核实会议录用",
+      "status": "technical_report",
+      "source_ids": [
+        "art"
+      ],
+      "existing_guide": true,
+      "question": "压短CoT时，如何避免学成短但错误？",
+      "method": "统一协议比较prompt难度、rollout数、负样本奖励/掩码，并在2k–32k多预算评估。",
+      "direct_evidence": "其长度奖励设置下，全难题训练会因正向信号稀疏而出现崩塌；更多rollout在数学上帮助寻找短且正确路径，但代码收益有限；短预算优势可能伴随长预算性能损失。",
+      "interpretation_or_hypothesis": "prompt难度应相对于当前学生成功率而定；对OPD可进一步问是否也存在教师反馈有效密度阈值。后一问题未由该RL论文直接回答。",
+      "limitation": "这是长度奖励RL研究，不应将其所有结论直接当成OPD结论；易题优越也依赖奖励、模型和阶段。",
+      "interview_bridge": "我会看正确/错误条件下的长度分布和多预算曲线，区分学会简洁推理与仅学会早停。"
+    },
+    {
+      "id": "rl_starts",
+      "title": "RL Starts before RL: On Policy Distillation for Better Reinforcement Learning",
+      "short_title": "RL Starts：按后续RL收益选择蒸馏",
+      "first_date": "2026-09-23",
+      "version": "v2",
+      "version_date": "2026-09-26",
+      "venue": "arXiv 预印本；未核实会议录用",
+      "status": "preprint",
+      "source_ids": [
+        "rl_starts"
+      ],
+      "existing_guide": true,
+      "question": "最好的蒸馏checkpoint是否也是最好的RL起点？",
+      "method": "共享下游GRPO设置比较Base/SFT/OPD→RL；在VL配对上拆分student/teacher轨迹与FKL/RKL，两种轨迹都获得full teacher distributions。",
+      "direct_evidence": "OPD初始化在后续RL取得更高最终表现，即使初始accuracy增益小；在其source–objective比较中RKL蒸馏前期更强，FKL经过RL后反超；student轨迹优于teacher轨迹。",
+      "interpretation_or_hypothesis": "教师分布对齐同时保留可探索路径可能解释后续收益；Pass@k和top-1 agreement并不足以单独解释结果。",
+      "limitation": "source–objective完整消融在VL设置，不能声称已对所有text模型验证FKL优势；共享RL配置也不等于所有前置成本已严格匹配。",
+      "interview_bridge": "我会把最终OPD→RL的性能/总成本作为主要指标，初始accuracy、entropy、Pass@k只作中间诊断。"
+    },
+    {
+      "id": "stopping",
+      "title": "Solving Without Stopping: On-Policy Distillation at Small Scale",
+      "short_title": "小模型会解题，不一定会停止",
+      "first_date": "2026-09-29",
+      "version": "v1",
+      "version_date": "2026-09-29",
+      "venue": "arXiv 预印本；未核实会议录用",
+      "status": "preprint",
+      "source_ids": [
+        "stopping"
+      ],
+      "question": "长CoT知识是否包含正确结束推理的能力？",
+      "method": "Qwen3-8B蒸馏到4B/1.7B/0.6B；区分thinking/non-thinking和SFT起点；使用采样token RKL估计，拆开答案标记、正确性与闭合率。",
+      "direct_evidence": "所测thinking小学生提高解题指标却丢失停止行为；教师主要在学生已经停止的位置给出stop信号。",
+      "interpretation_or_hypothesis": "停止状态稀疏或不兼容可能是低容量学生的监督瓶颈；可研究有控制的停止示范/状态重加权，但论文没有证实这已能修复。",
+      "limitation": "主要分数为任何标记答案正确即计分的lenient scoring；appendix另有严格指标。作者披露6.3%训练题干上游截断、未针对GSM8K去污染；其经验上限不是理论能力上限。",
+      "interview_bridge": "我会一起报告final-answer accuracy、closure rate、truncation rate，而不把轨迹中出现正确值视作任务成功。"
+    },
+    {
+      "id": "rethinking_opsd",
+      "title": "Rethinking On-Policy Self-Distillation for Thinking Models",
+      "short_title": "特权答案可能压制有用探索",
+      "first_date": "2026-07-06",
+      "version": "v1",
+      "version_date": "2026-07-06",
+      "venue": "arXiv 预印本；未核实会议录用",
+      "status": "preprint",
+      "source_ids": [
+        "rethinking_opsd"
+      ],
+      "question": "给teacher完整正确解答，是否总能提升自蒸馏？",
+      "method": "比较teacher无特权、只有答案、完整解答的条件，跨Qwen3/OLMo thinking与instruct模型测预算曲线和token信号。",
+      "direct_evidence": "在所测thinking模型中，privileged-context distillation在长预算下降，avg@16相对降幅最高17%；完整解答比稀疏答案提示更易退化，并减少纠错/回溯标记。",
+      "interpretation_or_hypothesis": "teacher知道答案后对学生的探索token给出失配信号；fork suppression是作者提出的机制假说。",
+      "limitation": "作者明确承认机制未被完全隔离为因果；主要为可验证数学，未证明所有自蒸馏或持续学习都失败，也未给出通用修复。",
+      "interview_bridge": "自蒸馏要控制teacher的信息优势；我会记录哪些tokens获益或受罚，而不仅观察整段loss和平均长度。"
+    },
+    {
+      "id": "guided_opd",
+      "title": "On-Policy Distillation with Curriculum Turn-level Guidance for Multi-turn Agents",
+      "short_title": "Guided-OPD：把状态分布当作数据设计",
+      "first_date": "2026-06-14",
+      "version": "v2",
+      "version_date": "2026-09-23",
+      "venue": "arXiv 预印本；未核实会议录用",
+      "status": "preprint",
+      "source_ids": [
+        "guided_opd"
+      ],
+      "question": "学生越偏离teacher熟悉状态，teacher反馈是否反而越差？",
+      "method": "多轮轨迹中按turn混合teacher/student生成；teacher介入概率逐步降到零；teacher turns和student turns使用不同蒸馏目标。",
+      "direct_evidence": "ALFWorld、ScienceWorld、WebShop上的Qwen3实验优于vanilla OPD，报告平均相对Score提升21.1%、Success Rate提升25.5%。",
+      "interpretation_or_hypothesis": "与其只改loss，也可以设计逐步迁移的状态访问分布；该思想可启发CoT分支/恢复状态课程。",
+      "limitation": "早期为混合轨迹，不是全程纯student on-policy；多轮agent环境结论不能直接视为单轮数学CoT的已证结果。",
+      "interview_bridge": "数据设计不只发生在训练前，也发生在每次rollout选择谁生成下一段时。"
+    }
+  ],
+  "trends": [
+    {
+      "id": "t1",
+      "title": "从答案正确筛选，转向分阶段衡量数据效用",
+      "why_now": "OpenThoughts的流水线消融与Simple-OPD的配对错轨迹结果共同提醒：最终正确性不是唯一可用信号。",
+      "source_ids": [
+        "openthoughts",
+        "simple_opd",
+        "faithfulness"
+      ],
+      "question": "correctness、faithfulness和teacher compatibility分别预测warm-up、OPD及最终RL收益的能力有多强？",
+      "method_proposal": "同题保留正确/错误轨迹，匹配难度、长度和教师，先测兼容性代理，再分别报告SFT后、OPD后和RL后的结果。加入faithfulness干预集但不把它混入答案指标。",
+      "evidence": "已知结果支持分离这些属性；尚无此文件提出的统一跨阶段因果结论。",
+      "limitation": "错误轨迹效果可能受teacher风格、局部正确步骤或重复题目影响，必须做配对与分层。",
+      "interview_line": "我关心的是一条CoT对哪个学生、哪个训练阶段有用，而不只给它一个静态质量分数。"
+    },
+    {
+      "id": "t2",
+      "title": "Prompt分布与动态prefix成为OPD的数据核心",
+      "why_now": "密集反馈发生在学生真正访问的prefix；teacher在异常状态上也可能失准，prompt重复不是无需数据。",
+      "source_ids": [
+        "tml_opd",
+        "guided_opd",
+        "simple_opd"
+      ],
+      "question": "在固定teacher评分预算下，选择哪些prompt或prefix能产生最大有效监督？",
+      "method_proposal": "比较随机、学生成功率分层、teacher–student分布差距分层的prompt采样；区分高差距且teacher可靠、与高差距但teacher也不可靠的prefix；必要时加入逐步退出的teacher干预对照。",
+      "evidence": "TML演示prompt重用和动态评分；Guided-OPD在多轮环境验证混合课程的收益。",
+      "limitation": "高KL可能只是格式/长度失配；差距越大未必越有价值。分布选择策略需在未见题源上验证。",
+      "interview_line": "OPD改变的是数据生成和标注方式：仍有prompt pool，只是轨迹和监督随学生变化。"
+    },
+    {
+      "id": "t3",
+      "title": "效率要同时管长度、有效探索与停止",
+      "why_now": "压缩CoT与小模型OPD可能分别出现早停崩塌和不停止；单个长度均值无法解释质量。",
+      "source_ids": [
+        "art",
+        "stopping",
+        "rethinking_opsd"
+      ],
+      "question": "减少冗余时，如何保住纠错分支并让学生在真正解完时停止？",
+      "method_proposal": "绘制2k/4k/8k/16k/32k预算曲线；按正确性统计长度，单列closure/truncation和最后答案准确率；受控比较stop或分支位置的监督权重。",
+      "evidence": "三个研究各自展示预算、分支与停止的不同失败模式；它们并未提供一个通用修复。",
+      "limitation": "词面wait/backtrack标记只是代理；lenient scoring可能高估可交付答案。不能把更短或更长本身等同于更好推理。",
+      "interview_line": "我会区分会找到正确值、会确认答案、会结束三个能力，检查效率收益来自哪一个。"
+    },
+    {
+      "id": "t4",
+      "title": "蒸馏配方按下一阶段的可学习性评估",
+      "why_now": "独立OPD分数最好的目标可能不是RL后最好的目标；自蒸馏中的强teacher context也可能伤害长预算。",
+      "source_ids": [
+        "akl",
+        "rl_starts",
+        "rethinking_opsd"
+      ],
+      "question": "该优化什么：当前accuracy，还是后续RL在等总成本下的收益？",
+      "method_proposal": "固定prompt、teacher和预算，交叉student/teacher trajectories与FKL/RKL；分别使用full-distribution和采样token实现；做短程共享RL，并追踪entropy、Pass@k、分布对齐和OOD。",
+      "evidence": "RL Starts的VL消融直接显示FKL/RKL排序在RL后反转；mechanism解释仍需因果干预。",
+      "limitation": "不能将VL结果宣称为所有text任务的定律；过度追求entropy也会制造无用随机性。",
+      "interview_line": "我会用最终训练流程的收益给CoT数据和OPD目标排序，防止中间checkpoint的分数误导选择。"
+    },
+    {
+      "id": "t5",
+      "title": "公开数据配方必须经得起去污染与总成本审计",
+      "why_now": "筛选、长轨迹、在线teacher评分和评测提取器都能改变表面效率；结果需要可复核账本。",
+      "source_ids": [
+        "openthoughts",
+        "tml_opd",
+        "stopping"
+      ],
+      "question": "提升来自可迁移推理、评测重叠、提取规则，还是未计入的教师计算？",
+      "method_proposal": "训练前冻结题源和eval；exact/fuzzy/语义近重复抽查；固定verifier并人工审计边界样本；分别报告总FLOPs/GPU-hours、wall time、tokens与teacher生成/评分次数。",
+      "evidence": "OpenThoughts公开去污染方案和verifier差异；TML明确成本口径影响倍数；Stopping主动披露题干截断及去污染范围。",
+      "limitation": "文本去重不能证明无语义污染，更不能排除teacher预训练污染；FLOPs和实际延迟不能相互替代。",
+      "interview_line": "我会保留从题目来源到动态teacher反馈的完整数据血缘，让性能和计算收益都能被复核。"
+    }
+  ],
+  "conceptual_map": {
+    "data_layers": [
+      {
+        "layer": "Prompt pool",
+        "contents": "题源、任务/难度分布、去重去污染、时间切分、题目/环境版本",
+        "research_question": "学生在什么问题和状态上获得监督？"
+      },
+      {
+        "layer": "Offline teacher CoT",
+        "contents": "教师生成的静态轨迹、正确/错误标签、长度、分支/回溯、生成器版本与token数",
+        "research_question": "哪些轨迹最适合该学生和后续teacher的warm-up？"
+      },
+      {
+        "layer": "Dynamic student rollout",
+        "contents": "学生checkpoint、采样配置、访问prefix、成功/失败/终止状态",
+        "research_question": "学生实际遇到什么错误与未覆盖状态？"
+      },
+      {
+        "layer": "Teacher feedback",
+        "contents": "同prefix上的全词表/截断top-k分布或采样token logprob；teacher context与版本",
+        "research_question": "监督有多密集、可靠、可比较？"
+      },
+      {
+        "layer": "Next-stage learning",
+        "contents": "后续RL、自蒸馏或环境反馈；新的轨迹和性能曲线",
+        "research_question": "当前数据让下一阶段更容易学，还是只提高眼前分数？"
+      }
+    ],
+    "objective_axes": [
+      {
+        "axis": "轨迹来源",
+        "choices": "teacher / student / mixture",
+        "meaning": "on-policy主要指训练访问状态由当前学生策略生成；异步或复用旧rollout须报告policy lag。"
+      },
+      {
+        "axis": "监督形式",
+        "choices": "hard token / full distribution / top-k distribution / sampled-token logprob / verifier reward",
+        "meaning": "full-logit能监督同prefix上未采样的词；采样token logprob没有同等的完整信息。"
+      },
+      {
+        "axis": "散度或优化目标",
+        "choices": "FKL / RKL / AKL / JS / RL objective",
+        "meaning": "这是与轨迹来源可独立组合的选择；on-policy不等于RKL。"
+      },
+      {
+        "axis": "teacher信息",
+        "choices": "同prompt与prefix / 答案提示 / 完整解答 / 环境特权信息",
+        "meaning": "信息优势改变teacher条件分布，可能同时改善答案和扭曲对学生探索的监督。"
+      }
+    ],
+    "formula": "x~P_prompt，y~π_student；在c_t=(x,y_<t)上比较π_teacher(·|c_t)与π_student(·|c_t)。FKL为KL(teacher||student)，RKL为KL(student||teacher)。同一组student prefixes可配不同散度；具体梯度估计、截断和mask必须另报。",
+    "quality_dimensions": [
+      {
+        "name": "correctness",
+        "test": "最终答案/程序测试/可验证步骤是否正确"
+      },
+      {
+        "name": "faithfulness",
+        "test": "受控干预后，CoT是否如实体现影响答案的依据；不能仅靠文风判断"
+      },
+      {
+        "name": "training usefulness",
+        "test": "在等预算、固定学生和后续训练流程下，下游收益是否提升"
+      },
+      {
+        "name": "compatibility",
+        "test": "学生prefix上的教师支持、分布差距、纠错与终止信号是否可学习"
+      }
+    ],
+    "negative_trajectory_distinctions": "错误teacher CoT用于warm-up、失败student rollout用于密集反馈、RL中的负奖励样本是三种不同对象；一类有用不能推出其他类别无需筛选。"
+  },
+  "evaluation_checklist": [
+    {
+      "item": "明确终点",
+      "check": "同时标SFT后、OPD后、RL后；主指标选择应事先决定。"
+    },
+    {
+      "item": "公平数据控制",
+      "check": "同prompt split；按题去重，配对正确/错误CoT；分别控制样本数、有效训练token和总计算。"
+    },
+    {
+      "item": "来源与许可",
+      "check": "记录题源版本、生成器/teacher版本、生成参数、上游许可；论文license不代替dataset/model license。"
+    },
+    {
+      "item": "动态数据血缘",
+      "check": "保存学生checkpoint ID、rollout采样参数、prefix、teacher context、teacher反馈格式与采样时间。"
+    },
+    {
+      "item": "监督实现",
+      "check": "full vocabulary vs top-k vs sampled token；温度、logit截断、尾部质量、不同tokenizer处理、stop和环境token masks。"
+    },
+    {
+      "item": "policy freshness",
+      "check": "rollout由哪个checkpoint生成，复用多少次，importance weighting/clipping和policy lag是否一致。"
+    },
+    {
+      "item": "数据污染",
+      "check": "prompt与response均去污染；近重复和题目变体抽查；使用独立题源/时间外推测试，承认无法消除teacher预训练污染。"
+    },
+    {
+      "item": "验证器审计",
+      "check": "固定答案提取、符号等价/单测与judge版本；人工检查假阳性、假阴性、格式失败和题干截断。"
+    },
+    {
+      "item": "质量分轴",
+      "check": "分别测最终正确性、受控faithfulness、训练效用；不能用LLM judge的可读性替代因果有效性。"
+    },
+    {
+      "item": "长度与结束",
+      "check": "多预算accuracy；correct/incorrect条件长度；最后答案准确率、closure、truncation、重复及有效token成本。"
+    },
+    {
+      "item": "探索与恢复",
+      "check": "固定采样预算的Pass@k/avg@k；错误prefix后的恢复率；高熵分支与纠错token的监督符号；不以marker次数直接证明能力。"
+    },
+    {
+      "item": "跨域与尺度",
+      "check": "至少一个OOD任务/题源和第二种学生规模；区别base/instruct/thinking、teacher强度与兼容性。"
+    },
+    {
+      "item": "统计不确定性",
+      "check": "按题bootstrap置信区间；训练随机种子；对小样本AIME不只报单次百分比；固定checkpoint选择规则。"
+    },
+    {
+      "item": "成本账本",
+      "check": "题目筛选、teacher生成、student rollout、teacher评分、训练更新、verifier/环境、失败重试和评估分别列账；报告缓存/摊销前后两套口径。"
+    },
+    {
+      "item": "可复现边界",
+      "check": "冻结模型与依赖版本；披露API不可复现性、训练/验证共享、额外超参数搜索与未公开资源。"
+    }
+  ],
+  "interview_questions": [
+    {
+      "question": "你做CoT数据，为什么会关心OPD？",
+      "answer": "离线CoT决定warm-up把学生带到哪些状态；OPD再在学生自己的prefix上提供教师反馈。两者连接处的兼容性，可能比静态正确率更能解释最终收益。这个命题需要配对数据和跨阶段实验检验。",
+      "evidence_ids": [
+        "simple_opd",
+        "rl_starts"
+      ]
+    },
+    {
+      "question": "更强teacher和正确轨迹为什么不一定最好？",
+      "answer": "更强是最终任务能力；更适合监督学生还取决于prefix分布和信息条件。Simple-OPD提供teacher来源的实验证据，privileged self-distillation给出信息过强可能失配的反例。不能据此反过来说弱teacher总更好。",
+      "evidence_ids": [
+        "simple_opd",
+        "rethinking_opsd"
+      ]
+    },
+    {
+      "question": "on-policy就是reverse KL吗？",
+      "answer": "不是。on-policy描述轨迹/状态来自学生当前策略；FKL、RKL描述同一状态上如何匹配分布。RL Starts在student轨迹上比较两者，且后续RL会改变优劣排序。",
+      "evidence_ids": [
+        "akl",
+        "rl_starts"
+      ]
+    },
+    {
+      "question": "OPD既然不需要正确答案，还需要什么数据？",
+      "answer": "至少需要任务prompt或环境、动态student rollouts与teacher反馈。若有warm-up，还需要相应离线CoT；若接RL，还需要可验证结果或其他奖励。无需逐条人工答案不等于无需数据。",
+      "evidence_ids": [
+        "tml_opd",
+        "simple_opd"
+      ]
+    },
+    {
+      "question": "如何证明你的数据筛选有效？",
+      "answer": "固定学生、teacher、训练流程与计算预算，对题目配对和长度/难度分层，在独立题源报告最终表现、统计区间与成本，并看筛选是否只是改变格式、停止或提取器适配。",
+      "evidence_ids": [
+        "openthoughts",
+        "art",
+        "stopping"
+      ]
+    }
+  ],
+  "proposed_pilot": {
+    "status": "研究提议，尚未执行；不得写成用户已有结果",
+    "title": "Can teacher compatibility predict CoT value beyond correctness?",
+    "primary_question": "在固定student、OPD teacher和总预算下，warm-up数据的兼容性指标是否比correctness更能预测OPD后及短程RL后的收益？",
+    "minimal_design": "从去污染prompt pool取小规模分层子集；对同题收集OPD teacher的correct/wrong CoT，并以难度和长度配对。先运行无warm-up、配对correct、配对wrong、混合四个起点，使用相同LoRA预算与后续OPD。确认存在稳定效应后再扩展外部teacher和FKL/RKL，避免第一轮同时扫所有维度。",
+    "candidate_predictors": "teacher在固定held-out student prefixes上的NLL/JS或top-k overlap、支持度、stop与纠错位置的信号；这些是待验证代理，非质量真值。",
+    "main_outcomes": "等总计算的OPD后accuracy/OOD/成本、多预算曲线及停止率；有预算再接共享短程RL，将最终结果与初始accuracy/Pass@k排名比较。",
+    "causal_controls": "同prompt与长度桶、正确性配对、固定teacher信息、固定verifier、相同更新/采样预算、独立诊断prefix集、至少重复seed；比较代理筛选与随机及correctness-only基线。",
+    "falsification": "若兼容性指标在控制长度/难度后无预测力，或换学生/题源后不稳定，则不能宣传通用筛选器；若收益仅来自format/closure，也应将结论限定于行为对齐。",
+    "small_budget_priority": "先做数据和测量审计，再做四组pilot；不要以未经验证的大规模生成替代清晰假说。"
+  },
+  "industry_reports": [
+    {
+      "id": "NVIDIA_ULTRA_2026",
+      "title": "Nemotron 3 Ultra: Open, Efficient Mixture-of-Experts Hybrid Mamba-Transformer Model for Agentic Reasoning",
+      "exact_model": "Nemotron 3 Ultra 550B-A55B",
+      "date": "2026-06-09",
+      "date_kind": "当日打开的官方 PDF 封面标注日期；不将搜索摘要中的 June 4 当发布日期",
+      "url": "https://research.nvidia.com/labs/nemotron/files/NVIDIA-Nemotron-3-Ultra-Technical-Report.pdf",
+      "accessed": "2026-10-14",
+      "sections": [
+        "3.1.1 Data（PDF第16页）",
+        "3.3.3 MOPD Warmup（PDF第27页）",
+        "3.3.4 Results and Discussions、3.3.5 Limitations（PDF第28–29页）"
+      ],
+      "verified_recipe": [
+        "学生先 SFT、再统一 RLVR，之后以多领域教师对学生自己采样的轨迹提供 token 级指导，进行 MOPD。",
+        "效率 SFT 用 gpt-oss-120b medium-effort 样本初始化 medium 模式；另将推理轨迹随机截断而保留答案，并屏蔽截断样本 </think> 的训练损失。",
+        "不同 SFT 配方的教师/学生存在分布错配；MOPD 前加入少量教师分布 SFT warmup，帮助学生轨迹进入教师可有效评分的范围。"
+      ],
+      "limitations": [
+        "作者报告 warmup 在 agentic 域有效，但 HLE 改善有限；推测学生很少采样的推理路径难仅靠 OPD 获取。",
+        "这是该实验下的观察及作者解释，不证明 OPD 普遍无法教新能力，也不证明全词表蒸馏普遍无效。"
+      ],
+      "why_relevant": "很适合回答“有 OPD 后是否仍需要高质量 CoT 数据”：数据既用来教初始行为，也用来缩小师生轨迹支持范围的差异，OPD 并未替代 SFT 数据工程。"
+    },
+    {
+      "id": "NVIDIA_CASCADE2_2026",
+      "title": "Nemotron-Cascade 2: Post-Training LLMs with Cascade RL and Multi-Domain On-Policy Distillation",
+      "exact_model": "Nemotron-Cascade-2-30B-A3B",
+      "date": "2026-03-19",
+      "version": "arXiv v1 2026-03-19；当前 v2 2026-03-22",
+      "url": "https://research.nvidia.com/labs/nemotron/files/Nemotron-Cascade-2.pdf",
+      "version_url": "https://arxiv.org/abs/2603.19220v2",
+      "accessed": "2026-10-14",
+      "sections": [
+        "3.2 SFT Data Curation（PDF第7–9页）",
+        "4.4 Multi-domain On-Policy Distillation（PDF第12–14页）",
+        "4.7.1 Data Curation（PDF第15页）"
+      ],
+      "verified_recipe": [
+        "SFT 数学集分别纳入带 Python 工具和纯文本推理轨迹，来源包含 DeepSeek-V3.2、V3.2-Speciale 与 gpt-oss-120b 生成样本。",
+        "Cascade RL 中用每个领域验证表现最强的中间 checkpoint 当教师；学生生成轨迹，按领域教师计算采样 token 的 log-prob 差，形成密集蒸馏优势。",
+        "Code RL 去除 gpt-oss-120b 8 次全对的容易题，保留约 3.5K 高难且有强测试用例的题。"
+      ],
+      "limitations": [
+        "MOPD 主要用来恢复先前专门 RL 阶段的能力回退；教师与学生同 SFT 初始化、同 tokenizer 的有利条件不能泛化到任意跨家族蒸馏。",
+        "报告指出某些 RLVR 会降低熵、缩短推理并损害数学表现；因此短 CoT 不自动等于更有效推理。"
+      ],
+      "why_relevant": "补充“最新工业实践已从单教师答案模仿扩展到多领域能力合并”，同时展示数据难度、验证器强度与训练阶段顺序的重要性。"
+    }
+  ]
+}

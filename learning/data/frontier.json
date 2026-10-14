@@ -296,7 +296,7 @@
       },
       "position": "题目级 / 外部小预测器 / prefill 特征；不是潜空间推理架构",
       "motivation": "开始生成前判断是否值得思考，避免为了预测难度先花一大段推理。",
-      "method": "以非思考模式的离线自一致性作目标，训练两层 MLP 从 prefill 最后一层、最后一个 token 特征预测分数；Algorithm 2 用阈值选择 Think / NoThink。",
+      "method": "以多次非思考回答经标准答案/verifier 判定的正确比例作为 SC 标签，训练两层 MLP 从 prefill 最后一层、最后一个 token 特征预测分数；Algorithm 2 在预测分数大于阈值时选择 NoThink，否则选择 Think。",
       "result": {
         "setup": "Qwen3-8B，1000 道 OpenMathReasoning 校准题，每题离线 32 次非思考采样；Pass@1，temperature 0.6 / top_p 0.95。",
         "comparison": "正式版 Table 1 / GSM8K：95.2% / 1994 thinking tokens → 95.6% / 890。Table 2 / MATH500：B200、batch 1，平均延迟 32.1s → 23.5s。",

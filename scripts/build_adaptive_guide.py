@@ -166,6 +166,8 @@ def frontier():
             if row['urls'].get(key):
                 body += link(row['urls'][key], label)
         body += '</div>'
+        if row['id'] == 'sonata':
+            body += '<div class="note">' + p('新增精读核对了 SC 的有监督标签、prefill 特征、阈值方向，以及正式表格与作者页面的差异。') + link('adaptive-products.html#sonata', '阅读 Sonata 精读与产品比较') + '</div>'
         out += detail(row['title'], body, 'frontier-' + row['id'])
     return out
 

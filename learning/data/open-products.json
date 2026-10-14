@@ -1,0 +1,34 @@
+{
+  "checked_at": "2026-10-14",
+  "products": [
+    {
+      "id": "deepseek",
+      "name": "DeepSeek API",
+      "scope": "当前 Thinking Mode 指南及 Responses API；指南示例 deepseek-flash",
+      "controls": "Chat Completions 用 thinking.type 开关和 reasoning_effort；Responses 用 reasoning.effort=none/low/high/max。",
+      "budget": "effort 是档位；max_output_tokens 才是包含推理和最终答案的输出上限。兼容档位可能映射到同一实际档位。",
+      "mechanism": "支持同一接口切换思考模式与强度。默认启用思考，指南默认 effort 为 high；这不能证明每个请求都有独立的难度路由器。",
+      "context": "工具请求要回传历史 reasoning_content；普通无工具对话则不会拼接历史思考。轨迹保留规则与思考强度是不同问题。",
+      "unknown": "接口没有公开足以复现当前模型路由器、停止策略或 CoT 数据配方的细节。",
+      "lesson": "测评应记录实际映射后的档位、工具上下文和输出上限，避免以为不同参数名一定产生不同计算量。",
+      "source_ids": ["deepseek-thinking", "deepseek-responses"]
+    },
+    {
+      "id": "qwen",
+      "name": "Qwen / 阿里云 Model Studio",
+      "scope": "官方文档更新于 2026-10-11；qwen3.8-max、qwen3.8-flash 等支持的混合思考型号",
+      "controls": "enable_thinking 控制是否思考；thinking_budget 控制思考 token 上限。型号的默认值和支持能力须分别检查。",
+      "budget": "文档将 thinking_budget 描述为上限，到达后转入答案生成；不能把它当作模型自动找到最优预算的证据。",
+      "mechanism": "对支持的混合模式型号，服务提供模式与预算控制。思考专用型号和混合型号不能混为一谈。",
+      "context": "部分型号的 preserve_thinking 可读取客户端回传的历史思考，并计入新一轮输入；这是上下文复用。",
+      "unknown": "这些产品参数没有披露当前型号的完整训练方法；不能从旧版 Qwen3 报告反推 Qwen3.8 的数据与算法。",
+      "lesson": "将是否思考、思考长度与历史轨迹保留拆成三个实验因素；分别记录答案质量、延迟和上下文成本。",
+      "source_ids": ["qwen-thinking"]
+    }
+  ],
+  "sources": [
+    {"id":"deepseek-thinking","title":"DeepSeek · Thinking Mode","url":"https://api-docs.deepseek.com/guides/thinking_mode/","kind":"official","note":"模式、档位映射与多轮工具上下文；2026-10-14 核验。"},
+    {"id":"deepseek-responses","title":"DeepSeek · Responses API reference","url":"https://api-docs.deepseek.com/api/create-response/","kind":"official","note":"reasoning.effort 与 max_output_tokens 的不同作用；2026-10-14 核验。"},
+    {"id":"qwen-thinking","title":"Alibaba Cloud Model Studio · Deep thinking","url":"https://www.alibabacloud.com/help/en/model-studio/deep-thinking","kind":"official","note":"文档更新时间 2026-10-11；模式、thinking_budget、preserve_thinking；2026-10-14 核验。"}
+  ]
+}

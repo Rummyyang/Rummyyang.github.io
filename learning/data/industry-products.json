@@ -1,0 +1,297 @@
+{
+  "checked_at": "2026-10-14",
+  "products": [
+    {
+      "id": "openai_api",
+      "vendor": "OpenAI",
+      "product": "Responses API：以 GPT-6.1 Sol 为当前具体实例",
+      "model_versions": [
+        "gpt-6.1-sol",
+        "GPT-5.4 / GPT-5.5 仅作官方 interleaved thinking 文档的明确例子"
+      ],
+      "mechanism": [
+        "reasoning.effort 给模型思考程度的指导；官方说明各 effort 下仍会按任务难度自适应，简单任务用较少推理 token，复杂任务投入更多。",
+        "GPT-5.6 和 GPT-6 的 standard/pro 执行模式与 effort 是独立维度；pro 会投入更多模型工作，不能直接等同单条思维链变长。"
+      ],
+      "controls": [
+        "gpt-6.1-sol：low、medium（默认）、high、xhigh、max；不支持 none/minimal。",
+        "max_output_tokens 限制总生成量，包含隐藏推理、可见回答和格式 token；达到上限可能 incomplete，甚至还没有可见答案。",
+        "GPT-6 标准单 agent 模式支持跨回复更改 effort；这是调用方的显式调整，不能称为模型自己学到的跨轮路由。"
+      ],
+      "known": [
+        "推理 token 不直接可见，但会占上下文并计费；返回的 reasoning summary 不能当完整原始 CoT。",
+        "官方以 GPT-5.4/5.5 为例明确支持可见输出、思考与工具调用交错；工具返回后可以继续思考。"
+      ],
+      "not_disclosed": [
+        "这些文档未披露自适应长度的训练目标、奖励函数、难度估计器、停止策略、搜索树或每档固定计算预算。",
+        "effort 是公开行为控制，不能据此断言采用某篇 adaptive-thinking 论文的方法；pro 的内部工作组合也未由此页面完整披露。"
+      ],
+      "what_to_learn": [
+        "研究启发（推论）：固定模型与 effort 后，仍应测量不同难度下的计算分配；effort 与实际 token 消耗是不同变量。",
+        "面试比较要同时报告质量、推理 token、可见输出 token、延迟、工具调用和截断率；不要用回答篇幅代替思考量。"
+      ],
+      "evidence_dates": {
+        "accessed": "2026-10-14",
+        "published": null,
+        "note": "实时文档未提供本次相关段落的独立发布日期。"
+      },
+      "source_ids": [
+        "O1",
+        "O2"
+      ]
+    },
+    {
+      "id": "chatgpt_work_codex",
+      "vendor": "OpenAI",
+      "product": "ChatGPT Work / Codex 产品层",
+      "model_versions": [
+        "gpt-6.1-sol",
+        "gpt-6-astra",
+        "gpt-6-luna；实际可用性依计划、客户端与 rollout"
+      ],
+      "mechanism": [
+        "当前 ChatGPT Learn 明确记录：用户在模型/推理控件中选择模型与 effort；Power 预设可同时改变所选模型和 effort。",
+        "Max 增加所选模型的思考投入；Ultra 会使用 subagents 并行分解任务，属于编排层变化。"
+      ],
+      "controls": [
+        "Light/Medium/High/Extra High 等产品档位必须绑定具体模型理解，代际间不保证等价。",
+        "Advanced 可分别选择模型、effort 与 speed；不能把一个 UI 滑块视为单一推理长度旋钮。",
+        "GPT-6.1 Sol、GPT-6 Sol 与 GPT-6 Luna 在该文档中限定为 Work/Codex，不能泛化到 Chat。"
+      ],
+      "known": [
+        "用户控制、模型自身的动态长度分配、并行 agent 编排属于不同层次。"
+      ],
+      "not_disclosed": [
+        "本次许可域内已打开的当前文档未建立 Chat 模式是否仍采用早期 GPT-5 式快/慢模型自动路由；未核实不等于不存在。",
+        "文档中的产品档位不是训练架构证据，不能由 Ultra 或 Power 名称推断 CoT、RL 或 router 算法。"
+      ],
+      "what_to_learn": [
+        "研究启发（推论）：先分清 model routing、effort conditioning 和 agent orchestration，再谈计算量自适应。",
+        "面试可说：自动选模型解决选谁，模型动态思考解决已选模型投入多少；两者可以并存但不能混称。该概念区分不代表当前 Chat 已证实存在某种 router。"
+      ],
+      "evidence_dates": {
+        "accessed": "2026-10-14",
+        "published": null
+      },
+      "source_ids": [
+        "O3"
+      ]
+    },
+    {
+      "id": "claude",
+      "vendor": "Anthropic",
+      "product": "Claude API：adaptive thinking + effort",
+      "model_versions": [
+        "claude-opus-5-5",
+        "claude-sonnet-5-5",
+        "claude-haiku-5-5",
+        "Claude Opus/Sonnet 4.6 作为兼容性对照"
+      ],
+      "mechanism": [
+        "adaptive thinking 允许模型逐请求决定是否需要显式思考块以及思考深度；effort 是主要行为信号，也可受提示引导。",
+        "自动与工具使用交错：模型可以在工具结果之后继续思考，无需另加 interleaved beta 配置。",
+        "开启 adaptive 模式与每次一定产生思考块不同；低 effort 的简单输入可跳过思考。"
+      ],
+      "controls": [
+        "Opus 5.5、Sonnet 5.5、Haiku 5.5 均支持 low/medium/high/xhigh/max；Opus/Haiku 5.5 默认 medium，Sonnet 5.5 默认 high。",
+        "Opus 5.5 不能关闭 adaptive；Sonnet 5.5 在 high 及以下可用 between_tools 关掉开头思考；Haiku 5.5 在 high 及以下可 disabled。勿泛化全家族。",
+        "effort 影响整条输出，包括思考、回答和工具调用，不是仅限制思考 token。",
+        "max_tokens 是每请求思考加回答的硬上限；effort 不保证 token 数，也不限制整个多请求工具循环的总成本。"
+      ],
+      "known": [
+        "Opus/Sonnet 4.6 支持但弃用旧 enabled+budget_tokens；其 adaptive 需显式开启。5.5 各型号默认启用 adaptive，旧手动预算模式不受支持。",
+        "公开 thinking 文本为摘要；display 是否展示不改变已经生成的推理 token 计费。"
+      ],
+      "not_disclosed": [
+        "官方行为文档未披露做出 think/skip/stop 决策所用的训练数据、奖励或实现算法。",
+        "不能把默认启用 adaptive 理解成每个请求强制生成固定长度的 CoT；也不能把相同 effort 名称当跨模型等算力。"
+      ],
+      "what_to_learn": [
+        "研究启发（推论）：把是否思考、思考多深、是否调用工具拆成可观测维度；关注模型能否把算力从容易样本转给困难样本。",
+        "后训练面试切入：effort 条件化策略与长度惩罚是否会伤害困难样本，需通过分难度质量—成本曲线回答，而非用省 token 总量回答。"
+      ],
+      "evidence_dates": {
+        "accessed": "2026-10-14",
+        "published": null
+      },
+      "source_ids": [
+        "A1",
+        "A2",
+        "A3"
+      ]
+    },
+    {
+      "id": "gemini",
+      "vendor": "Google",
+      "product": "Gemini API：dynamic thinking、thinking level 与旧数值 budget",
+      "model_versions": [
+        "gemini-4-argon",
+        "gemini-3.8-flash",
+        "gemini-3.1-pro-preview",
+        "Gemini 2.5 Pro / Flash（Legacy GenerateContent 对照）"
+      ],
+      "mechanism": [
+        "官方说明 dynamic thinking 根据请求复杂度调整推理投入；level 控制思考倾向/相对额度，不是每次固定生成数。",
+        "API 面需区分：当前 Interactions 用 thinking_level；Legacy GenerateContent 用 thinkingLevel，Gemini 2.5 在该旧 API 面使用 thinkingBudget。"
+      ],
+      "controls": [
+        "当前表中 Gemini 4 Argon 与 3.8 Flash 为 low/medium/high、默认 medium；3.1 Pro Preview 默认 high。不能用旧 Gemini 3 总述泛化新型号默认值。",
+        "Legacy GenerateContent 的 Gemini 2.5 Pro/Flash 默认 dynamic，thinkingBudget=-1；Flash 可用 0 关闭，Pro 不可。2.5 Flash-Lite 默认不思考。",
+        "该旧数值 budget 是指导值，官方明确可能超出或低于；Gemini 4 中已弃用且映射至最近 level。",
+        "max_output_tokens 是基础设施执行的总生成硬截断，含思考；设小会导致截断/空输出，不能替代降低 thinking level。"
+      ],
+      "known": [
+        "Gemini 3 文档明确 level 是相对思考额度；minimal 也不保证完全没有思考。",
+        "thought signatures 保存加密推理状态，供多轮/工具流程保持连续性；摘要和签名不等于可见完整原始推理。",
+        "工具结果可进入后续推理；本次未将其直接断言为与其他厂家完全相同的交错实现。"
+      ],
+      "not_disclosed": [
+        "文档未说明动态分配的训练奖励、在线难度估计、停止器或搜索实现。",
+        "不能把 level、旧 thinkingBudget 与硬输出上限混为同一种 budget；也不能把当前 Interactions 与 Legacy GenerateContent 的字段/默认值混写。",
+        "这些是 API 文档结论，不能据此断言 Gemini 消费者 App 的 UI 自动选择策略。"
+      ],
+      "what_to_learn": [
+        "研究启发（推论）：控制预算前必须明确是条件化目标还是强制截断；两者会造成不同的质量损失和未完成率。",
+        "评测除平均成本外，要按题目难度检查是否过度/不足思考，并记录是否在产生最终答案前耗尽硬上限。"
+      ],
+      "evidence_dates": {
+        "accessed": "2026-10-14",
+        "published": null,
+        "note": "两个 API 面并存，已按页面范围区分；旧 Gemini 3 总述并非最新型号目录。"
+      },
+      "source_ids": [
+        "G1",
+        "G2",
+        "G3"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "O1",
+      "vendor": "OpenAI",
+      "title": "Reasoning models",
+      "url": "https://developers.openai.com/api/docs/guides/reasoning",
+      "accessed": "2026-10-14",
+      "sections": [
+        "Reasoning effort",
+        "Reasoning mode",
+        "How reasoning works",
+        "Controlling costs",
+        "Change reasoning mid-conversation"
+      ],
+      "supports": "effort 下仍按复杂度动态分配；pro 与 effort 独立；推理 token 不可见；总输出硬限制；特定模型的交错思考与显式跨轮设置。"
+    },
+    {
+      "id": "O2",
+      "vendor": "OpenAI",
+      "title": "GPT-6.1 Sol Model",
+      "url": "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
+      "accessed": "2026-10-14",
+      "sections": [
+        "Model overview"
+      ],
+      "supports": "具体模型支持的 effort 集合与默认值；不能把 none/minimal 支持从旧型号外推。"
+    },
+    {
+      "id": "O3",
+      "vendor": "OpenAI",
+      "title": "Models | ChatGPT Learn",
+      "url": "https://learn.chatgpt.com/docs/models",
+      "accessed": "2026-10-14",
+      "sections": [
+        "Choose a model",
+        "GPT-6.1 Sol",
+        "Pick a reasoning effort",
+        "Know when to use Max or Ultra"
+      ],
+      "supports": "Work/Codex 模型与 effort 控制；Power 组合预设；Max 与 Ultra 的区别；产品访问边界。"
+    },
+    {
+      "id": "A1",
+      "vendor": "Anthropic",
+      "title": "Thinking",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/thinking",
+      "accessed": "2026-10-14",
+      "sections": [
+        "Configuring thinking",
+        "Turning thinking off",
+        "Thinking and effort"
+      ],
+      "supports": "逐模型 adaptive 默认值及关闭限制；旧 manual 与新 adaptive 的区别；摘要展示语义。"
+    },
+    {
+      "id": "A2",
+      "vendor": "Anthropic",
+      "title": "Effort",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/effort",
+      "accessed": "2026-10-14",
+      "sections": [
+        "How effort works",
+        "Effort levels",
+        "Recommended effort levels for Claude Opus 5.5",
+        "Recommended effort levels for Claude Sonnet 5.5",
+        "Recommended effort levels for Claude Haiku 5.5",
+        "Effort with thinking"
+      ],
+      "supports": "effort 是行为信号而非严格 token 预算，影响所有输出与工具调用；具体 5.5 型号 effort 默认值。"
+    },
+    {
+      "id": "A3",
+      "vendor": "Anthropic",
+      "title": "Steering thinking",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/thinking-steering-and-cost",
+      "original_url": "https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking",
+      "accessed": "2026-10-14",
+      "sections": [
+        "How Claude determines when to think",
+        "Effort levels",
+        "Cost control"
+      ],
+      "supports": "逐请求决定是否及多深思考、自动与工具交错；max_tokens 为每请求硬限制，effort 为软指导。"
+    },
+    {
+      "id": "G1",
+      "vendor": "Google",
+      "title": "Gemini thinking | Gemini API",
+      "url": "https://ai.google.dev/gemini-api/docs/thinking",
+      "accessed": "2026-10-14",
+      "sections": [
+        "Controlling thinking",
+        "Token limits and max_output_tokens",
+        "Thought signatures"
+      ],
+      "supports": "Interactions API 的当前型号 level 表；动态思考；总输出基础设施硬截断；推理状态与摘要。"
+    },
+    {
+      "id": "G2",
+      "vendor": "Google",
+      "title": "Gemini thinking | Gemini Generate Content API (Legacy)",
+      "url": "https://ai.google.dev/gemini-api/docs/generate-content/thinking",
+      "accessed": "2026-10-14",
+      "sections": [
+        "Thinking levels",
+        "Thinking budgets",
+        "Thought signatures",
+        "Supported models, tools, and capabilities"
+      ],
+      "supports": "旧 API Gemini 2.5 的 dynamic/关闭默认；数值预算可能 overflow/underflow；Gemini 4 数值 budget 弃用；工具与推理上下文。"
+    },
+    {
+      "id": "G3",
+      "vendor": "Google",
+      "title": "Gemini 3 developer guide",
+      "url": "https://ai.google.dev/gemini-api/docs/gemini-3",
+      "accessed": "2026-10-14",
+      "sections": [
+        "Level of thinking"
+      ],
+      "supports": "针对其表中 3.1 Pro/3 Flash/3.1 Flash-Lite，level 是相对额度，minimal 非完全关闭；勿把旧表默认泛化到 3.8/4。"
+    }
+  ],
+  "synthesis": [
+    "面试表述建议：业界公开接口通常是模型/模式选择 → effort 或 level 的偏好条件 → 模型逐题/逐工具步动态分配 → 硬 token cap 的部署兜底。这个分层是基于公开行为做的研究抽象，不是任何厂商训练流程的披露。",
+    "最重要的实证区别：产品自动路由、显式用户偏好、模型自适应与基础设施截断，分别属于不同控制层；看到少用 token 不足以识别背后算法。",
+    "本次官方材料只支持能力与参数语义，不足以宣称某厂使用 GRPO、长度奖励、难度 router、学习式 stopping 或特定论文算法。"
+  ]
+}

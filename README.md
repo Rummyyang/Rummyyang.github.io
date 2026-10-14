@@ -32,6 +32,9 @@ Edit the curated notes in `learning/data/`, the page templates, or `learning/pap
 ```sh
 python3 scripts/build_learning.py
 python3 scripts/build_adaptive_guide.py
+python3 scripts/build_research_updates.py
 ```
 
 Keep official recruitment facts, self-reported interview experiences, and original practice questions distinct. Preserve source URLs, publication/version dates, verification dates, and publication-status evidence. Unperformed experiments must remain labeled as proposals. Do not publish credentials, local paths, private employer data, or material from the separate private collaboration workspace. The learning pages do not regenerate or alter the CV PDF.
+
+`/learning/adaptive-products.html` adds a focused Sonata reading and official product controls. `/learning/cot-data-opd.html` connects CoT data, on-policy distillation, recent papers, evaluation, and a clearly labeled in-progress project presentation template. Their sources are in `learning/data/{sonata,industry-products,open-products,cot-opd}.json`; edit `products-template.html` and `cot-template.html` for the teaching structure. Keep product behavior separate from undisclosed implementation and research proposals separate from completed personal work.

@@ -1,0 +1,98 @@
+{
+  "title": "Adaptive Thinking: Large Language Models Know When to Think in Latent Space",
+  "status": "ICLR 2026 正式会议论文；Apple 与 UNC 作者的研究成果",
+  "checked_at": "2026-10-14",
+  "sources": [
+    {
+      "id": "sonata-pdf",
+      "title": "ICLR 2026 正式论文集 PDF",
+      "url": "https://proceedings.iclr.cc/paper_files/paper/2026/file/96dd7b14cde7e0a5194eceedafb2f249-Paper-Conference.pdf",
+      "kind": "primary_paper",
+      "role": "方法、算法、表格和附录的主依据",
+      "pages": 17
+    },
+    {
+      "id": "sonata-proceedings",
+      "title": "ICLR 2026 官方会议记录与摘要",
+      "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/96dd7b14cde7e0a5194eceedafb2f249-Abstract-Conference.html",
+      "kind": "official_record",
+      "role": "核对正式发表状态及正式摘要"
+    },
+    {
+      "id": "sonata-apple",
+      "title": "Apple Machine Learning Research：Adaptive Thinking",
+      "url": "https://machinelearning.apple.com/research/adaptive-thinking",
+      "kind": "author_page",
+      "role": "作者与研究归属；摘要数字和实验范围与正式版本不同"
+    }
+  ],
+  "representative_results": [
+    {
+      "id": "gpqa_qwen8",
+      "title": "跨域案例：Qwen3-8B 在 GPQA",
+      "benchmark": "GPQA（论文未在主实验处进一步指定具体 split）",
+      "model": "Qwen3-8B",
+      "precision": "BF16",
+      "baseline": {
+        "accuracy_percent": 60.1,
+        "average_thinking_tokens": 7458
+      },
+      "sonata": {
+        "accuracy_percent": 62.0,
+        "average_thinking_tokens": 3590
+      },
+      "derived": {
+        "accuracy_change_percentage_points": 1.9,
+        "thinking_token_reduction_percent": 51.86
+      },
+      "interpretation": "这条结果同时减少专门的思考 token 并提高平均 pass@1；它来自以数学题训练的 adapter，但不能替代对所有领域的验证。该任务没有单独报告对应延迟。",
+      "source_id": "sonata-pdf",
+      "locator": "Table 1，p. 7；§5.1，p. 8"
+    },
+    {
+      "id": "math_qwen8_latency",
+      "title": "系统案例：Qwen3-8B 在 MATH-500",
+      "benchmark": "MATH-500",
+      "model": "Qwen3-8B",
+      "precision": "BF16",
+      "baseline": {
+        "accuracy_percent": 97.6,
+        "average_thinking_tokens": 4900,
+        "average_latency_seconds": 32.1
+      },
+      "sonata": {
+        "accuracy_percent": 97.4,
+        "average_thinking_tokens": 3694,
+        "average_latency_seconds": 23.5
+      },
+      "derived": {
+        "accuracy_change_percentage_points": -0.2,
+        "thinking_token_reduction_percent": 24.61,
+        "latency_reduction_percent": 26.79
+      },
+      "latency_conditions": "Table 2：1 张 NVIDIA B200，batch size=1，vLLM 测延迟和 throughput，MATH-500 所有 query 平均。Table 1 给准确率和思考 token；Table 2 给单独的系统测量。",
+      "interpretation": "减少 token 确实转化成该配置下的延迟收益，但准确率有 0.2 个百分点差异；不能写成精度绝对不变，也不能外推至高并发线上服务。",
+      "source_id": "sonata-pdf",
+      "locator": "Tables 1–2，pp. 7–8"
+    }
+  ],
+  "method": [
+    {
+      "title": "离线：构造“无需思考能否答对”的标签",
+      "text": "每个模型用 1,000 道可判分数学题，每题采样 32 次 non-thinking 回答，以正确比例作为 SC 标签；使用标准答案，并由 verifier 判分。"
+    },
+    {
+      "title": "训练：读取隐藏表征，拟合小预测器",
+      "text": "带 chat template 的输入完成 prefill 后，取末位置、最后层的隐藏向量。两层 MLP（d→64→1，GELU、sigmoid）通过 MSE 预测 SC，基础模型保持不变。"
+    },
+    {
+      "title": "线上：只做一次思考开关决策",
+      "text": "主实验预测分数大于 0.3 时直接回答，否则启用原模型的 thinking。无需在线重采 32 次；预测器复用 prefill 表征。主算法不在生成中反复早停。"
+    },
+    {
+      "title": "扩展：多档预算与早停组合",
+      "text": "附录尝试四档预算，另与 REFRAIN 早停器组合；它们与主表的二元开关要分开看。"
+    }
+  ],
+  "formula": "SC(q) = 正确的无思考回答数 / 32\nŝ = MLP(h)，L = mean[(ŝ − SC)²]\nŝ > 0.3 → non-thinking；否则 → thinking"
+}
