@@ -23,7 +23,7 @@ parts = [start_marker, h("Biography", "Biography"), '<p>I am a Ph.D. student in 
 for p in [x for x in data['publications'] if x['type']=='publication']:
     title = a(p['paper_url'],p['title']) if p.get('paper_url') else escape(p['title'])
     authors = escape(p['authors']).replace('Runming Yang', '<strong>Runming Yang</strong>').replace('R. Yang', '<strong>R. Yang</strong>')
-    parts.append('<li><p>'+title+'<br><small>'+authors+'. <strong style="display: inline; color: #324656; background: #ebf1f5; padding: 1px 4px">'+escape(p['venue'])+'</strong></small></p></li>')
+    parts.append('<li><p>'+title+'<br><small>'+authors+'. <strong style="display: inline; color: #324656; background: #ebf1f5; padding: 1px 4px">'+escape(p['venue'])+'</strong> '+(a('https://arxiv.org/abs/'+p['arxiv_id'], '[arXiv]') if p.get('arxiv_id') else '')+'</small></p></li>')
 parts += ['</ul>', h('Industry Experience','Internship')]
 for e in data['experience']:
     parts.append('<p><strong>'+escape(e['organization'])+'</strong> — '+escape(e['title'])+'<br>'+escape(e['dates'])+'</p>')
@@ -50,7 +50,7 @@ else:
     page = page.replace('<ul class="menus_items">', '<ul class="menus_items">\n                '+cv_nav, 1)
 page = page.replace('<title>Homepage</title>', '<title>Runming Yang | LLM Efficiency &amp; Post-Training</title>')
 page = page.replace("<h2>LLM-Neo <em> (submitted to ICASSP 25') </em> </h2>", '<h2>LLM-Neo</h2>')
-page = re.sub(r'\(Last updated(?: on |: )[^)]+\)', '(Last updated: '+escape(data['updated'])+')', page)
+page = re.sub(r'\(Last updated(?: on |: )[^)]+\)', '(Last updated: '+escape(data['updated'][:7])+')', page)
 page = re.sub(r'(?:©|&copy;)\d{4} by Runming Yang\.', '©'+data['updated'][:4]+' by Runming Yang.', page)
 path.write_text(page)
 print(path)

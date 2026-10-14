@@ -58,7 +58,7 @@
         "Science and Engineering Cross-Innovation Experimental Class"
       ],
       "institution_zh": "华中科技大学",
-      "degree_zh": "人工智能与自动化工学学士",
+      "degree_zh": "人工智能与自动化工学 学士",
       "dates_zh": "2017.09 - 2021.06",
       "details_zh": [
         "理工交叉创新实验班"
@@ -95,7 +95,7 @@
       "dates": "Nov. 2023 - Jun. 2025",
       "bullets": [
         "Synthesized multimodal data and conducted model post-training and evaluation for image-text content moderation in QQ group chats, Qzone, and short-video comments.",
-        "Worked on tiered deployment and inference acceleration; trained models were deployed in internal risk-control systems, improving throughput and reducing false-positive rates over the previous solution.",
+        "Deployed models in tiers and accelerated inference; trained models were deployed in internal risk-control systems, improving throughput and reducing false-positive rates over the previous solution.",
         "Researched large/small model collaboration, data distillation, and lightweight modeling; contributed to two academic papers (Shadow-FT and LLM-NEO) and one company patent."
       ],
       "organization_zh": "腾讯 AI Lab",
@@ -103,7 +103,7 @@
       "dates_zh": "2023.11 - 2025.06",
       "bullets_zh": [
         "面向 QQ 群聊、空间及短视频评论等场景的图文内容审核，开展多模态数据合成、模型后训练与测评。",
-        "参与模型分级部署与推理加速，训练模型已在内部风控系统上线，相较前代方案提升吞吐率并降低误杀率。",
+        "分级部署模型并推理加速，训练模型已在内部风控系统上线，相较前代方案提升吞吐率并降低误杀率。",
         "研究大小模型协作、数据蒸馏与模型轻量化，产出两篇学术论文（Shadow-FT 和 LLM-NEO）及一项公司专利。"
       ]
     }

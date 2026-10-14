@@ -10,7 +10,7 @@ DATA = json.loads((ROOT / 'cv/cv-data.json').read_text())
 def tex(value):
     replacements = {'\\': r'\textbackslash{}', '&': r'\&', '%': r'\%', '$': r'\$', '#': r'\#', '_': r'\_', '{': r'\{', '}': r'\}', '~': r'\textasciitilde{}', '^': r'\textasciicircum{}'}
     rendered = ''.join(replacements.get(c, c) for c in str(value))
-    return rendered.replace('杨余久 教授', r'杨余久\hspace{0.35em}教授').replace('大数据工程 硕士', r'大数据工程\hspace{0.35em}硕士')
+    return rendered.replace('杨余久 教授', r'杨余久\hspace{0.35em}教授').replace('大数据工程 硕士', r'大数据工程\hspace{0.35em}硕士').replace('工学 学士', r'工学\hspace{0.35em}学士')
 
 
 def href(url, label):
@@ -96,12 +96,21 @@ def render(lang):
         out.append(r'\textsuperscript{*} 共同第一作者。' if zh else r'\textsuperscript{*} Equal contribution.')
         out.append(r'\begin{enumerate}[label={' + (r'[\arabic*]' if kind == 'publication' else r'[P\arabic*]') + '}]')
         for row in rows:
+            arxiv_url = 'https://arxiv.org/abs/' + row['arxiv_id'] if row.get('arxiv_id') else None
             venue = tex(choose(row, 'venue'))
             if kind == 'publication':
                 venue = r'\venuebadge{' + venue + '}'
             elif row.get('submission_venue'):
                 venue = r'\submissionbadge{' + venue + '}'
-            links = ' '.join(href(row[key], '[' + name + ']') for key, name in [('paper_url', 'Paper'), ('code_url', 'Code'), ('project_url', 'Project')] if row.get(key))
+            elif arxiv_url and row['venue'].startswith('arXiv:'):
+                venue = ''
+            link_items = []
+            if row.get('paper_url') and (not arxiv_url or not row['paper_url'].startswith('https://arxiv.org/')):
+                link_items.append(href(row['paper_url'], '[Paper]'))
+            if arxiv_url:
+                link_items.append(href(arxiv_url, '[arXiv]'))
+            link_items.extend(href(row[key], '[' + name + ']') for key, name in [('code_url', 'Code'), ('project_url', 'Project')] if row.get(key))
+            links = ' '.join(link_items)
             entry = authors(row.get('authors_short', row['authors'])) + '. ' + r'\textit{' + tex(row['title']) + '.} ' + venue + ' ' + links
             entry += r'\\[1pt]{\textcolor{summarytext}{' + tex(choose(row, 'summary')) + '}}'
             out.append(r'\item\begin{samepage} ' + entry + r'\par\end{samepage}')
@@ -130,7 +139,7 @@ def render(lang):
     lines.append(r'\end{rSection}')
     lines.extend(papers('preprint'))
     lines.append(r'\par\vspace{2pt}{\parfillskip=0pt\noindent\rule{\linewidth}{0.4pt}\par}')
-    lines.append(r'\begin{center}\footnotesize ' + ('更新日期：' if zh else 'Last updated: ') + DATA['updated'].replace('-', '.') + r'\end{center}')
+    lines.append(r'\begin{center}\footnotesize ' + ('更新日期：' if zh else 'Last updated: ') + DATA['updated'][:7].replace('-', '.') + r'\end{center}')
     lines.append(r'\end{document}')
     path = ROOT / ('cv/runming_yang_cv.tex' if zh else 'cv/runming_yang_cv_en.tex')
     path.write_text('\n'.join(lines) + '\n')
