@@ -28,6 +28,10 @@ parts += ['</ul>', h('Industry Experience','Internship')]
 for e in data['experience']:
     parts.append('<p><strong>'+escape(e['organization'])+'</strong> — '+escape(e['title'])+'<br>'+escape(e['dates'])+'</p>')
     parts.append('<ul>'+''.join('<li>'+escape(b)+'</li>' for b in e['bullets'])+'</ul>')
+if data.get('current_research'):
+    parts.append(h('Current Research', 'Current-Research'))
+    for project in data['current_research']:
+        parts.append('<p><strong>'+escape(project['title'])+'</strong> — '+escape(project['dates'])+'<br>'+escape(project['summary'])+'</p>')
 parts.append(end_marker)
 new='\n'.join(parts)
 if start_marker in page:

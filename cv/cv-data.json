@@ -390,5 +390,15 @@
         ]
       }
     ]
-  }
+  },
+  "current_research": [
+    {
+      "id": "phd-cot-collaboration",
+      "title": "Chain-of-Thought (CoT) Reasoning",
+      "institution": "The University of Hong Kong",
+      "role": "Ph.D. Research",
+      "dates": "Ongoing",
+      "summary": "Ph.D. research at the University of Hong Kong in collaboration with other research teams. Manuscript in preparation for submission."
+    }
+  ]
 }

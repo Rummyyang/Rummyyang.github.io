@@ -78,6 +78,12 @@ for e in DATA["experience"]:
         lines.append(r"\item " + tex(bullet))
     lines.append(r"\end{itemize}")
 lines.append(r"\end{rSection}")
+if DATA.get("current_research"):
+    lines.append(r"\begin{rSection}{Current Research}")
+    for project in DATA["current_research"]:
+        lines.append(r"\textbf{" + tex(project["title"]) + r"}\hfill " + tex(project["dates"]) + r"\\")
+        lines.append(tex(project["summary"]))
+    lines.append(r"\end{rSection}")
 for kind, heading in [("publication", "Publications"), ("preprint", "Preprints")]:
     lines.append(r"\begin{rSection}{" + heading + r"}\small")
     lines.append(r"* indicates equal contribution.\begin{itemize}")
