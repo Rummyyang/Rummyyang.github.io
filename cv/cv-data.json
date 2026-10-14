@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-13",
+  "updated": "2026-10-14",
   "name": "Runming Yang",
   "chinese_name": "杨润明",
   "email": "yang3121099@126.com",
@@ -69,12 +69,12 @@
   "experience": [
     {
       "organization": "Tencent PCG",
-      "title": "Algorithm Intern, Social Secure Center",
+      "title": "Research Intern, QQ Social Safety",
       "dates": "Nov. 2023 - Jun. 2025",
       "bullets": [
-        "Built domain-specific multimodal datasets for model development and evaluation.",
-        "Conducted model post-training and evaluation on domain-specific tasks.",
-        "Investigated cross-modal feature fusion for multimodal modeling."
+        "Synthesized image-text multimodal data and conducted model post-training and evaluation for QQ content recognition and moderation.",
+        "Worked on tiered deployment and inference acceleration; deployed trained models in internal risk-control systems, substantially improving throughput and reducing false-positive moderation rates over the previous solution.",
+        "Researched large/small model collaboration, data distillation, and lightweight modeling; contributed to two academic papers and one company patent."
       ]
     }
   ],
@@ -118,10 +118,10 @@
       "title": "Can We Trust LLMs on Memristors? Diving into Reasoning Ability under Non-Ideality",
       "authors": "Taiqiang Wu*, Yuxin Cheng*, Chenchen Ding*, Runming Yang, Xincheng Feng, Wenyong Zhou, Zhengwu Liu, Ngai Wong",
       "venue": "COLM 2026",
-      "status": "Accepted",
+      "status": "Published",
       "type": "publication",
       "year": 2026,
-      "summary": "Studies how memristor non-idealities affect LLM reasoning and evaluates training-free mitigation strategies.",
+      "summary": "Simulates how memristor non-idealities affect LLM reasoning and evaluates training-free mitigation strategies.",
       "authors_short": "T. Wu*, Y. Cheng*, C. Ding*, R. Yang, X. Feng, W. Zhou, Z. Liu, N. Wong",
       "paper_url": "https://arxiv.org/abs/2603.13725",
       "arxiv_id": "2603.13725",
@@ -261,7 +261,7 @@
       "status": "Preprint",
       "type": "preprint",
       "year": 2025,
-      "summary": "Decomposes LLM weights into two ternary trit-planes for multiplication-free inference.",
+      "summary": "Decomposes LLM weights into two ternary trit-planes with lookup-table kernels for efficient inference.",
       "authors_short": "H. Xiao*, R. Yang*, Q. Yang*, W. Xu, Z. Li, Y. Su, Z. Liu, H. Yang, N. Wong",
       "paper_url": "https://arxiv.org/abs/2509.16989",
       "project_url": "https://github.com/HeXiao-55/PTQTP",

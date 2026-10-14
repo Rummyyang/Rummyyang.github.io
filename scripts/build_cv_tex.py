@@ -72,8 +72,11 @@ lines.append(r"\begin{rSection}{Internship}")
 for e in DATA["experience"]:
     role, _, team = e["title"].partition(", ")
     organization = e["organization"] + (" " + team if team else "")
-    lines.append(r"\textbf{" + tex(organization) + "}, " + tex(role) + r"\hfill " + tex(e["dates"]) + r"\\")
-    lines.append(tex("Built domain-specific multimodal datasets; conducted model post-training and evaluation; investigated cross-modal feature fusion."))
+    lines.append(r"\textbf{" + tex(organization) + "}, " + tex(role) + r"\hfill " + tex(e["dates"]))
+    lines.append(r"\begin{itemize}")
+    for bullet in e["bullets"]:
+        lines.append(r"\item " + tex(bullet))
+    lines.append(r"\end{itemize}")
 lines.append(r"\end{rSection}")
 for kind, heading in [("publication", "Publications"), ("preprint", "Preprints")]:
     lines.append(r"\begin{rSection}{" + heading + r"}\small")

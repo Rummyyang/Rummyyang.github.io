@@ -36,8 +36,12 @@ Science and Engineering Cross-Innovation Experimental Class
 
 \end{rSection}
 \begin{rSection}{Internship}
-\textbf{Tencent PCG Social Secure Center}, Algorithm Intern\hfill Nov. 2023 - Jun. 2025\\
-Built domain-specific multimodal datasets; conducted model post-training and evaluation; investigated cross-modal feature fusion.
+\textbf{Tencent PCG QQ Social Safety}, Research Intern\hfill Nov. 2023 - Jun. 2025
+\begin{itemize}
+\item Synthesized image-text multimodal data and conducted model post-training and evaluation for QQ content recognition and moderation.
+\item Worked on tiered deployment and inference acceleration; deployed trained models in internal risk-control systems, substantially improving throughput and reducing false-positive moderation rates over the previous solution.
+\item Researched large/small model collaboration, data distillation, and lightweight modeling; contributed to two academic papers and one company patent.
+\end{itemize}
 \end{rSection}
 \begin{rSection}{Publications}\small
 * indicates equal contribution.\begin{itemize}
@@ -46,7 +50,7 @@ A training-free, three-stage interpolation framework between fast- and slow-thin
 \item\begin{samepage} T. Liu*, T. Wu*, \textbf{R. Yang}, S. Sun, J. Wang, Y. Yang. \textit{ProFit: Leveraging High-Value Signals in SFT via Probability-Guided Token Selection.} ACL 2026 (Findings) \href{https://aclanthology.org/2026.findings-acl.755/}{[Paper]} \href{https://github.com/Utaotao/ProFit}{[Code]}\\
 Uses current-policy information to guide token selection and relax token-level alignment during supervised fine-tuning.\par\end{samepage}
 \item\begin{samepage} T. Wu*, Y. Cheng*, C. Ding*, \textbf{R. Yang}, X. Feng, W. Zhou, Z. Liu, N. Wong. \textit{Can We Trust LLMs on Memristors? Diving into Reasoning Ability under Non-Ideality.} COLM 2026 \href{https://arxiv.org/abs/2603.13725}{[Paper]}\\
-Studies how memristor non-idealities affect LLM reasoning and evaluates training-free mitigation strategies.\par\end{samepage}
+Simulates how memristor non-idealities affect LLM reasoning and evaluates training-free mitigation strategies.\par\end{samepage}
 \item\begin{samepage} H. Xiao, Q. Yang, D. Xie, W. Xu, Z. Su, \textbf{R. Yang}, H. Liu, W. Zhou, Z. Liu, N. Wong. \textit{Exploring Layer-wise Information Effectiveness for Post-Training Quantization in Small Language Models.} ACL 2026 (Findings) \href{https://aclanthology.org/2026.findings-acl.771/}{[Paper]} \href{https://github.com/HeXiao-55/LieQ-official}{[Project]}\\
 Uses layer-wise information effectiveness to allocate mixed precision across layers for low-bit quantization of small language models.\par\end{samepage}
 \item\begin{samepage} T. Wu, C. Tao, J. Wang, \textbf{R. Yang}, Z. Zhao, N. Wong. \textit{Rethinking Kullback-Leibler Divergence in Knowledge Distillation for Large Language Models.} COLING 2025 (Oral) \href{https://aclanthology.org/2025.coling-main.383/}{[Paper]} \href{https://github.com/wutaiqiang/LLM_KD_AKL}{[Code]}\\
@@ -65,12 +69,12 @@ Transfers fine-tuning updates from a base model to its paired instruction-tuned 
 \item\begin{samepage} T. Wu, \textbf{R. Yang}, T. Liu, J. Wang, Z. Xu, N. Wong. \textit{Timber: Training-free Instruct Model Refining with Base via Effective Rank.} arXiv:2509.23595 (2025) \href{https://arxiv.org/abs/2509.23595}{[Paper]} \href{https://github.com/wutaiqiang/Timber}{[Code]}\\
 Uses effective rank to analyze post-training weight changes and refine instruction-tuned models without additional training.\par\end{samepage}
 \item\begin{samepage} H. Xiao*, \textbf{R. Yang*}, Q. Yang*, W. Xu, Z. Li, Y. Su, Z. Liu, H. Yang, N. Wong. \textit{PTQTP: Post-Training Quantization to Trit-Planes for Large Language Models.} arXiv:2509.16989 (2025) \href{https://arxiv.org/abs/2509.16989}{[Paper]} \href{https://github.com/HeXiao-55/PTQTP}{[Project]}\\
-Decomposes LLM weights into two ternary trit-planes for multiplication-free inference.\par\end{samepage}
+Decomposes LLM weights into two ternary trit-planes with lookup-table kernels for efficient inference.\par\end{samepage}
 \item\begin{samepage} Z. Li*, Y. Su*, S. Wang, \textbf{R. Yang}, C. Xie, A. Liu, M. Li, J. Cao, Y. Xie, N. Wong, H. Yang. \textit{Quantization Meets Reasoning: Exploring and Mitigating Degradation of Low-Bit LLMs in Mathematical Reasoning.} arXiv:2505.11574 (2025; revised 2026) \href{https://arxiv.org/abs/2505.11574}{[Paper]}\\
 Analyzes step-level reasoning errors in quantized LLMs and uses targeted preference pairs to improve 4-bit mathematical reasoning.\par\end{samepage}
 \item\begin{samepage} \textbf{R. Yang*}, T. Wu*, J. Wang, P. Hu, Y.-C. Wu, N. Wong, Y. Yang. \textit{LLM-NEO: Parameter Efficient Knowledge Distillation for Large Language Models.} arXiv:2411.06839 (2024; revised 2025) \href{https://arxiv.org/abs/2411.06839}{[Paper]} \href{https://github.com/yang3121099/LLM-Neo}{[Code]}\\
 Combines low-rank adaptation and knowledge distillation for parameter-efficient knowledge transfer from large teachers to compact students.\par\end{samepage}
 \end{itemize}\end{rSection}
 \par\vspace{2pt}{\parfillskip=0pt\noindent\rule{\linewidth}{0.4pt}\par}
-\begin{center}\footnotesize Last updated: 2026.10.13\end{center}
+\begin{center}\footnotesize Last updated: 2026.10.14\end{center}
 \end{document}
