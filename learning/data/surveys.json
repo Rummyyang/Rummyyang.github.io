@@ -1,0 +1,391 @@
+{
+  "as_of": "2026-10-14",
+  "topic": "Adaptive thinking / reasoning 综述阅读路线",
+  "selection_note": "核心6篇按主题贴合度与更新时效选取，另列1篇2026年广义新综述。并非声称穷尽截至该日所有综述。标题、作者与日期以原论文最新版本为准。",
+  "surveys": [
+    {
+      "id": "budget_survey",
+      "title": "Reasoning on a Budget: A Survey of Adaptive and Controllable Test-Time Compute in LLMs",
+      "authors_short": "Mohammad Ali Alomrani et al.",
+      "arxiv_id": "2507.02076",
+      "first_version_date": "2025-07-02",
+      "latest_version": "v1",
+      "latest_version_date": "2025-07-02",
+      "venue_status": "arXiv预印本；本次未确认正式会议或期刊发表",
+      "venue_evidence_level": "仅arXiv记录，未见接收声明",
+      "scope_type": "adaptive专门综述",
+      "scope": "区分给定预算下的可控推理与依据题目/模型状态分配计算的自适应推理，并交叉覆盖串行和并行计算。",
+      "summary_zh": "最适合建立本领域坐标系。它把遵循用户给定预算的可控推理，与依据问题难度或置信度动态分配预算的自适应推理分开，再分别梳理串行推理和并行采样的提示、微调与强化学习方法。对你而言，它能帮助区分“能调长短”与“能自动决定何时多想”，并把后续实验放在质量和计算成本的共同约束下。",
+      "read_sections": [
+        {
+          "section": "2.2",
+          "focus": "问题定义与预算约束"
+        },
+        {
+          "section": "4",
+          "focus": "可控计算，作为固定预算基线"
+        },
+        {
+          "section": "5",
+          "focus": "自适应计算，重点读串行方向中的SFT与RL"
+        },
+        {
+          "section": "6",
+          "focus": "混合快慢思考与未来问题"
+        }
+      ],
+      "limitations": [
+        "当前仍为2025年7月初版，不能代表2026年全部研究。",
+        "文中的可控性层次是作者的分析框架，不能当作所有论文通用命名。"
+      ],
+      "priority": 1,
+      "paper_type": "survey/review",
+      "url": "https://arxiv.org/abs/2507.02076",
+      "version_url": "https://arxiv.org/abs/2507.02076v1",
+      "full_text_url": "https://arxiv.org/html/2507.02076v1",
+      "accessed_at": "2026-10-14",
+      "source_urls": [
+        "https://arxiv.org/abs/2507.02076",
+        "https://arxiv.org/html/2507.02076v1"
+      ],
+      "date_note": "首次与最新日期按arXiv Submission history核验；不是网页抓取日期。",
+      "summary_characters": 134
+    },
+    {
+      "id": "concise_adaptive_survey",
+      "title": "Towards Concise and Adaptive Thinking in Large Reasoning Models: A Survey",
+      "authors_short": "Jason Zhu, Hongyu Li",
+      "arxiv_id": "2507.09662",
+      "first_version_date": "2025-07-13",
+      "latest_version": "v1",
+      "latest_version_date": "2025-07-13",
+      "venue_status": "arXiv预印本；本次未确认正式会议或期刊发表",
+      "venue_evidence_level": "仅arXiv记录，未见接收声明",
+      "scope_type": "adaptive与concise thinking专门综述",
+      "scope": "从免训练与训练方法两侧整理推理链压缩、预算控制、早停、路由和快慢模式选择。",
+      "summary_zh": "适合把概念转为可实现的实验清单。综述同时覆盖推理链缩短与快慢思考切换，先讨论评测，再按免训练和训练方法组织材料；后训练部分细分长度惩罚、GRPO变体、难度感知及思考模式奖励。建议用它检查实验是否只学会变短，还是能为不同问题分配不同计算，并挑选一个清晰的训练基线。",
+      "read_sections": [
+        {
+          "section": "2.3–2.4",
+          "focus": "效率指标与现有评测问题"
+        },
+        {
+          "section": "3.1–3.3",
+          "focus": "预算提示、路由与早停等免训练基线"
+        },
+        {
+          "section": "4.2.3–4.2.4",
+          "focus": "难度感知和思考模式强化学习"
+        },
+        {
+          "section": "5",
+          "focus": "模型能力、用户偏好与可信推理"
+        }
+      ],
+      "limitations": [
+        "仍是2025年7月初版；需用2026年方法论文补齐新进展。",
+        "压缩推理与自适应分配并列，不能把每个缩短CoT的方法都视为adaptive。"
+      ],
+      "priority": 3,
+      "paper_type": "survey/review",
+      "url": "https://arxiv.org/abs/2507.09662",
+      "version_url": "https://arxiv.org/abs/2507.09662v1",
+      "full_text_url": "https://arxiv.org/html/2507.09662v1",
+      "accessed_at": "2026-10-14",
+      "source_urls": [
+        "https://arxiv.org/abs/2507.09662",
+        "https://arxiv.org/html/2507.09662v1"
+      ],
+      "date_note": "首次与最新日期按arXiv Submission history核验；不是网页抓取日期。",
+      "summary_characters": 131
+    },
+    {
+      "id": "efficiency_to_adaptivity",
+      "title": "From Efficiency to Adaptivity: A Deeper Look at Adaptive Reasoning in Large Language Models",
+      "authors_short": "Chao Wu, Baoheng Li, Mingchen Gao, Yu Tian, Zhenyi Wang",
+      "arxiv_id": "2511.10788",
+      "first_version_date": "2025-11-13",
+      "latest_version": "v3",
+      "latest_version_date": "2026-03-31",
+      "venue_status": "arXiv预印本；本次未确认正式接收记录",
+      "venue_evidence_level": "作者早期简历曾写ACL 2026在审，这不能当作接收；采用arXiv当前记录",
+      "scope_type": "adaptive专门综述",
+      "scope": "把自适应推理形式化为带控制的策略优化，区分训练获得的适应性与推理时控制。",
+      "summary_zh": "这篇把研究目标从平均节省计算推进到按输入分配思考。它用性能与成本共同约束的策略优化描述问题，再区分通过RL、SFT、蒸馏或路由器学习的适应性，以及提示、反馈早停和模块组合带来的推理时控制。对后训练研究尤其有用：可据此明确自己优化的是模型策略、外部控制器，还是两者协同。",
+      "read_sections": [
+        {
+          "section": "2.1.2–2.1.3",
+          "focus": "资源约束优化与单纯追求效率的局限"
+        },
+        {
+          "section": "2.3",
+          "focus": "自适应推理的正式定义"
+        },
+        {
+          "section": "3.1",
+          "focus": "RL、SFT/蒸馏、学习型控制器和路由"
+        },
+        {
+          "section": "3.2、4–5",
+          "focus": "免训练对照、开放挑战和综述局限"
+        }
+      ],
+      "limitations": [
+        "分类与问题形式化是综述贡献，不是统一重跑全部方法的实证排名。",
+        "正式发表状态未确认，不能写作ACL已接收。"
+      ],
+      "priority": 2,
+      "paper_type": "survey/review",
+      "url": "https://arxiv.org/abs/2511.10788",
+      "version_url": "https://arxiv.org/abs/2511.10788v3",
+      "full_text_url": "https://arxiv.org/html/2511.10788v3",
+      "accessed_at": "2026-10-14",
+      "source_urls": [
+        "https://arxiv.org/abs/2511.10788",
+        "https://arxiv.org/html/2511.10788v3"
+      ],
+      "date_note": "首次与最新日期按arXiv Submission history核验；不是网页抓取日期。",
+      "summary_characters": 134
+    },
+    {
+      "id": "reasoning_economy",
+      "title": "Harnessing the Reasoning Economy: A Survey of Efficient Reasoning for Large Language Models",
+      "authors_short": "Rui Wang et al.",
+      "arxiv_id": "2503.24377",
+      "first_version_date": "2025-03-31",
+      "latest_version": "v3",
+      "latest_version_date": "2026-09-08",
+      "venue_status": "arXiv预印本；当前Comments仍为In Progress",
+      "venue_evidence_level": "arXiv当前元数据明确标注进行中；未确认正式接收",
+      "scope_type": "广义efficient reasoning综述，含大量adaptive内容",
+      "scope": "贯通后训练和测试时效率，包含预算感知训练、路由、压缩、动态参数以及解码前/中预算分配。",
+      "summary_zh": "本次选入综述中更新时间较新的效率全景图，最新版本为2026年9月。它把浪费来源区分为训练形成的行为和推理时使用方式，分别整理预算感知调优、快慢系统合作、推理链压缩、动态网络结构及解码阶段的预算分配。很适合连接你的蒸馏与效率背景，但阅读重点应放在预算学习和控制，避免被全部压缩方向分散。",
+      "read_sections": [
+        {
+          "section": "3",
+          "focus": "训练行为与测试时使用的低效来源"
+        },
+        {
+          "section": "4.2.2",
+          "focus": "预算感知调优、对齐和自适应门控"
+        },
+        {
+          "section": "4.3.1",
+          "focus": "单模型路由、多模型协同和蒸馏"
+        },
+        {
+          "section": "5.1.1、5.2.2、6",
+          "focus": "解码前/中预算分配与评测讨论"
+        }
+      ],
+      "limitations": [
+        "最新版本日期不等于其覆盖文献已经完整截止到该日。",
+        "作者标注仍在进行中；覆盖广度较大，需要按研究问题选择章节。"
+      ],
+      "priority": 4,
+      "paper_type": "survey/review",
+      "url": "https://arxiv.org/abs/2503.24377",
+      "version_url": "https://arxiv.org/abs/2503.24377v3",
+      "full_text_url": "https://arxiv.org/html/2503.24377v3",
+      "accessed_at": "2026-10-14",
+      "source_urls": [
+        "https://arxiv.org/abs/2503.24377",
+        "https://arxiv.org/html/2503.24377v3"
+      ],
+      "date_note": "首次与最新日期按arXiv Submission history核验；不是网页抓取日期。",
+      "summary_characters": 142
+    },
+    {
+      "id": "fast_slow_tool_review",
+      "title": "Fast, Slow, and Tool-augmented Thinking for LLMs: A Review",
+      "authors_short": "Xinda Jia et al.",
+      "arxiv_id": "2508.12265",
+      "first_version_date": "2025-08-17",
+      "latest_version": "v2",
+      "latest_version_date": "2026-07-08",
+      "venue_status": "Frontiers of Computer Science已接收；出版社页面显示2026-07-10在线发表并标注Just Accepted",
+      "venue_evidence_level": "arXiv接收声明与出版社官方页面交叉确认",
+      "venue_url": "https://journal.hep.com.cn/fcs/EN/10.1007/s11704-026-51673-0",
+      "doi": "10.1007/s11704-026-51673-0",
+      "scope_type": "adaptive策略选择专门综述，扩展到工具使用",
+      "scope": "以快/慢思考和内部/外部知识两条轴组织策略选择，讨论隐式训练、显式路由及置信度、任务复杂度和工具收益。",
+      "summary_zh": "它把自适应思考扩大为“选哪种解题方式”，而不只是输出多少token。综述同时研究直接回答、较深推理与调用外部工具，区分模型内部学会的隐式选择和规则或模型控制的显式选择，并分析置信度、任务复杂度及收益估计。适合你在模式切换研究之后继续进入Agent训练，也能提醒实验同时记录工具和路由开销。",
+      "read_sections": [
+        {
+          "section": "2",
+          "focus": "决策因素提取与策略选择的形式化"
+        },
+        {
+          "section": "4.1–4.2",
+          "focus": "SFT/RL隐式选择与规则/模型显式选择"
+        },
+        {
+          "section": "5.1–5.2",
+          "focus": "置信度、任务难度与工具使用收益"
+        },
+        {
+          "section": "6",
+          "focus": "统一选择及后续方向"
+        }
+      ],
+      "limitations": [
+        "涉及工具增强调度，范围超过纯文本思考长度控制。",
+        "期刊接收不能表述为顶会论文；引用出版社版时保留其Just Accepted状态。"
+      ],
+      "priority": 5,
+      "paper_type": "survey/review",
+      "url": "https://arxiv.org/abs/2508.12265",
+      "version_url": "https://arxiv.org/abs/2508.12265v2",
+      "full_text_url": "https://arxiv.org/html/2508.12265v2",
+      "accessed_at": "2026-10-14",
+      "source_urls": [
+        "https://arxiv.org/abs/2508.12265",
+        "https://arxiv.org/html/2508.12265v2",
+        "https://journal.hep.com.cn/fcs/EN/10.1007/s11704-026-51673-0"
+      ],
+      "date_note": "首次与最新日期按arXiv Submission history核验；不是网页抓取日期。",
+      "summary_characters": 144
+    },
+    {
+      "id": "tree_search_survey_2026",
+      "title": "When LLM Meets Tree Search: A Systematic View of Inference as Search in Large Language Models",
+      "authors_short": "Jiaqi Wei et al.",
+      "arxiv_id": "2608.30395",
+      "first_version_date": "2026-08-31",
+      "latest_version": "v1",
+      "latest_version_date": "2026-08-31",
+      "venue_status": "作者在arXiv Comments声明已被EMNLP 2026接收；本次尚未找到可交叉核验的ACL Anthology条目",
+      "venue_evidence_level": "作者原论文元数据中的接收声明，未独立核验会议论文集",
+      "scope_type": "广义TTS中的树搜索专题综述，非adaptive thinking mode专门综述",
+      "scope": "以推理搜索为中心，整理搜索状态、奖励/验证信号、控制动态与计算成本报告。",
+      "summary_zh": "这篇2026年新综述适合作为横向扩展，理解思考预算也能花在多路径搜索，而非只延长单条推理链。它从搜索表示、过程或结果奖励、评估器以及控制策略组织MCTS和启发式搜索，并专门讨论什么时候不值得搜索、如何统一记录计算成本。对你的价值是建立强基线和评测口径，避免把更多采样造成的收益误认为自适应训练收益。",
+      "read_sections": [
+        {
+          "section": "3.3",
+          "focus": "奖励与评估器设计"
+        },
+        {
+          "section": "3.7",
+          "focus": "是否应使用搜索的判断与取舍"
+        },
+        {
+          "section": "5、附录G",
+          "focus": "统一评测和计算成本核算"
+        },
+        {
+          "section": "附录D",
+          "focus": "RL与搜索如何利用奖励信号"
+        }
+      ],
+      "limitations": [
+        "树搜索专题不能替代思考模式切换的核心综述。",
+        "接收状态目前只从作者arXiv声明确认，发布时宜附这一限定。"
+      ],
+      "priority": 6,
+      "paper_type": "survey/review",
+      "url": "https://arxiv.org/abs/2608.30395",
+      "version_url": "https://arxiv.org/abs/2608.30395v1",
+      "full_text_url": "https://arxiv.org/html/2608.30395v1",
+      "accessed_at": "2026-10-14",
+      "source_urls": [
+        "https://arxiv.org/abs/2608.30395",
+        "https://arxiv.org/html/2608.30395v1"
+      ],
+      "date_note": "首次与最新日期按arXiv Submission history核验；不是网页抓取日期。",
+      "summary_characters": 149
+    }
+  ],
+  "reading_order": [
+    {
+      "order": 1,
+      "id": "budget_survey",
+      "title": "Reasoning on a Budget: A Survey of Adaptive and Controllable Test-Time Compute in LLMs"
+    },
+    {
+      "order": 2,
+      "id": "efficiency_to_adaptivity",
+      "title": "From Efficiency to Adaptivity: A Deeper Look at Adaptive Reasoning in Large Language Models"
+    },
+    {
+      "order": 3,
+      "id": "concise_adaptive_survey",
+      "title": "Towards Concise and Adaptive Thinking in Large Reasoning Models: A Survey"
+    },
+    {
+      "order": 4,
+      "id": "reasoning_economy",
+      "title": "Harnessing the Reasoning Economy: A Survey of Efficient Reasoning for Large Language Models"
+    },
+    {
+      "order": 5,
+      "id": "fast_slow_tool_review",
+      "title": "Fast, Slow, and Tool-augmented Thinking for LLMs: A Review"
+    },
+    {
+      "order": 6,
+      "id": "tree_search_survey_2026",
+      "title": "When LLM Meets Tree Search: A Systematic View of Inference as Search in Large Language Models"
+    }
+  ],
+  "if_only_three": [
+    "budget_survey",
+    "efficiency_to_adaptivity",
+    "reasoning_economy"
+  ],
+  "reading_tasks": [
+    {
+      "after": "budget_survey",
+      "output": "用一页图区分固定预算控制、按题自适应、按步骤自适应，以及串行/并行计算。"
+    },
+    {
+      "after": "efficiency_to_adaptivity",
+      "output": "写清输入、控制动作、质量目标、计算成本和预算约束；决定训练模型还是训练控制器。"
+    },
+    {
+      "after": "concise_adaptive_survey",
+      "output": "选一个免训练基线和一个后训练基线，并设计难度分层评测。"
+    },
+    {
+      "after": "reasoning_economy",
+      "output": "把已有蒸馏/量化成果连接到质量—成本前沿，补充路由、验证、工具和训练成本。"
+    }
+  ],
+  "additional_recent_context": {
+    "title": "A Survey on Self-Improving Test-Time Intelligence: Feedback-Driven Adapting, Learning, and Scaling at Inference",
+    "authors_short": "Shuaicheng Niu et al.",
+    "arxiv_id": "2609.01679",
+    "url": "https://arxiv.org/abs/2609.01679",
+    "full_text_url": "https://arxiv.org/html/2609.01679v1",
+    "first_version_date": "2026-09-01",
+    "latest_version": "v1",
+    "latest_version_date": "2026-09-01",
+    "venue_status": "作者arXiv声明Machine Intelligence Research已接收，列出相关DOI 10.1007/s11633-026-1694-1；本次未独立核验期刊页面",
+    "scope_type": "广义Test-Time Intelligence综述；非adaptive专门",
+    "why_not_core": "比核心综述更新，但同时覆盖测试时适应、学习、视觉及机器人，用户当前主题不需要从头读。",
+    "read_sections": [
+      "4.2.5 自适应计算与动态预算",
+      "5.2 学会分配计算、选择推理/检索/搜索"
+    ],
+    "accessed_at": "2026-10-14"
+  },
+  "not_surveys": [
+    {
+      "title": "Learning When to Think: Adaptive Reasoning for Test-Time Compute Allocation",
+      "arxiv_id": "2608.20256",
+      "url": "https://arxiv.org/abs/2608.20256",
+      "reason": "提出具体模式选择与GRPO训练方法，是方法论文，不应混入survey列表。"
+    },
+    {
+      "title": "Revisiting Test-Time Scaling: A Survey and a Diversity-Aware Method for Efficient Reasoning",
+      "arxiv_id": "2506.04611",
+      "url": "https://arxiv.org/abs/2506.04611",
+      "reason": "混合结构：既有综述也提出ADAPT方法，不能作为纯综述处理；因重合与主题匹配度未列核心六篇。"
+    }
+  ],
+  "cautions": [
+    "“最新”分别指首次出现和最新修订；2025编号的论文可以在2026年实质更新。",
+    "没有会议/期刊记录的预印本不标成顶会；arXiv作者接收声明和独立会议记录使用不同证据等级。",
+    "章节建议按本次核验的版本，后续版本可能改号。",
+    "各篇limitations中有针对用户阅读目的的评估，不应误引为作者原话。"
+  ]
+}

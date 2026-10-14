@@ -1,0 +1,366 @@
+{
+  "topic": "京东TGT公开招聘核验与个人方向匹配",
+  "as_of": "2026-10-14",
+  "scope_note": "只采用可访问的公司官方页面/API与高校官方招聘转载；社招技术旁证和相近项目单列。未联系任何人、未提交申请。",
+  "sources": [
+    {
+      "id": "jd_campus",
+      "title": "京东校园招聘官方入口与TGT项目列表",
+      "url": "https://campus.jd.com/",
+      "published_date": null,
+      "accessed_at": "2026-10-14",
+      "source_type": "官方招聘网站",
+      "source_notes": "京东官网当前列出 TGT 校招与 TGT 实习两个独立项目；从招聘职位选择对应项目。",
+      "summary_zh": "官方入口当前列出TGT校招与TGT实习两类项目，可在招聘职位中选择项目并查询岗位。",
+      "verification": {
+        "method": "公开项目列表API，GET",
+        "api_url": "https://campus.jd.com/api/wx/position/getProjectList",
+        "project_ids": {
+          "TGT-顶尖青年技术天才计划": 47,
+          "TGT-顶尖青年技术实习生": 55
+        }
+      }
+    },
+    {
+      "id": "tju_2027",
+      "title": "【北洋园校区】京东集团2027秋季校园招聘宣讲会",
+      "url": "https://job.tju.edu.cn/recruitment/content/type/2/id/6181.html",
+      "published_date": null,
+      "event_date": "2026-09-22",
+      "accessed_at": "2026-10-14",
+      "source_type": "高校官网招聘转载",
+      "source_notes": "天津大学就业信息网刊载北京京东世纪贸易有限公司宣讲招聘材料；属于官方招聘转载，并非京东官网原文。页面显示2026-09-22为宣讲时间，未显示文章发布日期。",
+      "summary_zh": "材料把TGT校招范围写为2024年10月1日至2027年9月30日毕业，实习面向2026年10月及之后毕业的在校生，均涵盖海内外本硕博。提供官网及京东招聘公众号投递方式。"
+    },
+    {
+      "id": "hust_intern",
+      "title": "【实习】京东27年TGT顶尖青年技术实习生",
+      "url": "https://cs.hust.edu.cn/info/1404/5697.htm",
+      "published_date": "2026-05-21",
+      "accessed_at": "2026-10-14",
+      "source_type": "高校官网招聘转载",
+      "source_notes": "华中科技大学计算机学院发布的招聘转载，作者为学院工作室；不是京东官网原文。",
+      "summary_zh": "列出多模态大模型、AI Infra、机器学习等实习方向，城市包括北京、上海、深圳；投递入口为京东校招官网的TGT实习项目。"
+    },
+    {
+      "id": "tgt_midtrain_rl",
+      "title": "基于电商大模型的Mid-train及RL研究",
+      "url": "https://campus.jd.com/#/details?id=8766&type=talent",
+      "published_date": "2026-07-20",
+      "accessed_at": "2026-10-14",
+      "source_type": "官方TGT职位",
+      "source_notes": "京东官方公开职位详情已核验。所列日期是职位列表中的发布时间，可能早于最新修改；投递状态和名额需在官网确认。",
+      "summary_zh": "领域知识注入；Agent强化学习后训练；奖励模型、PPO/GRPO；训练与评测数据闭环。",
+      "verification": {
+        "method": "公开职位详情API，POST",
+        "api_url": "https://campus.jd.com/api/wx/position/detail/8766",
+        "publish_id": 8766,
+        "plan_id": 47,
+        "job_direction": "TGT",
+        "list_api": "https://campus.jd.com/api/wx/position/page?type=talent"
+      }
+    },
+    {
+      "id": "tgt_intern_training",
+      "title": "面向电商大模型预训练与后训练的探索研究",
+      "url": "https://campus.jd.com/#/details?id=8912&type=talent",
+      "published_date": "2026-07-20",
+      "accessed_at": "2026-10-14",
+      "source_type": "官方TGT职位",
+      "source_notes": "京东官方公开职位详情已核验。所列日期是职位列表中的发布时间，可能早于最新修改；投递状态和名额需在官网确认。",
+      "summary_zh": "预训练与微调；电商场景RLHF/DPO/GRPO；幻觉和知识注入；降低训练、推理成本。",
+      "verification": {
+        "method": "公开职位详情API，POST",
+        "api_url": "https://campus.jd.com/api/wx/position/detail/8912",
+        "publish_id": 8912,
+        "plan_id": 55,
+        "job_direction": "TGT实习生",
+        "list_api": "https://campus.jd.com/api/wx/position/page?type=talent"
+      }
+    },
+    {
+      "id": "tgt_intern_rlinfra",
+      "title": "大模型训练与RL infra创新探索研究",
+      "url": "https://campus.jd.com/#/details?id=8851&type=talent",
+      "published_date": "2026-07-20",
+      "accessed_at": "2026-10-14",
+      "source_type": "官方TGT职位",
+      "source_notes": "京东官方公开职位详情已核验。所列日期是职位列表中的发布时间，可能早于最新修改；投递状态和名额需在官网确认。",
+      "summary_zh": "RL后训练基础设施；训练到生成的效率；并行、压缩量化、算子融合；软硬件协同。",
+      "verification": {
+        "method": "公开职位详情API，POST",
+        "api_url": "https://campus.jd.com/api/wx/position/detail/8851",
+        "publish_id": 8851,
+        "plan_id": 55,
+        "job_direction": "TGT实习生",
+        "list_api": "https://campus.jd.com/api/wx/position/page?type=talent"
+      }
+    },
+    {
+      "id": "tgt_intern_inference",
+      "title": "大模型高效推理与端云协同架构研发",
+      "url": "https://campus.jd.com/#/details?id=8859&type=talent",
+      "published_date": "2026-07-20",
+      "accessed_at": "2026-10-14",
+      "source_type": "官方TGT职位",
+      "source_notes": "京东官方公开职位详情已核验。所列日期是职位列表中的发布时间，可能早于最新修改；投递状态和名额需在官网确认。",
+      "summary_zh": "长上下文及KV Cache；编译和结构优化；推理服务；端侧与端云协同。",
+      "verification": {
+        "method": "公开职位详情API，POST",
+        "api_url": "https://campus.jd.com/api/wx/position/detail/8859",
+        "publish_id": 8859,
+        "plan_id": 55,
+        "job_direction": "TGT实习生",
+        "list_api": "https://campus.jd.com/api/wx/position/page?type=talent"
+      }
+    },
+    {
+      "id": "tgt_base_llm",
+      "title": "基础大语言模型",
+      "url": "https://campus.jd.com/#/details?id=6039&type=talent",
+      "published_date": "2025-05-08",
+      "accessed_at": "2026-10-14",
+      "source_type": "官方TGT职位",
+      "source_notes": "京东官方公开职位详情已核验。所列日期是职位列表中的发布时间，可能早于最新修改；投递状态和名额需在官网确认。",
+      "summary_zh": "模型架构、预训练和后训练；大规模GPU集群上的分布式训练优化。",
+      "verification": {
+        "method": "公开职位详情API，POST",
+        "api_url": "https://campus.jd.com/api/wx/position/detail/6039",
+        "publish_id": 6039,
+        "plan_id": 47,
+        "job_direction": "TGT",
+        "list_api": "https://campus.jd.com/api/wx/position/page?type=talent"
+      }
+    },
+    {
+      "id": "jd_agent_context",
+      "title": "算法工程师｜京东科技LLM应用算法组",
+      "url": "https://zhaopin.jd.com/web/job-info-detail?requementId=219373",
+      "published_date": "2026-06-16",
+      "accessed_at": "2026-10-14",
+      "source_type": "官方社招职位（技术方向旁证）",
+      "source_notes": "不是TGT岗位，只能用于了解京东相关团队技术需求，不能据此推断TGT统一要求或流程。",
+      "summary_zh": "岗位涉及SFT、RLVR和Agent RL，以及Agent的Test-Time Scaling；列举奖励模型、GRPO/PPO/DPO、训练框架等技能，可作为推理计算方向的补充关键词。"
+    },
+    {
+      "id": "tencent_careers",
+      "title": "腾讯招聘｜职位搜索",
+      "url": "https://careers.tencent.com/search.html",
+      "published_date": null,
+      "accessed_at": "2026-10-14",
+      "source_type": "官方招聘入口",
+      "source_notes": "官方职位搜索页提供“校招青云计划”类别；国内校园岗位还提示前往join.qq.com。未核验本年度青云统一毕业范围或截止日期。",
+      "summary_zh": "可从官方招聘类型筛选青云计划，再查看与训练、推理效率、AI Infra相关岗位。"
+    },
+    {
+      "id": "seed_2027",
+      "title": "Seed Foundation Model Campus Recruitment",
+      "url": "https://seed.bytedance.com/en/seedearlycareer",
+      "published_date": null,
+      "accessed_at": "2026-10-14",
+      "source_type": "官方项目页",
+      "source_notes": "本次访问官方FAQ明确说明，2027应届及在校实习的基座模型招聘已统一为Seed大模型校招，Top Seed不再单独运行。",
+      "summary_zh": "现行校招面向2026年9月至2027年8月毕业者，实习面向2027年9月及以后毕业者。应使用Seed现行入口，而非继续沿用旧Top Seed项目名称。"
+    },
+    {
+      "id": "alistar_2027",
+      "title": "阿里巴巴校园招聘｜阿里星人才计划",
+      "url": "https://campus-talent.alibaba.com/campus/index",
+      "published_date": null,
+      "accessed_at": "2026-10-14",
+      "source_type": "官方招聘入口",
+      "source_notes": "官网当前首页同时列出2027届与阿里星人才计划；研究型实习入口面向在校生。具体岗位条件与投递状态逐岗核对。",
+      "summary_zh": "阿里星面向全球青年科研人才，当前页面列出的毕业范围为2026年11月至2027年10月；仍在读者可另外查看研究型实习项目。"
+    }
+  ],
+  "verified_facts": [
+    {
+      "claim": "京东官方当前设置TGT校招与TGT实习两条项目。",
+      "source_ids": [
+        "jd_campus"
+      ]
+    },
+    {
+      "claim": "2027秋招材料给出的TGT校招毕业窗口为2024-10-01至2027-09-30，TGT实习毕业时间为2026年10月及以后，面向海内外本硕博。",
+      "source_ids": [
+        "tju_2027"
+      ],
+      "confidence_note": "高校转载口径；投递时以京东当期项目页面与岗位资格校验为准。"
+    },
+    {
+      "claim": "TGT公开岗位确有中期训练、RL后训练、奖励模型、多步推理、训练效率、量化及推理优化等方向。",
+      "source_ids": [
+        "tgt_midtrain_rl",
+        "tgt_intern_training",
+        "tgt_intern_rlinfra",
+        "tgt_intern_inference"
+      ]
+    },
+    {
+      "claim": "已核验岗位的详情字段标注远程面试，但不足以确认面试轮数、考试题型或统一招聘流程。",
+      "source_ids": [
+        "tgt_midtrain_rl",
+        "tgt_intern_training",
+        "tgt_intern_rlinfra",
+        "tgt_intern_inference",
+        "tgt_base_llm"
+      ]
+    }
+  ],
+  "application_path": {
+    "official_url": "https://campus.jd.com/",
+    "steps": [
+      "打开京东校园招聘官网，进入招聘职位。",
+      "选择TGT-顶尖青年技术天才计划或TGT-顶尖青年技术实习生。",
+      "优先搜索中期训练、后训练、RL、基础大语言模型、AI Infra、推理等关键词。",
+      "逐岗核对毕业时间、在校身份、地点、实习时长及到岗条件，再完善并投递简历。"
+    ],
+    "mobile_route": "京东招聘微信公众号 → 校园招聘 → 对应项目和岗位",
+    "source_ids": [
+      "jd_campus",
+      "tju_2027",
+      "hust_intern"
+    ],
+    "process_limit": "不把普通算法岗位的网申、笔试或面试经验写成TGT固定流程。"
+  },
+  "roles": [
+    {
+      "source_id": "tgt_midtrain_rl",
+      "title": "基于电商大模型的Mid-train及RL研究",
+      "url": "https://campus.jd.com/#/details?id=8766&type=talent",
+      "program": "TGT",
+      "business": "京东零售",
+      "city": "北京",
+      "category": "多模态大模型与应用方向",
+      "requirements_summary": "硕博相关专业；LLM训练与后训练项目；PyTorch；Agent、多步推理、分布式训练与科研/开源经验可加分。",
+      "priority_inference": 1,
+      "fit_inference": "直接对应后训练与多步推理，应优先核对毕业时间后查看该岗位。",
+      "interview_location_field": "远程面试",
+      "verification_status": "官方TGT公开JD已核验；实时名额及是否继续接受投递需登录官网确认"
+    },
+    {
+      "source_id": "tgt_intern_training",
+      "title": "面向电商大模型预训练与后训练的探索研究",
+      "url": "https://campus.jd.com/#/details?id=8912&type=talent",
+      "program": "TGT实习生",
+      "business": "京东零售",
+      "city": "北京",
+      "category": "多模态大模型与应用方向",
+      "requirements_summary": "相关专业本硕博在校生；预训练、SFT或强化学习实战；PyTorch与分布式训练；论文经历优先。",
+      "priority_inference": 1,
+      "fit_inference": "若仍在读且希望补足训练闭环，可优先查看此实习方向。",
+      "interview_location_field": "远程面试",
+      "verification_status": "官方TGT公开JD已核验；实时名额及是否继续接受投递需登录官网确认"
+    },
+    {
+      "source_id": "tgt_intern_rlinfra",
+      "title": "大模型训练与RL infra创新探索研究",
+      "url": "https://campus.jd.com/#/details?id=8851&type=talent",
+      "program": "TGT实习生",
+      "business": "京东科技",
+      "city": "北京",
+      "category": "AI Infra方向",
+      "requirements_summary": "相关STEM在校生；RL算法和veRL/NemoRL；系统性能排查；多模态及仿真调优；科研或开源成果优先。",
+      "priority_inference": 2,
+      "fit_inference": "量化与效率论文可承接该方向，但需要补齐RL系统与多模态/具身训练经验。",
+      "interview_location_field": "远程面试",
+      "verification_status": "官方TGT公开JD已核验；实时名额及是否继续接受投递需登录官网确认"
+    },
+    {
+      "source_id": "tgt_intern_inference",
+      "title": "大模型高效推理与端云协同架构研发",
+      "url": "https://campus.jd.com/#/details?id=8859&type=talent",
+      "program": "TGT实习生",
+      "business": "京东零售",
+      "city": "北京",
+      "category": "AI Infra方向",
+      "requirements_summary": "相关专业在校生；算法或系统优化研究；较强代码能力；模型压缩蒸馏兴趣；论文或核心开源贡献优先。",
+      "priority_inference": 2,
+      "fit_inference": "现有蒸馏、量化和效率研究的直接承接方向；与Reasoning训练目标需区分。",
+      "interview_location_field": "远程面试",
+      "verification_status": "官方TGT公开JD已核验；实时名额及是否继续接受投递需登录官网确认"
+    },
+    {
+      "source_id": "tgt_base_llm",
+      "title": "基础大语言模型",
+      "url": "https://campus.jd.com/#/details?id=6039&type=talent",
+      "program": "TGT",
+      "business": "探索研究院",
+      "city": "北京",
+      "category": "多模态大模型与应用方向",
+      "requirements_summary": "相关专业本科及以上；理解LLM架构，能调优Megatron/DeepSpeed；大规模预训练工程经验；论文、开源或竞赛成果优先。",
+      "priority_inference": 3,
+      "fit_inference": "覆盖训练主线，但岗位显式要求大规模预训练实践，不能只用压缩论文替代。",
+      "interview_location_field": "远程面试",
+      "verification_status": "官方TGT公开JD已核验；实时名额及是否继续接受投递需登录官网确认"
+    }
+  ],
+  "match_recommendations": [
+    {
+      "label": "推断：主申请叙事",
+      "text": "用“在质量和计算预算之间做可验证的权衡”串联已有蒸馏、量化与LLM效率论文，再给出后训练或推理计算分配实验作为向Reasoning方向的桥梁。",
+      "source_ids": [
+        "tgt_midtrain_rl",
+        "tgt_intern_training",
+        "tgt_intern_rlinfra"
+      ]
+    },
+    {
+      "label": "推断：adaptive thinking的岗位表达",
+      "text": "本次抽查的TGT岗位没有直接出现adaptive thinking mode这一名称。宜转写为按任务难度分配推理预算、推理质量—token/时延权衡、奖励设计与多步决策；这是个人研究定位，不能声称是京东官方岗位命名。",
+      "source_ids": [
+        "tgt_midtrain_rl",
+        "tgt_intern_training",
+        "jd_agent_context"
+      ]
+    },
+    {
+      "label": "推断：准备顺序",
+      "text": "主线补齐SFT到RLVR/GRPO的训练、数据与评测闭环；副线保留蒸馏/量化及系统性能证据。先选具体团队和课题，再根据岗位补充分布式训练或Agent经验。",
+      "source_ids": [
+        "tgt_midtrain_rl",
+        "tgt_intern_training",
+        "tgt_intern_rlinfra",
+        "tgt_base_llm"
+      ]
+    },
+    {
+      "label": "推断：现有经历呈现",
+      "text": "HKU博士经历用于证明研究训练；论文明确自己的问题定义、方法与贡献；腾讯QQ社交安全科研实习突出可公开的评测、鲁棒性和工程协作成果。不能仅凭学校、论文数量或公司名称推算录取概率。",
+      "source_ids": []
+    }
+  ],
+  "uncertainties": [
+    "未获知用户预计毕业时间、可实习时长和到岗时间，因此不能判定应走校招或实习。",
+    "当前可读取职位详情不等于尚有名额，截止日期和实际投递状态须以官方账户中的页面为准。",
+    "未找到足够官方依据支持TGT统一薪资、固定面试轮数、固定论文数量或学校门槛；不提供这些断言。",
+    "职位发布时间可能早于本轮招聘，页面可更新复用；已明确保留数据来源和访问日。"
+  ],
+  "adjacent_programs": [
+    {
+      "name": "腾讯青云计划",
+      "source_ids": [
+        "tencent_careers"
+      ],
+      "official_url": "https://careers.tencent.com/search.html",
+      "alternate_official_url": "https://join.qq.com/",
+      "use": "从招聘类型筛选青云；逐岗看训练/推理需求。"
+    },
+    {
+      "name": "字节Seed大模型校招（原Top Seed已整合）",
+      "source_ids": [
+        "seed_2027"
+      ],
+      "official_url": "https://seed.bytedance.com/en/seedearlycareer",
+      "use": "官方已更新名称；适合作为基础模型训练与推理研究方向的拓展。"
+    },
+    {
+      "name": "阿里星人才计划",
+      "source_ids": [
+        "alistar_2027"
+      ],
+      "official_url": "https://campus-talent.alibaba.com/campus/index",
+      "use": "核对阿里星校招资格，或查看研究型实习入口。"
+    }
+  ]
+}

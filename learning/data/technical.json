@@ -1,0 +1,860 @@
+{
+  "title": "模型训练、后训练与 Adaptive Thinking：研究面试准备",
+  "checked_on": "2026-10-14",
+  "scope": "面向 HKU PhD 的研究实习/企业研究岗准备；依用户给定的京东 TGT 方向构建学习建议。以下模块、追问和项目方案是研究训练建议，不是京东官方考纲或已核实的面试题库。",
+  "evidence_policy": [
+    "重点选择能解释训练机制与实验取舍的原始论文、作者技术报告和官方 model card，不追求最新论文全覆盖。",
+    "本次是资料核查与方案设计，没有独立复现所引论文结果。",
+    "映射既有讲义中的论文，不由署名推断用户个人贡献；Art 与 RL Starts before RL 在既有讲义中明确为相关工作，非用户论文。",
+    "下面的研究项目、超参数、验收标准和时间表均为建议，不能在简历或面试中表述为已经完成。"
+  ],
+  "adaptive_thinking": {
+    "working_definition": "让策略依据输入 x、当前模型能力、可用预算 B，以及可选的生成中状态，决定是否展开显式推理、使用何种推理方式、何时结束思考。核心是学习条件化的计算分配，而不是把所有回答统一缩短。",
+    "formalization": "一种教学分解是 π(m,y|x,B)=π(m|x,B)π(y|x,B,m)，m∈{short,think}；在 think 内生成停止标记决定实际思考长度。更一般可学习预算 b 或在线停止时刻 τ。此式是设计视角，不是某篇论文的新公式。",
+    "distinction_table": [
+      {
+        "concept": "固定 token budget",
+        "decision": "由调用者统一给上限 B，或按预设规则给每类问题不同 B。",
+        "relation": "是资源约束/控制接口；预算内自然提前结束不自动证明模型学会最优分配。",
+        "example": "s1 的 budget forcing；Qwen3 报告中的阈值到达后插入 stop-thinking 指令。"
+      },
+      {
+        "concept": "thinking / non-thinking 模式切换",
+        "decision": "同一模型能够按控制信号输出长思考或直接答案。",
+        "relation": "是可控能力；如果模式由用户指定，仍没有解决自动选择。",
+        "example": "初代 Qwen3 /think、/no_think 与 enable_thinking。"
+      },
+      {
+        "concept": "学习型 adaptive thinking",
+        "decision": "模型/控制器依据题目与预算预测模式，并通过训练学习质量—成本取舍。",
+        "relation": "可以用单模型首 token、独立控制器或生成中停止策略实现。",
+        "example": "Thinkless 学首控制 token；本方案再研究预算条件下的停止时机。"
+      },
+      {
+        "concept": "early exit",
+        "decision": "术语需先澄清：一是思考序列提前终止，二是每个 token 跳过后续网络层。",
+        "relation": "前者改变生成长度，后者改变每 token 计算深度；都可能自适应，但不能混称。",
+        "example": "本方案只研究停止显式思考，不改变 Transformer 层数。"
+      },
+      {
+        "concept": "router / cascade",
+        "decision": "外部系统选择小/大模型、直接答/深度推理，或失败后升级。",
+        "relation": "router 是机制；训练得到的 router 也可实现自适应计算，但需把路由、重试和多模型成本计入。",
+        "example": "本方案把同一学生上的轻量模式 router 作为公平基线。"
+      },
+      {
+        "concept": "hidden reasoning",
+        "decision": "把生成的推理内容不显示给最终用户。",
+        "relation": "这是可见性设置；隐藏了文本并不免除生成 token、KV cache 和延迟。不要由输出没有 think 标签推断没有内部推理。",
+        "example": "区分原始生成 token 与最终可见 answer token。"
+      },
+      {
+        "concept": "latent reasoning",
+        "decision": "在连续隐藏状态等内部表示上做额外计算，而非逐步输出自然语言推理 token。",
+        "relation": "这与把文本 CoT 隐藏显示是不同概念；本次实验不引入新的 latent 架构。",
+        "example": "作为面试术语边界理解，不纳入两周最小实验。"
+      },
+      {
+        "concept": "模型插值的全局 λ",
+        "decision": "用验证集选定一组模型权重，在部署时使用该单模型。",
+        "relation": "可移动整体质量—长度取舍，但全局 λ 本身不保证逐题最优预算分配。",
+        "example": "Revisiting Model Interpolation for Efficient Reasoning 可作为强且便宜的对照。"
+      }
+    ],
+    "key_answer": "我会先确认团队所说的 adaptive 是用户可控、请求级自动选模式，还是生成中动态停止。我的研究兴趣是后两者：在明确质量约束下，把计算花在有收益的问题和阶段上，而不是只减平均长度。",
+    "source_ids": [
+      "qwen3",
+      "s1",
+      "thinkless"
+    ]
+  },
+  "sources": [
+    {
+      "id": "r1",
+      "title": "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning",
+      "type": "作者论文",
+      "version": "arXiv:2501.12948v2（2026-01-04）；Nature 2025 正式发表",
+      "url": "https://arxiv.org/html/2501.12948v2",
+      "additional_urls": [
+        "https://www.nature.com/articles/s41586-025-09422-z"
+      ],
+      "read_sections": "§2–3；Appendix A.3",
+      "fact_summary": "R1-Zero 从预训练模型直接做 RL，利用可验证答案和格式信号，不以 SFT 为前置；R1 则引入冷启动和多阶段训练。GRPO 用同题一组回报估计优势，省去独立 value/critic 模型；仍需 rollout、verifier 与策略更新。",
+      "key_equation": "A_i=(R_i-mean(R_1…R_G))/std(R_1…R_G)。实际实现需处理 std=0，例如稳定项；同奖组的结果优势为零。",
+      "conditions_and_pitfalls": "R1-Zero 的无 SFT 不等于没有预训练知识，也不等于 R1 没有 SFT。分组优势不给逐步正确性标签。R1 报告有简写的序列目标；token 实现应单独写出 ratio 与 reduction。",
+      "interview_value": "把 base→SFT→RL 的功能与必要性分开讨论；解释没有 critic 后还剩哪些训练成本。",
+      "priority": "必读",
+      "accessed_at": "2026-10-14"
+    },
+    {
+      "id": "dapo",
+      "title": "DAPO: An Open-Source LLM Reinforcement Learning System at Scale",
+      "type": "作者论文与项目页",
+      "version": "arXiv:2503.14476v2；方法按该固定版本核对",
+      "url": "https://arxiv.org/html/2503.14476v2",
+      "additional_urls": [
+        "https://dapo-sia.github.io/"
+      ],
+      "read_sections": "§2.3–3.4；Eq.9–12",
+      "fact_summary": "DAPO 组合 Clip-Higher、动态重采样、全 token 归一化和超长样本处理。把上界与下界解耦；重采样过滤全对/全错组以保留结果奖励的组内差异；损失按总 token 数归一化。",
+      "key_equation": "r_it=πθ(y_it|x,y_i<t)/πold(y_it|x,y_i<t)；J∝[Σ_i T_i]^-1 Σ_i,t min(r_it A_i,clip(r_it,1-ε_low,1+ε_high)A_i)。",
+      "conditions_and_pitfalls": "动态采样消耗额外生成，必须计成本；过滤的是按当前采样结果无差异的组，不是永久丢弃所有简单/困难题。token-level loss 不代表获得了 token-level reward。去 KL 是该配方选择，并非普遍必需。",
+      "interview_value": "遇到训练崩溃时能从熵、有效组比例、长度、截断和采样成本解释，而非只更换算法名字。",
+      "priority": "必读",
+      "accessed_at": "2026-10-14"
+    },
+    {
+      "id": "gspo",
+      "title": "Group Sequence Policy Optimization",
+      "type": "作者论文",
+      "version": "arXiv:2507.18071v1；固定原始算法版本",
+      "url": "https://arxiv.org/html/2507.18071v1",
+      "read_sections": "§3–4；Eq.5–8",
+      "fact_summary": "GSPO 对整条响应采用相同的序列权重与 clipping。它将序列似然比取长度次方根，缓和长序列比值波动；作者在长响应和 MoE 训练中报告更稳定的优化。",
+      "key_equation": "s_i=exp[(1/T_i)Σ_t log(πθ(y_it|h_it)/πold(y_it|h_it))]；J=E[mean_i min(s_i A_i,clip(s_i,1-ε,1+ε)A_i)]。",
+      "conditions_and_pitfalls": "完整轨迹重要性采样比值是乘积；取 T_i 次方根并 clipping 后的 surrogate 不能直接称为无偏轨迹 IS。clip 数值不能照搬 GRPO；稳定性证据不等于 GSPO 普遍最优。",
+      "interview_value": "说清奖励单位、ratio 单位、clipping 单位、reduction 单位这四个不同选择。",
+      "priority": "第二优先",
+      "accessed_at": "2026-10-14"
+    },
+    {
+      "id": "qwen3",
+      "title": "Qwen3 Technical Report 与官方模式说明",
+      "type": "作者技术报告与官方 model card",
+      "version": "初代报告 arXiv:2505.09388v1；另核对 Qwen3-4B-Instruct-2507",
+      "url": "https://arxiv.org/html/2505.09388v1",
+      "additional_urls": [
+        "https://qwenlm.github.io/blog/qwen3/",
+        "https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507"
+      ],
+      "read_sections": "§4.1–4.5；重点 §4.3 Thinking Budget",
+      "fact_summary": "旗舰后训练依次进行长 CoT 冷启动、推理 RL、模式融合、通用 RL；小模型采用离策略输出蒸馏加 OPD。初代模型融合 thinking/non-thinking。预算到阈值后插入停止思考指令，再生成答案；作者称该兼容能力从模式融合自然产生。",
+      "key_equation": "不是一条新的预算学习损失：用户给阈值 B，生成思考达到 B 后执行外部 stop-thinking 干预。",
+      "conditions_and_pitfalls": "初代默认 thinking，按控制信号切换，不可当作已训练的自动路由。2507 Instruct 官方卡明确仅支持 non-thinking；不要把同一家族所有 checkpoint 的模板和模式混用。",
+      "interview_value": "讲清模式融合数据、冷启动与 OPD 在工业训练流水线里的分工。",
+      "priority": "必读",
+      "accessed_at": "2026-10-14"
+    },
+    {
+      "id": "s1",
+      "title": "s1: Simple test-time scaling",
+      "type": "正式会议论文与作者代码",
+      "version": "EMNLP 2025，2025.emnlp-main.1025",
+      "url": "https://aclanthology.org/2025.emnlp-main.1025/",
+      "additional_urls": [
+        "https://aclanthology.org/2025.emnlp-main.1025.pdf",
+        "https://github.com/simplescaling/s1"
+      ],
+      "read_sections": "数据选择与 budget forcing 方法；长度/性能对照",
+      "fact_summary": "s1 用 1,000 条经过难度、多样性与质量筛选的推理样本做 SFT。推理时通过强制终止思考压缩预算，或在模型想结束时追加 Wait 延长思考。它展示小规模高质量训练数据与推理时控制的组合。",
+      "key_equation": "可将干预记为外部控制 u_B(prefix)，但这只是教学记法；论文核心不是学习 π(B|x)。",
+      "conditions_and_pitfalls": "增加思考并非每题都提高质量，强制长度控制也不是自动学习任务难度。1,000 条样本的训练成本不包括教师生成、筛选和基座预训练。",
+      "interview_value": "为预算控制提供容易复现的强基线；回答为何不能只把 max_new_tokens 改大。",
+      "priority": "必读",
+      "accessed_at": "2026-10-14"
+    },
+    {
+      "id": "thinkless",
+      "title": "Thinkless: LLM Learns When to Think",
+      "type": "作者论文",
+      "version": "arXiv:2505.13379v1；固定原始方法版本",
+      "url": "https://arxiv.org/html/2505.13379v1",
+      "additional_urls": [
+        "https://github.com/VainF/Thinkless"
+      ],
+      "read_sections": "§3.1–3.2；Eq.1–4",
+      "fact_summary": "先用成对的短答/长思考数据做模式预热，再让模型生成 short/think 首 token。正确短答奖励 1，正确长答 1−γ，错误 −1。DeGRPO 将控制 token 与响应 token 分别归一化，避免单一控制决策被长响应的损失稀释。",
+      "key_equation": "J=E[mean_i(α L_i0+(1/T_i)Σ_t=1^T_i L_it−β KL)]；L_it 为 clipped surrogate；原文 A_i=R_i−mean(R)，不除标准差。",
+      "conditions_and_pitfalls": "其核心是两种模式的选择，不是任意连续预算的最优解；γ偏好与α更新速度不同。DeGRPO 与 DAPO 不是同一个方法。",
+      "interview_value": "最直接回答‘如何训练何时思考’，并解释 mode collapse 的优化原因。",
+      "priority": "必读",
+      "accessed_at": "2026-10-14"
+    },
+    {
+      "id": "gkd",
+      "title": "On-Policy Distillation of Language Models: Learning from Self-Generated Mistakes",
+      "type": "作者论文",
+      "version": "ICLR 2024；arXiv:2306.13649v3",
+      "url": "https://arxiv.org/html/2306.13649v3",
+      "additional_urls": [
+        "https://openreview.net/pdf?id=3zKtaqxLhW"
+      ],
+      "read_sections": "§3；Eq.2–4 与 Algorithm 1",
+      "fact_summary": "GKD 将固定数据前缀与学生采样前缀混合，让教师在学生实际访问的状态提供下一 token 分布；可选不同局部散度。作者对采样分布不回传梯度，更新形式接近监督模仿。",
+      "key_equation": "L=(1−λ)E_(x,y)~D d_T,S(y|x)+λ E_x,y~stopgrad(S) d_T,S(y|x)，d 是逐 token 散度的长度均值。",
+      "conditions_and_pitfalls": "on-policy 描述谁生成 prefix；FKL/RKL 描述同一 prefix 上的散度方向。该 surrogate 的梯度不能误写为含采样分布梯度的完整序列 KL 梯度。",
+      "interview_value": "建立 OPD 基础，避免把‘教师生成数据做 SFT’、full-logit KD 和 OPD 混同。",
+      "priority": "必读",
+      "accessed_at": "2026-10-14"
+    },
+    {
+      "id": "simple_opd",
+      "title": "Simple-OPD: Demystifying Warm-up for On-policy Distillation",
+      "type": "作者论文",
+      "version": "arXiv:2608.06802v1",
+      "url": "https://arxiv.org/html/2608.06802v1",
+      "additional_urls": [
+        "https://arxiv.org/abs/2608.06802"
+      ],
+      "read_sections": "warm-up 数据与训练消融；Table 1",
+      "fact_summary": "Simple-OPD 用同一蒸馏教师的 CoT 做适量 LoRA SFT，随后执行原有 OPD。结果强调教师行为兼容性与预热程度；部分实验中错误教师轨迹也能帮助初始化。",
+      "key_equation": "流程为 teacher CoT→LoRA-SFT→merge→原 OPD；它没有另提新的 OPD 散度。",
+      "conditions_and_pitfalls": "错误 CoT 可帮助行为预热不等于错误标签普遍有益；过久预热可能损害域外能力。预热后 OPD 获益不自动证明后续 RL 也获益；需计教师生成和预热成本。",
+      "interview_value": "与用户现有蒸馏论文形成直接入口：能具体讲明 warm-up 为何影响学生 prefix 分布。",
+      "priority": "必读",
+      "accessed_at": "2026-10-14"
+    },
+    {
+      "id": "art",
+      "title": "The Art of Efficient Reasoning: Data, Reward, and Optimization",
+      "type": "作者论文",
+      "version": "arXiv:2602.20945v3",
+      "url": "https://arxiv.org/html/2602.20945v3",
+      "additional_urls": [
+        "https://wutaiqiang.github.io/project/Art"
+      ],
+      "read_sections": "数据难度、四类样本、截断奖励与 rollout budget 分析",
+      "fact_summary": "该文把高效推理视为数据、奖励和优化的共同问题。短且对、长且对、短且错、长且错必须区分；适量可解题和更多 rollout 提供有效奖励信号。只保留正确轨迹可能让模型把长度当成正确性的捷径。",
+      "key_equation": "R_T(x,y)=1[y正确]·1[L(y)≤L_T]；L_R 是采样上限，L_T 是奖励阈值。",
+      "conditions_and_pitfalls": "零奖励和 mask 不同：混合组中零奖励仍可能是负优势。易题也可能全对而失去对比；长度先降不代表质量已恢复。训练长度阈值不是部署硬保证。",
+      "interview_value": "建立难度混合、负样本与预算评估意识；是相关工作，不属于用户论文。",
+      "priority": "必读",
+      "accessed_at": "2026-10-14"
+    },
+    {
+      "id": "rl_before",
+      "title": "RL Starts before RL: On Policy Distillation for Better Reinforcement Learning",
+      "type": "作者论文",
+      "version": "arXiv:2609.28145v2",
+      "url": "https://arxiv.org/html/2609.28145v2",
+      "read_sections": "主比较与2×2前缀/散度实验；Appendix A.3",
+      "fact_summary": "该文比较不同准备方式之后的 RL 终点，说明准备阶段即时分数不足以衡量后续可学习性。把学生/教师 prefix 与 FKL/RKL 分开做因子实验；局部分布对齐、熵与后续收益存在相关性。",
+      "key_equation": "L_(ρ,D)=E_(x,y)~ρ[(1/T)Σ_t D(p_T(.|h_t),p_S(.|h_t))]；ρ 与 D 是两个实验维度。",
+      "conditions_and_pitfalls": "某些学生 prefix 配置下 FKL 的后续收益不能外推为 FKL 普遍最好。作者明确未把准备成本和总训练 compute 纳入比较；相关性探针不是机制因果证明。",
+      "interview_value": "把用户的 warm-up/KD 工作延伸到‘什么初始化最适合预算 RL’这一可检验问题；该文为相关工作。",
+      "priority": "第二优先",
+      "accessed_at": "2026-10-14"
+    }
+  ],
+  "modules": [
+    {
+      "id": "training_map",
+      "title": "先画清训练链：预训练、SFT、蒸馏、RL",
+      "core_question": "每个阶段到底改变了什么，何时需要它？",
+      "concise_answer": "预训练提供语言与知识基础；SFT 学参考响应与输出行为；蒸馏引入教师的轨迹或软分布；RL 按可验证结果/偏好重新分配轨迹概率。SFT→OPD→RL 是一个候选配方，不是必需定律。R1-Zero 说明可从合适基座直接 RL，R1/Qwen3 则说明冷启动与多阶段训练的实用价值。",
+      "whiteboard": "L_SFT=−E_(x,y*) Σ_t log πθ(y*_t|x,y*_<t)；只对 assistant 目标 token 算损失，明确 sum/mean、padding 与 EOS。",
+      "followups": [
+        {
+          "q": "SFT 为什么可能改变后续 RL 探索？",
+          "a": "它改变初始轨迹概率与熵；硬拟合少数参考可能提高即时答案分数，也可能压低可探索替代路径。必须测后续 RL 终点。"
+        },
+        {
+          "q": "何时用 SFT，何时优先 RL？",
+          "a": "格式/行为尚未可用、有效 rollout 稀少时先建可学起点；已有可解覆盖且 verifier 可靠时 RL 更有直接信号。看小规模诊断而非固定口号。"
+        },
+        {
+          "q": "DPO 与 GRPO 怎么区分？",
+          "a": "DPO 用成对偏好优化相对概率；GRPO 从策略采样得到组内奖励差异。比较时要明确偏好数据是否离线、是否使用 reference、以及生成成本。"
+        }
+      ],
+      "paper_mapping": [
+        {
+          "paper_id": "shadow-ft",
+          "bridge": "用‘在何处学习参数增量’解释后训练行为与新任务学习的相互影响。"
+        },
+        {
+          "paper_id": "profit",
+          "bridge": "用‘哪些参考 token 产生梯度’连接 SFT 数据价值，不能把高概率当作通用语义重要度。"
+        },
+        {
+          "paper_id": "simple_opd",
+          "bridge": "用预热初始化解释阶段间兼容性；个人负责模块需用户自行补充。"
+        }
+      ],
+      "source_ids": [
+        "r1",
+        "qwen3",
+        "gkd",
+        "simple_opd",
+        "rl_before"
+      ]
+    },
+    {
+      "id": "rl_objectives",
+      "title": "白板讲透 GRPO、DAPO、GSPO",
+      "core_question": "同样的最终答案奖励，为什么优化实现会改变稳定性和长度？",
+      "concise_answer": "先固定 rollout 行为策略、参考策略、reward、advantage，再逐项比较 ratio、clipping、长度归一化和样本过滤。GRPO 的组内对比减少 critic 成本，但仍会遇到同奖组、长链 credit assignment、策略陈旧和熵坍塌。DAPO 与 GSPO 分别改变这些环节，不能只背缩写。",
+      "whiteboard": "r_it=πθ/πold；A_i=(R_i−Rbar)/(std(R)+ε)；clip surrogate=min(r_it A_i,clip(r_it,1−ε_l,1+ε_h)A_i)。A<0 时要能解释 min 为什么限制另一方向的更新。",
+      "followups": [
+        {
+          "q": "πold 与 πref 一样吗？",
+          "a": "πold 是采样行为策略/近端更新锚点；πref 是正则参考。二者可按配方更新，但职责不同。"
+        },
+        {
+          "q": "全组都答错还能学什么？",
+          "a": "仅同一结果奖励的组内优势为零；KL/其他奖励项可能仍更新。需改善题目可解性、增加有效采样或提供预热，而非假装有正确性梯度。"
+        },
+        {
+          "q": "为什么不能说 PPO clipping 保证 KL 不超过阈值？",
+          "a": "clipped surrogate 只限制部分样本的目标激励，不是硬 KL 约束；仍应监控实测 KL、ratio 分位数和 clip fraction。"
+        },
+        {
+          "q": "GSPO 的 s_i 是标准无偏 IS 权重吗？",
+          "a": "完整序列比值才对应原始变测度恒等式；长度归一化与 clipping 是稳定训练的 surrogate 设计。"
+        }
+      ],
+      "paper_mapping": [
+        {
+          "paper_id": "simple_opd",
+          "bridge": "解释更合适的初始化如何增加有效 RL 组；这仍需新实验证明。"
+        },
+        {
+          "paper_id": "model-interpolation",
+          "bridge": "用 Mean/Pass 与熵区分可靠性和探索覆盖，避免混为同一能力。"
+        }
+      ],
+      "source_ids": [
+        "r1",
+        "dapo",
+        "gspo",
+        "thinkless",
+        "art"
+      ]
+    },
+    {
+      "id": "opd",
+      "title": "OPD：谁生成前缀，如何匹配分布，何时停止预热",
+      "core_question": "为什么用学生自己生成的序列，却仍能从教师学到更多？",
+      "concise_answer": "学生在自身 prefix 上得到教师反馈，缓解只跟随教师轨迹训练时的访问分布差异。prefix 来源与 FKL/RKL 是独立选择；局部 full-vocabulary KL、top-k 近似和 sampled-token 估计也要分开。先比较相同教师、数据与预算，再讨论适合即时分数还是后续 RL。",
+      "whiteboard": "设 p=student，q=teacher：FKL=Σ_v q_v log(q_v/p_v)，RKL=Σ_v p_v log(p_v/q_v)。完整轨迹 KL 的链式法则要求外层轨迹采样分布匹配且不额外逐序列长度归一化。",
+      "followups": [
+        {
+          "q": "OPD 是否就是 reverse KL？",
+          "a": "不是；OPD+FKL 也是合法组合。"
+        },
+        {
+          "q": "GKD 是否对采样过程反向传播？",
+          "a": "原文不对学生采样分布回传；在采到的 prefix 上优化局部分布匹配。不要把这写成完整期望目标的全部梯度。"
+        },
+        {
+          "q": "什么情况下蒸馏教师太强反而不合适？",
+          "a": "能力、tokenizer、思考格式与访问状态差异可能使监督难以利用。更强教师不自动最兼容。"
+        },
+        {
+          "q": "为什么不直接加大 LoRA rank/预热轮数？",
+          "a": "适应性与域外保留可能冲突；需要验证集确定近饱和点，并把后续 RL 与总算力纳入评价。"
+        }
+      ],
+      "paper_mapping": [
+        {
+          "paper_id": "adaptive_kl",
+          "bridge": "动态调局部散度权重；需强调 head/tail 误差加权的是两个完整 KL。"
+        },
+        {
+          "paper_id": "llm_neo",
+          "bridge": "减少可训练参数的优化器/梯度成本；教师前向和学生激活仍存在。"
+        },
+        {
+          "paper_id": "loca",
+          "bridge": "校准监督分布可减少教师错误方向，但生成任务多解时不能机械强制唯一 token 最高。"
+        },
+        {
+          "paper_id": "simple_opd",
+          "bridge": "解释 teacher-compatible warm-up 与后续 OPD 的连接。"
+        }
+      ],
+      "source_ids": [
+        "gkd",
+        "qwen3",
+        "simple_opd",
+        "rl_before"
+      ]
+    },
+    {
+      "id": "adaptive_policy",
+      "title": "训练何时想、想多久",
+      "core_question": "如何从可手动切换两种模式，走到模型自动分配计算？",
+      "concise_answer": "先保证短答/长思考都可用，再让策略学习模式首 token；通过正确性—成本奖励学习选择，并让停止 token 参与响应策略优化。用户预算作为上限或条件输入。模式决策与长响应的梯度尺度应分别监控，避免只学一种模式。",
+      "whiteboard": "π(m,y|x,B)=π(m|x,B)π(y|x,B,m)；Thinkless 把 mode surrogate 与 response surrogate 分别归一化。预算上限 B 和实际长度 T 是两个变量。",
+      "followups": [
+        {
+          "q": "为什么不根据问题字数直接分配预算？",
+          "a": "字数与所需计算不等价；短题也可能难，长题也可能只是抽取。规则可作基线，学习策略应在跨域/改写测试中证明收益。"
+        },
+        {
+          "q": "用户指定 think 时还应自动选择吗？",
+          "a": "把用户模式要求设为约束；自适应策略在允许的范围内选择深度。产品控制与模型策略的优先级应明确定义。"
+        },
+        {
+          "q": "怎样证明模型学的是收益而不是题目表面样式？",
+          "a": "使用等难度改写、领域外题、短难题/长易题切片；比较按额外思考真实增益分桶的分配，并限制只用部署可获得的特征。"
+        }
+      ],
+      "paper_mapping": [
+        {
+          "paper_id": "model-interpolation",
+          "bridge": "全局 λ 给出无需新训练的取舍基线；下一步才是逐题、逐预算条件化。"
+        },
+        {
+          "paper_id": "timber",
+          "bridge": "可用现有检查点调整探索性，但 eRank/熵都只是代理，不是自适应策略已正确的证据。"
+        }
+      ],
+      "source_ids": [
+        "qwen3",
+        "s1",
+        "thinkless"
+      ]
+    },
+    {
+      "id": "reward_curriculum",
+      "title": "正确性、长度奖励与难度混合",
+      "core_question": "怎样让模型学会高效正确，而不是更快地答错？",
+      "concise_answer": "把正确性与成本分开测，保留短错作为负例，明确截断样本如何计奖。难度取决于当前学生在每种模式下的可解概率；全难可能无正例，全易可能全同奖。训练要保持可学的对比，并记录重采样成本。",
+      "whiteboard": "若独立采样、单次正奖率 p、每题 G 次：P(至少一个正例)=1−(1−p)^G；P(正负混合组)=1−p^G−(1−p)^G。增加 G 不自动提高单次成功率 p。",
+      "followups": [
+        {
+          "q": "reward=correct−λ×length 有什么坑？",
+          "a": "尺度不匹配会诱导短错；不同预算和数据难度下 λ 的含义变化。需归一化成本、验证质量下限，画不同 λ 的 Pareto 曲线。"
+        },
+        {
+          "q": "mask 掉错误回答不是更干净吗？",
+          "a": "会移除区分短错与短对的信号；在有正例的组中，错误零奖本来可以获得负优势。"
+        },
+        {
+          "q": "难题比例越高越好吗？",
+          "a": "不一定；先诊断各模式成功率和有效组比例，再做 easy/hard 混合与课程消融。"
+        }
+      ],
+      "paper_mapping": [
+        {
+          "paper_id": "profit",
+          "bridge": "选择 SFT token 与选择 RL 轨迹是不同层级；不能把 ProFit 掩码直接等同于丢弃负回报。"
+        },
+        {
+          "paper_id": "quantization-reasoning",
+          "bridge": "错误定位与针对性修复提示保留失败类型诊断；压缩后预算策略也可能需要重校准。"
+        }
+      ],
+      "source_ids": [
+        "dapo",
+        "thinkless",
+        "art"
+      ]
+    },
+    {
+      "id": "evaluation",
+      "title": "证明收益：固定预算、质量—成本前沿与无泄漏",
+      "core_question": "你如何证实变短是可用改进，而不是指标选择造成的幻觉？",
+      "concise_answer": "至少同时报告统一请求上限下的单次质量、相同平均总 token 成本下的质量前沿、相同硬件负载下延迟、困难/OOD 切片。长度统计包括全部生成，Pass@k 只作覆盖诊断，并计 k 次成本与选择器成本。",
+      "whiteboard": "支配定义：方法 A 的质量不低、成本不高且至少一项严格更好，才支配 B。Pareto 前沿不能用单一 accuracy/token 替代。固定总预算时多次采样与单次长思考也应统一成本。",
+      "followups": [
+        {
+          "q": "Mean@k、Pass@k、Vote@k 分别说明什么？",
+          "a": "Mean 是采样正确率平均；Pass 是至少一次正确的覆盖；Vote 是实际投票策略质量。Pass 使用 oracle 判定，不能当成部署用户拿到的准确率。"
+        },
+        {
+          "q": "为什么 AIME 小幅提高不一定可靠？",
+          "a": "题数少、采样和训练种子都会波动；应按题 bootstrap，并把 checkpoint 内采样方差与多次训练方差分开。"
+        },
+        {
+          "q": "验证集应该选择什么？",
+          "a": "只在验证集选 λ、mode 阈值、预算、checkpoint 与插值 λ；锁定后一次评测测试集。不要反复用测试曲线筛选最佳点。"
+        }
+      ],
+      "paper_mapping": [
+        {
+          "paper_id": "model-interpolation",
+          "bridge": "保持 Mean、改善 Pass 和降低 token 是不同证据；token 降幅不是实测硬件加速比。"
+        },
+        {
+          "paper_id": "fluxbin",
+          "bridge": "算法层的成本代理必须落实为相同硬件、负载、质量条件下的真实性能。"
+        },
+        {
+          "paper_id": "memristor-reasoning",
+          "bridge": "区分估算能耗与真实硬件测量；高噪声长复读会改变成本分布。"
+        }
+      ],
+      "source_ids": [
+        "s1",
+        "art",
+        "rl_before",
+        "qwen3"
+      ]
+    },
+    {
+      "id": "data_verifier",
+      "title": "可验证训练数据与奖励可靠性",
+      "core_question": "没有可靠 verifier，如何知道你训练出了推理能力？",
+      "concise_answer": "数学/程序执行适合作为初步可验证域；开放式任务需另做评分与人工审计。解析失败、答案格式投机、测试覆盖不足和数据重复都会污染训练。数据质量要同时看题目可解性、参考正确性、难度覆盖与近重复。",
+      "whiteboard": "将解析有效性、答案正确性、格式、成本分别记录。主质量奖励来自正确性验证；格式不能替代正确答案，LLM judge 分数不能直接当真值。",
+      "followups": [
+        {
+          "q": "代码通过测试就一定正确吗？",
+          "a": "有限测试只能提供证据；增加隐藏边界测试与变形测试，避免公开测试被硬编码利用。"
+        },
+        {
+          "q": "如何向零售场景扩展？",
+          "a": "先用可程序生成与验证的规则组合、优惠计算、约束选择作为公开代理任务；它们只是建议场景，不代表京东内部任务或数据。"
+        },
+        {
+          "q": "怎么审计泄漏？",
+          "a": "按题源/模板/时间先划分，再做文本与语义近重复、题解派生和共享生成模板审计；新生成不保证与公开 benchmark 无关。"
+        }
+      ],
+      "paper_mapping": [
+        {
+          "paper_id": "loca",
+          "bridge": "标签可信度决定监督校准是否合理。"
+        },
+        {
+          "paper_id": "quantization-reasoning",
+          "bridge": "从 unique_id 排重扩展到语义重复、题解污染与强教师生成审计。"
+        }
+      ],
+      "source_ids": [
+        "r1",
+        "qwen3",
+        "art"
+      ]
+    },
+    {
+      "id": "systems",
+      "title": "训练系统与部署成本：从 token 到延迟",
+      "core_question": "后训练主要花在哪里，推理少 token 为什么不总是等比例更快？",
+      "concise_answer": "训练拆成 rollout、教师/奖励前向、actor backward、权重同步与排队；长尾响应和 stale rollout 会同时影响效率与算法。部署拆成 prefill、decode、KV cache 与调度。与用户的量化工作相接时，分别测每 token 速度和总生成量。",
+      "whiteboard": "延迟≈排队+prefill+逐 token decode+工具/验证时间；这只是测量分解，真实 batch、缓存和并行使每 token 成本不固定。",
+      "followups": [
+        {
+          "q": "LoRA 为什么未必显著降低 OPD 总成本？",
+          "a": "优化器/梯度变小，但教师 logits、学生生成和长序列激活可能占主导。先做时间与显存分解。"
+        },
+        {
+          "q": "异步 rollout 的代价？",
+          "a": "吞吐可能更好，但行为策略更陈旧；需保存生成 logprob/版本，监控 ratio、有效样本与性能。"
+        },
+        {
+          "q": "隐藏思考时 TTFT 怎么报告？",
+          "a": "同时报告模型首生成 token、首个可见答案 token、端到端完成时间；只报不可见思考的 TTFT 会误导用户体验。"
+        }
+      ],
+      "paper_mapping": [
+        {
+          "paper_id": "llm_neo",
+          "bridge": "把参数效率与整个流水线显存/时间分开。"
+        },
+        {
+          "paper_id": "ptqtp",
+          "bridge": "真实压缩格式与缩放开销，而不是只说理论位宽。"
+        },
+        {
+          "paper_id": "fluxbin",
+          "bridge": "算法与 kernel 协同，统一硬件与 batch 后比较。"
+        },
+        {
+          "paper_id": "lieq",
+          "bridge": "位预算分配与思考预算分配都需质量约束；结合是待验证设想。"
+        }
+      ],
+      "source_ids": [
+        "dapo",
+        "gspo",
+        "qwen3",
+        "rl_before"
+      ]
+    }
+  ],
+  "project": {
+    "status": "原创组合研究设想；尚未执行，不是用户已有成果，也不主张未经检索证明的首创性。",
+    "title": "预算条件化的自适应推理：从兼容蒸馏到学习何时思考、何时停止",
+    "research_question": "在同一小模型、相同数据与总训练预算下，teacher-compatible SFT→OPD 是否比 SFT→RL 更有利于学习质量约束下的模式选择与停止时机？该收益是否来自保留两种模式的可探索轨迹，而非只提高预热后分数？",
+    "interview_pitch": "我会把自己现有的蒸馏和高效推理工作连接起来：先让同一学生学会短答与长思考，再在学生自身前缀上做模式条件化 OPD，最后用正确性与生成成本训练何时思考及停止。主张必须由固定 token/延迟预算下的质量前沿支持，并检查困难题与域外能力。最关键的对照是总成本匹配的 SFT→RL、固定预算和轻量 router；如果 OPD 的准备成本抵消部署收益，结论也应如实报告。",
+    "hypothesis": [
+      "H1：适量同教师预热加 OPD 比只用硬标签 SFT 更能保留两种模式的有效候选，提升随后预算 RL 的样本效率。",
+      "H2：将模式决策与响应的损失尺度分开，可减少模式坍塌；长度成本使已选 think 模式学会更早完成，而非一律 short。",
+      "H3：easy/hard/暂不可解混合比只训难题更稳定；但简单全对组比例过高也会削弱对比。",
+      "这些是假设；不能以论文之间可以拼接为由声称效果必然叠加。"
+    ],
+    "minimal_setup": {
+      "student": "首轮建议 Qwen3-1.7B 初代混合模型；若资源允许再扩 Qwen3-4B。固定具体 revision、tokenizer 与模板。",
+      "teacher": "同 tokenizer 家族的 Qwen3-8B 作为低成本试验教师；资源允许可换 Qwen3-32B。固定 checkpoint，明确每种模式的提示。",
+      "rationale": "使用同词表方便完整 token 分布对齐；模型选择是可行性建议，不是已测得最佳组合。",
+      "budget_conditions": "B∈{512,2048,8192} 个总新 token 为初始候选；B 是输入预算条件和硬上限。为最终答案预留可调固定窗口，reasoning 与 answer token 都计入成本。",
+      "resource_gate": "先测 50–100 条的峰值显存、tokens/s 与教师 logits 开销，再决定 batch、序列长度与并行；不在不知道 GPU 的情况下承诺两周完整大规模训练。",
+      "minimal_run": "2K–5K 训练题、500 验证题、锁定测试集；先单 seed 调通，再对最终少量配置做 3 seed。数据规模和种子数均为建议。"
+    },
+    "data": {
+      "domains": [
+        "公开数学/可执行代码，先只做规则 verifier 可靠的子集。",
+        "可选零售代理任务：由程序生成的优惠叠加、库存/配送约束、规则组合；不使用或假定存在京东内部数据。"
+      ],
+      "split": "按题源、模板族和派生关系先划分 train/validation/test，再生成答案；train 内另划 SFT/OPD 与 RL 提示池，便于分析准备与后续学习。",
+      "pilot_difficulty": "仅用训练池，在学生 short/think 两种模式各采样少量候选，估 p_short、p_think；标为两模式可解、仅长思考相对可解、当前均难。难度不是题目永久标签。",
+      "mixing": "初始可试 40%两模式可解、40%长模式相对可解、20%当前难题，并与均匀/只易/只难对照；比例只是试验起点。",
+      "leakage_controls": [
+        "同题不同解法、改写与模板同族放同一 split。",
+        "文本 exact/near duplicate 加语义相似人工抽查；追踪题解来源与教师生成记录。",
+        "最终评测题不用于难度路由标签、奖励调参、checkpoint 选择或模型插值 λ 选择。",
+        "只用训练/验证集建立 router；部署不可访问参考答案或评测 verifier 的事后结果。"
+      ]
+    },
+    "stages": [
+      {
+        "stage": "A · 双模式 SFT 预热",
+        "action": "用同一教师分别生成短答与长思考，验证最终答案；成对成功样本形成清晰模式映射。只有长答正确的题保留长模式样本，不伪造短答正确标签。用适量 LoRA 预热，独立验证集选近饱和点。",
+        "purpose": "让模式 token 可控并保留两种能力；记录模式遵循率、分模式准确率、熵和域外保留。",
+        "ablation": "无预热 / 硬标签双模式 SFT / 同教师与异教师 SFT；rank 与时长仅做小范围对照。",
+        "caveat": "错误 CoT 的预热效果可列研究消融，不能当主方案的正确答案监督。"
+      },
+      {
+        "stage": "B · 模式条件化 OPD",
+        "action": "给定外部采样的模式 m 与预算条件 B，学生生成自身响应 prefix；教师在相同 prefix 与模式下提供 logits。主比较 FKL/RKL，AKL 作为与现有论文连接的选配消融；固定教师、数据、rollout 和优化预算。",
+        "purpose": "让学生在自己会访问的状态得到密集反馈；比较预热后即时分数与后续可学习性。",
+        "math": "L_OPD=E_(x,m,B), y~stopgrad(πS(.|x,m,B))[(1/T)Σ_t D(pT(.|h_t,m,B),pS(.|h_t,m,B))]。",
+        "caveat": "强制抽样 m 时，这是条件响应策略的 on-policy distillation，不能宣称整套自动模式策略也完全 on-policy。不要用未校正的强制模式 rollout 更新 joint-mode policy gradient。"
+      },
+      {
+        "stage": "C · 学习模式选择和思考停止的预算 RL",
+        "action": "模型自行采样模式首 token，在预算 B 内生成响应；think 模式中由原生停止思考 token 决定何时进入答案。先采用可解释的 GRPO 风格实现，对 mode 与 response 的 surrogate 分开归一化；响应部分包含停止 token。和不分开的实现对照。",
+        "reward": "初始奖励 R=1[verified_correct]−λ·min(T_total/B,1)，0≤λ<1；再按验证质量约束选 λ。截断/解析失败记为未完成，单独统计，不误标为‘推理逻辑错’。",
+        "reward_scope": "该 λ<1 只保证在此有界标量奖励中任何正确轨迹得分高于任何错误轨迹；它不保证整体策略不会为成本牺牲准确率，因此仍需总体与困难切片质量下限。",
+        "cost": "T_total 包括所有思考、最终答案与重复生成，防止把思考搬进答案来规避成本。部署时另测延迟；不要假装 token 是硬件无关的真实时间。",
+        "optimization": "主方案只保留一种清楚的 loss reduction。DAPO 的全 token reduction、GSPO 序列 ratio 作为后续独立对照，不一次混进多个改动。",
+        "monitoring": [
+          "按模式的成功率、选模比例与熵",
+          "四类：短对/长对/短错/长错",
+          "同奖组比例、clip fraction、ratio 分位数、KL",
+          "截断率、长度 p50/p95、reward 与验证质量",
+          "rollout 策略版本、staleness、训练总 token/GPU hours"
+        ]
+      }
+    ],
+    "fair_baselines": [
+      "同 checkpoint 的 always short 与 always think，在完全相同推理参数与总新 token 上限下。",
+      "外部固定预算/早停控制；另用 s1 风格延长作为可选预算曲线对照，不能只选一个弱预算点。",
+      "同一学生上的轻量 router 或预算规则；训练数据与路由额外延迟计入。",
+      "SFT→RL、SFT→OPD→RL、无 OPD 但用省下算力延长 SFT/RL：分别报告相同下游预算和相同总训练预算两种比较。",
+      "全局模型插值基线（仅限权重坐标兼容的模型）；在独立验证集选 λ，记录选择开销。",
+      "事后 oracle 选择模式仅作为诊断上界，明确它用到了正确性信息，不能作为可部署基线。",
+      "多次短采样/投票或 verifier reranking 只有在计入全部采样与选择器成本后，才能与单次长推理比较。"
+    ],
+    "evaluation": {
+      "primary": "固定每请求 cap B 的单次答案质量；同平均总生成 token 成本下的 quality–cost Pareto frontier。每条曲线只用验证集选择超参数/阈值，再冻结测试。",
+      "latency": "在同一 GPU、引擎 revision、精度、batch/concurrency、prompt 分布、KV cache 与 warmup 条件下，测 p50/p95 端到端、首可见答案时间、吞吐；单请求和并发负载分开。",
+      "quality_slices": "easy / hard / 当前不可解、数学 / 代码 / 代理业务、短难题 / 长易题、OOD、不同预算；同时报告模式覆盖和截断率。",
+      "diagnostics": "Mean@k 与 Pass@k 用于质量/覆盖诊断；主部署指标是实际选出答案的正确率，不把 oracle Pass@k 冒充可实现准确率。",
+      "uncertainty": "最终配置尽量 3 个训练 seed；按题 paired bootstrap 报告质量差与成本差区间。小 AIME 样本不单独承担结论。",
+      "training_cost": "记录教师数据生成、筛选验证、SFT、OPD、RL 和参数搜索的总 GPU hours / token /显存；不能只报告最后 RL 的步数。",
+      "acceptance": "研究性预设示例：验证后锁定约 1 个百分点总体质量容忍度，并给 hard/OOD 单独下限；若达到质量下限再讨论平均 token 或 p95 延迟下降。1 点是建议阈值，需按具体任务要求调整。",
+      "invalid_claims": [
+        "只减少思考标签内 token，却把长文本移到最终答案。",
+        "只比较各方法最佳一次训练，隐藏种子波动。",
+        "用更大生成上限/更低温度帮助某个方法而未对齐。",
+        "用同一组测试题训练路由器再评价自适应收益。"
+      ]
+    },
+    "ablations": [
+      "SFT only / SFT→OPD / SFT→RL / SFT→OPD→RL，匹配总训练成本。",
+      "FKL / RKL / AKL：固定 prefix 采样方式、教师与模式比例，区分即时终点与 RL 终点。",
+      "模式损失分离 on/off；记录模式坍塌及控制 token 梯度。",
+      "成本系数 λ=0 与多个 λ；预算条件输入 on/off；硬 cap 与学会自然停止分开。",
+      "easy/hard/混合；G=4/8/16 在相同总 rollout token 预算下比较，不只等 steps。",
+      "不丢短错 / mask短错；检验是否因丢负例而学到短答捷径。",
+      "Teacher-compatible 预热 vs 能力相近但来源不同教师；总生成和预热成本均计入。",
+      "可选压缩后验证：量化同一个学生，重测路由校准与质量—延迟曲线；不是两周最小实验的必选项。"
+    ],
+    "negative_results_to_accept": [
+      "若 OPD 初始分数提高、RL 后无额外收益，说明准备阶段指标与可学习性未一致，需要查看覆盖、熵与模式偏差。",
+      "若 token 下降但 p95 延迟不降，分析长尾与调度；不能把 token 收益包装为系统加速。",
+      "若 adaptive 仅优于固定差预算、但输给调好的 router/插值，贡献需转向机制分析或更低训练成本。",
+      "若错误组/截断主导，先修数据与 verifier，再调 loss；无有效 reward 的训练不支持能力结论。"
+    ],
+    "relation_to_existing_work": "Simple-OPD 提供教师兼容预热视角；AKL 提供局部损失比较；MI/Timber 提供无需新训练的取舍与探索对照；量化系列提供真实成本和鲁棒性评估。这里只提出组合假设，没有引用任何论文证明整条流水线已有效。",
+    "source_ids": [
+      "gkd",
+      "simple_opd",
+      "rl_before",
+      "thinkless",
+      "art",
+      "qwen3",
+      "dapo",
+      "s1"
+    ]
+  },
+  "plan": {
+    "duration_days": 14,
+    "cadence": "每天约 2–3 小时核心准备；有 GPU 时加实验窗口。两周目标是形成可讲清、可运行的最小证据链，不承诺完成全部研究消融。",
+    "checklist": [
+      {
+        "day": 1,
+        "done": false,
+        "task": "画一页训练地图：pretrain/SFT/SeqKD/full-logit KD/OPD/RL；讲清各自信号、数据与成本。",
+        "deliverable": "90秒总览录音 + 术语边界卡",
+        "source_ids": [
+          "r1",
+          "gkd",
+          "qwen3"
+        ]
+      },
+      {
+        "day": 2,
+        "done": false,
+        "task": "手推 CE、FKL/RKL，画 teacher/student prefix 的2×2表；标出采样 stop-gradient 与轨迹 KL 链式法则条件。",
+        "deliverable": "白板公式页 + 3个常见错误",
+        "source_ids": [
+          "gkd",
+          "rl_before"
+        ]
+      },
+      {
+        "day": 3,
+        "done": false,
+        "task": "复述自己的 AKL/LLM-NEO/Simple-OPD 中至少两篇：问题、方法、控制实验、失败边界、个人贡献。",
+        "deliverable": "各3分钟研究陈述；个人贡献仅填已确认事实",
+        "source_ids": [
+          "simple_opd"
+        ]
+      },
+      {
+        "day": 4,
+        "done": false,
+        "task": "推导 outcome-reward GRPO；用全对、全错、混合三组计算 advantage，解释 old/ref/critic。",
+        "deliverable": "10行伪代码 + 一次手算",
+        "source_ids": [
+          "r1"
+        ]
+      },
+      {
+        "day": 5,
+        "done": false,
+        "task": "对照 DAPO/GSPO 的 ratio、clip、reduction、有效组与长度处理；列训练崩溃排查顺序。",
+        "deliverable": "一张算法差异表",
+        "source_ids": [
+          "dapo",
+          "gspo"
+        ]
+      },
+      {
+        "day": 6,
+        "done": false,
+        "task": "读 Qwen3 模式融合与 s1，区分初代/2507 checkpoint；手工演示模式控制、硬 cap 与停止思考。",
+        "deliverable": "模式/预算/可见性术语卡；有环境则保存3个样例",
+        "source_ids": [
+          "qwen3",
+          "s1"
+        ]
+      },
+      {
+        "day": 7,
+        "done": false,
+        "task": "读 Thinkless，复述 reward、DeGRPO 分离原因；设计自己项目的 mode/stop policy。",
+        "deliverable": "3分钟 adaptive thinking 回答 + 训练伪代码",
+        "source_ids": [
+          "thinkless"
+        ]
+      },
+      {
+        "day": 8,
+        "done": false,
+        "task": "读 Art，把短对/长对/短错/长错和 easy/hard 有效组画出来，解释 mask≠zero reward。",
+        "deliverable": "四象限诊断表 + 课程消融",
+        "source_ids": [
+          "art"
+        ]
+      },
+      {
+        "day": 9,
+        "done": false,
+        "task": "固定数据来源、split、verifier 与版本；写清训练/验证/测试泄漏检查和失败解析规则。",
+        "deliverable": "一页可复现协议与数据清单",
+        "source_ids": [
+          "r1",
+          "qwen3"
+        ]
+      },
+      {
+        "day": 10,
+        "done": false,
+        "task": "运行或设计 always short/think、固定预算、router 基线；测总 token 和实际延迟，明确硬件条件。",
+        "deliverable": "基线表；无 GPU 时交付可执行配置和评估脚本草案，标为未跑",
+        "source_ids": [
+          "s1",
+          "qwen3"
+        ]
+      },
+      {
+        "day": 11,
+        "done": false,
+        "task": "做小规模 SFT/OPD 试跑或检查已有日志，关注两模式覆盖、教师兼容性与显存时间分解。",
+        "deliverable": "真实日志摘要或资源估算；不伪造结果",
+        "source_ids": [
+          "gkd",
+          "simple_opd"
+        ]
+      },
+      {
+        "day": 12,
+        "done": false,
+        "task": "试跑预算 RL 最小配置，或逐项审查 loss/reward/mask；冻结质量与成本指标及选模规则。",
+        "deliverable": "可复现实验命令/配置 + 风险记录",
+        "source_ids": [
+          "thinkless",
+          "art",
+          "dapo"
+        ]
+      },
+      {
+        "day": 13,
+        "done": false,
+        "task": "整理 Pareto 图设计、hard/OOD切片、消融与否定结果解释；把项目压成5分钟陈述。",
+        "deliverable": "一页研究提案 + 有数据则真实曲线，无数据则清楚标实验设计",
+        "source_ids": [
+          "rl_before",
+          "art"
+        ]
+      },
+      {
+        "day": 14,
+        "done": false,
+        "task": "两轮模拟面试：一轮白板训练，一轮论文深挖与项目挑战；删去无法证实的贡献和泛化结论。",
+        "deliverable": "问题清单、修订答案、下一轮实验优先级",
+        "source_ids": []
+      }
+    ],
+    "ten_day_compression": "若只有10天：合并第1–2天、第4–5天、第6–7天、第11–12天；保留第3天个人论文深挖和第13–14天表达/模拟，不以追更多论文替代。",
+    "no_gpu_path": "没有算力时，完成公式、数据/verifier小脚本、推理基线配置、总成本估算和可证伪提案即可；训练性能必须明确为待实验，不能用论文结果充当自己的复现。"
+  },
+  "highest_priority": [
+    {
+      "rank": 1,
+      "item": "三段90秒回答：我的研究主线；OPD为什么有用；adaptive thinking到底学什么。",
+      "reason": "把已有论文与岗位方向形成可理解的研究叙事。"
+    },
+    {
+      "rank": 2,
+      "item": "白板写对 GRPO 与 FKL/RKL，解释 prefix 来源、old/ref、mask/zero、length reduction。",
+      "reason": "这些细节比背更多算法名更能体现训练理解。"
+    },
+    {
+      "rank": 3,
+      "item": "深挖 Simple-OPD + AKL + MI，补齐个人贡献、关键失败实验、资源约束与一项最强对照。",
+      "reason": "能回答自己论文的边界，比罗列相关工作更有价值；贡献须用户确认。"
+    },
+    {
+      "rank": 4,
+      "item": "一页 SFT→OPD→预算RL 实验提案，含 fair baselines、总compute、verifier、泄漏与失败解释。",
+      "reason": "展示从想法到可验证实验的能力；明确这是研究设想。"
+    },
+    {
+      "rank": 5,
+      "item": "至少一张统一预算下质量/总token/实际延迟表，优先把基线跑可信。",
+      "reason": "工业研究会追问收益可否兑现；若未运行就清楚标待验证。"
+    }
+  ],
+  "suggested_interview_bridge": {
+    "chinese": "我现有的研究可以连成一条线：怎样选择和传递有效训练信号，怎样调整推理行为，以及怎样把模型层面的效率落实到真实计算成本。我对下一步的兴趣是将教师兼容的蒸馏初始化与预算约束的后训练结合，让小模型学习何时需要显式思考、何时可以结束。已有工作能支持动机和方法选择，最终收益仍需要总算力匹配和域外评估来验证。",
+    "contribution_guardrail": "将‘我现有的研究’替换为用户确实参与并能解释个人贡献的论文；不要把 Art / RL Starts before RL 说成自己的工作。",
+    "jd_guardrail": "以上是根据用户给定方向组织的研究准备，不代表掌握京东团队内部模型、训练配方、评估标准或正式考点。"
+  }
+}

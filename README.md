@@ -22,3 +22,16 @@ pdflatex -no-shell-escape -interaction=nonstopmode -halt-on-error runming_yang_c
 ```
 
 Commit the data, generated LaTeX, PDF, homepage, and compatibility redirect together. GitHub Pages serves the repository root on `main`. Keep publication status, author order, and equal-contribution markers consistent with the linked primary sources. A `project_url` labels a project page separately from released code (`code_url`).
+
+## Research learning pages
+
+`/learning/` contains the TGT and post-training preparation hub. `/learning/papers.html` is the complete 15-paper study guide. `/learning/adaptive-thinking.html` covers the adaptive thinking field, surveys, conference papers, and recent methods. The public pages use local CSS/JavaScript, native expandable sections, printable layouts, and a browser-local study checklist; no analytics or remote progress storage is used.
+
+Edit the curated notes in `learning/data/`, the page templates, or `learning/papers.html`, then run:
+
+```sh
+python3 scripts/build_learning.py
+python3 scripts/build_adaptive_guide.py
+```
+
+Keep official recruitment facts, self-reported interview experiences, and original practice questions distinct. Preserve source URLs, publication/version dates, verification dates, and publication-status evidence. Unperformed experiments must remain labeled as proposals. Do not publish credentials, local paths, private employer data, or material from the separate private collaboration workspace. The learning pages do not regenerate or alter the CV PDF.

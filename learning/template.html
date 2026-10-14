@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="京东 TGT 研究岗位准备：官方招聘、面试经验、后训练与自适应推理讲义、论文精读和学习计划。">
+  <meta name="theme-color" content="#245c56">
+  <title>TGT 与后训练学习中心 · Runming Yang</title>
+  <link rel="canonical" href="https://rummyyang.github.io/learning/">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#start">跳到学习内容</a>
+<header class="topbar"><div class="topbar-inner">
+  <a class="brand" href="/">RUNMING YANG / 杨润明</a>
+  <nav aria-label="站点导航"><a href="/">主页</a><a href="adaptive-thinking.html">Adaptive Thinking</a><a href="papers.html">15 篇论文讲义</a><a href="/cv/runming_yang_cv.pdf">CV（PDF）</a></nav>
+</div></header>
+<div class="hero">
+  <p class="eyebrow">Research learning / 京东 TGT 为主线</p>
+  <h1>让模型学会推理，<br>也学会何时思考。</h1>
+  <p class="lead">围绕模型训练与后训练，串起蒸馏、强化学习、Reasoning 和 adaptive thinking，把岗位资料、论文理解与面试练习放在一起。</p>
+  <div class="meta"><span>资料核验：{{UPDATED}}</span><span>{{SOURCE_COUNT}} 条来源索引</span><span>13 篇本人论文 + 2 篇拓展阅读</span></div>
+  <div class="actions"><a class="button primary" href="#plan">从学习计划开始</a><a class="button" href="adaptive-thinking.html">Adaptive Thinking 领域导读</a><a class="button" href="papers.html">打开完整论文讲义</a><button class="button" id="print-study" type="button">打印 / 保存为 PDF</button></div>
+</div>
+<div class="shell">
+  <nav class="side" aria-label="学习目录">
+    <a href="#start">01 · 准备主线</a><a href="#tgt">02 · TGT 岗位与申请</a><a href="#interviews">03 · 面试经验</a><a href="#training">04 · 后训练核心讲义</a><a href="#adaptive">05 · 自适应推理研究题</a><a href="#practice">06 · 模拟面试</a><a href="#plan">07 · 学习计划</a><a href="#other-programs">08 · 其他人才计划</a><a href="#sources">09 · 来源与阅读库</a>
+    <p class="small">点击主题展开。<br>资料链接保留原始出处；<br>学习进度保存在本浏览器。</p>
+  </nav>
+  <main class="main">
+    <section class="section" id="start">
+      <div class="section-heading"><span class="num">01</span><h2>先准备一条能讲清的研究主线</h2></div>
+      <div class="note"><p><strong>我的主线：</strong>从教师监督与学生蒸馏出发，研究模型如何通过后训练获得更有效的推理策略，并把质量、计算成本和实际部署放到同一个评价框架里。</p><p class="small">这是根据已确认经历整理的讲述建议。岗位、团队和面试时间尚未确定；先按大模型训练／后训练研究实习准备，取得具体 JD 后再调整。</p></div>
+      <div class="grid">
+        <article class="card"><span class="priority">P0 · 基础与主论文</span><h3>讲清“监督从哪里来”</h3><p>SFT、蒸馏与 RL 分别改变什么；OPD 的轨迹来源与 KL 方向如何拆开；为什么蒸馏后的分数不一定预测后续 RL 收益。</p><div class="paper-links"><a href="papers.html#paper-adaptive_kl">Adaptive KL</a><a href="papers.html#paper-simple_opd">Simple-OPD</a><a href="papers.html#paper-rl-starts-before-rl">RL Starts before RL</a></div></article>
+        <article class="card"><span class="priority">P0 · 推理与预算</span><h3>讲清“为什么、何时、思考多久”</h3><p>从可控 thinking mode 走向按题分配预算；设计正确性与成本奖励，分析过度思考、过早停止以及困难题退化。</p><div class="paper-links"><a href="papers.html#paper-art-efficient-reasoning">Art of Efficient Reasoning</a><a href="#adaptive">原创研究设计练习</a></div></article>
+        <article class="card"><span class="priority">P1 · 落地与个人贡献</span><h3>把腾讯实习讲成一个闭环</h3><p>QQ 社交安全科研实习：图文数据合成 → 后训练与测评 → 分级部署与加速 → 内部风控上线。说明吞吐和误杀率的比较条件，再讲本人承担的模块及失败实验。</p><div class="paper-links"><a href="papers.html#tencent-project">实习讲述框架</a><a href="#personal-story">个人材料清单</a></div></article>
+        <article class="card"><span class="priority">P2 · 按岗位深入</span><h3>用轻量化形成第二层优势</h3><p>训练岗先深入两篇最熟悉的工作；再用量化、大小模型协作解释部署约束。涉及 RL infra 时，补齐 rollout、批处理、显存和训练／推理策略滞后的分析。</p><div class="paper-links"><a href="papers.html#paper-lieq">LieQ</a><a href="papers.html#paper-quantization-reasoning">Quantization & Reasoning</a><a href="papers.html#paper-ptqtp">PTQTP</a></div></article>
+      </div>
+      <details class="study-detail" id="personal-story"><summary>把经历准备成 90 秒开场 + 两个 10 分钟研究故事</summary><div class="detail-body">
+        <p><strong>90 秒建议顺序：</strong>港大博士研究背景（15 秒）→ 蒸馏／后训练中最熟悉的一个问题与本人贡献（35 秒）→ 腾讯部署经验（25 秒）→ 希望研究自适应推理的原因（15 秒）。用自己能核实的事实替换具体成果描述。</p>
+        <ul><li><strong>每篇主讲论文：</strong>动机、最接近的基线、关键公式、个人分工、一张核心实验、一个失败案例、局限与下一步；分别练习 2 分钟和 10 分钟版本。</li><li><strong>实习指标：</strong>误杀率使用什么分母，是否在相同召回率下比较；吞吐在什么硬件、并发、输入长度和质量约束下测量；线上效果是否受流量或数据分布变化影响。</li><li><strong>科研产出：</strong>可确认有两篇论文与一项公司专利；补齐自己能公开的对应关系与贡献。未经确认，不把专利写成已授权，也不补造指标。</li><li><strong>当前 CoT 合作：</strong>港大博士阶段与其他团队合作，稿件准备中。面试可讲已完成的真实探索、待验证假设和下一步；下方的 adaptive thinking 实验方案仅为练习，不是已有项目成果。</li></ul>
+      </div></details>
+    </section>
+    <section class="section" id="tgt"><div class="section-heading"><span class="num">02</span><h2>TGT 岗位与申请信息</h2></div>{{OFFICIAL}}</section>
+    <section class="section" id="interviews"><div class="section-heading"><span class="num">03</span><h2>面试经验：先看它适用于谁</h2></div>{{INTERVIEWS}}</section>
+    <section class="section" id="training"><div class="section-heading"><span class="num">04</span><h2>后训练与 Reasoning 核心讲义</h2></div><p class="muted">首次接触这个方向，可先读<a href="adaptive-thinking.html">Adaptive Thinking 领域导读与最新研究</a>。先口头回答核心问题，再展开核对。这里只保留面试所需的概念骨架；论文动机、方法、实验条件与限制见<a href="papers.html">完整讲义</a>。</p>{{TECHNICAL}}</section>
+    <section class="section" id="adaptive"><div class="section-heading"><span class="num">05</span><h2>研究题：什么时候值得多想一步？</h2></div>{{ADAPTIVE}}</section>
+    <section class="section" id="practice"><div class="section-heading"><span class="num">06</span><h2>模拟面试与动手练习</h2></div><div class="note warm"><p><strong>本节为原创练习，不是京东实际题库。</strong>建议每题先作答 2–3 分钟，再核对答题要点。研究面试重点是推理过程、实验设计和个人贡献是否经得住追问。</p></div>{{PRACTICE}}</section>
+    <section class="section" id="plan"><div class="section-heading"><span class="num">07</span><h2>两周学习计划</h2></div><p>每天约 2–3 小时，以完成一个可讲述、可检查的产物为准。时间紧时先完成基础、两篇主论文、研究设计和模拟面试。</p><div class="plan-status"><progress id="plan-progress" max="14" value="0" aria-label="学习计划完成进度"></progress><strong id="plan-progress-text">0 / 14 项完成</strong></div><p class="small" id="storage-note">进度仅保存在当前浏览器，不会上传。</p>{{PLAN}}</section>
+    <section class="section" id="other-programs"><div class="section-heading"><span class="num">08</span><h2>其他人才计划：作为补充</h2></div>{{OTHER_PROGRAMS}}</section>
+    <section class="section" id="sources"><div class="section-heading"><span class="num">09</span><h2>来源与阅读库</h2></div><p>招聘以当前官方职位为准；个人面经仅代表发布者经历；论文实验是作者报告，未在此独立复现。正文中的来源编号可以跳到这里。</p>
+      <div class="filters"><label for="source-search">搜索题目、关键词或说明<input id="source-search" type="search" placeholder="例如：TGT、GRPO、thinking、实习" autocomplete="off"></label><label for="source-type">资料类型<select id="source-type"><option value="all">全部类型</option><option value="official">官方招聘 / 项目</option><option value="university">高校招聘转载</option><option value="interview">个人面试经验</option><option value="paper">论文 / 技术文档</option></select></label></div>
+      <p class="status-line" id="source-count" aria-live="polite"></p><p class="empty" id="source-empty" hidden>没有匹配的资料，请换一个关键词或资料类型。</p>{{SOURCES}}
+    </section>
+  </main>
+</div>
+<footer class="footer"><nav><a href="/">返回主页</a><a href="papers.html">完整论文讲义</a><a href="/cv/runming_yang_cv.pdf">正式简历 PDF</a><a href="https://github.com/Rummyyang/Rummyyang.github.io/tree/main/learning">页面源码</a></nav><p>Runming Yang · 学习资料整理于 {{UPDATED}}。本页为个人研究学习笔记，与招聘方无隶属关系。内容和引用随核验结果更新；招聘条件与职位状态可能变化。</p></footer>
+</body>
+</html>

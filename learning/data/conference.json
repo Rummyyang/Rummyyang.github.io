@@ -1,0 +1,492 @@
+{
+  "schema_version": "1.0",
+  "as_of": "2026-10-14",
+  "scope": "Adaptive thinking / adaptive reasoning / test-time compute allocation；8篇正式会议论文，覆盖2025–2026，非完整系统综述。",
+  "evidence_policy": "以ACL Anthology、OpenReview正式PDF及ICLR/NeurIPS官方论文集核实发表状态。未将under review、作者仓库宣称、workshop版本当作主会录用。数字仅保留明确实验行；各论文之间不可横向直接排行。",
+  "counts": {
+    "total": 8,
+    "year_2026": 5,
+    "main_conference": 7,
+    "findings": 1,
+    "preprint_only": 0
+  },
+  "state_of_research": [
+    {
+      "point": "自适应不是单一开关",
+      "detail": "已有工作分别优化输入级长短模式、步骤级深度、额外搜索分配，以及带工具调用的总时间。",
+      "support": [
+        "thinkless-2025",
+        "rpo-2026",
+        "mur-2026",
+        "sat-2026",
+        "timely-2026"
+      ]
+    },
+    {
+      "point": "成本控制与任务能力需要分开",
+      "detail": "更少token可能来自更优分配，也可能来自丢失难题能力；应同时报告准确率、路由比例、token、真实延迟与尾部风险。",
+      "support": [
+        "rpo-2026",
+        "leash-2026",
+        "timely-2026"
+      ]
+    },
+    {
+      "point": "预算仍然存在，选择机制正在学习化",
+      "detail": "TALE预测预算，Thinkless/RPO学习模式，SAT逐步干预；都不意味着无需目标预算、阈值或校准。",
+      "support": [
+        "tale-2025",
+        "thinkless-2025",
+        "rpo-2026",
+        "sat-2026"
+      ]
+    },
+    {
+      "point": "训练期自适应≠逐请求自适应",
+      "detail": "LEASH动态调整训练惩罚系数；这与RPO对输入选择模式、MUR对步骤选择额外计算是不同问题。",
+      "support": [
+        "leash-2026",
+        "rpo-2026",
+        "mur-2026"
+      ]
+    },
+    {
+      "point": "值得做的研究检验（本次综合判断）",
+      "detail": "预算一致的强基线、跨域校准、失败时是否继续思考、动态延迟与估计器成本，仍是决定方法能否实际受益的重要验证项。",
+      "support": [
+        "snell-2025",
+        "rpo-2026",
+        "mur-2026",
+        "timely-2026"
+      ]
+    }
+  ],
+  "recommended_reading_order": [
+    "snell-2025",
+    "tale-2025",
+    "thinkless-2025",
+    "rpo-2026",
+    "mur-2026",
+    "sat-2026",
+    "leash-2026",
+    "timely-2026"
+  ],
+  "papers": [
+    {
+      "id": "snell-2025",
+      "short_name": "Compute-optimal test-time scaling",
+      "title": "Scaling LLM Test-Time Compute Optimally Can be More Effective than Scaling Parameters for Reasoning",
+      "authors": "Charlie Snell, Jaehoon Lee, Kelvin Xu, Aviral Kumar",
+      "venue": "ICLR 2025 主会",
+      "status": "已正式发表",
+      "publication_date": "2025（会议论文集）",
+      "method_axes": [
+        "多路径",
+        "按题分配计算",
+        "搜索/修订策略选择"
+      ],
+      "motivation": "相同计算量并非对每道题都有相同收益。",
+      "mechanism": "比较PRM引导搜索与顺序修订，按题目难度和预算选择计算策略。",
+      "result": {
+        "numeric": null,
+        "text": "正式论文支持按难度选策略优于统一Best-of-N；本条不搬用摘要4×/14×，未将其完整实验条件压缩成一个通用倍数。",
+        "location": "摘要及计算分配实验"
+      },
+      "limitations": "收益依赖题目可解性与验证器；极难题增加计算未必有效。这里主要是数学推理证据。",
+      "versus_manual_budget": "手动预算只设资源上限；本文还选择预算内部的搜索、采样与修订配置。",
+      "reading_question": "难度如何估计，是否使用oracle信息？验证器和难度预测成本是否计入？",
+      "paper_url": "https://proceedings.iclr.cc/paper_files/paper/2025/file/1b623663fd9b874366f3ce019fdfdd44-Paper-Conference.pdf",
+      "official_record_url": "https://proceedings.iclr.cc/paper_files/paper/2025/hash/1b623663fd9b874366f3ce019fdfdd44-Abstract-Conference.html",
+      "openreview_url": "https://openreview.net/forum?id=4FWAwZtd2n",
+      "verification": "ICLR官方论文集明确标Conference 2025；OpenReview正式PDF首页亦标Published as a conference paper。"
+    },
+    {
+      "id": "tale-2025",
+      "short_name": "TALE",
+      "title": "Token-Budget-Aware LLM Reasoning",
+      "authors": "Tingxu Han et al.",
+      "venue": "Findings of ACL 2025",
+      "status": "已正式发表（Findings，非ACL主会长文）",
+      "publication_date": "2025-07",
+      "method_axes": [
+        "想多久",
+        "问题级预算预测"
+      ],
+      "motivation": "固定预算可能过松、过紧，冗余推理增加成本。",
+      "mechanism": "TALE-EP先估预算再提示生成；TALE-PT离线搜索预算并用SFT/DPO内化简洁输出。",
+      "result": {
+        "numeric": true,
+        "text": "表3，GPT-4o-mini在GSM8K：Vanilla CoT准确率81.35%、318.10输出token；TALE-EP为84.46%、77.26。",
+        "location": "PDF表3",
+        "condition": "同模型、同数据集、论文内协议；输出长度不等同于含预算估计的端到端成本。"
+      },
+      "limitations": "主要是文本数学；预算估计仍有开销且软提示不保证严格遵守。表3摘要式说明与均值行有不一致，本条只引用具体任务行。",
+      "versus_manual_budget": "按题估预算，而非给所有输入同一常数；仍依赖预算提示或相应后训练。",
+      "reading_question": "预算预测额外花费多少？过紧预算为什么反而可能增大输出？",
+      "paper_url": "https://aclanthology.org/2025.findings-acl.1274.pdf",
+      "official_record_url": "https://aclanthology.org/2025.findings-acl.1274/",
+      "verification": "ACL Anthology明确列Findings of ACL 2025及正式页码24842–24855。"
+    },
+    {
+      "id": "thinkless-2025",
+      "short_name": "Thinkless",
+      "title": "Thinkless: LLM Learns When to Think",
+      "authors": "Gongfan Fang, Xinyin Ma, Xinchao Wang",
+      "venue": "NeurIPS 2025 主会",
+      "status": "已正式发表",
+      "publication_date": "2025（会议论文集）",
+      "method_axes": [
+        "是否想",
+        "长短模式路由"
+      ],
+      "motivation": "对简单问题始终长推理浪费资源，训练还会发生模式塌缩。",
+      "mechanism": "先建立长短模式；DeGRPO将控制token与回答token的损失分别归一化、调权。",
+      "result": {
+        "numeric": true,
+        "text": "表1，R1-Distill-Qwen-1.5B的GSM8K：原模型Pass@1为83.47%、1919 token；Thinkless为84.18%、624 token，长模式使用率13.31%。",
+        "location": "PDF表1",
+        "condition": "包含蒸馏、SFT和RL的整体系统对比，不能归因于路由单一组件。"
+      },
+      "limitations": "主要验证小模型数学；MATH-500准确率有损失。长模式使用率下降不等于总成本同比下降。",
+      "versus_manual_budget": "模型生成控制token决定长短模式，用户无需逐题指定开关；训练仍有权重超参。",
+      "reading_question": "为什么序列长度归一化会削弱长轨迹的控制token梯度？",
+      "paper_url": "https://proceedings.neurips.cc/paper_files/paper/2025/file/de2ad3ed44ee4e675b3be42aa0b615d0-Paper-Conference.pdf",
+      "official_record_url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/de2ad3ed44ee4e675b3be42aa0b615d0-Abstract-Conference.html",
+      "openreview_url": "https://openreview.net/forum?id=ariVQf0KZx",
+      "verification": "NeurIPS官方论文集明确Main Conference Track；OpenReview论坛访问触发浏览器验证，以可读官方论文集核验。"
+    },
+    {
+      "id": "rpo-2026",
+      "short_name": "RPO",
+      "title": "Efficiently Learning To Reason or Not to Reason: Root-token Policy Optimization for Adaptive Thinking",
+      "authors": "Taehyeon Kim, Hyunsoo Lee, Youngsoo Jang, Moontae Lee",
+      "venue": "ACL 2026 主会长文",
+      "status": "已正式发表",
+      "publication_date": "2026-07",
+      "method_axes": [
+        "是否想",
+        "根token路由",
+        "降低路由训练成本"
+      ],
+      "motivation": "训练整段长轨迹来学一次模式选择，反向传播成本过高。",
+      "mechanism": "自蒸馏构建长短模式；RL只在初始分支token上计算梯度，后续轨迹仅提供奖励。",
+      "result": {
+        "numeric": true,
+        "text": "表6，Qwen3-8B在代码/GPQA两任务平均：原模型P@1 54.2%、11117 token；RPO为45.4%、9221 token。此例体现成本与精度取舍。",
+        "location": "PDF表6",
+        "condition": "同模型、同两任务报告口径；并非无损改进。"
+      },
+      "limitations": "路由校准和跨域能力仍有限；“2%训练算力”是表5特定8B配置的FLOPs估算，不是同精度实测速率。",
+      "versus_manual_budget": "学习模式选择概率并可调阈值；控制决策内化于模型，仍有部署校准。",
+      "reading_question": "只对根token算损失，是否意味着只更新一个embedding参数？为什么不是？",
+      "paper_url": "https://aclanthology.org/2026.acl-long.816.pdf",
+      "official_record_url": "https://aclanthology.org/2026.acl-long.816/",
+      "verification": "ACL Anthology正式长文记录；PDF页首会议日期2026-07-02至07。"
+    },
+    {
+      "id": "mur-2026",
+      "short_name": "MUR",
+      "title": "MUR: Momentum Uncertainty guided Reasoning for Large Language Models",
+      "authors": "Hang Yan et al.",
+      "venue": "ACL 2026 主会长文",
+      "status": "已正式发表",
+      "publication_date": "2026-07",
+      "method_axes": [
+        "在哪一步多想",
+        "步骤级额外搜索/计算"
+      ],
+      "motivation": "每一步都进行test-time scaling会把预算花在容易的步骤。",
+      "mechanism": "用步骤token平均负对数概率作为不确定性，以指数动量聚合历史；检测器决定该步是否调用额外scaling，γ调节干预。",
+      "result": {
+        "numeric": null,
+        "text": "正式论文报告Qwen3系列、多数学/知识任务上的效率收益；本次未完整核验一个表格行的模型与scaling配置，因此不提供数字。",
+        "location": "摘要、方法3.1–3.3；表格提取访问不稳定"
+      },
+      "limitations": "需要可用token概率与步骤划分；高置信错误可能漏检，这是机制层面的风险判断。",
+      "versus_manual_budget": "动态选择哪里追加计算；γ是策略敏感度，并非每题严格token上限，也不是学出的停止策略。",
+      "reading_question": "负对数概率与正确性是什么关系？如何验证信号在分布外仍有效？",
+      "paper_url": "https://aclanthology.org/2026.acl-long.1058.pdf",
+      "official_record_url": "https://aclanthology.org/2026.acl-long.1058/",
+      "verification": "ACL Anthology正式长文记录23078–23103；方法来自原论文第3节。"
+    },
+    {
+      "id": "sat-2026",
+      "short_name": "SAT",
+      "title": "SAT: Balancing Reasoning Accuracy and Efficiency with Stepwise Adaptive Thinking",
+      "authors": "Weiyang Huang et al.",
+      "venue": "ACL 2026 主会长文",
+      "status": "已正式发表",
+      "publication_date": "2026-07",
+      "method_axes": [
+        "想多久",
+        "步骤级模式切换",
+        "提前结束"
+      ],
+      "motivation": "整条链统一压缩可能截断必要的纠错和困难步骤。",
+      "mechanism": "轻量PRM估计步骤难度，有限状态机在SLOW/NORMAL/FAST/SKIP间转换，通过提示干预轨迹。",
+      "result": {
+        "numeric": true,
+        "text": "表1，Qwen3-4B在MATH500：CoT为95.0%、4823 token；SAT为95.6%、2833 token。",
+        "location": "PDF表1",
+        "condition": "同模型和任务的论文内对比；token数不直接代表包含PRM的墙钟收益，未声称统计显著。"
+      },
+      "limitations": "依赖PRM、分步和控制提示；部分任务精度仍下降。SKIP不能简单理解为无风险删除任意推理步骤。",
+      "versus_manual_budget": "推理途中逐步改变深度，不只在输入前设定一个总token数。",
+      "reading_question": "PRM误判、步骤切分和控制提示的成本如何纳入消融？",
+      "paper_url": "https://aclanthology.org/2026.acl-long.2009.pdf",
+      "official_record_url": "https://aclanthology.org/2026.acl-long.2009/",
+      "verification": "ACL Anthology正式长文记录43384–43402；原PDF表1可通过原站索引核验。"
+    },
+    {
+      "id": "leash-2026",
+      "short_name": "LEASH",
+      "title": "LEASH: Adaptive Length Penalty and Reward Shaping for Efficient Large Reasoning Model",
+      "authors": "Yanhao Li et al.",
+      "venue": "ACL 2026 主会长文",
+      "status": "已正式发表",
+      "publication_date": "2026-07",
+      "method_axes": [
+        "想多久",
+        "训练期长度约束",
+        "动态惩罚系数"
+      ],
+      "motivation": "固定长度惩罚难调，且不随模型训练能力变化。",
+      "mechanism": "把平均长度写成约束，原始—对偶优化同时更新策略和惩罚系数；超目标则加强惩罚。",
+      "result": {
+        "numeric": true,
+        "text": "表2，R1-Distill-Qwen-1.5B四数学集均值：原模型33.1%、15727 token；4K目标LEASH为33.9%、5873 token。",
+        "location": "PDF表2",
+        "condition": "论文相同评测设置，四任务各32次采样的平均准确率；不是pass@32。"
+      },
+      "limitations": "自适应发生于训练惩罚，不等于逐题最优路由；4B的严格预算配置仍掉点，平均约束也非每题硬限额。",
+      "versus_manual_budget": "目标长度仍由人给定，但对偶变量自动调节，实现约束优化而非固定扣分。",
+      "reading_question": "平均长度约束怎样应对长尾题？如何避免正确难题被长度罚过度压缩？",
+      "paper_url": "https://aclanthology.org/2026.acl-long.129.pdf",
+      "official_record_url": "https://aclanthology.org/2026.acl-long.129/",
+      "verification": "ACL Anthology正式长文记录2846–2856；原PDF表2、评测协议已核验。"
+    },
+    {
+      "id": "timely-2026",
+      "short_name": "Timely Machine / Timely-RL",
+      "title": "Timely Machine: Awareness of Time Makes Test-Time Scaling Agentic",
+      "authors": "Yichuan Ma et al.",
+      "venue": "ACL 2026 主会长文",
+      "status": "已正式发表",
+      "publication_date": "2026-07",
+      "method_axes": [
+        "想多久",
+        "工具交互预算",
+        "墙钟时间规划"
+      ],
+      "motivation": "工具延迟使相同token数对应不同任务耗时。",
+      "mechanism": "将生成和工具时间计入预算，模型获取时间反馈；经时间感知SFT及Timely-RL学习调整推理和交互策略。",
+      "result": {
+        "numeric": true,
+        "text": "表3，均从Qwen3-8B出发，在0.75×时间预算的AIME上：仅SFT按时完成率46.7%，Timely-RL为53.3%。",
+        "location": "PDF表3",
+        "condition": "指标是按时完成率，不是正确率；0.75×按论文基准时间定义。"
+      },
+      "limitations": "目前是文本任务；多模态可变延迟、多Agent协作尚未解决，预算定义依赖实际部署环境。",
+      "versus_manual_budget": "控制总墙钟时间并纳入工具等待，不能用一个固定thinking token上限替代。",
+      "reading_question": "若工具延迟分布突变，策略是否还能校准？如何同时评估按时率与正确率？",
+      "paper_url": "https://aclanthology.org/2026.acl-long.211.pdf",
+      "official_record_url": "https://aclanthology.org/2026.acl-long.211/",
+      "verification": "ACL Anthology正式长文记录4619–4636；原PDF表3与限制章节已核验。"
+    }
+  ],
+  "sources": [
+    {
+      "id": "snell-2025-record",
+      "title": "Scaling LLM Test-Time Compute Optimally Can be More Effective than Scaling Parameters for Reasoning — 正式会议记录",
+      "url": "https://proceedings.iclr.cc/paper_files/paper/2025/hash/1b623663fd9b874366f3ce019fdfdd44-Abstract-Conference.html",
+      "source_type": "会议官方出版记录",
+      "supports": [
+        "标题",
+        "作者",
+        "venue",
+        "正式发表状态"
+      ]
+    },
+    {
+      "id": "snell-2025-paper",
+      "title": "Scaling LLM Test-Time Compute Optimally Can be More Effective than Scaling Parameters for Reasoning — 论文原文",
+      "url": "https://proceedings.iclr.cc/paper_files/paper/2025/file/1b623663fd9b874366f3ce019fdfdd44-Paper-Conference.pdf",
+      "source_type": "正式论文PDF",
+      "supports": [
+        "方法",
+        "论文内结果",
+        "实验范围"
+      ]
+    },
+    {
+      "id": "tale-2025-record",
+      "title": "Token-Budget-Aware LLM Reasoning — 正式会议记录",
+      "url": "https://aclanthology.org/2025.findings-acl.1274/",
+      "source_type": "会议官方出版记录",
+      "supports": [
+        "标题",
+        "作者",
+        "venue",
+        "正式发表状态"
+      ]
+    },
+    {
+      "id": "tale-2025-paper",
+      "title": "Token-Budget-Aware LLM Reasoning — 论文原文",
+      "url": "https://aclanthology.org/2025.findings-acl.1274.pdf",
+      "source_type": "正式论文PDF",
+      "supports": [
+        "方法",
+        "论文内结果",
+        "实验范围"
+      ]
+    },
+    {
+      "id": "thinkless-2025-record",
+      "title": "Thinkless: LLM Learns When to Think — 正式会议记录",
+      "url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/de2ad3ed44ee4e675b3be42aa0b615d0-Abstract-Conference.html",
+      "source_type": "会议官方出版记录",
+      "supports": [
+        "标题",
+        "作者",
+        "venue",
+        "正式发表状态"
+      ]
+    },
+    {
+      "id": "thinkless-2025-paper",
+      "title": "Thinkless: LLM Learns When to Think — 论文原文",
+      "url": "https://proceedings.neurips.cc/paper_files/paper/2025/file/de2ad3ed44ee4e675b3be42aa0b615d0-Paper-Conference.pdf",
+      "source_type": "正式论文PDF",
+      "supports": [
+        "方法",
+        "论文内结果",
+        "实验范围"
+      ]
+    },
+    {
+      "id": "rpo-2026-record",
+      "title": "Efficiently Learning To Reason or Not to Reason: Root-token Policy Optimization for Adaptive Thinking — 正式会议记录",
+      "url": "https://aclanthology.org/2026.acl-long.816/",
+      "source_type": "会议官方出版记录",
+      "supports": [
+        "标题",
+        "作者",
+        "venue",
+        "正式发表状态"
+      ]
+    },
+    {
+      "id": "rpo-2026-paper",
+      "title": "Efficiently Learning To Reason or Not to Reason: Root-token Policy Optimization for Adaptive Thinking — 论文原文",
+      "url": "https://aclanthology.org/2026.acl-long.816.pdf",
+      "source_type": "正式论文PDF",
+      "supports": [
+        "方法",
+        "论文内结果",
+        "实验范围"
+      ]
+    },
+    {
+      "id": "mur-2026-record",
+      "title": "MUR: Momentum Uncertainty guided Reasoning for Large Language Models — 正式会议记录",
+      "url": "https://aclanthology.org/2026.acl-long.1058/",
+      "source_type": "会议官方出版记录",
+      "supports": [
+        "标题",
+        "作者",
+        "venue",
+        "正式发表状态"
+      ]
+    },
+    {
+      "id": "mur-2026-paper",
+      "title": "MUR: Momentum Uncertainty guided Reasoning for Large Language Models — 论文原文",
+      "url": "https://aclanthology.org/2026.acl-long.1058.pdf",
+      "source_type": "正式论文PDF",
+      "supports": [
+        "方法",
+        "论文内结果",
+        "实验范围"
+      ]
+    },
+    {
+      "id": "sat-2026-record",
+      "title": "SAT: Balancing Reasoning Accuracy and Efficiency with Stepwise Adaptive Thinking — 正式会议记录",
+      "url": "https://aclanthology.org/2026.acl-long.2009/",
+      "source_type": "会议官方出版记录",
+      "supports": [
+        "标题",
+        "作者",
+        "venue",
+        "正式发表状态"
+      ]
+    },
+    {
+      "id": "sat-2026-paper",
+      "title": "SAT: Balancing Reasoning Accuracy and Efficiency with Stepwise Adaptive Thinking — 论文原文",
+      "url": "https://aclanthology.org/2026.acl-long.2009.pdf",
+      "source_type": "正式论文PDF",
+      "supports": [
+        "方法",
+        "论文内结果",
+        "实验范围"
+      ]
+    },
+    {
+      "id": "leash-2026-record",
+      "title": "LEASH: Adaptive Length Penalty and Reward Shaping for Efficient Large Reasoning Model — 正式会议记录",
+      "url": "https://aclanthology.org/2026.acl-long.129/",
+      "source_type": "会议官方出版记录",
+      "supports": [
+        "标题",
+        "作者",
+        "venue",
+        "正式发表状态"
+      ]
+    },
+    {
+      "id": "leash-2026-paper",
+      "title": "LEASH: Adaptive Length Penalty and Reward Shaping for Efficient Large Reasoning Model — 论文原文",
+      "url": "https://aclanthology.org/2026.acl-long.129.pdf",
+      "source_type": "正式论文PDF",
+      "supports": [
+        "方法",
+        "论文内结果",
+        "实验范围"
+      ]
+    },
+    {
+      "id": "timely-2026-record",
+      "title": "Timely Machine: Awareness of Time Makes Test-Time Scaling Agentic — 正式会议记录",
+      "url": "https://aclanthology.org/2026.acl-long.211/",
+      "source_type": "会议官方出版记录",
+      "supports": [
+        "标题",
+        "作者",
+        "venue",
+        "正式发表状态"
+      ]
+    },
+    {
+      "id": "timely-2026-paper",
+      "title": "Timely Machine: Awareness of Time Makes Test-Time Scaling Agentic — 论文原文",
+      "url": "https://aclanthology.org/2026.acl-long.211.pdf",
+      "source_type": "正式论文PDF",
+      "supports": [
+        "方法",
+        "论文内结果",
+        "实验范围"
+      ]
+    }
+  ],
+  "reviewer_cautions": [
+    "RPO的root-token loss不意味着只训练一个token embedding；梯度可传到用于该决策的模型参数。",
+    "Thinkless摘要中长思考使用率的降幅不等于总token/延迟/费用降幅。",
+    "RPO约2%算力是指定8B、序列全长与数据设置的估算；不是匹配性能的端到端硬件实验。",
+    "MUR的平均负对数概率不是预测熵；其检测器选择额外scaling，并不是直接学习何时终止整条推理链。",
+    "LEASH的Avg.@32是采样准确率均值，不是只要32个样本任一个正确的pass@32。",
+    "Timely的On Time与ACC为不同指标；都应保留，不能以按时率冒充正确率。",
+    "所有通用局限/后续问题若未注明作者报告，均为基于机制的研究判断。"
+  ]
+}

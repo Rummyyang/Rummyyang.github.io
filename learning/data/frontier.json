@@ -1,0 +1,414 @@
+{
+  "title": "Adaptive Thinking：2026 年近期方法与研究空白",
+  "checked_at": "2026-10-14",
+  "scope": "选取六篇原始研究；其中三篇首次发表于 2026 年 8–9 月。这里是研究阅读建议，不是京东官方考点；用户延伸点均为研究设想，不代表用户已经完成。",
+  "freshness_note": "截至检查日，所核实的最新入选原始研究为 2026-09-30 的 Settle；未为了补足 10 月论文而纳入只调整训练算力、与推理时自适应无关的工作。",
+  "definition": {
+    "short": "Adaptive thinking 是策略根据当前问题或已经产生的推理证据，决定是否继续投入计算，以及把计算投到哪种动作上。",
+    "contrast": [
+      {
+        "kind": "统一强度 / 可控预算",
+        "example": "用户选 high，所有问题都获得较高的允许预算；模型能遵守这一档，但谁选档仍是用户或固定规则。",
+        "criterion": "改变预算会改变输出，不足以证明自主分配计算。"
+      },
+      {
+        "kind": "题目级自适应",
+        "example": "同一批请求中，模型对“2+3”直接回答，对带多个折扣与约束的题自行选较长推理。",
+        "criterion": "在相同总体预算下，按题分配应优于固定档位及其随机混合。"
+      },
+      {
+        "kind": "过程级自适应",
+        "example": "模型开始推导后发现两个条件冲突，再追加核验；若关键约束已满足则停止。",
+        "criterion": "动作随新获得的证据改变，而不只在开头预测一次长度。"
+      },
+      {
+        "kind": "多路径自适应",
+        "example": "先采两条解答；若分歧大且追加采样可能有用，则再采；若结论稳定则停止。",
+        "criterion": "比较总 token、并行轮数与实际延迟，不能只比较生成条数。"
+      }
+    ],
+    "not_equivalent": [
+      "输出更短 ≠ 计算分配更好：可能只是整体能力下降。",
+      "早停生成 ≠ 网络逐层 early exit：后者改变每个 token 的网络计算量。",
+      "使用 hidden state 作预算预测特征 ≠ 在潜空间完成整个推理。",
+      "不给用户显示推理文本 ≠ 未消耗内部推理计算。",
+      "self-consistency / 答案稳定 ≠ 答案正确。"
+    ]
+  },
+  "taxonomy": [
+    {
+      "level1": "开头选择计算策略",
+      "children": [
+        {
+          "name": "预算条件化",
+          "control": "外部指定档位，策略学习按档完成任务",
+          "sources": [
+            "orbit"
+          ]
+        },
+        {
+          "name": "内生选档",
+          "control": "主模型输出模式 token 并接收训练信号",
+          "sources": [
+            "learning_when",
+            "when2think"
+          ]
+        },
+        {
+          "name": "外部预测器",
+          "control": "从问题 / prefill 特征预测是否需要思考",
+          "sources": [
+            "sonata"
+          ]
+        }
+      ]
+    },
+    {
+      "level1": "执行过程中更新计算分配",
+      "children": [
+        {
+          "name": "单路径停止",
+          "control": "根据当前前缀选择继续还是结束思考",
+          "sources": [
+            "settle"
+          ]
+        },
+        {
+          "name": "多路径采样",
+          "control": "根据已采样答案分布决定再采多少条或停止",
+          "sources": [
+            "rl_controller"
+          ]
+        },
+        {
+          "name": "验证 / 工具 / 模型切换",
+          "control": "决定何时追加验证、检索、调用工具或更强模型；是相邻方向，本组论文未完整覆盖",
+          "sources": []
+        }
+      ]
+    }
+  ],
+  "orthogonal_axes": [
+    "决策者：主模型 / 外部控制器 / 固定规则。",
+    "学习对象：LLM 参数 / 小控制器 / 仅阈值校准。",
+    "反馈来源：正确性 verifier / 答案稳定性 / 人类偏好 / 实际延迟成本。",
+    "约束形式：硬上限 / 期望成本惩罚 / 单请求延迟上限 / 批量算力分配。"
+  ],
+  "papers": [
+    {
+      "id": "settle",
+      "title": "Settle: Learning When to Stop Reasoning",
+      "date_first": "2026-09-30",
+      "date_latest": "2026-09-30",
+      "version": "v1",
+      "status": "arXiv 预印本；未核实正式会议接收",
+      "urls": {
+        "abstract": "https://arxiv.org/abs/2609.38997",
+        "paper": "https://arxiv.org/html/2609.38997v1"
+      },
+      "position": "过程级 / 深度 / 训练主模型的停止行为；不是 RL",
+      "motivation": "已有前缀足以给出稳定答案后，继续推理可能只是重复；直接用截短轨迹 SFT 又可能破坏原模型。",
+      "method": "在完整轨迹的候选边界强制结束思考并读出答案，标记从此以后答案一直与终点等价的位置；训练原生 </think> 的停止概率，并在其他位置用参考分布正则保留原有生成行为。",
+      "result": {
+        "setup": "Qwen3-4B，MATH-500，16k 上限；3 次训练均值；准确率评估排除 2 道与训练重合的题，token 均值仍覆盖 500 题。",
+        "comparison": "Settle w=0.25、λ=0.2：自然准确率 93.61±0.24%，2355±62 tokens；无正则的 stability-truncated SFT：87.45±2.56%，2345±75 tokens。",
+        "interpretation": "近似相同生成成本下高 6.16 个百分点；这是与特定 SFT 基线比较，并非相对基础模型提高 6.16 点。",
+        "location": "§3.1、Table 1、Appendix A"
+      },
+      "limits": [
+        "稳定标签允许“稳定地答错”，不等价于 correctness reward。",
+        "离线轨迹上的后续稳定性，不能保证更新后策略的所有后续路径都稳定。",
+        "正则极其关键；去掉它的版本在文中出现严重退化。"
+      ],
+      "research_extension": "结合 SimpleOPD / Adaptive KL：在学生自己的前缀上构造停止标签，同时保持非停止 token 的分布；消融固定 KL、动态 KL 和截短 SFT，检查晚期纠错能力是否丢失。",
+      "user_paper_links": [
+        "simple_opd",
+        "adaptive_kl"
+      ],
+      "read_first": [
+        "候选边界如何采样、标签如何定义",
+        "Table 1 的同 token 对比",
+        "自然结束准确率与强制回答准确率的区别"
+      ]
+    },
+    {
+      "id": "when2think",
+      "title": "When2Think: Learning When and How Much to Reason",
+      "date_first": "2026-09-17",
+      "date_latest": "2026-09-28",
+      "version": "v2",
+      "status": "arXiv 预印本；未核实正式会议接收",
+      "urls": {
+        "abstract": "https://arxiv.org/abs/2609.19671",
+        "paper": "https://arxiv.org/html/2609.19671v2",
+        "code": "https://github.com/JJunShim/When2Think"
+      },
+      "position": "题目级模式选择 + Think 模式内长度控制 / RLVR",
+      "motivation": "只控制是否思考，或只统一惩罚长度，都难以适应不同题目所需的推理量。",
+      "method": "按 epoch 缓存参考模型每题的成功率和平均长度；正确回答才获得效率奖励，容易题的长 Think 轨迹衰减更快。配合 Think/NoThink 探索的重要性采样与跨题目的 advantage 标准化。",
+      "result": {
+        "setup": "R1-Distill-Qwen-1.5B，DeepScaleR 约 4 万题训练；Table 1 为 Pass@3、每条响应平均 token、5 次独立采样运行，非 5 个训练种子。",
+        "comparison": "AIME24：原模型 46.0±2.8% / 14195 tokens，When2Think 56.0±2.8% / 10236 tokens。GSM-Plus：79.4% / 590 → 85.7% / 1052。",
+        "interpretation": "AIME24 提升 10 个百分点并减少约 28% token；GSM-Plus 准确率提高但 token 增加，不能概括为处处更省。",
+        "location": "§4、§5、Table 1"
+      },
+      "limits": [
+        "参考统计有离线生成成本，且“难度”依赖参考模型。",
+        "该表是 Pass@3，不等于单次请求成功率。",
+        "去掉 IS 的消融仍强；IS 的作用包括改变质量—成本工作点，不能把收益全归于探索技巧。"
+      ],
+      "research_extension": "研究 OPD / quantization 后参考统计是否失配：冻结缓存、每 epoch 更新、在线校准三组比较；同时测困难题失败率与总训练 FLOPs。",
+      "user_paper_links": [
+        "simple_opd",
+        "adaptive_kl",
+        "quantization-reasoning"
+      ],
+      "read_first": [
+        "Eq. 4–8 与奖励的基线项",
+        "Table 1 的 Pass@3 口径",
+        "IS 与 BWS 消融"
+      ]
+    },
+    {
+      "id": "learning_when",
+      "title": "Learning When to Think: Adaptive Reasoning for Test-Time Compute Allocation",
+      "date_first": "2026-08-20",
+      "date_latest": "2026-08-21",
+      "version": "v2",
+      "status": "arXiv 预印本；未核实正式会议接收",
+      "urls": {
+        "abstract": "https://arxiv.org/abs/2608.20256",
+        "paper": "https://arxiv.org/html/2608.20256v2"
+      },
+      "position": "题目级 / 内生三档路由 / GRPO",
+      "motivation": "让模型自行选 NoThink、Short、Long 容易塌缩成单档，或者只输出短模式标签却仍长篇推理。",
+      "method": "首 token 选档；训练时给各档不同长度上限与正确奖励折扣，再加入模式平衡项、强制探索预热；组内优势只中心化、不除标准差。",
+      "result": {
+        "setup": "DeepSeek-R1-Distill-Qwen-1.5B，在 MATH 上训练，3 个种子；摘要与附录的 held-out MATH500 结果。",
+        "comparison": "平均准确率 79.6% → 78.2%，响应长度 4796 → 2811 tokens，约减少 41%。",
+        "interpretation": "节省成本同时损失 1.4 个百分点；文中另报告训练验证轨迹，不应将其不同基线数值混用。",
+        "location": "Abstract、§Experimental Results、Appendix"
+      },
+      "limits": [
+        "仅一个 1.5B 模型和数学训练分布；模式上限需随任务重新设定。",
+        "NoThink 在本文是尽快回答，允许少量推理。",
+        "训练有按模式长度上限，验证自由生成；文中明确指出这使短模式准确率略显乐观。"
+      ],
+      "research_extension": "用已有 SFT / OPD 初始化替代强制选档预热，测模式塌缩与困难题质量；加入固定档位、按概率随机混档、相同训练预算的统一策略作为公平基线。",
+      "user_paper_links": [
+        "simple_opd",
+        "shadow-ft",
+        "model-interpolation"
+      ],
+      "read_first": [
+        "奖励曲线与三档交叉点",
+        "平衡 correction 的适用条件",
+        "训练 caps 与评估自由生成的差异"
+      ]
+    },
+    {
+      "id": "rl_controller",
+      "title": "Small RL Controller, Large Language Model: RL-Guided Adaptive Sampling for Test-Time Scaling",
+      "date_first": "2026-06-02",
+      "date_latest": "2026-06-02",
+      "version": "v1",
+      "status": "arXiv 预印本；未核实正式会议接收",
+      "urls": {
+        "abstract": "https://arxiv.org/abs/2606.03102",
+        "paper": "https://arxiv.org/html/2606.03102v1"
+      },
+      "position": "过程级 / 多路径宽度 / 冻结 LLM，训练小控制器",
+      "motivation": "逐条自适应采样省总样本，却增加串行轮数；固定大批次并行又容易浪费。",
+      "method": "PPO 训练小 MLP，从已有答案计数、总采样数与熵选择停止或追加 1/2/4 条；奖励同时惩罚轮数和样本量，终点奖励模拟完整 32 条采样的多数答案。",
+      "result": {
+        "setup": "控制器在 200 道 DAPO 题训练；AIME24/25、HMMT25 测试；预生成候选池评估；Table 1。",
+        "comparison": "Qwen3-0.6B-Thinking / AIME24：SC@32 为准确率 22.6%、1 轮、32 条；RL-guided 为 22.6±0.06%、5.5 轮、21.9 条。",
+        "interpretation": "平均少约 32% 样本，但相对一次并行的 SC@32 需要更多轮；轮数是延迟代理，不能据此宣称实际端到端加速。",
+        "location": "§2、§3、Table 1"
+      },
+      "limits": [
+        "终点监督是与 32 条多数答案一致，而非必然与真值一致。",
+        "小控制器只看分布统计，难识别所有样本共享的系统性错误。",
+        "真实动态批处理、请求并发和答案聚类开销需另外测量。"
+      ],
+      "research_extension": "把控制器动作拓展为“继续当前路径 / 新开路径 / 调 verifier”；在同一 token 和实测 p95 延迟预算下联合分配深度、宽度与验证。",
+      "user_paper_links": [
+        "timber",
+        "quantization-reasoning"
+      ],
+      "read_first": [
+        "终点 reward 的目标究竟是什么",
+        "Table 1 的 rounds 与 samples",
+        "Appendix 的总 token / 串行 token 指标"
+      ]
+    },
+    {
+      "id": "orbit",
+      "title": "On-policy Exploration-Exploitation for Controllable Multi-Budget Reasoning",
+      "date_first": "2026-01-13",
+      "date_latest": "2026-04-16",
+      "version": "v2",
+      "status": "作者与学校主页列为 Findings of EMNLP 2026；arXiv 仍标 Preprint，本次未核实正式论文集条目",
+      "urls": {
+        "abstract": "https://arxiv.org/abs/2601.08310",
+        "paper": "https://arxiv.org/html/2601.08310v2",
+        "author_status": "https://jamydon.online/cv/",
+        "university_status": "https://cs.pku.edu.cn/info/1083/1705.htm"
+      },
+      "position": "外部可控多预算 / RL + 模型融合 + 多教师 OPD；并非完整自主路由",
+      "motivation": "一个模型需要支持多个推理预算，而各预算的最优策略不同，直接压缩可能损失长链能力。",
+      "method": "先用较大预算 RL 探索，再逐步缩小预算形成多档专家；融合初始化后，多教师 on-policy 蒸馏为一个按模式提示运行的模型。",
+      "result": {
+        "setup": "Qwen3-4B-2507-Thinking，Polaris-53K 训练；AIME24 使用 avg@32；Table 1。",
+        "comparison": "基础模型 AIME24 81.6% / 20.1k tokens；ORBIT xhigh 82.6% / 15.5k tokens。",
+        "interpretation": "约省 23% token，准确率高 1 个百分点；不能将 token 比例直接转成实际速度，且训练成本不同。",
+        "location": "§Method、Table 1"
+      },
+      "limits": [
+        "需要多阶段长推理 RL 与多个专家，离线成本不可忽略。",
+        "用户或系统仍须选择档位；有四档并不自动说明会按题选档。",
+        "重点是可验证任务，多档能力不保证跨域自主分配最优。"
+      ],
+      "research_extension": "直接连接用户的 Model Interpolation 与 SimpleOPD：比较融合初始化、单教师/多教师 OPD，再单独训练题目级 router；分开报告能力底座和路由增益。",
+      "user_paper_links": [
+        "model-interpolation",
+        "simple_opd"
+      ],
+      "read_first": [
+        "预算逐步压缩的课程",
+        "多教师 OPD 如何选择教师",
+        "模式融合与自主路由的区别"
+      ]
+    },
+    {
+      "id": "sonata",
+      "title": "Adaptive Thinking: Large Language Models Know When to Think in Latent Space",
+      "date_first": null,
+      "date_latest": null,
+      "version": "ICLR 2026 正式论文集版本",
+      "arxiv_note": "本次未定位到可核实的 arXiv 条目，因此不填写首次 / 最新 arXiv 日期；官方作者页面标注 April 2026。",
+      "status": "ICLR 2026 正式会议论文；已核实 proceedings",
+      "urls": {
+        "proceedings": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/96dd7b14cde7e0a5194eceedafb2f249-Abstract-Conference.html",
+        "paper": "https://proceedings.iclr.cc/paper_files/paper/2026/file/96dd7b14cde7e0a5194eceedafb2f249-Paper-Conference.pdf",
+        "author_page": "https://machinelearning.apple.com/research/adaptive-thinking",
+        "openreview": "https://openreview.net/forum?id=2i6Rp0gCq6"
+      },
+      "position": "题目级 / 外部小预测器 / prefill 特征；不是潜空间推理架构",
+      "motivation": "开始生成前判断是否值得思考，避免为了预测难度先花一大段推理。",
+      "method": "以非思考模式的离线自一致性作目标，训练两层 MLP 从 prefill 最后一层、最后一个 token 特征预测分数；Algorithm 2 用阈值选择 Think / NoThink。",
+      "result": {
+        "setup": "Qwen3-8B，1000 道 OpenMathReasoning 校准题，每题离线 32 次非思考采样；Pass@1，temperature 0.6 / top_p 0.95。",
+        "comparison": "正式版 Table 1 / GSM8K：95.2% / 1994 thinking tokens → 95.6% / 890。Table 2 / MATH500：B200、batch 1，平均延迟 32.1s → 23.5s。",
+        "interpretation": "一个明确任务上的质量—成本点与实际延迟点；两项来自不同数据集，不能拼成同一实验结果。",
+        "location": "Algorithm 2、Table 1、Table 2"
+      },
+      "limits": [
+        "预测器依赖特定基础模型；蒸馏、量化或换域后需重新检查校准。",
+        "公开版本存在数字表述差异：作者网页写 20–80% / up to 5%，正式摘要写 20–60% / up to 2%；正式正文的部分均值叙述也与 Table 1 不一致，引用具体表格单元格最稳妥。",
+        "Algorithm 2 主要是二元选档；不能仅凭标题称其支持任意连续预算。"
+      ],
+      "research_extension": "将量化前后 hidden-state 校准误差、路由错误与最终准确率联动分析；比较只重校准小 MLP 与重训主模型，得到部署成本更低的方案。",
+      "user_paper_links": [
+        "quantization-reasoning",
+        "ptqtp",
+        "adaptive_kl"
+      ],
+      "read_first": [
+        "Algorithm 2：实际动作是二元选择",
+        "Table 1 的具体任务而非摘要范围",
+        "Table 2 的 batch / GPU 测量条件"
+      ]
+    }
+  ],
+  "formula_notes": [
+    {
+      "source": "settle",
+      "formula": "y_j = ∏_{k=j}^K E(a_k,a_T)",
+      "meaning": "只有从该候选边界起所有后续读出都与终点答案等价才标为稳定；E 是答案等价性，不是正确性。",
+      "guardrail": "这些标签来自保存的完整轨迹，未证明对未来策略的所有采样续写成立。"
+    },
+    {
+      "source": "when2think",
+      "formula": "α_i = 0.9·success_ref(i)+ε；τ_i = mean_length_ref(i)+ε；λ_Think = exp(−L α_i / τ_i)，λ_NoThink = 1；r = V·(1+δλ)−α_i",
+      "meaning": "易题在同相对长度下奖励衰减更强；长度奖励只给正确回答。",
+      "guardrail": "α_i 是模型相对的参考成功率；奖励中 action-independent baseline 与跨题标准化的共同作用，不能简化为“每题 GRPO 减去难度”。"
+    },
+    {
+      "source": "learning_when",
+      "formula": "correct reward = b_mode·γ_mode^L（长模式使用常数）；advantage 另加模式平衡 correction",
+      "meaning": "不同长度区间偏好不同模式；硬 cap 保证标签和行为关联。",
+      "guardrail": "平衡 correction 改变优化信号；不宜声称仍是原始正确性目标的无偏梯度。"
+    },
+    {
+      "source": "rl_controller",
+      "formula": "r_step = −λ_latency − λ_compute·a；terminal reward rewards agreement with full-budget majority",
+      "meaning": "选择多采 a 条需要承担轮数和样本数成本。",
+      "guardrail": "这是有限预算多数票的代理目标，不是显式优化真实答案正确率；λ 的选择也不保证逐请求延迟约束。"
+    }
+  ],
+  "open_questions": [
+    {
+      "question": "难度、置信度与额外计算的价值能否分开？",
+      "why": "低置信可能来自缺知识，追加推理并不能解决；高置信也可能稳定地错。",
+      "test": "用同题不同计算动作的反事实采样估计 Δquality / Δcost，比较 difficulty router 与 value-of-computation router。"
+    },
+    {
+      "question": "停止监督怎样保护晚期纠错？",
+      "why": "短前缀当前答案正确不代表已经安全停止，答案稳定也不代表正确。",
+      "test": "单列早答正确后变错、早答错后纠正、始终错误三种轨迹；以困难题恢复率作为约束。"
+    },
+    {
+      "question": "蒸馏 / 量化之后控制器是否失配？",
+      "why": "策略、hidden state 与答案分布都改变，旧难度缓存或阈值可能不再可靠。",
+      "test": "冻结控制器、仅重校准、联合后训练三组比较；报告适应成本和 OOD 风险。"
+    },
+    {
+      "question": "深度、宽度、验证如何联合分配？",
+      "why": "同样预算可继续一条链、另开一条链或验证已有答案，这三种动作的边际收益不同。",
+      "test": "在总 token、GPU 时间与 p95 延迟约束下，比较联合控制器与各旋钮独立调优。"
+    },
+    {
+      "question": "收益是否覆盖了离线成本？",
+      "why": "参考采样、候选读出、多专家 RL 都可能比节省的线上成本更贵。",
+      "test": "报告训练 / 标注总成本、单请求节省成本及达到盈亏平衡所需请求数。"
+    },
+    {
+      "question": "预算公平性与数据泄漏如何排除？",
+      "why": "仅对比原模型或平均 tokens，不能隔离后训练收益与路由收益。",
+      "test": "固定能力底座、训练成本和解码设置；比较固定档位 Pareto、随机混档、同训练预算基线；严格分离训练 / 阈值选择 / 测试题。"
+    }
+  ],
+  "reading_order": [
+    {
+      "priority": 1,
+      "ids": [
+        "settle",
+        "when2think"
+      ],
+      "reason": "先看 9 月最新的停止监督与按题 RL；与 OPD、Adaptive KL 的连接最直接。"
+    },
+    {
+      "priority": 2,
+      "ids": [
+        "learning_when",
+        "orbit"
+      ],
+      "reason": "分清模型自主选档与外部多档控制，再看初始化、融合与蒸馏如何影响路由。"
+    },
+    {
+      "priority": 3,
+      "ids": [
+        "rl_controller",
+        "sonata"
+      ],
+      "reason": "补齐多路径采样和低成本外部预测器；建立系统预算与实际延迟视角。"
+    }
+  ],
+  "editorial_cautions": [
+    "不要把预印本写成顶会正式成果。",
+    "ORBIT 的会议状态目前只有作者 / 学校主页证据，应与已核实 proceedings 的 Sonata 区别标记。",
+    "以上统计不是跨论文排行榜：数据、模型、解码、Pass@k 与成本单位不同。",
+    "每篇事实摘要均为独立改写；延伸实验是本综述提出的研究建议。"
+  ]
+}
