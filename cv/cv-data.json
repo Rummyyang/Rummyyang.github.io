@@ -468,18 +468,18 @@
       "institution": "The University of Hong Kong",
       "role": "Ph.D. Research",
       "dates": "Ongoing",
-      "summary": "Investigating how CoT data and policy distillation affect subsequent reinforcement learning, with a reproducible pipeline comparing FKL/RKL initialization and analyzing reward signals and computational cost. Initial results on a synthetic three-number arithmetic task with Qwen3-1.7B show 42.6% mean answer accuracy across three seeds for FKL distillation followed by RL, versus 21.0% for direct RL; generation-budget controls and mechanism analysis are ongoing.",
+      "summary": "Investigating how CoT data and policy distillation affect subsequent reinforcement learning, with a reproducible pipeline comparing FKL/RKL initialization and analyzing reward signals and computational cost. Observed 42.6% mean answer accuracy across three seeds for FKL distillation followed by RL on a controlled arithmetic task with Qwen3-1.7B, versus 21.0% for direct RL; analyzing effective training signals and computational cost to pursue more reliable reasoning gains under limited compute budgets.",
       "title_zh": "面向推理模型后训练的 CoT 数据与策略蒸馏研究",
       "institution_zh": "香港大学",
       "role_zh": "博士阶段研究",
       "dates_zh": "进行中",
       "bullets": [
         "Investigating how CoT data and policy distillation affect subsequent reinforcement learning, with a reproducible pipeline comparing FKL/RKL initialization and analyzing reward signals and computational cost.",
-        "Initial results on a synthetic three-number arithmetic task with Qwen3-1.7B show 42.6% mean answer accuracy across three seeds for FKL distillation followed by RL, versus 21.0% for direct RL; generation-budget controls and mechanism analysis are ongoing."
+        "Observed 42.6% mean answer accuracy across three seeds for FKL distillation followed by RL on a controlled arithmetic task with Qwen3-1.7B, versus 21.0% for direct RL; analyzing effective training signals and computational cost to pursue more reliable reasoning gains under limited compute budgets."
       ],
       "bullets_zh": [
         "研究 CoT 数据与策略蒸馏对后续强化学习的影响，构建可复现实验流程，对比 FKL/RKL 蒸馏初始化，分析奖励信号与计算成本。",
-        "初步 Qwen3-1.7B 自构造三数算术实验中，FKL 蒸馏后 RL 的三随机种子平均答案正确率为 42.6%，高于直接 RL 的 21.0%；正在开展等生成预算对照与机制分析。"
+        "在三个随机种子的 Qwen3-1.7B 受控算术实验中，观察到 FKL 蒸馏后 RL 的平均答案正确率为 42.6%（直接 RL 为 21.0%）；分析有效训练信号与计算成本，探索在有限计算预算下获得更稳定的推理性能提升。"
       ],
       "framing_status": "Ongoing research; preliminary three-seed mean answer accuracy on a synthetic three-number arithmetic task. FKL-to-RL uses an additional distillation stage; not an equal-total-compute advantage, a validated novel data-selection method, or standard-benchmark generalization. Frozen original results are distinct from later dynamic-sampling experiments."
     }
