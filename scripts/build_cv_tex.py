@@ -92,7 +92,7 @@ def render(lang):
     def papers(kind):
         rows = [r for r in DATA['publications'] if r['type'] == kind]
         label = ('已发表论文 / Publications' if kind == 'publication' else r'预印本与投稿论文 / Preprints \& Submissions') if zh else ('PUBLICATIONS' if kind == 'publication' else 'PREPRINTS AND SUBMITTED MANUSCRIPTS')
-        out = [r'\begin{rSection}{' + label + r'}\small\raggedright']
+        out = [r'\begin{rSection}{' + label + (r'}\linespread{1.05}\fontsize{10}{12}\selectfont\raggedright' if zh else r'}\small\raggedright')]
         out.append(r'\textsuperscript{*} 共同第一作者。' if zh else r'\textsuperscript{*} Equal contribution.')
         out.append(r'\begin{enumerate}[label={' + (r'[\arabic*]' if kind == 'publication' else r'[P\arabic*]') + '}]')
         for row in rows:
@@ -124,7 +124,6 @@ def render(lang):
         out.append(r'\end{enumerate}\end{rSection}\normalsize')
         return out
 
-    lines.extend(papers('publication'))
     lines.append(r'\begin{rSection}{' + ('科研实习 / Research Internship' if zh else 'RESEARCH INTERNSHIP') + '}')
     for row in DATA['experience']:
         if zh:
@@ -135,7 +134,6 @@ def render(lang):
         lines.extend(r'\item ' + tex(b) for b in choose(row, 'bullets'))
         lines.append(r'\end{itemize}')
     lines.append(r'\end{rSection}')
-    lines.append(r'\newpage\vspace*{12pt}')
     lines.append(r'\begin{rSection}{' + ('在研项目 / Ongoing Research' if zh else 'ONGOING RESEARCH') + '}')
     for row in DATA['current_research']:
         lines.append(r'\textbf{' + tex(choose(row, 'title')) + r'}\hfill ' + tex(choose(row, 'dates')) + r'\\')
@@ -144,6 +142,8 @@ def render(lang):
         lines.extend(r'\item ' + tex(b) for b in choose(row, 'bullets'))
         lines.append(r'\end{itemize}')
     lines.append(r'\end{rSection}')
+    lines.append(r'\newpage')
+    lines.extend(papers('publication'))
     lines.extend(papers('preprint'))
     lines.append(r'\par\vspace{2pt}{\parfillskip=0pt\noindent\rule{\linewidth}{0.4pt}\par}')
     lines.append(r'\begin{center}\footnotesize ' + ('更新日期：' if zh else 'Last updated: ') + DATA['updated'][:7].replace('-', '.') + r'\end{center}')

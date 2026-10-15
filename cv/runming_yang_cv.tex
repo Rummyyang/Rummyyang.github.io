@@ -46,7 +46,25 @@ ECE PhD 在读\quad |\quad 导师：\href{https://scholar.google.com/citations?u
 人工智能与自动化工学\hspace{0.35em}学士\quad |\quad 理工交叉创新实验班
 
 \end{rSection}
-\begin{rSection}{已发表论文 / Publications}\small\raggedright
+\begin{rSection}{科研实习 / Research Internship}
+\textbf{腾讯 AI Lab}\quad 科研实习生，信息安全部门\hfill 2023.11 - 2025.06
+\begin{itemize}
+\item 面向 QQ 群聊、空间及短视频评论等场景的图文内容审核，开展多模态数据合成、模型后训练与测评。
+\item 分级部署模型并推理加速，训练模型已在内部风控系统上线，相较前代方案提升吞吐率并降低误杀率。
+\item 研究大小模型协作、数据蒸馏与模型轻量化，产出两篇学术论文（Shadow-FT 和 LLM-NEO）及一项公司专利。
+\end{itemize}
+\end{rSection}
+\begin{rSection}{在研项目 / Ongoing Research}
+\textbf{面向推理模型后训练的 CoT 数据与策略蒸馏研究}\hfill 进行中\\
+香港大学\quad |\quad 博士阶段研究
+\begin{itemize}
+\item OPD→RL 实验：在学生生成轨迹上进行教师分布监督，研究 On-policy Distillation（OPD）对后续 RL 的影响，分析训练信号与计算成本。
+\item 对应初步结果：三个随机种子的 Qwen3-1.7B 受控算术实验中，OPD 后 RL 的平均答案正确率为 40.5\%（直接 RL 为 21.0\%）；增加采样预算的单随机种子实验由 39.65\% 提升至 49.22\%。
+\item 独立机制探索（待验证）：研究残留错误状态的选择性分布约束，检验其能否在保留正确推理分支的同时减少错误回访，并探索向 OPD、RL 与 Adaptive Thinking 的迁移。
+\end{itemize}
+\end{rSection}
+\newpage
+\begin{rSection}{已发表论文 / Publications}\linespread{1.05}\fontsize{10}{12}\selectfont\raggedright
 \textsuperscript{*} 共同第一作者。
 \begin{enumerate}[label={[\arabic*]}]
 \item\begin{samepage} T. Wu\textsuperscript{*}, \textbf{R. Yang}\textsuperscript{*}, T. Liu, J. Wang, N. Wong. \textit{Revisiting Model Interpolation for Efficient Reasoning.} \venuebadge{ACL 2026 (Main)} \href{https://aclanthology.org/2026.acl-long.389/}{[Paper]} \href{https://github.com/wutaiqiang/MI}{[Code]}\\[1pt]{\textcolor{summarytext}{通过快慢思考模型插值，无需训练即可缩短推理链。}}\par\end{samepage}
@@ -56,25 +74,7 @@ ECE PhD 在读\quad |\quad 导师：\href{https://scholar.google.com/citations?u
 \item\begin{samepage} T. Wu, C. Tao, J. Wang, \textbf{R. Yang}, Z. Zhao, N. Wong. \textit{Rethinking Kullback-Leibler Divergence in Knowledge Distillation for Large Language Models.} \venuebadge{COLING 2025 (Oral)} \href{https://aclanthology.org/2025.coling-main.383/}{[Paper]} \href{https://github.com/wutaiqiang/LLM_KD_AKL}{[Code]}\\[1pt]{\textcolor{summarytext}{分析正向与反向 KL 的差异，提出自适应蒸馏目标。}}\par\end{samepage}
 \item\begin{samepage} \textbf{R. Yang}, T. Wu, Y. Yang. \textit{LoCa: Logit Calibration for Knowledge Distillation.} \venuebadge{ECAI 2024} \href{https://doi.org/10.3233/FAIA240767}{[Paper]}\\[1pt]{\textcolor{summarytext}{校准教师在误分类样本上的 logits，改善知识蒸馏。}}\par\end{samepage}
 \end{enumerate}\end{rSection}\normalsize
-\begin{rSection}{科研实习 / Research Internship}
-\textbf{腾讯 AI Lab}\quad 科研实习生，信息安全部门\hfill 2023.11 - 2025.06
-\begin{itemize}
-\item 面向 QQ 群聊、空间及短视频评论等场景的图文内容审核，开展多模态数据合成、模型后训练与测评。
-\item 分级部署模型并推理加速，训练模型已在内部风控系统上线，相较前代方案提升吞吐率并降低误杀率。
-\item 研究大小模型协作、数据蒸馏与模型轻量化，产出两篇学术论文（Shadow-FT 和 LLM-NEO）及一项公司专利。
-\end{itemize}
-\end{rSection}
-\newpage\vspace*{12pt}
-\begin{rSection}{在研项目 / Ongoing Research}
-\textbf{面向推理模型后训练的 CoT 数据与策略蒸馏研究}\hfill 进行中\\
-香港大学\quad |\quad 博士阶段研究
-\begin{itemize}
-\item 研究 CoT 数据与 On-policy Distillation（OPD）对后续 RL 的影响，在学生生成轨迹上进行教师分布监督，分析训练信号与计算成本。
-\item 在三个随机种子的 Qwen3-1.7B 受控算术实验中，OPD 后 RL 的平均答案正确率为 40.5\%（直接 RL 为 21.0\%）；增加采样预算的单随机种子动态筛选实验由 39.65\% 提升至 49.22\%。
-\item 探索纠错后残留错误的状态覆盖能否减少错误回访、提升正确答案保持率，通过等监督 token 对照检验该假设，面向有限预算下的稳定推理。
-\end{itemize}
-\end{rSection}
-\begin{rSection}{预印本与投稿论文 / Preprints \& Submissions}\small\raggedright
+\begin{rSection}{预印本与投稿论文 / Preprints \& Submissions}\linespread{1.05}\fontsize{10}{12}\selectfont\raggedright
 \textsuperscript{*} 共同第一作者。
 \begin{enumerate}[label={[P\arabic*]}]
 \item\begin{samepage} \textbf{R. Yang}\textsuperscript{*}, T. Wu\textsuperscript{*}, J. Li, P. Hu, Y.-C. Wu, N. Wong, Y. Yang. \textit{Shadow-FT: Tuning Instruct Model via Training on Paired Base Model.} \submissionbadge{Submitted to NAACL 2027} \href{https://arxiv.org/abs/2505.12716}{[arXiv]} \href{https://github.com/wutaiqiang/Shadow-FT}{[Code]}\\[1pt]{\textcolor{summarytext}{将基础模型的微调更新迁移至配对的指令模型。}}\par\end{samepage}

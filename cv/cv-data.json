@@ -470,22 +470,22 @@
       "institution": "The University of Hong Kong",
       "role": "Ph.D. Research",
       "dates": "Ongoing",
-      "summary": "Investigating CoT data and on-policy distillation (OPD) for subsequent RL, with teacher-distribution supervision on student-generated trajectories and analysis of training signals and computational cost. Observed 40.5% mean answer accuracy across three seeds for OPD followed by RL on a controlled arithmetic task with Qwen3-1.7B, versus 21.0% for direct RL. A single-seed dynamic-sampling experiment with a larger sampling budget improved accuracy from 39.65% to 49.22%. Testing whether exposure to residual-error states after correction reduces error recurrence and preserves correct answers, using matched supervised-token budgets toward more reliable reasoning under limited compute.",
+      "summary": "OPD-to-RL experiments: studying teacher-distribution supervision on student-generated trajectories as preparation for RL, with analysis of training signals and computational cost. Preliminary results in this setting: Qwen3-1.7B achieved 40.5% mean answer accuracy across three seeds on controlled arithmetic, versus 21.0% for direct RL. A separate single-seed experiment with a larger sampling budget improved accuracy from 39.65% to 49.22%. Separate mechanistic hypotheses (under investigation): exploring selective distribution constraints on residual-error states to reduce error recurrence while preserving correct reasoning branches, with potential applications to OPD, RL, and adaptive thinking.",
       "title_zh": "面向推理模型后训练的 CoT 数据与策略蒸馏研究",
       "institution_zh": "香港大学",
       "role_zh": "博士阶段研究",
       "dates_zh": "进行中",
       "bullets": [
-        "Investigating CoT data and on-policy distillation (OPD) for subsequent RL, with teacher-distribution supervision on student-generated trajectories and analysis of training signals and computational cost.",
-        "Observed 40.5% mean answer accuracy across three seeds for OPD followed by RL on a controlled arithmetic task with Qwen3-1.7B, versus 21.0% for direct RL. A single-seed dynamic-sampling experiment with a larger sampling budget improved accuracy from 39.65% to 49.22%.",
-        "Testing whether exposure to residual-error states after correction reduces error recurrence and preserves correct answers, using matched supervised-token budgets toward more reliable reasoning under limited compute."
+        "OPD-to-RL experiments: studying teacher-distribution supervision on student-generated trajectories as preparation for RL, with analysis of training signals and computational cost.",
+        "Preliminary results in this setting: Qwen3-1.7B achieved 40.5% mean answer accuracy across three seeds on controlled arithmetic, versus 21.0% for direct RL. A separate single-seed experiment with a larger sampling budget improved accuracy from 39.65% to 49.22%.",
+        "Separate mechanistic hypotheses (under investigation): exploring selective distribution constraints on residual-error states to reduce error recurrence while preserving correct reasoning branches, with potential applications to OPD, RL, and adaptive thinking."
       ],
       "bullets_zh": [
-        "研究 CoT 数据与 On-policy Distillation（OPD）对后续 RL 的影响，在学生生成轨迹上进行教师分布监督，分析训练信号与计算成本。",
-        "在三个随机种子的 Qwen3-1.7B 受控算术实验中，OPD 后 RL 的平均答案正确率为 40.5%（直接 RL 为 21.0%）；增加采样预算的单随机种子动态筛选实验由 39.65% 提升至 49.22%。",
-        "探索纠错后残留错误的状态覆盖能否减少错误回访、提升正确答案保持率，通过等监督 token 对照检验该假设，面向有限预算下的稳定推理。"
+        "OPD→RL 实验：在学生生成轨迹上进行教师分布监督，研究 On-policy Distillation（OPD）对后续 RL 的影响，分析训练信号与计算成本。",
+        "对应初步结果：三个随机种子的 Qwen3-1.7B 受控算术实验中，OPD 后 RL 的平均答案正确率为 40.5%（直接 RL 为 21.0%）；增加采样预算的单随机种子实验由 39.65% 提升至 49.22%。",
+        "独立机制探索（待验证）：研究残留错误状态的选择性分布约束，检验其能否在保留正确推理分支的同时减少错误回访，并探索向 OPD、RL 与 Adaptive Thinking 的迁移。"
       ],
-      "framing_status": "Ongoing research. RKL-to-RL three-seed mean 40.52734375% versus direct RL20.96354167% on synthetic three-number arithmetic; additional KD stage not equal total compute. Separate single-seed dynamic-sampling result406/1024 to504/1024 (39.65% to49.22%) uses8.03x generated tokens versus vanilla128, not independent screening benefit. Cost-matched control did not establish a dynamic-sampling advantage; no novel method or standard-benchmark generalization claim. Public wording uses OPD as the framework; measured implementation remains full-vocabulary conditional RKL on student prefixes. Residual-error-state coverage is an ongoing hypothesis, not an established gain; matched supervision does not imply equal input tokens or total FLOPs."
+      "framing_status": "Ongoing research. RKL-to-RL three-seed mean 40.52734375% versus direct RL20.96354167% on synthetic three-number arithmetic; additional KD stage not equal total compute. Separate single-seed dynamic-sampling result406/1024 to504/1024 (39.65% to49.22%) uses8.03x generated tokens versus vanilla128, not independent screening benefit. Cost-matched control did not establish a dynamic-sampling advantage; no novel method or standard-benchmark generalization claim. Public wording uses OPD as the framework; measured implementation remains full-vocabulary conditional RKL on student prefixes. Residual-error-state coverage is an ongoing hypothesis, not an established gain; matched supervision does not imply equal input tokens or total FLOPs. The first two bullets describe the same OPD-to-RL controlled experiment; the third is a separate unvalidated mechanistic hypothesis, including potential transfer to adaptive thinking. No training benefit from this hypothesis has been established."
     }
   ],
   "cv_languages": {

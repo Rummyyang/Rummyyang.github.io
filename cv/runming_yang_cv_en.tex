@@ -45,6 +45,24 @@ M.Eng. in Big Data Engineering\quad |\quad Advisor: \href{https://scholar.google
 B.Eng. in AI and Automation\quad |\quad Science and Engineering Cross-Innovation Experimental Class
 
 \end{rSection}
+\begin{rSection}{RESEARCH INTERNSHIP}
+\textbf{Tencent AI Lab}\hfill Nov. 2023 - Jun. 2025\\Research Intern, Information Security Department
+\begin{itemize}
+\item Synthesized multimodal data and conducted model post-training and evaluation for image-text content moderation in QQ group chats, Qzone, and short-video comments.
+\item Deployed models in tiers and accelerated inference; trained models were deployed in internal risk-control systems, improving throughput and reducing false-positive rates over the previous solution.
+\item Researched large/small model collaboration, data distillation, and lightweight modeling; contributed to two academic papers (Shadow-FT and LLM-NEO) and one company patent.
+\end{itemize}
+\end{rSection}
+\begin{rSection}{ONGOING RESEARCH}
+\textbf{CoT Data and Policy Distillation for Reasoning Model Post-Training}\hfill Ongoing\\
+The University of Hong Kong\quad |\quad Ph.D. Research
+\begin{itemize}
+\item OPD-to-RL experiments: studying teacher-distribution supervision on student-generated trajectories as preparation for RL, with analysis of training signals and computational cost.
+\item Preliminary results in this setting: Qwen3-1.7B achieved 40.5\% mean answer accuracy across three seeds on controlled arithmetic, versus 21.0\% for direct RL. A separate single-seed experiment with a larger sampling budget improved accuracy from 39.65\% to 49.22\%.
+\item Separate mechanistic hypotheses (under investigation): exploring selective distribution constraints on residual-error states to reduce error recurrence while preserving correct reasoning branches, with potential applications to OPD, RL, and adaptive thinking.
+\end{itemize}
+\end{rSection}
+\newpage
 \begin{rSection}{PUBLICATIONS}\small\raggedright
 \textsuperscript{*} Equal contribution.
 \begin{enumerate}[label={[\arabic*]}]
@@ -55,24 +73,6 @@ B.Eng. in AI and Automation\quad |\quad Science and Engineering Cross-Innovation
 \item\begin{samepage} T. Wu, C. Tao, J. Wang, \textbf{R. Yang}, Z. Zhao, N. Wong. \textit{Rethinking Kullback-Leibler Divergence in Knowledge Distillation for Large Language Models.} \venuebadge{COLING 2025 (Oral)} \href{https://aclanthology.org/2025.coling-main.383/}{[Paper]} \href{https://github.com/wutaiqiang/LLM_KD_AKL}{[Code]}\\[1pt]{\textcolor{summarytext}{Compares forward and reverse KL divergence for LLM distillation and introduces Adaptive KL.}}\par\end{samepage}
 \item\begin{samepage} \textbf{R. Yang}, T. Wu, Y. Yang. \textit{LoCa: Logit Calibration for Knowledge Distillation.} \venuebadge{ECAI 2024} \href{https://doi.org/10.3233/FAIA240767}{[Paper]}\\[1pt]{\textcolor{summarytext}{Calibrates teacher logits for misclassified samples during knowledge distillation.}}\par\end{samepage}
 \end{enumerate}\end{rSection}\normalsize
-\begin{rSection}{RESEARCH INTERNSHIP}
-\textbf{Tencent AI Lab}\hfill Nov. 2023 - Jun. 2025\\Research Intern, Information Security Department
-\begin{itemize}
-\item Synthesized multimodal data and conducted model post-training and evaluation for image-text content moderation in QQ group chats, Qzone, and short-video comments.
-\item Deployed models in tiers and accelerated inference; trained models were deployed in internal risk-control systems, improving throughput and reducing false-positive rates over the previous solution.
-\item Researched large/small model collaboration, data distillation, and lightweight modeling; contributed to two academic papers (Shadow-FT and LLM-NEO) and one company patent.
-\end{itemize}
-\end{rSection}
-\newpage\vspace*{12pt}
-\begin{rSection}{ONGOING RESEARCH}
-\textbf{CoT Data and Policy Distillation for Reasoning Model Post-Training}\hfill Ongoing\\
-The University of Hong Kong\quad |\quad Ph.D. Research
-\begin{itemize}
-\item Investigating CoT data and on-policy distillation (OPD) for subsequent RL, with teacher-distribution supervision on student-generated trajectories and analysis of training signals and computational cost.
-\item Observed 40.5\% mean answer accuracy across three seeds for OPD followed by RL on a controlled arithmetic task with Qwen3-1.7B, versus 21.0\% for direct RL. A single-seed dynamic-sampling experiment with a larger sampling budget improved accuracy from 39.65\% to 49.22\%.
-\item Testing whether exposure to residual-error states after correction reduces error recurrence and preserves correct answers, using matched supervised-token budgets toward more reliable reasoning under limited compute.
-\end{itemize}
-\end{rSection}
 \begin{rSection}{PREPRINTS AND SUBMITTED MANUSCRIPTS}\small\raggedright
 \textsuperscript{*} Equal contribution.
 \begin{enumerate}[label={[P\arabic*]}]
