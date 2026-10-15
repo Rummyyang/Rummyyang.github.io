@@ -21,9 +21,12 @@ def h(label, id):
 
 parts = [start_marker, h("Biography", "Biography"), '<p>I am a Ph.D. student in Electrical and Electronic Engineering at the University of Hong Kong, supervised by '+a('https://scholar.google.com/citations?user=PM_uMYIAAAAJ&hl=en', 'Prof. Ngai Wong')+'. I received my M.Eng. in Big Data Engineering from Tsinghua University in 2025, advised by '+a('https://scholar.google.com/citations?user=4gH3sxsAAAAJ&hl=en','Prof. Yujiu Yang')+', and my B.Eng. from Huazhong University of Science and Technology in 2021.</p>', '<p><strong>'+a('/cv/runming_yang_cv_zh.pdf', '中文学术简历（PDF）')+'</strong> &nbsp; · &nbsp; '+a('/cv/runming_yang_cv_en.pdf', 'English CV (PDF)')+'</p>', h('Research Interests','Research-Interests'), '<p>'+escape('; '.join(data['interests']))+'. My work explores model compression and efficient reasoning in large language models.</p>', h('Publications','Publications'), '<p>Selected published and accepted papers. '+a('/cv/runming_yang_cv_zh.pdf', 'Full publications and preprints (Chinese PDF)')+'.</p>', '<p><small>* indicates equal contribution.</small></p>', '<ul>']
 for p in [x for x in data['publications'] if x['type']=='publication']:
-    title = a(p['paper_url'],p['title']) if p.get('paper_url') else escape(p['title'])
+    paper_url = p.get('paper_url')
+    if not paper_url or paper_url.startswith('https://arxiv.org/'):
+        paper_url = ('https://arxiv.org/abs/'+p['arxiv_id']) if p.get('arxiv_id') else paper_url
+    title = a(paper_url,p['title']) if paper_url else escape(p['title'])
     authors = escape(p['authors']).replace('Runming Yang', '<strong>Runming Yang</strong>').replace('R. Yang', '<strong>R. Yang</strong>')
-    parts.append('<li><p>'+title+'<br><small>'+authors+'. <strong style="display: inline; color: #324656; background: #ebf1f5; padding: 1px 4px">'+escape(p['venue'])+'</strong> '+(a('https://arxiv.org/abs/'+p['arxiv_id'], '[arXiv]') if p.get('arxiv_id') else '')+'</small></p></li>')
+    parts.append('<li><p>'+title+'<br><small>'+authors+'. <strong style="display: inline; color: #324656; background: #ebf1f5; padding: 1px 4px">'+escape(p['venue'])+'</strong> '+(a(paper_url, '[Paper]') if paper_url else '')+'</small></p></li>')
 parts += ['</ul>', h('Industry Experience','Internship')]
 for e in data['experience']:
     parts.append('<p><strong>'+escape(e['organization'])+'</strong> — '+escape(e['title'])+'<br>'+escape(e['dates'])+'</p>')

@@ -105,10 +105,17 @@ def render(lang):
             elif arxiv_url and row['venue'].startswith('arXiv:'):
                 venue = ''
             link_items = []
-            if row.get('paper_url') and (not arxiv_url or not row['paper_url'].startswith('https://arxiv.org/')):
-                link_items.append(href(row['paper_url'], '[Paper]'))
-            if arxiv_url:
-                link_items.append(href(arxiv_url, '[arXiv]'))
+            if kind == 'publication':
+                paper_url = row.get('paper_url')
+                if not paper_url or paper_url.startswith('https://arxiv.org/'):
+                    paper_url = arxiv_url or paper_url
+                if paper_url:
+                    link_items.append(href(paper_url, '[Paper]'))
+            else:
+                if row.get('paper_url') and (not arxiv_url or not row['paper_url'].startswith('https://arxiv.org/')):
+                    link_items.append(href(row['paper_url'], '[Paper]'))
+                if arxiv_url:
+                    link_items.append(href(arxiv_url, '[arXiv]'))
             link_items.extend(href(row[key], '[' + name + ']') for key, name in [('code_url', 'Code'), ('project_url', 'Project')] if row.get(key))
             links = ' '.join(link_items)
             entry = authors(row.get('authors_short', row['authors'])) + '. ' + r'\textit{' + tex(row['title']) + '.} ' + venue + ' ' + links

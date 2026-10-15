@@ -207,7 +207,7 @@
       "status": "Published",
       "type": "publication",
       "year": 2024,
-      "paper_url": "https://arxiv.org/abs/2409.04778",
+      "paper_url": "https://doi.org/10.3233/FAIA240767",
       "summary": "Calibrates teacher logits for misclassified samples during knowledge distillation.",
       "authors_short": "R. Yang, T. Wu, Y. Yang",
       "arxiv_id": "2409.04778",
@@ -242,24 +242,24 @@
       "venue_zh": "Submitted to NAACL 2027"
     },
     {
-      "id": "fluxbin",
-      "title": "FluxBin: Flexible LUT-based Ultra-low-bit LLM Inference by Algorithm-Kernel Synergy",
-      "authors": "Qingyao Yang, Runming Yang, He Xiao, Wendong Xu, Junyu Chen, Haobo Liu, Chenchen Ding, Ruihan Hu, Yik-Chung Wu, Ngai Wong",
-      "authors_short": "Q. Yang, R. Yang, H. Xiao, W. Xu, J. Chen, H. Liu, C. Ding, R. Hu, Y.-C. Wu, N. Wong",
+      "id": "ptqtp",
+      "title": "PTQTP: Post-Training Quantization to Trit-Planes for Large Language Models",
+      "authors": "He Xiao*, Runming Yang*, Qingyao Yang*, Wendong Xu, Zhen Li, Yupeng Su, Zhengwu Liu, Hongxia Yang, Ngai Wong",
       "venue": "Submitted to NAACL 2027",
       "status": "Submitted",
       "type": "preprint",
-      "year": 2026,
-      "paper_url": "https://arxiv.org/abs/2608.15602",
-      "code_url": "https://github.com/nicyyyy/FluxBin",
-      "summary": "Co-designs ultra-low-bit post-training quantization and lookup-table CUDA kernels for efficient LLM inference.",
-      "arxiv_id": "2608.15602",
+      "year": 2025,
+      "summary": "Decomposes LLM weights into two ternary trit-planes with lookup-table kernels for efficient inference.",
+      "authors_short": "H. Xiao*, R. Yang*, Q. Yang*, W. Xu, Z. Li, Y. Su, Z. Liu, H. Yang, N. Wong",
+      "paper_url": "https://arxiv.org/abs/2509.16989",
+      "project_url": "https://github.com/HeXiao-55/PTQTP",
+      "arxiv_id": "2509.16989",
       "scholar_entry_ids": [
-        "HhTh7rQAAAAJ:LkGwnXOMwfcC"
+        "HhTh7rQAAAAJ:IjCSPb-OGe4C"
       ],
-      "summary_zh": "联合设计超低比特量化与查表 CUDA 算子，加速推理。",
-      "submission_venue": "NAACL 2027",
-      "venue_zh": "Submitted to NAACL 2027"
+      "summary_zh": "结合双三值平面权重表示与查表算子，实现高效推理。",
+      "venue_zh": "Submitted to NAACL 2027",
+      "submission_venue": "NAACL 2027"
     },
     {
       "id": "timber",
@@ -278,6 +278,46 @@
         "HhTh7rQAAAAJ:zYLM7Y9cAGgC"
       ],
       "summary_zh": "以有效秩分析权重变化，无需训练即可优化指令模型。",
+      "submission_venue": "NAACL 2027",
+      "venue_zh": "Submitted to NAACL 2027"
+    },
+    {
+      "id": "simple-opd",
+      "title": "Simple-OPD: Demystifying Warm-up for On-policy Distillation",
+      "authors": "Tao Liu*, Taiqiang Wu*, Mao Zheng, Xuan Luo, Runming Yang, Xuewei Yang, Junjie Wang, Yujiu Yang",
+      "authors_short": "T. Liu*, T. Wu*, M. Zheng, X. Luo, R. Yang, X. Yang, J. Wang, Y. Yang",
+      "venue": "Submitted to NAACL 2027",
+      "status": "Submitted",
+      "type": "preprint",
+      "year": 2026,
+      "paper_url": "https://arxiv.org/abs/2608.06802",
+      "summary": "Studies warm-up for on-policy distillation and initializes students with LoRA on teacher-generated chains of thought.",
+      "code_url": "https://github.com/Utaotao/Simple-OPD",
+      "arxiv_id": "2608.06802",
+      "scholar_entry_ids": [
+        "HhTh7rQAAAAJ:_FxGoFyzp5QC"
+      ],
+      "summary_zh": "研究 OPD 预热，以教师 CoT 和 LoRA 初始化学生模型。",
+      "submission_venue": "NAACL 2027",
+      "venue_zh": "Submitted to NAACL 2027"
+    },
+    {
+      "id": "fluxbin",
+      "title": "FluxBin: Flexible LUT-based Ultra-low-bit LLM Inference by Algorithm-Kernel Synergy",
+      "authors": "Qingyao Yang, Runming Yang, He Xiao, Wendong Xu, Junyu Chen, Haobo Liu, Chenchen Ding, Ruihan Hu, Yik-Chung Wu, Ngai Wong",
+      "authors_short": "Q. Yang, R. Yang, H. Xiao, W. Xu, J. Chen, H. Liu, C. Ding, R. Hu, Y.-C. Wu, N. Wong",
+      "venue": "Submitted to NAACL 2027",
+      "status": "Submitted",
+      "type": "preprint",
+      "year": 2026,
+      "paper_url": "https://arxiv.org/abs/2608.15602",
+      "code_url": "https://github.com/nicyyyy/FluxBin",
+      "summary": "Co-designs ultra-low-bit post-training quantization and lookup-table CUDA kernels for efficient LLM inference.",
+      "arxiv_id": "2608.15602",
+      "scholar_entry_ids": [
+        "HhTh7rQAAAAJ:LkGwnXOMwfcC"
+      ],
+      "summary_zh": "联合设计超低比特量化与查表 CUDA 算子，加速推理。",
       "submission_venue": "NAACL 2027",
       "venue_zh": "Submitted to NAACL 2027"
     },
@@ -321,26 +361,6 @@
       "summary_zh": "分析量化模型的步骤级推理错误，以针对性偏好对改善数学推理。"
     },
     {
-      "id": "simple-opd",
-      "title": "Simple-OPD: Demystifying Warm-up for On-policy Distillation",
-      "authors": "Tao Liu*, Taiqiang Wu*, Mao Zheng, Xuan Luo, Runming Yang, Xuewei Yang, Junjie Wang, Yujiu Yang",
-      "authors_short": "T. Liu*, T. Wu*, M. Zheng, X. Luo, R. Yang, X. Yang, J. Wang, Y. Yang",
-      "venue": "Submitted to NAACL 2027",
-      "status": "Submitted",
-      "type": "preprint",
-      "year": 2026,
-      "paper_url": "https://arxiv.org/abs/2608.06802",
-      "summary": "Studies warm-up for on-policy distillation and initializes students with LoRA on teacher-generated chains of thought.",
-      "code_url": "https://github.com/Utaotao/Simple-OPD",
-      "arxiv_id": "2608.06802",
-      "scholar_entry_ids": [
-        "HhTh7rQAAAAJ:_FxGoFyzp5QC"
-      ],
-      "summary_zh": "研究 OPD 预热，以教师 CoT 和 LoRA 初始化学生模型。",
-      "submission_venue": "NAACL 2027",
-      "venue_zh": "Submitted to NAACL 2027"
-    },
-    {
       "id": "llm-neo",
       "title": "LLM-NEO: Parameter Efficient Knowledge Distillation for Large Language Models",
       "authors": "Runming Yang*, Taiqiang Wu*, Jiahao Wang, Pengfei Hu, Yik-Chung Wu, Ngai Wong, Yujiu Yang",
@@ -357,24 +377,6 @@
         "HhTh7rQAAAAJ:9yKSN-GCB0IC"
       ],
       "summary_zh": "结合低秩适配与知识蒸馏，实现参数高效的知识迁移。"
-    },
-    {
-      "id": "ptqtp",
-      "title": "PTQTP: Post-Training Quantization to Trit-Planes for Large Language Models",
-      "authors": "He Xiao*, Runming Yang*, Qingyao Yang*, Wendong Xu, Zhen Li, Yupeng Su, Zhengwu Liu, Hongxia Yang, Ngai Wong",
-      "venue": "arXiv:2509.16989",
-      "status": "Preprint",
-      "type": "preprint",
-      "year": 2025,
-      "summary": "Decomposes LLM weights into two ternary trit-planes with lookup-table kernels for efficient inference.",
-      "authors_short": "H. Xiao*, R. Yang*, Q. Yang*, W. Xu, Z. Li, Y. Su, Z. Liu, H. Yang, N. Wong",
-      "paper_url": "https://arxiv.org/abs/2509.16989",
-      "project_url": "https://github.com/HeXiao-55/PTQTP",
-      "arxiv_id": "2509.16989",
-      "scholar_entry_ids": [
-        "HhTh7rQAAAAJ:IjCSPb-OGe4C"
-      ],
-      "summary_zh": "结合双三值平面权重表示与查表算子，实现高效推理。"
     }
   ],
   "scholar": "https://scholar.google.com/citations?user=HhTh7rQAAAAJ&hl=en",
