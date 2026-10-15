@@ -468,20 +468,22 @@
       "institution": "The University of Hong Kong",
       "role": "Ph.D. Research",
       "dates": "Ongoing",
-      "summary": "Investigating how CoT data and policy distillation affect subsequent reinforcement learning, with a reproducible pipeline comparing FKL/RKL initialization and analyzing reward signals and computational cost. Observed 40.5% mean answer accuracy across three seeds for RKL distillation followed by RL on a controlled arithmetic task with Qwen3-1.7B, versus 21.0% for direct RL. A single-seed dynamic-sampling experiment with a larger sampling budget improved accuracy from 39.65% to 49.22%; analyzing training signals and computational cost toward more reliable reasoning gains under limited compute budgets.",
+      "summary": "Investigating CoT data and on-policy distillation (OPD) for subsequent RL, with teacher-distribution supervision on student-generated trajectories and analysis of training signals and computational cost. Observed 40.5% mean answer accuracy across three seeds for OPD followed by RL on a controlled arithmetic task with Qwen3-1.7B, versus 21.0% for direct RL. A single-seed dynamic-sampling experiment with a larger sampling budget improved accuracy from 39.65% to 49.22%. Testing whether exposure to residual-error states after correction reduces error recurrence and preserves correct answers, using matched supervised-token budgets toward more reliable reasoning under limited compute.",
       "title_zh": "面向推理模型后训练的 CoT 数据与策略蒸馏研究",
       "institution_zh": "香港大学",
       "role_zh": "博士阶段研究",
       "dates_zh": "进行中",
       "bullets": [
-        "Investigating how CoT data and policy distillation affect subsequent reinforcement learning, with a reproducible pipeline comparing FKL/RKL initialization and analyzing reward signals and computational cost.",
-        "Observed 40.5% mean answer accuracy across three seeds for RKL distillation followed by RL on a controlled arithmetic task with Qwen3-1.7B, versus 21.0% for direct RL. A single-seed dynamic-sampling experiment with a larger sampling budget improved accuracy from 39.65% to 49.22%; analyzing training signals and computational cost toward more reliable reasoning gains under limited compute budgets."
+        "Investigating CoT data and on-policy distillation (OPD) for subsequent RL, with teacher-distribution supervision on student-generated trajectories and analysis of training signals and computational cost.",
+        "Observed 40.5% mean answer accuracy across three seeds for OPD followed by RL on a controlled arithmetic task with Qwen3-1.7B, versus 21.0% for direct RL. A single-seed dynamic-sampling experiment with a larger sampling budget improved accuracy from 39.65% to 49.22%.",
+        "Testing whether exposure to residual-error states after correction reduces error recurrence and preserves correct answers, using matched supervised-token budgets toward more reliable reasoning under limited compute."
       ],
       "bullets_zh": [
-        "研究 CoT 数据与策略蒸馏对后续强化学习的影响，构建可复现实验流程，对比 FKL/RKL 蒸馏初始化，分析奖励信号与计算成本。",
-        "在三个随机种子的 Qwen3-1.7B 受控算术实验中，RKL 蒸馏后 RL 的平均答案正确率为 40.5%（直接 RL 为 21.0%）；增加采样预算的单随机种子动态筛选实验由 39.65% 提升至 49.22%。持续分析有效训练信号与计算成本，探索有限预算下更稳定的推理性能提升。"
+        "研究 CoT 数据与 On-policy Distillation（OPD）对后续 RL 的影响，在学生生成轨迹上进行教师分布监督，分析训练信号与计算成本。",
+        "在三个随机种子的 Qwen3-1.7B 受控算术实验中，OPD 后 RL 的平均答案正确率为 40.5%（直接 RL 为 21.0%）；增加采样预算的单随机种子动态筛选实验由 39.65% 提升至 49.22%。",
+        "探索纠错后残留错误的状态覆盖能否减少错误回访、提升正确答案保持率，通过等监督 token 对照检验该假设，面向有限预算下的稳定推理。"
       ],
-      "framing_status": "Ongoing research. RKL-to-RL three-seed mean 40.52734375% versus direct RL20.96354167% on synthetic three-number arithmetic; additional KD stage not equal total compute. Separate single-seed dynamic-sampling result406/1024 to504/1024 (39.65% to49.22%) uses8.03x generated tokens versus vanilla128, not independent screening benefit. Cost-matched control did not establish a dynamic-sampling advantage; no novel method or standard-benchmark generalization claim."
+      "framing_status": "Ongoing research. RKL-to-RL three-seed mean 40.52734375% versus direct RL20.96354167% on synthetic three-number arithmetic; additional KD stage not equal total compute. Separate single-seed dynamic-sampling result406/1024 to504/1024 (39.65% to49.22%) uses8.03x generated tokens versus vanilla128, not independent screening benefit. Cost-matched control did not establish a dynamic-sampling advantage; no novel method or standard-benchmark generalization claim. Public wording uses OPD as the framework; measured implementation remains full-vocabulary conditional RKL on student prefixes. Residual-error-state coverage is an ongoing hypothesis, not an established gain; matched supervision does not imply equal input tokens or total FLOPs."
     }
   ],
   "cv_languages": {
