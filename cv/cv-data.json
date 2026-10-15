@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-14",
+  "updated": "2026-10-15",
   "name": "Runming Yang",
   "chinese_name": "杨润明",
   "email": "yang3121099@126.com",
@@ -464,24 +464,24 @@
   "current_research": [
     {
       "id": "phd-cot-collaboration",
-      "title": "CoT Data and Efficient Reasoning Post-training",
+      "title": "CoT Data and Distillation for RL Initialization",
       "institution": "The University of Hong Kong",
       "role": "Ph.D. Research",
       "dates": "Ongoing",
-      "summary": "Collaborative Ph.D. research at the University of Hong Kong on CoT data and efficient reasoning. Planned comparison of offline CoT fine-tuning and on-policy distillation, with evaluation of accuracy, reasoning length, and training cost; manuscript in preparation.",
-      "title_zh": "CoT 数据与高效推理后训练",
-      "institution_zh": "香港大学及合作团队",
-      "role_zh": "博士阶段合作研究",
+      "summary": "Studying how CoT data and OPD initialization affect downstream reinforcement learning, with a focus on data selection for RL. Initial multi-seed Qwen3 experiments show gains from distillation followed by RL on a controlled arithmetic task; ongoing work examines training signals and computational cost.",
+      "title_zh": "CoT 数据与蒸馏初始化研究",
+      "institution_zh": "香港大学",
+      "role_zh": "博士阶段研究",
       "dates_zh": "进行中",
       "bullets": [
-        "Planned approach: compare offline CoT fine-tuning with on-policy distillation on student-generated trajectories, examining data quality and teacher-student distribution alignment.",
-        "Research objective: improve reasoning quality and efficiency under a controlled compute budget, with planned evaluation of accuracy, reasoning length, and training cost; manuscript in preparation."
+        "Studying how CoT data and OPD initialization affect downstream reinforcement learning, with a focus on data selection for RL.",
+        "Initial multi-seed Qwen3 experiments show gains from distillation followed by RL on a controlled arithmetic task; ongoing work examines training signals and computational cost."
       ],
       "bullets_zh": [
-        "研究思路：围绕 CoT 数据质量与师生分布匹配，拟比较离线 CoT 微调与学生生成轨迹上的蒸馏监督（OPD）。",
-        "研究目标：在可控计算预算下改善推理质量与效率，拟以准确率、推理长度和训练开销评估方案；论文准备中。"
+        "研究 CoT 数据与 OPD 初始化对后续强化学习的影响，探索面向 RL 的数据选择方法。",
+        "初步多随机种子 Qwen3 受控算术实验观察到蒸馏后 RL 的收益，正在分析有效训练信号与计算成本。"
       ],
-      "framing_status": "Proposed approach and research objective; no experimental results claimed."
+      "framing_status": "Ongoing research; preliminary controlled arithmetic recipe gains, without a claim of a novel validated method or benchmark generalization."
     }
   ],
   "cv_languages": {

@@ -132,7 +132,7 @@ def render(lang):
     lines.append(r'\begin{rSection}{' + ('在研项目 / Ongoing Research' if zh else 'ONGOING RESEARCH') + '}')
     for row in DATA['current_research']:
         lines.append(r'\textbf{' + tex(choose(row, 'title')) + r'}\hfill ' + tex(choose(row, 'dates')) + r'\\')
-        lines.append('香港大学博士阶段与其他团队合作研究' if zh else 'Collaborative Ph.D. research at the University of Hong Kong')
+        lines.append(tex(choose(row, 'institution')) + r'\quad |\quad ' + tex(choose(row, 'role')))
         lines.append(r'\begin{itemize}')
         lines.extend(r'\item ' + tex(b) for b in choose(row, 'bullets'))
         lines.append(r'\end{itemize}')
