@@ -47,7 +47,7 @@ ECE PhD 在读\quad |\quad 导师：\href{https://scholar.google.com/citations?u
 
 \end{rSection}
 \begin{rSection}{科研实习 / Research Internship}
-\textbf{腾讯 AI Lab}\quad 科研实习生，信息安全部门\hfill 2023.11 - 2025.06
+\textbf{腾讯}\quad 科研实习生\hfill 2023.11 - 2025.06
 \begin{itemize}
 \item 面向 QQ 群聊、空间及短视频评论等场景的图文内容审核，开展多模态数据合成、模型后训练与测评。
 \item 分级部署模型并推理加速，训练模型已在内部风控系统上线，相较前代方案提升吞吐率并降低误杀率。
@@ -55,13 +55,17 @@ ECE PhD 在读\quad |\quad 导师：\href{https://scholar.google.com/citations?u
 \end{itemize}
 \end{rSection}
 \begin{rSection}{在研项目 / Ongoing Research}
-\textbf{面向推理模型后训练的 CoT 数据与策略蒸馏研究}\hfill 进行中\\
-香港大学\quad |\quad 博士阶段研究
-\begin{itemize}
-\item OPD→RL 实验：在学生生成轨迹上进行教师分布监督，研究 On-policy Distillation（OPD）对后续 RL 的影响，分析训练信号与计算成本。
-\item 对应初步结果：三个随机种子的 Qwen3-1.7B 受控算术实验中，OPD 后 RL 的平均答案正确率为 40.5\%（直接 RL 为 21.0\%）；增加采样预算的单随机种子实验由 39.65\% 提升至 49.22\%。
-\item 独立机制探索（待验证）：研究残留错误状态的选择性分布约束，检验其能否在保留正确推理分支的同时减少错误回访，并探索向 OPD、RL 与 Adaptive Thinking 的迁移。
+\begingroup
+\fontsize{11}{16}\selectfont
+\textbf{On-policy 蒸馏传递的是模式，不是知识}\quad 香港大学 | 博士阶段研究\hfill 2026.09 - 2026.10\\[2pt]
+Qwen3 0.6B/1.7B/4B 学生，8B 教师；三尺寸、两种子
+\begin{itemize}[itemsep=4pt,topsep=5pt]
+\item 针对\textquotedbl{}OPD 为何是更好的 RL 起点\textquotedbl{}，用同一教师只换提示模式把增益拆开：标准 OPD 的增益随学生变大归零（0.6B +10 $\rightarrow$ 1.7B +2.7 $\rightarrow$ 4B 0），思考模板教师的增益不衰减（1.7B +13.3，4B +9.5），表示层 $\alpha$ 0.96。
+\item 学生以非思考格式达到思考模式的上限（1.7B 32K 下 90.85 vs 90.40，4B 95.15 vs 95.65），代价是预算依赖：低预算的损失几乎全是\textquotedbl{}没写完\textquotedbl{}（强制交卷后 2K 从 17.8 回到 72.8），三尺寸交叉点 $7.5\pm0.5$K 与尺寸无关。
+\item 定位变长机理：学生学到思考模式的终止策略，答案后 p(EOS)=0，经由续写 token 而非 EOS 本身，更换答案文本也不停；RL 压短答前推理却不修答后不停。
+\item 重新解释 RL 的作用：RL 收回预算依赖，P5$\rightarrow$RL 从 2K 起每个预算优于直接 RL（16K +5.55，五个外部集全部领先），长度压缩 2.4 倍，付出 32K 处 3.5 点上限；强制交卷在 8K 已得 87.1 $\approx$ RL 的 86.35，提示 RL 主要在\textquotedbl{}修复停止\textquotedbl{}。
 \end{itemize}
+\endgroup
 \end{rSection}
 \newpage
 \begin{rSection}{已发表论文 / Publications}\linespread{1.05}\fontsize{10}{12}\selectfont\raggedright

@@ -136,6 +136,22 @@ def render(lang):
     lines.append(r'\end{rSection}')
     lines.append(r'\begin{rSection}{' + ('在研项目 / Ongoing Research' if zh else 'ONGOING RESEARCH') + '}')
     for row in DATA['current_research']:
+        if zh and row.get('inline_institution_zh'):
+            # Keep the reviewed Chinese layout and symbols reproducible from data.
+            def research_tex(value):
+                return (tex(value).replace('"', r'\textquotedbl{}')
+                        .replace('→', r'$\rightarrow$').replace('≈', r'$\approx$')
+                        .replace('α', r'$\alpha$').replace('7.5±0.5', r'$7.5\pm0.5$'))
+            lines.extend([r'\begingroup', r'\fontsize{11}{16}\selectfont'])
+            lines.append(r'\textbf{' + research_tex(choose(row, 'title'))
+                         + r'}\quad ' + research_tex(choose(row, 'institution'))
+                         + ' | ' + research_tex(choose(row, 'role'))
+                         + r'\hfill ' + research_tex(choose(row, 'dates')) + r'\\[2pt]')
+            lines.append(research_tex(row['settings_zh']))
+            lines.append(r'\begin{itemize}[itemsep=4pt,topsep=5pt]')
+            lines.extend(r'\item ' + research_tex(b) for b in row['bullets_zh'])
+            lines.extend([r'\end{itemize}', r'\endgroup'])
+            continue
         lines.append(r'\textbf{' + tex(choose(row, 'title')) + r'}\hfill ' + tex(choose(row, 'dates')) + r'\\')
         lines.append(tex(choose(row, 'institution')) + r'\quad |\quad ' + tex(choose(row, 'role')))
         lines.append(r'\begin{itemize}')

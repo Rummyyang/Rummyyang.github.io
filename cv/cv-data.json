@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-15",
+  "updated": "2026-10-19",
   "name": "Runming Yang",
   "chinese_name": "杨润明",
   "email": "yang3121099@126.com",
@@ -98,8 +98,8 @@
         "Deployed models in tiers and accelerated inference; trained models were deployed in internal risk-control systems, improving throughput and reducing false-positive rates over the previous solution.",
         "Researched large/small model collaboration, data distillation, and lightweight modeling; contributed to two academic papers (Shadow-FT and LLM-NEO) and one company patent."
       ],
-      "organization_zh": "腾讯 AI Lab",
-      "title_zh": "科研实习生，信息安全部门",
+      "organization_zh": "腾讯",
+      "title_zh": "科研实习生",
       "dates_zh": "2023.11 - 2025.06",
       "bullets_zh": [
         "面向 QQ 群聊、空间及短视频评论等场景的图文内容审核，开展多模态数据合成、模型后训练与测评。",
@@ -471,21 +471,26 @@
       "role": "Ph.D. Research",
       "dates": "Ongoing",
       "summary": "OPD-to-RL experiments: studying teacher-distribution supervision on student-generated trajectories as preparation for RL, with analysis of training signals and computational cost. Preliminary results in this setting: Qwen3-1.7B achieved 40.5% mean answer accuracy across three seeds on controlled arithmetic, versus 21.0% for direct RL. A separate single-seed experiment with a larger sampling budget improved accuracy from 39.65% to 49.22%. Separate mechanistic hypotheses (under investigation): exploring selective distribution constraints on residual-error states to reduce error recurrence while preserving correct reasoning branches, with potential applications to OPD, RL, and adaptive thinking.",
-      "title_zh": "面向推理模型后训练的 CoT 数据与策略蒸馏研究",
+      "title_zh": "On-policy 蒸馏传递的是模式，不是知识",
       "institution_zh": "香港大学",
       "role_zh": "博士阶段研究",
-      "dates_zh": "进行中",
+      "dates_zh": "2026.09 - 2026.10",
       "bullets": [
         "OPD-to-RL experiments: studying teacher-distribution supervision on student-generated trajectories as preparation for RL, with analysis of training signals and computational cost.",
         "Preliminary results in this setting: Qwen3-1.7B achieved 40.5% mean answer accuracy across three seeds on controlled arithmetic, versus 21.0% for direct RL. A separate single-seed experiment with a larger sampling budget improved accuracy from 39.65% to 49.22%.",
         "Separate mechanistic hypotheses (under investigation): exploring selective distribution constraints on residual-error states to reduce error recurrence while preserving correct reasoning branches, with potential applications to OPD, RL, and adaptive thinking."
       ],
       "bullets_zh": [
-        "OPD→RL 实验：在学生生成轨迹上进行教师分布监督，研究 On-policy Distillation（OPD）对后续 RL 的影响，分析训练信号与计算成本。",
-        "对应初步结果：三个随机种子的 Qwen3-1.7B 受控算术实验中，OPD 后 RL 的平均答案正确率为 40.5%（直接 RL 为 21.0%）；增加采样预算的单随机种子实验由 39.65% 提升至 49.22%。",
-        "独立机制探索（待验证）：研究残留错误状态的选择性分布约束，检验其能否在保留正确推理分支的同时减少错误回访，并探索向 OPD、RL 与 Adaptive Thinking 的迁移。"
+        "针对\"OPD 为何是更好的 RL 起点\"，用同一教师只换提示模式把增益拆开：标准 OPD 的增益随学生变大归零（0.6B +10 → 1.7B +2.7 → 4B 0），思考模板教师的增益不衰减（1.7B +13.3，4B +9.5），表示层 α 0.96。",
+        "学生以非思考格式达到思考模式的上限（1.7B 32K 下 90.85 vs 90.40，4B 95.15 vs 95.65），代价是预算依赖：低预算的损失几乎全是\"没写完\"（强制交卷后 2K 从 17.8 回到 72.8），三尺寸交叉点 7.5±0.5K 与尺寸无关。",
+        "定位变长机理：学生学到思考模式的终止策略，答案后 p(EOS)=0，经由续写 token 而非 EOS 本身，更换答案文本也不停；RL 压短答前推理却不修答后不停。",
+        "重新解释 RL 的作用：RL 收回预算依赖，P5→RL 从 2K 起每个预算优于直接 RL（16K +5.55，五个外部集全部领先），长度压缩 2.4 倍，付出 32K 处 3.5 点上限；强制交卷在 8K 已得 87.1 ≈ RL 的 86.35，提示 RL 主要在\"修复停止\"。"
       ],
-      "framing_status": "Ongoing research. RKL-to-RL three-seed mean 40.52734375% versus direct RL20.96354167% on synthetic three-number arithmetic; additional KD stage not equal total compute. Separate single-seed dynamic-sampling result406/1024 to504/1024 (39.65% to49.22%) uses8.03x generated tokens versus vanilla128, not independent screening benefit. Cost-matched control did not establish a dynamic-sampling advantage; no novel method or standard-benchmark generalization claim. Public wording uses OPD as the framework; measured implementation remains full-vocabulary conditional RKL on student prefixes. Residual-error-state coverage is an ongoing hypothesis, not an established gain; matched supervision does not imply equal input tokens or total FLOPs. The first two bullets describe the same OPD-to-RL controlled experiment; the third is a separate unvalidated mechanistic hypothesis, including potential transfer to adaptive thinking. No training benefit from this hypothesis has been established."
+      "framing_status": "Ongoing research. RKL-to-RL three-seed mean 40.52734375% versus direct RL20.96354167% on synthetic three-number arithmetic; additional KD stage not equal total compute. Separate single-seed dynamic-sampling result406/1024 to504/1024 (39.65% to49.22%) uses8.03x generated tokens versus vanilla128, not independent screening benefit. Cost-matched control did not establish a dynamic-sampling advantage; no novel method or standard-benchmark generalization claim. Public wording uses OPD as the framework; measured implementation remains full-vocabulary conditional RKL on student prefixes. Residual-error-state coverage is an ongoing hypothesis, not an established gain; matched supervision does not imply equal input tokens or total FLOPs. The first two bullets describe the same OPD-to-RL controlled experiment; the third is a separate unvalidated mechanistic hypothesis, including potential transfer to adaptive thinking. No training benefit from this hypothesis has been established.",
+      "settings_zh": "Qwen3 0.6B/1.7B/4B 学生，8B 教师；三尺寸、两种子",
+      "inline_institution_zh": true,
+      "summary_zh": "针对\"OPD 为何是更好的 RL 起点\"，用同一教师只换提示模式把增益拆开：标准 OPD 的增益随学生变大归零（0.6B +10 → 1.7B +2.7 → 4B 0），思考模板教师的增益不衰减（1.7B +13.3，4B +9.5），表示层 α 0.96。 学生以非思考格式达到思考模式的上限（1.7B 32K 下 90.85 vs 90.40，4B 95.15 vs 95.65），代价是预算依赖：低预算的损失几乎全是\"没写完\"（强制交卷后 2K 从 17.8 回到 72.8），三尺寸交叉点 7.5±0.5K 与尺寸无关。 定位变长机理：学生学到思考模式的终止策略，答案后 p(EOS)=0，经由续写 token 而非 EOS 本身，更换答案文本也不停；RL 压短答前推理却不修答后不停。 重新解释 RL 的作用：RL 收回预算依赖，P5→RL 从 2K 起每个预算优于直接 RL（16K +5.55，五个外部集全部领先），长度压缩 2.4 倍，付出 32K 处 3.5 点上限；强制交卷在 8K 已得 87.1 ≈ RL 的 86.35，提示 RL 主要在\"修复停止\"。",
+      "framing_status_zh": "User-approved Chinese CV wording dated 2026-10-19. Numerical results and interpretation are supplied by the user; this publication sync does not independently audit the experiments. English content retains its previous revision."
     }
   ],
   "cv_languages": {
