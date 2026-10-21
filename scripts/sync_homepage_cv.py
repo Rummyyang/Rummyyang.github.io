@@ -34,7 +34,13 @@ for e in data['experience']:
 if data.get('current_research'):
     parts.append(h('Current Research', 'Current-Research'))
     for project in data['current_research']:
-        parts.append('<p><strong>'+escape(project['title'])+'</strong> — '+escape(project['dates'])+'<br>'+escape(project['summary'])+'</p>')
+        title = a(project['project_url'], project['title']) if project.get('project_url') else escape(project['title'])
+        parts.append('<p><strong>'+title+'</strong> — '+escape(project['dates'])+'</p>')
+        if project.get('settings'):
+            parts.append('<p>'+escape(project['settings'])+'<br><small>'+escape(project.get('metric_note',''))+'</small></p>')
+        parts.append('<ul>'+''.join('<li>'+escape(b)+'</li>' for b in project['bullets'])+'</ul>')
+        if project.get('project_url'):
+            parts.append('<p>'+a(project['project_url'], 'Interactive experiment slides')+'</p>')
 parts.append(end_marker)
 new='\n'.join(parts)
 if start_marker in page:

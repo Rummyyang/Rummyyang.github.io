@@ -143,17 +143,33 @@ def render(lang):
                         .replace('→', r'$\rightarrow$').replace('≈', r'$\approx$')
                         .replace('α', r'$\alpha$').replace('7.5±0.5', r'$7.5\pm0.5$'))
             lines.extend([r'\begingroup', r'\fontsize{11}{16}\selectfont'])
-            lines.append(r'\textbf{' + research_tex(choose(row, 'title'))
+            research_title = (href(row['project_url'], choose(row, 'title'))
+                              if row.get('project_url') else research_tex(choose(row, 'title')))
+            lines.append(r'\textbf{' + research_title
                          + r'}\quad ' + research_tex(choose(row, 'institution'))
                          + ' | ' + research_tex(choose(row, 'role'))
                          + r'\hfill ' + research_tex(choose(row, 'dates')) + r'\\[2pt]')
-            lines.append(research_tex(row['settings_zh']))
+            settings = research_tex(row['settings_zh'])
+            if row.get('project_url'):
+                settings += r'\hfill ' + href(row['project_url'], '[实验图解]')
+            lines.append(settings + r'\\[1pt]')
+            if row.get('metric_note_zh'):
+                lines.append(r'{\small\textcolor{summarytext}{' + research_tex(row['metric_note_zh']) + '}}')
             lines.append(r'\begin{itemize}[itemsep=4pt,topsep=5pt]')
             lines.extend(r'\item ' + research_tex(b) for b in row['bullets_zh'])
             lines.extend([r'\end{itemize}', r'\endgroup'])
             continue
-        lines.append(r'\textbf{' + tex(choose(row, 'title')) + r'}\hfill ' + tex(choose(row, 'dates')) + r'\\')
-        lines.append(tex(choose(row, 'institution')) + r'\quad |\quad ' + tex(choose(row, 'role')))
+        research_title = (href(row['project_url'], choose(row, 'title'))
+                          if row.get('project_url') else tex(choose(row, 'title')))
+        lines.append(r'\textbf{' + research_title + r'}\hfill ' + tex(choose(row, 'dates')) + r'\\')
+        institution = tex(choose(row, 'institution')) + r'\quad |\quad ' + tex(choose(row, 'role'))
+        if row.get('project_url'):
+            institution += r'\hfill ' + href(row['project_url'], '[Slides]')
+        lines.append(institution)
+        if row.get('settings'):
+            lines.append(r'\\[1pt]' + tex(choose(row, 'settings')))
+        if row.get('metric_note'):
+            lines.append(r'\\[1pt]{\small\textcolor{summarytext}{' + tex(choose(row, 'metric_note')) + '}}')
         lines.append(r'\begin{itemize}')
         lines.extend(r'\item ' + tex(b) for b in choose(row, 'bullets'))
         lines.append(r'\end{itemize}')

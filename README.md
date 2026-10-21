@@ -23,7 +23,15 @@ pdflatex -no-shell-escape -interaction=nonstopmode -halt-on-error runming_yang_c
 cp runming_yang_cv_zh.pdf runming_yang_cv.pdf
 ```
 
-Commit the data, generated LaTeX, PDFs, homepage, and compatibility redirect together. GitHub Pages serves the repository root on `main`. Keep publication status, author order, and equal-contribution markers accurate; authorship follows the user-confirmed manuscript version, while submission destinations are labeled as submissions rather than acceptances. Public preprint links may refer to earlier manuscript versions. Current HKU research framing is a proposed approach and objective, not a claim of completed experiments. A `project_url` labels a project page separately from released code (`code_url`).
+Commit the data, generated LaTeX, PDFs, homepage, and compatibility redirect together. GitHub Pages serves the repository root on `main`. Keep publication status, author order, and equal-contribution markers accurate; authorship follows the user-confirmed manuscript version, while submission destinations are labeled as submissions rather than acceptances. Public preprint links may refer to earlier manuscript versions. Current HKU research distinguishes measured results from proposed interpretations; the headline accuracy figures specify the model, benchmark, generation budget, and estimator. The same downstream RL setup does not imply equal total training cost. A `project_url` labels a project page separately from released code (`code_url`).
+
+## OPD experiment slides
+
+The eight-slide presentation is published at [research/opd/opd_deck.html#1](https://rummyyang.github.io/research/opd/opd_deck.html#1). Both CV PDFs link to it through the research title and an explicit “实验图解” / “Slides” link. The homepage links to the same presentation.
+
+This is a dated research snapshot from 2026-10-21, based on the author-supplied standalone deck. Its layout, charts, data, and interactions are retained. The publication copy clarifies the matched 50-step self-distillation comparison, the KL-anchored baseline, and the distinction between a nonsignificant difference and equivalence. It does not claim that accuracy differences identify separate knowledge and pattern contributions. All charts and scripts are inline; Google Fonts is optional, with system-font fallbacks. No experiment server, private API, or local file is required.
+
+When replacing the deck, check all eight slides, navigation, budget controls, light/dark themes, and the CV link. Keep experimental figures and explanatory labels consistent. Publish only the reviewed HTML; do not add raw experiment logs, checkpoints, local paths, or credentials.
 
 ## Research learning pages
 

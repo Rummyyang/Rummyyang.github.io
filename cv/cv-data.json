@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-19",
+  "updated": "2026-10-22",
   "name": "Runming Yang",
   "chinese_name": "杨润明",
   "email": "yang3121099@126.com",
@@ -90,8 +90,8 @@
   ],
   "experience": [
     {
-      "organization": "Tencent AI Lab",
-      "title": "Research Intern, Information Security Department",
+      "organization": "Tencent",
+      "title": "Research Intern",
       "dates": "Nov. 2023 - Jun. 2025",
       "bullets": [
         "Synthesized multimodal data and conducted model post-training and evaluation for image-text content moderation in QQ group chats, Qzone, and short-video comments.",
@@ -466,31 +466,36 @@
   "current_research": [
     {
       "id": "phd-cot-collaboration",
-      "title": "CoT Data and Policy Distillation for Reasoning Model Post-Training",
+      "title": "How On-policy Distillation Affects Reasoning and Subsequent RL",
       "institution": "The University of Hong Kong",
       "role": "Ph.D. Research",
-      "dates": "Ongoing",
-      "summary": "OPD-to-RL experiments: studying teacher-distribution supervision on student-generated trajectories as preparation for RL, with analysis of training signals and computational cost. Preliminary results in this setting: Qwen3-1.7B achieved 40.5% mean answer accuracy across three seeds on controlled arithmetic, versus 21.0% for direct RL. A separate single-seed experiment with a larger sampling budget improved accuracy from 39.65% to 49.22%. Separate mechanistic hypotheses (under investigation): exploring selective distribution constraints on residual-error states to reduce error recurrence while preserving correct reasoning branches, with potential applications to OPD, RL, and adaptive thinking.",
-      "title_zh": "On-policy 蒸馏传递的是模式，不是知识",
+      "dates": "2026.09 - 2026.10",
+      "summary": "Designed comparisons of teacher prompts, self-distillation, and direct RL to investigate why distillation can improve downstream RL results. Switching the same teacher to a thinking prompt yielded 86.75% accuracy for 1.7B, versus 73.45% for the base model and 76.20% for standard OPD; self-distillation at 1.7B and 4B achieved similar results. Used budget curves, forced-finalization interventions, and stopping analyses to distinguish long pre-answer reasoning from continued generation after an answer, showing how correctness and timely delivery can diverge. Under the same downstream RL setup, distillation followed by RL reached 87.25% versus 81.70% for direct RL, with gains at lower budgets accompanied by reduced accuracy at higher budgets.",
+      "title_zh": "On-policy 蒸馏如何影响推理与后续 RL",
       "institution_zh": "香港大学",
       "role_zh": "博士阶段研究",
       "dates_zh": "2026.09 - 2026.10",
       "bullets": [
-        "OPD-to-RL experiments: studying teacher-distribution supervision on student-generated trajectories as preparation for RL, with analysis of training signals and computational cost.",
-        "Preliminary results in this setting: Qwen3-1.7B achieved 40.5% mean answer accuracy across three seeds on controlled arithmetic, versus 21.0% for direct RL. A separate single-seed experiment with a larger sampling budget improved accuracy from 39.65% to 49.22%.",
-        "Separate mechanistic hypotheses (under investigation): exploring selective distribution constraints on residual-error states to reduce error recurrence while preserving correct reasoning branches, with potential applications to OPD, RL, and adaptive thinking."
+        "Designed comparisons of teacher prompts, self-distillation, and direct RL to investigate why distillation can improve downstream RL results.",
+        "Switching the same teacher to a thinking prompt yielded 86.75% accuracy for 1.7B, versus 73.45% for the base model and 76.20% for standard OPD; self-distillation at 1.7B and 4B achieved similar results.",
+        "Used budget curves, forced-finalization interventions, and stopping analyses to distinguish long pre-answer reasoning from continued generation after an answer, showing how correctness and timely delivery can diverge.",
+        "Under the same downstream RL setup, distillation followed by RL reached 87.25% versus 81.70% for direct RL, with gains at lower budgets accompanied by reduced accuracy at higher budgets."
       ],
       "bullets_zh": [
-        "针对\"OPD 为何是更好的 RL 起点\"，用同一教师只换提示模式把增益拆开：标准 OPD 的增益随学生变大归零（0.6B +10 → 1.7B +2.7 → 4B 0），思考模板教师的增益不衰减（1.7B +13.3，4B +9.5），表示层 α 0.96。",
-        "学生以非思考格式达到思考模式的上限（1.7B 32K 下 90.85 vs 90.40，4B 95.15 vs 95.65），代价是预算依赖：低预算的损失几乎全是\"没写完\"（强制交卷后 2K 从 17.8 回到 72.8），三尺寸交叉点 7.5±0.5K 与尺寸无关。",
-        "定位变长机理：学生学到思考模式的终止策略，答案后 p(EOS)=0，经由续写 token 而非 EOS 本身，更换答案文本也不停；RL 压短答前推理却不修答后不停。",
-        "重新解释 RL 的作用：RL 收回预算依赖，P5→RL 从 2K 起每个预算优于直接 RL（16K +5.55，五个外部集全部领先），长度压缩 2.4 倍，付出 32K 处 3.5 点上限；强制交卷在 8K 已得 87.1 ≈ RL 的 86.35，提示 RL 主要在\"修复停止\"。"
+        "围绕“蒸馏为何能改善后续 RL”，设计教师提示、自蒸馏与直接 RL 对照，追查收益来源。",
+        "同一教师改用思考提示后，1.7B 准确率达 86.75%（原模型 73.45%、标准 OPD 76.20%）；1.7B/4B 自蒸馏也取得相近表现。",
+        "结合预算曲线、强制收尾与停止行为分析，区分答前推理过长和答后持续生成，揭示“答对”与“及时交付”的差异。",
+        "在相同下游 RL 设置下，蒸馏后 RL 达 87.25%，高于直接 RL 的 81.70%；同时发现低预算收益与高预算准确率之间的权衡。"
       ],
-      "framing_status": "Ongoing research. RKL-to-RL three-seed mean 40.52734375% versus direct RL20.96354167% on synthetic three-number arithmetic; additional KD stage not equal total compute. Separate single-seed dynamic-sampling result406/1024 to504/1024 (39.65% to49.22%) uses8.03x generated tokens versus vanilla128, not independent screening benefit. Cost-matched control did not establish a dynamic-sampling advantage; no novel method or standard-benchmark generalization claim. Public wording uses OPD as the framework; measured implementation remains full-vocabulary conditional RKL on student prefixes. Residual-error-state coverage is an ongoing hypothesis, not an established gain; matched supervision does not imply equal input tokens or total FLOPs. The first two bullets describe the same OPD-to-RL controlled experiment; the third is a separate unvalidated mechanistic hypothesis, including potential transfer to adaptive thinking. No training benefit from this hypothesis has been established.",
-      "settings_zh": "Qwen3 0.6B/1.7B/4B 学生，8B 教师；三尺寸、两种子",
+      "framing_status": "Updated from the reviewed 2026-10-21 report. All five headline accuracy figures refer to Qwen3-1.7B, MATH-500, a 16K generation budget, and avg@4. Self-distillation results cover 1.7B and 4B, with training-step differences; they do not establish a matched-cost teacher ranking. The same downstream RL setup does not imply equal total training cost or isolate learnability. Forced finalization changes the prompt and adds generation; it does not prove all low-budget loss is due to stopping. The title states a research question rather than excluding knowledge transfer. These results replace the older toy-arithmetic CV entry; the older experiments remain separate evidence.",
+      "settings_zh": "Qwen3 0.6B/1.7B/4B 学生，主教师 8B",
       "inline_institution_zh": true,
-      "summary_zh": "针对\"OPD 为何是更好的 RL 起点\"，用同一教师只换提示模式把增益拆开：标准 OPD 的增益随学生变大归零（0.6B +10 → 1.7B +2.7 → 4B 0），思考模板教师的增益不衰减（1.7B +13.3，4B +9.5），表示层 α 0.96。 学生以非思考格式达到思考模式的上限（1.7B 32K 下 90.85 vs 90.40，4B 95.15 vs 95.65），代价是预算依赖：低预算的损失几乎全是\"没写完\"（强制交卷后 2K 从 17.8 回到 72.8），三尺寸交叉点 7.5±0.5K 与尺寸无关。 定位变长机理：学生学到思考模式的终止策略，答案后 p(EOS)=0，经由续写 token 而非 EOS 本身，更换答案文本也不停；RL 压短答前推理却不修答后不停。 重新解释 RL 的作用：RL 收回预算依赖，P5→RL 从 2K 起每个预算优于直接 RL（16K +5.55，五个外部集全部领先），长度压缩 2.4 倍，付出 32K 处 3.5 点上限；强制交卷在 8K 已得 87.1 ≈ RL 的 86.35，提示 RL 主要在\"修复停止\"。",
-      "framing_status_zh": "User-approved Chinese CV wording dated 2026-10-19. Numerical results and interpretation are supplied by the user; this publication sync does not independently audit the experiments. English content retains its previous revision."
+      "summary_zh": "围绕“蒸馏为何能改善后续 RL”，设计教师提示、自蒸馏与直接 RL 对照，追查收益来源。 同一教师改用思考提示后，1.7B 准确率达 86.75%（原模型 73.45%、标准 OPD 76.20%）；1.7B/4B 自蒸馏也取得相近表现。 结合预算曲线、强制收尾与停止行为分析，区分答前推理过长和答后持续生成，揭示“答对”与“及时交付”的差异。 在相同下游 RL 设置下，蒸馏后 RL 达 87.25%，高于直接 RL 的 81.70%；同时发现低预算收益与高预算准确率之间的权衡。",
+      "framing_status_zh": "2026-10-22 根据已审阅实验记录与推荐打磨版同步中英文。保留研究问题、关键数值与评测口径，不再把模式迁移写成排除知识传递的结论，也不把相同下游 RL 设置写成等总成本。",
+      "settings": "Qwen3 0.6B/1.7B/4B students; 8B primary teacher",
+      "metric_note_zh": "以下准确率均为 1.7B，MATH-500，16K 生成预算，avg@4。",
+      "metric_note": "Accuracy figures below: Qwen3-1.7B, MATH-500, 16K generation budget, avg@4.",
+      "project_url": "https://rummyyang.github.io/research/opd/opd_deck.html#1"
     }
   ],
   "cv_languages": {

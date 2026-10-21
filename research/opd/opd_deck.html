@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OPD 结果一览</title>
+<meta name="description" content="八张幻灯片：教师模板、上限、预算、覆盖、短 RL、终止、跨尺寸、主线。每张一句话、一到两张图、两个数。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --bg0:#0a0c10; --bg1:#0f1217; --surface:#151921; --surface-2:#1b2028; --line:rgba(255,255,255,.07); --line-2:rgba(255,255,255,.12);
+  --ink:#f2f3f5; --ink-2:#b4bac6; --muted:#7c8494; --grid:rgba(255,255,255,.06); --axis:rgba(255,255,255,.16);
+  --accent:#2dd4bf; --accent-2:#f5c451; --glow:rgba(45,212,191,.22);
+  --c-think:#7db3ff; --c-p5:#ff7a59; --c-self:#c084fc; --c-p2:#f5c451; --c-rl:#34d399; --c-kl:#2dd4bf; --c-rlb:#9aa3b2; --c-base:#6b7280; --c-i2507:#67e8f9;
+  --shadow:0 24px 60px rgba(0,0,0,.45);
+}
+:root[data-theme="light"]{
+  color-scheme:light;
+  --bg0:#f3f1ec; --bg1:#faf9f6; --surface:#ffffff; --surface-2:#f6f4ef; --line:rgba(20,22,26,.08); --line-2:rgba(20,22,26,.14);
+  --ink:#15171a; --ink-2:#4b5159; --muted:#8a9099; --grid:rgba(20,22,26,.07); --axis:rgba(20,22,26,.2);
+  --accent:#0d9488; --accent-2:#b7791f; --glow:rgba(13,148,136,.16);
+  --c-think:#2563eb; --c-p5:#e4572e; --c-self:#8b5cf6; --c-p2:#d29a1e; --c-rl:#059669; --c-kl:#0d9488; --c-rlb:#64748b; --c-base:#9ca3af; --c-i2507:#0891b2;
+  --shadow:0 20px 50px rgba(20,22,26,.10);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:radial-gradient(1200px 700px at 12% -10%,rgba(45,212,191,.10),transparent 60%),radial-gradient(900px 600px at 100% 110%,rgba(245,196,81,.08),transparent 55%),var(--bg0);color:var(--ink);font-family:"Manrope","Noto Sans SC",system-ui,-apple-system,"PingFang SC","Hiragino Sans GB",sans-serif;-webkit-font-smoothing:antialiased;line-height:1.45;overflow:hidden}
+:root[data-theme="light"] body{background:radial-gradient(1200px 700px at 12% -10%,rgba(13,148,136,.10),transparent 60%),radial-gradient(900px 600px at 100% 110%,rgba(183,121,31,.08),transparent 55%),var(--bg0)}
+.top{position:fixed;inset:0 0 auto 0;height:58px;display:flex;align-items:center;gap:18px;padding:0 28px;z-index:5}
+.brand{font-weight:800;letter-spacing:.14em;font-size:13px;display:flex;align-items:center;gap:10px}
+.brand i{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--glow)}
+.brand small{font-weight:500;color:var(--muted);letter-spacing:.02em;font-family:"Noto Sans SC",sans-serif}
+.nav{display:flex;gap:2px;margin:0 auto}
+.nav button{border:0;background:transparent;color:var(--muted);font:500 12px/1 "Noto Sans SC",sans-serif;padding:10px 11px;cursor:pointer;position:relative;letter-spacing:.02em}
+.nav button.on{color:var(--ink)}
+.nav button.on::after{content:"";position:absolute;left:11px;right:11px;bottom:4px;height:2px;border-radius:2px;background:var(--accent)}
+.toggle{border:1px solid var(--line-2);background:transparent;color:var(--ink-2);border-radius:999px;padding:7px 12px;font:500 12px/1 "Noto Sans SC",sans-serif;cursor:pointer}
+.deck{position:absolute;inset:58px 0 46px 0;overflow:hidden}
+.slide{position:absolute;inset:0;display:none;padding:22px 56px 14px;max-width:1280px;margin:0 auto;opacity:0;transform:translateY(8px)}
+.slide.on{display:grid;grid-template-rows:auto 1fr auto;gap:16px;animation:in .45s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes in{to{opacity:1;transform:none}}
+.kicker{font:600 11px/1 "Manrope",sans-serif;letter-spacing:.2em;color:var(--accent);text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.kicker::before{content:"";width:18px;height:1px;background:var(--accent)}
+h1{font-family:"Noto Sans SC","Manrope",sans-serif;font-size:clamp(24px,2.9vw,36px);font-weight:600;margin:10px 0 0;letter-spacing:-.01em;line-height:1.22}
+h1 em{font-style:normal;color:var(--accent);font-weight:700}
+.sub{font:500 12.5px/1.4 "Noto Sans SC",sans-serif;color:var(--muted);margin-top:8px}
+.body{display:grid;gap:18px;min-height:0}
+.two{grid-template-columns:minmax(0,1.6fr) minmax(280px,.8fr)}
+.twoeq{grid-template-columns:1fr 1fr}
+.card{background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid var(--line);border-radius:20px;padding:18px 20px 14px;min-width:0;display:flex;flex-direction:column;box-shadow:var(--shadow)}
+.card h3{font:600 13px/1.3 "Noto Sans SC",sans-serif;margin:0;color:var(--ink)}
+.card .s{font:500 11.5px/1.4 "Noto Sans SC",sans-serif;color:var(--muted);margin:3px 0 10px}
+.card .chart{flex:1;min-height:0;display:flex;flex-direction:column}
+.card .chart svg{flex:1 1 0;min-height:0;width:100%;height:100%;display:block;overflow:visible}
+svg text{font-family:"Manrope","Noto Sans SC",sans-serif}
+.stack{display:flex;flex-direction:column;gap:14px;min-height:0}
+.stat{background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid var(--line);border-radius:20px;padding:18px 20px 16px;box-shadow:var(--shadow);flex:1;display:flex;flex-direction:column;justify-content:center}
+.stat.hero{background:linear-gradient(135deg,rgba(45,212,191,.22),rgba(45,212,191,.04) 55%,transparent),var(--surface);border-color:rgba(45,212,191,.35)}
+:root[data-theme="light"] .stat.hero{background:linear-gradient(135deg,rgba(13,148,136,.16),rgba(13,148,136,.03) 55%,transparent),var(--surface);border-color:rgba(13,148,136,.3)}
+.stat .l{font:500 11.5px/1.4 "Noto Sans SC",sans-serif;color:var(--muted);margin-bottom:8px}
+.stat .v{font:800 42px/1 "Manrope",sans-serif;letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:var(--ink)}
+.stat.hero .v{color:var(--accent)}
+.stat .v small{font:600 15px/1 "Noto Sans SC",sans-serif;margin-left:6px;letter-spacing:0;color:var(--ink-2)}
+.stat .v.text{font:600 17px/1.4 "Noto Sans SC",sans-serif;letter-spacing:0;color:var(--ink)}
+.stat .n{font:400 12px/1.5 "Noto Sans SC",sans-serif;color:var(--ink-2);margin-top:10px}
+.foot{display:flex;justify-content:space-between;align-items:baseline;gap:20px;font:400 13.5px/1.5 "Noto Sans SC",sans-serif;color:var(--ink-2);padding-top:12px;border-top:1px solid var(--line)}
+.foot b{color:var(--ink);font-weight:600}
+.foot .src{font:500 10.5px/1 "Manrope",sans-serif;color:var(--muted);letter-spacing:.08em;white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font:500 11.5px/1 "Noto Sans SC",sans-serif;color:var(--ink-2);margin:10px 0 0}
+.legend .it{display:inline-flex;align-items:center;gap:7px}
+.legend .k{display:inline-block;width:14px;height:0;border-top:2.5px solid var(--kc);border-radius:2px}
+.legend .k.dash{border-top-style:dashed}
+.bottom{position:fixed;inset:auto 0 0 0;height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font:500 11.5px/1 "Noto Sans SC",sans-serif;color:var(--muted)}
+.bar{flex:1;height:2px;background:var(--line);margin:0 22px;border-radius:2px;position:relative;overflow:hidden}
+.bar i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:2px;transition:width .4s cubic-bezier(.2,.7,.2,1)}
+.arrows{display:flex;align-items:center;gap:8px}
+.arrows span{font:700 12px/1 "Manrope",sans-serif;letter-spacing:.1em;color:var(--ink-2);margin-right:4px}
+.arrows button{border:1px solid var(--line-2);background:var(--surface);color:var(--ink);width:32px;height:30px;border-radius:9px;cursor:pointer;font:14px/1 "Manrope",sans-serif}
+.arrows button:hover{border-color:var(--accent)}
+.hit{fill:transparent;cursor:crosshair}
+.xline{stroke:var(--axis);stroke-width:1;stroke-dasharray:3 4;display:none}
+#tip{position:fixed;display:none;z-index:9;background:var(--surface-2);border:1px solid var(--line-2);box-shadow:var(--shadow);border-radius:12px;padding:10px 13px;font:500 12px/1.4 "Noto Sans SC",sans-serif;pointer-events:none;max-width:320px}
+#tip .h{color:var(--muted);margin-bottom:6px;font:600 11px/1 "Manrope",sans-serif;letter-spacing:.08em}
+#tip .row{display:flex;align-items:center;gap:9px;margin:3px 0;white-space:nowrap}
+#tip .row strong{min-width:46px;text-align:right;font:700 12.5px/1 "Manrope",sans-serif;font-variant-numeric:tabular-nums}
+#tip .k{display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--kc)}
+.slider{display:flex;align-items:center;gap:14px;font:500 12px/1 "Noto Sans SC",sans-serif;color:var(--muted);margin-top:10px}
+.slider input{flex:1;accent-color:var(--accent);height:2px}
+.slider b{min-width:42px;color:var(--ink);font:800 14px/1 "Manrope",sans-serif;font-variant-numeric:tabular-nums}
+.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:stretch;gap:12px}
+.flow .arrow{align-self:center;color:var(--muted);font:300 26px/1 "Manrope",sans-serif}
+.flow .step{background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid var(--line);border-radius:20px;padding:20px 22px;box-shadow:var(--shadow)}
+.flow .step .k{font:600 11px/1 "Manrope",sans-serif;letter-spacing:.2em;color:var(--accent);text-transform:uppercase}
+.flow .step h3{font:600 16px/1.3 "Noto Sans SC",sans-serif;margin:10px 0 6px}
+.flow .step p{margin:0;font:400 12.5px/1.5 "Noto Sans SC",sans-serif;color:var(--ink-2)}
+.flow .step .big{font:800 34px/1 "Manrope",sans-serif;letter-spacing:-.03em;margin:12px 0 6px;color:var(--ink);font-variant-numeric:tabular-nums}
+.tonight{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tonight .t{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;font:400 12.5px/1.5 "Noto Sans SC",sans-serif}
+.tonight .t b{display:block;font-weight:600;font-size:13px;margin-bottom:2px}
+.tonight .t span{color:var(--muted)}
+@media (max-width:900px){.slide{padding:70px 16px 60px}.two,.twoeq{grid-template-columns:1fr}.flow{grid-template-columns:1fr}.flow .arrow{display:none}.tonight{grid-template-columns:1fr}body{overflow:auto}.deck{position:static;inset:auto}.slide{position:static}.slide.on{display:grid;grid-template-rows:auto auto auto}.card .chart{min-height:300px}.card .chart svg{height:300px;flex:none}.nav{display:none}}
+@media print{body{overflow:visible;background:#fff}.deck{position:static}.slide{display:grid !important;position:static;page-break-after:always;opacity:1;transform:none}.top,.bottom{display:none}}
+</style>
+</head>
+<body>
+<div id="tip" role="tooltip"></div>
+<div class="top">
+  <div class="brand"><i></i>OPD<small>研究快照 · 2026-10-21</small></div>
+  <div class="nav" id="nav"></div>
+  <button class="toggle" id="toggle" type="button">☀ 亮色</button>
+</div>
+<div class="deck" id="deck">
+
+<section class="slide" data-title="教师模板">
+  <div><div class="kicker">01 · Teacher template</div><h1>同一教师，换一种读法，<em>增益翻四倍</em>。</h1><div class="sub">MATH-500 · 16K · avg@4 · T0.6 · 学生 Qwen3-1.7B / 4B · 教师 Qwen3-8B</div></div>
+  <div class="body two">
+    <div class="card"><h3>学生准确率</h3><p class="s">1.7B 与 4B；自蒸馏为 50 步，其余 150 步</p><div id="c1" class="chart"></div></div>
+    <div class="stack">
+      <div class="stat hero"><div class="l">思考模板教师 − 标准 OPD（1.7B）</div><div class="v">+10.55<small>pp</small></div><div class="n">4B 上 +9.85；标准 OPD 在 4B 为 −0.35</div></div>
+      <div class="stat"><div class="l">自蒸馏 · 学生自己的思考模式作教师</div><div class="v">89.0<small>%</small></div><div class="n">1.7B 同为 50 步：对 8B 教师学生 +1.3 [0.15, 2.5]；4B 94.55 对 92.75</div></div>
+    </div>
+  </div>
+  <div class="foot"><div>教师<b>用什么模板读学生</b>是关键变量，教师大小不是（14B 对 8B +0.8，不显著）。</div><div class="src">E11B · E10D · PAIRED BOOTSTRAP</div></div>
+</section>
+
+<section class="slide" data-title="上限">
+  <div><div class="kicker">02 · Ceiling</div><h1>32K 下，1.7B / 4B 学生<em>接近自身思考模式</em>。</h1><div class="sub">MATH-500 · 32K 预算 · avg@4 · 三个尺寸</div></div>
+  <div class="body two">
+    <div class="card"><h3>32K 准确率</h3><p class="s">每个尺寸：自身思考模式 · 8B 教师的学生 · 自蒸馏学生</p><div id="c2" class="chart"></div></div>
+    <div class="stack">
+      <div class="stat hero"><div class="l">强制交卷后 学生 − 自身思考模式（32K）</div><div class="v" style="font-size:30px">+6.5 · +0.6 · −0.4</div><div class="n">0.6B · 1.7B · 4B：强制交卷后的准确率差，不能直接分解知识与模式的份额</div></div>
+      <div class="stat"><div class="l">表示层 α · 学生向思考模式方向移动的比例</div><div class="v">0.75–0.96</div><div class="n">思考模板学生；标准 OPD 与直接 RL 只有 0.22–0.45</div></div>
+    </div>
+  </div>
+  <div class="foot"><div>OPD 写进权重的是<b>模式的开关</b>；外部知识不是自蒸馏收益的必要条件（自蒸馏已验 1.7B / 4B，0.6B 待补）。</div><div class="src">BUDA · BUDF · TWR</div></div>
+</section>
+
+<section class="slide" data-title="预算">
+  <div><div class="kicker">03 · Budget</div><h1>会解题，<em>不等于按时交卷</em>。</h1><div class="sub">MATH-500 · 1.7B · 一次 32K 生成按预算截断重判 · 拖动看任一预算</div></div>
+  <div class="body two">
+    <div class="card"><h3>准确率 × 生成预算</h3><p class="s">对数轴 2K–32K</p><div id="c3" class="chart"></div><div class="slider"><span>预算</span><input id="bud" type="range" min="0" max="4" step="1" value="2"><b id="budv">8K</b></div></div>
+    <div class="stack" id="c3cards"></div>
+  </div>
+  <div class="foot"><div>低预算的损失是<b>没写完</b>：强制交卷把 2K 从 17.8 拉回 72.85。RL 拿掉预算依赖，付出约 3.5 点上限；KL 锚定只付 1.75。</div><div class="src">BUDA17 · BUDF · BUDA-E12B</div></div>
+</section>
+
+<section class="slide" data-title="覆盖">
+  <div><div class="kicker">04 · Coverage</div><h1>一次命中会掉，<em>多次采样的覆盖大体保住</em>。</h1><div class="sub">AIME24 · 32K · 30 题 × 16 样本 · pass@k</div></div>
+  <div class="body two">
+    <div class="card"><h3>pass@k · 1.7B</h3><p class="s">k = 1 … 16（对数轴）；P5→RL 为三个起点的均值</p><div id="c4" class="chart"></div></div>
+    <div class="stack">
+      <div class="stat hero"><div class="l">思考模板学生 pass@16 对 自身思考模式</div><div class="v">≈</div><div class="n">八个对照里 −3 到 +1 题；标准 OPD 只剩一半（33 对 80）</div></div>
+      <div class="stat"><div class="l">4K 短 RL · pass@1 / pass@16 变化</div><div class="v">−12 / −3</div><div class="n">三个起点均值；KL 锚定臂 pass@16 80.0，P5 起点 76.67</div></div>
+    </div>
+  </div>
+  <div class="foot"><div>短 RL 压的<b>主要是点估计</b>，KL 锚定保住覆盖。</div><div class="src">EVAL-PASSK-EXT · UNBIASED</div></div>
+</section>
+
+<section class="slide" data-title="短 RL">
+  <div><div class="kicker">05 · Short RL</div><h1>锚在起点上的短 RL，<em>压长度，未检出显著准确率损失</em>。</h1><div class="sub">1.7B · 从 P5 起点 GRPO 100 步 · 4K 回合 · AIME24 32K</div></div>
+  <div class="body twoeq">
+    <div class="card"><h3>准确率（avg@16）</h3><p class="s">起点与三种后续</p><div id="c5a" class="chart"></div></div>
+    <div class="card"><h3>平均长度（token）</h3><p class="s">同一组模型</p><div id="c5b" class="chart"></div></div>
+  </div>
+  <div class="foot"><div>纯 GRPO 丢 11 分换 1.8× 压缩；<b>KL 锚定丢 3 分、仍压 1.5×</b>；答后即停奖励从未被支付。三条 RL 链是三个起点，RL 数据顺序相同。</div><div class="src">EXT32K-17KL · 17STOP · Q-020 / Q-021</div></div>
+</section>
+
+<section class="slide" data-title="终止">
+  <div><div class="kicker">06 · Termination</div><h1>谁答完就停：<em>同分布的教师才传停止</em>。</h1><div class="sub">终止探针 TERM4 · 最后一个答案框之后立即结束的概率 · 各模型自己的 MATH-500 生成</div></div>
+  <div class="body two">
+    <div class="card"><h3>p(stop) 在最后一框之后</h3><p class="s">1.7B 为主；标注的为 4B</p><div id="c6" class="chart"></div></div>
+    <div class="stack">
+      <div class="stat hero"><div class="l">条件（10-21 修正）</div><div class="v text">学生在该格式下已会停，且教师在学生的上下文里也在那里给停止概率</div><div class="n">自蒸馏、对位都满足；错位的外部教师不满足，教师越大越脏</div></div>
+      <div class="stat"><div class="l">今夜在跑的修法</div><div class="v text">首框后合并停止集合 · 尾段换非思考读法</div><div class="n">Q-038 / Q-040，明早 s50 读数</div></div>
+    </div>
+  </div>
+  <div class="foot"><div>学生学会了关思考块（0.80 = 思考模式），没学会<b>答完就停</b>。</div><div class="src">PROBE-TERM4 · TERM2</div></div>
+</section>
+
+<section class="slide" data-title="跨尺寸">
+  <div><div class="kicker">07 · Across sizes</div><h1>标准 OPD 随尺寸归零，<em>思考模板不归零</em>。</h1><div class="sub">MATH-500 · 16K · 对基座的增益（pp）</div></div>
+  <div class="body two">
+    <div class="card"><h3>对基座的增益</h3><p class="s">0.6B · 1.7B · 4B；两类教师读法</p><div id="c7" class="chart"></div></div>
+    <div class="stack">
+      <div class="stat"><div class="l">标准 OPD（非思考教师）</div><div class="v" style="font-size:28px">+10.8 → +2.8 → −0.4</div><div class="n">与文献同向：学生越大，非思考路线增益越小</div></div>
+      <div class="stat hero"><div class="l">思考模板教师</div><div class="v" style="font-size:28px">+19.3 → +13.3 → +9.5</div><div class="n">4B 上 AIME24 24 → 68（起点）、自蒸馏 75</div></div>
+    </div>
+  </div>
+  <div class="foot"><div>只要教师<b>开着思考模式</b>读学生，增益就不随尺寸消失。</div><div class="src">E11 · E11B · E10D</div></div>
+</section>
+
+<section class="slide" data-title="主线">
+  <div><div class="kicker">08 · The line</div><h1>从一个分数，<em>到按需长短</em>。</h1><div class="sub">论文主线与今夜</div></div>
+  <div class="body" style="grid-template-rows:auto auto;align-content:start">
+    <div class="flow">
+      <div class="step"><div class="k">① 模式内化</div><h3>把思考模式写进非思考形态</h3><div class="big">73.5 → 90.9</div><p>1.7B MATH-500 32K；自蒸馏即可（1.7B / 4B 已验，0.6B 待补）</p></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="k">② 终止条件</div><h3>停止只从同分布教师传来</h3><div class="big">0.30 → 0.95</div><p>8B 教师的学生 → 自蒸馏学生；一步修法今夜起跑</p></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="k">③ 按需长短</div><h3>锚定的短 RL 与难度路由</h3><div class="big">1.5×</div><p>KL 锚定压缩，未检出显著准确率损失；两教师按题路由下一步</p></div>
+    </div>
+    <div class="tonight">
+      <div class="t"><b>stop2 · 连续停止奖励</b><span>Q-034 · s10 过线继续，s25 复查</span></div>
+      <div class="t"><b>stopmerge · 首框后合并停止</b><span>Q-038 · 预测框后续写 842 → &lt;100</span></div>
+      <div class="t"><b>tail-swap · 尾段换读法</b><span>Q-040 · 预测 p(stop) 0.12 → ≥0.7</span></div>
+    </div>
+  </div>
+  <div class="foot"><div>下一步：<b>一个训练环节内同时学会推理、终止和简洁</b>，再推到工具调用与多模态。</div><div class="src">RESEARCH PROGRAM §2B / §3</div></div>
+</section>
+
+</div>
+<div class="bottom">
+  <div>← → 翻页 · 悬停看数 · 所有数字按原始结果文件复核</div>
+  <div class="bar"><i id="barfill"></i></div>
+  <div class="arrows"><span id="ctr">01 / 08</span><button id="prev" type="button">←</button><button id="next" type="button">→</button></div>
+</div>
+<script>
+(function(){
+'use strict';
+const NS='http://www.w3.org/2000/svg';
+const cvar=e=>`var(--c-${e})`;
+const num=v=>v==null?'—':(Math.round(v*100)/100).toString();
+const FONT='font-family:"Manrope","Noto Sans SC",sans-serif';
+function el(tag,attrs,parent){const n=document.createElementNS(NS,tag);for(const k in attrs)n.setAttribute(k,attrs[k]);if(parent)parent.appendChild(n);return n;}
+function txt(parent,x,y,s,attrs){const t=el('text',Object.assign({x,y},attrs||{}),parent);t.textContent=s;return t;}
+function defs(svg,id){const d=el('defs',{},svg);const f=el('filter',{id:'glow'+id,x:'-20%',y:'-50%',width:'140%',height:'200%'},d);el('feGaussianBlur',{stdDeviation:'3',result:'b'},f);const m=el('feMerge',{},f);el('feMergeNode',{in:'b'},m);el('feMergeNode',{in:'SourceGraphic'},m);return d;}
+const tip=document.getElementById('tip');
+function showTip(head,rows,x,y){tip.replaceChildren();if(head){const h=document.createElement('div');h.className='h';h.textContent=head;tip.appendChild(h);}
+  rows.forEach(r=>{const d=document.createElement('div');d.className='row';const s=document.createElement('strong');s.textContent=r.value;d.appendChild(s);
+    if(r.entity){const k=document.createElement('span');k.className='k';k.style.setProperty('--kc',cvar(r.entity));d.appendChild(k);}
+    const l=document.createElement('span');l.textContent=r.label;d.appendChild(l);tip.appendChild(d);});
+  tip.style.display='block';const w=tip.offsetWidth,h=tip.offsetHeight;tip.style.left=Math.min(x+16,window.innerWidth-w-8)+'px';tip.style.top=Math.max(8,y-h-14)+'px';}
+function hideTip(){tip.style.display='none';}
+function legend(root,items){const d=document.createElement('div');d.className='legend';items.forEach(it=>{const s=document.createElement('span');s.className='it';const k=document.createElement('span');k.className='k'+(it.kind?' '+it.kind:'');k.style.setProperty('--kc',cvar(it.entity));s.appendChild(k);s.appendChild(document.createTextNode(it.name));d.appendChild(s);});root.appendChild(d);}
+const N={base:'基座（非思考）',p2:'标准 OPD',p5:'思考模板教师的学生',self:'自蒸馏',think:'自身思考模式',rl:'P5→RL（纯 GRPO）',kl:'P5→RL（KL 锚定）',rlb:'直接 RL',i2507:'Instruct-2507'};
+const LAB={'font-size':11,style:'fill:var(--muted);'+FONT};
+const VAL={'font-size':12,style:'fill:var(--ink);font-weight:700;font-variant-numeric:tabular-nums;'+FONT};
+
+function hbars(id,groups,opt){
+  const root=document.getElementById(id);opt=opt||{};
+  const W=560,bh=opt.bh||22,gap=8,gg=26,L=opt.L||110,R=64,T=6;
+  const rows=groups.reduce((a,g)=>a+g.bars.length,0);const H=T+groups.length*gg+rows*(bh+gap)+6;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img'},root);
+  const vmin=opt.vmin??0,vmax=opt.vmax??100;const x=v=>L+(v-vmin)/(vmax-vmin)*(W-L-R);
+  const base=x(Math.max(vmin,0));
+  if(vmin<0)el('line',{x1:base,x2:base,y1:T,y2:H-2,style:'stroke:var(--axis);stroke-width:1'},svg);
+  let y=T;
+  groups.forEach(g=>{txt(svg,0,y+11,g.name,{'font-size':11.5,style:'fill:var(--ink);font-weight:700;'+FONT});y+=gg;
+    g.bars.forEach(b=>{const x0=Math.min(base,x(b.v)),w=Math.abs(x(b.v)-base);
+      el('rect',{x:L,y,width:W-L-R,height:bh,rx:bh/2,style:'fill:var(--grid)'},svg);
+      const r=el('rect',{x:x0,y,width:Math.max(w,3),height:bh,rx:bh/2,style:`fill:${cvar(b.entity)}`},svg);
+      txt(svg,L-10,y+bh/2+4,b.label||N[b.entity],{'font-size':11.5,'text-anchor':'end',style:'fill:var(--ink-2);'+FONT});
+      txt(svg,(b.v>=0?x(b.v)+8:x0-8),y+bh/2+4,num(b.v),Object.assign({'text-anchor':b.v>=0?'start':'end'},VAL));
+      r.addEventListener('pointermove',ev=>showTip(g.name,[{value:num(b.v),label:b.label||N[b.entity],entity:b.entity}],ev.clientX,ev.clientY));r.addEventListener('pointerleave',hideTip);
+      y+=bh+gap;});});
+}
+function vbars(id,items,opt){
+  const root=document.getElementById(id);opt=opt||{};
+  const W=560,H=opt.H||320,L=44,R=10,T=22,B=54;const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img'},root);
+  const vmax=opt.vmax??100;const y=v=>T+(1-v/vmax)*(H-T-B);
+  for(let v=0;v<=vmax+1e-9;v+=opt.step||20){el('line',{x1:L,x2:W-R,y1:y(v),y2:y(v),style:`stroke:${v===0?'var(--axis)':'var(--grid)'};stroke-width:1`},svg);txt(svg,L-8,y(v)+4,opt.fmt?opt.fmt(v):String(v),Object.assign({'text-anchor':'end'},LAB));}
+  const n=items.length,slot=(W-L-R)/n,bw=Math.min(60,slot*.56);
+  items.forEach((it,i)=>{const cx=L+slot*(i+.5);
+    const r=el('rect',{x:cx-bw/2,y:y(it.v),width:bw,height:y(0)-y(it.v),rx:8,style:`fill:${cvar(it.entity)}`},svg);
+    txt(svg,cx,y(it.v)-8,opt.fmt?opt.fmt(it.v):num(it.v),Object.assign({'text-anchor':'middle','font-size':13},VAL));
+    txt(svg,cx,H-B+18,it.label,{'font-size':11.5,'text-anchor':'middle',style:'fill:var(--ink-2);'+FONT});
+    if(it.sub)txt(svg,cx,H-B+33,it.sub,Object.assign({'text-anchor':'middle'},LAB));
+    r.addEventListener('pointermove',ev=>showTip(it.label,[{value:opt.fmt?opt.fmt(it.v):num(it.v),label:it.tip||'',entity:it.entity}],ev.clientX,ev.clientY));r.addEventListener('pointerleave',hideTip);});
+}
+function lines(id,cats,series,opt){
+  const root=document.getElementById(id);opt=opt||{};
+  const W=560,H=opt.H||320,L=42,R=58,T=14,B=42;const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img'},root);defs(svg,id);
+  const ymin=opt.ymin??0,ymax=opt.ymax??100,step=opt.step||20;
+  const x=i=>L+i/(cats.length-1)*(W-L-R), y=v=>T+(1-(v-ymin)/(ymax-ymin))*(H-T-B);
+  for(let v=ymin;v<=ymax+1e-9;v+=step){el('line',{x1:L,x2:W-R,y1:y(v),y2:y(v),style:`stroke:${v===ymin?'var(--axis)':'var(--grid)'};stroke-width:1`},svg);txt(svg,L-8,y(v)+4,String(v),Object.assign({'text-anchor':'end'},LAB));}
+  cats.forEach((c,i)=>txt(svg,x(i),H-B+18,c,Object.assign({'text-anchor':'middle'},LAB)));
+  const xl=el('line',{class:'xline',y1:T,y2:H-B},svg);
+  const marks=[];
+  series.forEach(se=>{const pts=se.v.map((v,i)=>v==null?null:[x(i),y(v)]).filter(Boolean);
+    const d=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+    if(se.area){el('path',{d:d+` L${pts[pts.length-1][0].toFixed(1)} ${y(ymin)} L${pts[0][0].toFixed(1)} ${y(ymin)} Z`,style:`fill:${cvar(se.entity)};opacity:.08`},svg);}
+    el('path',{d,fill:'none','stroke-width':se.w||2.4,'stroke-linejoin':'round','stroke-linecap':'round',style:`stroke:${cvar(se.entity)}${se.glow?';filter:url(#glow'+id+')':''}`,'stroke-dasharray':se.dash||'none'},svg);
+    pts.forEach((p,i)=>{const c=el('circle',{cx:p[0],cy:p[1],r:3,style:`fill:${cvar(se.entity)};stroke:var(--surface);stroke-width:1.5`},svg);marks.push({i,c});});});
+  const labs=series.map(s=>{const i=s.v.map((v,k)=>v==null?-1:k).filter(k=>k>=0).pop();return {s,i,y:y(s.v[i])};}).sort((a,b)=>a.y-b.y);
+  for(let k=1;k<labs.length;k++){if(labs[k].y-labs[k-1].y<12.5)labs[k].y=labs[k-1].y+12.5;}
+  labs.forEach(l=>txt(svg,x(l.i)+9,l.y+4,num(l.s.v[l.i]),{'font-size':11.5,style:`fill:${cvar(l.s.entity)};font-weight:700;font-variant-numeric:tabular-nums;`+FONT}));
+  const hit=el('rect',{class:'hit',x:L,y:T,width:W-L-R,height:H-T-B},svg);
+  const focus=i=>{xl.setAttribute('x1',x(i));xl.setAttribute('x2',x(i));xl.style.display='block';marks.forEach(m=>m.c.setAttribute('r',m.i===i?5:3));};
+  hit.addEventListener('pointermove',ev=>{const r=svg.getBoundingClientRect();const px=(ev.clientX-r.left)/r.width*W;let bi=0,bd=1e9;cats.forEach((c,i)=>{const d=Math.abs(x(i)-px);if(d<bd){bd=d;bi=i;}});
+    focus(bi);showTip(cats[bi],series.filter(s=>s.v[bi]!=null).map(s=>({value:num(s.v[bi]),label:s.n,entity:s.entity})),ev.clientX,ev.clientY);if(opt.onFocus)opt.onFocus(bi);});
+  hit.addEventListener('pointerleave',()=>{xl.style.display='none';hideTip();});
+  legend(root,series.map(s=>({name:s.n,entity:s.entity,kind:s.dash?'dash':''})));
+  return {focus};
+}
+function dumbbell(id,rows,opt){
+  const root=document.getElementById(id);opt=opt||{};
+  const W=560,rh=64,L=56,R=176,T=18;const H=T+rows.length*rh+20;const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img'},root);
+  const vmin=opt.vmin??60,vmax=opt.vmax??100;const x=v=>L+(v-vmin)/(vmax-vmin)*(W-L-R);
+  for(let v=vmin;v<=vmax+1e-9;v+=opt.step||10){el('line',{x1:x(v),x2:x(v),y1:T,y2:H-16,style:'stroke:var(--grid);stroke-width:1'},svg);txt(svg,x(v),H-2,String(v),Object.assign({'text-anchor':'middle'},LAB));}
+  rows.forEach((r,i)=>{const cy=T+rh*i+rh/2;txt(svg,0,cy+4,r.name,{'font-size':13,style:'fill:var(--ink);font-weight:700;'+FONT});
+    const vs=r.pts.map(p=>p.v);el('line',{x1:x(Math.min(...vs)),x2:x(Math.max(...vs)),y1:cy,y2:cy,style:'stroke:var(--axis);stroke-width:3;stroke-linecap:round'},svg);
+    r.pts.forEach((p,k)=>{const c=el('circle',{cx:x(p.v),cy,r:7,style:`fill:${cvar(p.entity)};stroke:var(--surface);stroke-width:2`},svg);
+      const ly=cy-13+k*13;el('circle',{cx:W-R+14,cy:ly-3.5,r:3.5,style:`fill:${cvar(p.entity)}`},svg);
+      txt(svg,W-R+25,ly,(opt.short||N)[p.entity]+'  '+num(p.v),{'font-size':11.5,style:'fill:var(--ink);font-variant-numeric:tabular-nums;'+FONT});
+      c.addEventListener('pointermove',ev=>showTip(r.name,[{value:num(p.v),label:N[p.entity],entity:p.entity}],ev.clientX,ev.clientY));c.addEventListener('pointerleave',hideTip);});});
+}
+
+hbars('c1',[
+ {name:'1.7B',bars:[{entity:'base',v:73.45},{entity:'p2',v:76.20},{entity:'p5',v:86.75},{entity:'self',v:89.0,label:'自蒸馏（50 步）'}]},
+ {name:'4B',bars:[{entity:'base',v:83.25},{entity:'p2',v:82.90},{entity:'p5',v:92.75},{entity:'self',v:94.55,label:'自蒸馏（50 步）'}]}],{vmin:60,vmax:100,L:128});
+dumbbell('c2',[
+ {name:'0.6B',pts:[{entity:'think',v:73.8},{entity:'p5',v:77.55}]},
+ {name:'1.7B',pts:[{entity:'think',v:90.4},{entity:'p5',v:90.85},{entity:'self',v:90.6}]},
+ {name:'4B',pts:[{entity:'think',v:95.65},{entity:'p5',v:95.15},{entity:'self',v:95.8}]}],
+ {vmin:70,vmax:100,step:10,short:{think:'自身思考模式',p5:'8B 教师的学生',self:'自蒸馏'}});
+const BUD=['2K','4K','8K','16K','32K'];
+const S3=[{entity:'think',n:N.think,v:[32.65,62.90,80.15,88.40,90.40],w:2.8,area:true},
+ {entity:'p5',n:N.p5,v:[17.80,51.60,75.85,87.15,90.85],glow:true},
+ {entity:'p5',n:'思考模板学生 · 强制交卷',v:[72.85,80.60,87.10,90.30,91.15],dash:'6 5'},
+ {entity:'rl',n:N.rl,v:[76.40,84.40,86.35,87.25,87.30]},
+ {entity:'kl',n:N.kl,v:[65.90,79.25,85.60,88.40,89.10]},
+ {entity:'base',n:N.base,v:[72.80,73.40,73.50,73.50,73.50]}];
+const cards=document.getElementById('c3cards');
+function renderCards(i){cards.replaceChildren();
+  const mk=(l,v,n,hero)=>{const d=document.createElement('div');d.className='stat'+(hero?' hero':'');d.innerHTML=`<div class="l">${l}</div><div class="v">${v}</div><div class="n">${n}</div>`;cards.appendChild(d);};
+  mk('预算 '+BUD[i]+' · 思考模板学生 / 自身思考模式',num(S3[1].v[i])+'<small>/ '+num(S3[0].v[i])+'</small>','强制交卷后 '+num(S3[2].v[i]),true);
+  mk('预算 '+BUD[i]+' · P5→RL 纯 / KL 锚定',num(S3[3].v[i])+'<small>/ '+num(S3[4].v[i])+'</small>','基座 '+num(S3[5].v[i])+'；直接 RL 16K 81.7');}
+const c3=lines('c3',BUD,S3,{ymin:0,ymax:100,step:20,onFocus:i=>{document.getElementById('bud').value=i;document.getElementById('budv').textContent=BUD[i];renderCards(i);}});
+document.getElementById('bud').addEventListener('input',e=>{const i=+e.target.value;document.getElementById('budv').textContent=BUD[i];c3.focus(i);renderCards(i);});
+renderCards(2);c3.focus(2);
+lines('c4',['pass@1','pass@2','pass@4','pass@8','pass@16'],[
+ {entity:'think',n:N.think,v:[45.42,57.53,68.31,76.02,80.0],w:2.8,area:true},
+ {entity:'p5',n:N.p5,v:[48.12,59.83,68.08,72.99,76.67],glow:true},
+ {entity:'self',n:N.self,v:[46.04,59.14,69.37,76.16,80.0]},
+ {entity:'rl',n:N.rl+'（三个起点均值）',v:[35.90,48.40,59.41,67.56,73.33]},
+ {entity:'rlb',n:N.rlb,v:[25.0,32.86,41.21,49.37,53.33]},
+ {entity:'p2',n:N.p2,v:[15.0,20.42,24.73,28.88,33.33]}],{ymin:0,ymax:100,step:20});
+vbars('c5a',[{entity:'p5',v:48.12,label:'起点 P5',sub:'仅蒸馏'},{entity:'rl',v:37.08,label:'纯 GRPO',sub:'−11.0'},{entity:'kl',v:44.79,label:'KL 锚定',sub:'−3.3，CI 含 0'},{entity:'rlb',v:25.0,label:'直接 RL',sub:'从基座'}],{vmax:60,step:20});
+vbars('c5b',[{entity:'p5',v:21248,label:'起点 P5',sub:'截断 25%'},{entity:'rl',v:11842,label:'纯 GRPO',sub:'1.8×'},{entity:'kl',v:14304,label:'KL 锚定',sub:'1.5×'},{entity:'rlb',v:7926,label:'直接 RL',sub:''}],{vmax:25000,step:5000,fmt:v=>v>=1000?(v/1000).toFixed(v%1000?1:0)+'K':String(v)});
+hbars('c6',[{name:'停得干净',bars:[{entity:'think',v:0.979,label:'自身思考模式'},{entity:'self',v:0.95,label:'自蒸馏（1.7B，两种子）'},{entity:'p5',v:0.959,label:'对位：学生也用思考模板'},{entity:'base',v:0.906,label:'基座（非思考）'},{entity:'i2507',v:0.747,label:'Instruct-2507（4B）'}]},
+ {name:'停不干净',bars:[{entity:'rl',v:0.451,label:'P5→RL（纯 GRPO）'},{entity:'self',v:0.329,label:'自蒸馏（4B）'},{entity:'p5',v:0.300,label:'8B 教师的学生 P5'},{entity:'p5',v:0.251,label:'14B 教师的学生'}]}],{vmin:0,vmax:1.05,L:176,bh:18});
+hbars('c7',[{name:'标准 OPD（非思考教师）',bars:[{entity:'p2',v:10.75,label:'0.6B'},{entity:'p2',v:2.75,label:'1.7B'},{entity:'p2',v:-0.35,label:'4B'}]},
+ {name:'思考模板教师',bars:[{entity:'p5',v:19.25,label:'0.6B（s100）'},{entity:'p5',v:13.3,label:'1.7B'},{entity:'p5',v:9.5,label:'4B'}]}],{vmin:-5,vmax:25,L:104});
+
+const slides=[...document.querySelectorAll('.slide')],nav=document.getElementById('nav');
+slides.forEach((s,i)=>{const b=document.createElement('button');b.textContent=String(i+1).padStart(2,'0')+' '+s.dataset.title;b.addEventListener('click',()=>go(i));nav.appendChild(b);});
+let cur=0;
+function go(i){cur=(i+slides.length)%slides.length;slides.forEach((s,k)=>s.classList.toggle('on',k===cur));[...nav.children].forEach((b,k)=>b.classList.toggle('on',k===cur));document.getElementById('barfill').style.width=((cur+1)/slides.length*100)+'%';document.getElementById('ctr').textContent=String(cur+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');try{history.replaceState(null,'','#'+(cur+1));}catch(e){}window.scrollTo(0,0);}
+document.getElementById('prev').addEventListener('click',()=>go(cur-1));document.getElementById('next').addEventListener('click',()=>go(cur+1));
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')go(cur+1);if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1);});
+const h=parseInt((location.hash||'#1').slice(1),10);go(isNaN(h)?0:h-1);
+const btn=document.getElementById('toggle');const rootEl=document.documentElement;
+function applyTheme(t){if(t==='light')rootEl.setAttribute('data-theme','light');else rootEl.removeAttribute('data-theme');btn.textContent=t==='light'?'☾ 暗色':'☀ 亮色';}
+let theme='';try{theme=localStorage.getItem('opd-deck-theme')||'';}catch(e){}
+applyTheme(theme);
+btn.addEventListener('click',()=>{theme=rootEl.getAttribute('data-theme')==='light'?'':'light';applyTheme(theme);try{localStorage.setItem('opd-deck-theme',theme);}catch(e){}});
+})();
+</script>
+</body>
+</html>

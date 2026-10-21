@@ -46,7 +46,7 @@ B.Eng. in AI and Automation\quad |\quad Science and Engineering Cross-Innovation
 
 \end{rSection}
 \begin{rSection}{RESEARCH INTERNSHIP}
-\textbf{Tencent AI Lab}\hfill Nov. 2023 - Jun. 2025\\Research Intern, Information Security Department
+\textbf{Tencent}\hfill Nov. 2023 - Jun. 2025\\Research Intern
 \begin{itemize}
 \item Synthesized multimodal data and conducted model post-training and evaluation for image-text content moderation in QQ group chats, Qzone, and short-video comments.
 \item Deployed models in tiers and accelerated inference; trained models were deployed in internal risk-control systems, improving throughput and reducing false-positive rates over the previous solution.
@@ -54,12 +54,15 @@ B.Eng. in AI and Automation\quad |\quad Science and Engineering Cross-Innovation
 \end{itemize}
 \end{rSection}
 \begin{rSection}{ONGOING RESEARCH}
-\textbf{CoT Data and Policy Distillation for Reasoning Model Post-Training}\hfill Ongoing\\
-The University of Hong Kong\quad |\quad Ph.D. Research
+\textbf{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#1}{How On-policy Distillation Affects Reasoning and Subsequent RL}}\hfill 2026.09 - 2026.10\\
+The University of Hong Kong\quad |\quad Ph.D. Research\hfill \href{https://rummyyang.github.io/research/opd/opd_deck.html\#1}{[Slides]}
+\\[1pt]Qwen3 0.6B/1.7B/4B students; 8B primary teacher
+\\[1pt]{\small\textcolor{summarytext}{Accuracy figures below: Qwen3-1.7B, MATH-500, 16K generation budget, avg@4.}}
 \begin{itemize}
-\item OPD-to-RL experiments: studying teacher-distribution supervision on student-generated trajectories as preparation for RL, with analysis of training signals and computational cost.
-\item Preliminary results in this setting: Qwen3-1.7B achieved 40.5\% mean answer accuracy across three seeds on controlled arithmetic, versus 21.0\% for direct RL. A separate single-seed experiment with a larger sampling budget improved accuracy from 39.65\% to 49.22\%.
-\item Separate mechanistic hypotheses (under investigation): exploring selective distribution constraints on residual-error states to reduce error recurrence while preserving correct reasoning branches, with potential applications to OPD, RL, and adaptive thinking.
+\item Designed comparisons of teacher prompts, self-distillation, and direct RL to investigate why distillation can improve downstream RL results.
+\item Switching the same teacher to a thinking prompt yielded 86.75\% accuracy for 1.7B, versus 73.45\% for the base model and 76.20\% for standard OPD; self-distillation at 1.7B and 4B achieved similar results.
+\item Used budget curves, forced-finalization interventions, and stopping analyses to distinguish long pre-answer reasoning from continued generation after an answer, showing how correctness and timely delivery can diverge.
+\item Under the same downstream RL setup, distillation followed by RL reached 87.25\% versus 81.70\% for direct RL, with gains at lower budgets accompanied by reduced accuracy at higher budgets.
 \end{itemize}
 \end{rSection}
 \newpage
