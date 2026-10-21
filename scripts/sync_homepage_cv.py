@@ -13,7 +13,8 @@ start_marker = "<!-- CV SUMMARY START -->"
 end_marker = "<!-- CV SUMMARY END -->"
 
 def a(url, label):
-    mode = ' data-pjax="false"' if url.startswith('/cv/') else ''
+    standalone = url.startswith(('/cv/', '/research/', 'https://rummyyang.github.io/research/'))
+    mode = ' data-pjax="false"' if standalone else ''
     return f'<a{mode} href="{escape(url, quote=True)}">{escape(label)}</a>'
 
 def h(label, id):
