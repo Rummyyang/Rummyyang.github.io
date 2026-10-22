@@ -30,18 +30,30 @@ def authors(value):
     return ', '.join(parts)
 
 
+def research_text(value, links, zh):
+    key = 'text_zh' if zh else 'text'
+    matches = sorted((value.index(link[key]), link) for link in links if link[key] in value)
+    parts, end = [], 0
+    for start, link in matches:
+        parts.extend([tex(value[end:start]), href(link['url'], link[key])])
+        end = start + len(link[key])
+    return ''.join(parts) + tex(value[end:])
+
+
 def research_bullet(row, index, zh):
     suffix = '_zh' if zh else ''
     value = row['bullets' + suffix][index]
     leads = row.get('bullet_leads' + suffix, [])
+    groups = row.get('bullet_inline_links', [])
+    links = groups[index] if index < len(groups) else []
+    for link in links:
+        if value.count(link['text' + suffix]) != 1:
+            raise ValueError('Research link text must occur exactly once in its bullet')
     if index < len(leads) and value.startswith(leads[index]):
         lead = leads[index]
-        rendered = r'\textbf{' + tex(lead) + '} ' + tex(value[len(lead):].lstrip())
+        rendered = r'\textbf{' + research_text(lead, links, zh) + '} ' + research_text(value[len(lead):].lstrip(), links, zh)
     else:
-        rendered = tex(value)
-    links = row.get('bullet_links', [])
-    if index < len(links):
-        rendered += ' ' + ' '.join(r'\mbox{' + href(link['url'], link['label' + suffix]) + '}' for link in links[index])
+        rendered = research_text(value, links, zh)
     return rendered
 
 
@@ -161,7 +173,7 @@ def render(lang):
             research_title = (href(row['project_url'], choose(row, 'title'))
                               if row.get('project_url') else research_tex(choose(row, 'title')))
             institution = research_tex(choose(row, 'institution')) + ' | ' + research_tex(choose(row, 'role'))
-            lines.append(r'\textbf{' + research_title + r'}\quad ' + institution + r'\hfill ' + research_tex(choose(row, 'dates')) + r'\\[2pt]')
+            lines.append(r'\textbf{' + research_title + r'}\hspace{1.6em}' + institution + r'\hfill ' + research_tex(choose(row, 'dates')) + r'\\[2pt]')
             settings = research_tex(row['settings_zh'])
             lines.append(settings)
             if row.get('metric_note_zh'):
@@ -173,7 +185,7 @@ def render(lang):
         research_title = (href(row['project_url'], choose(row, 'title'))
                           if row.get('project_url') else tex(choose(row, 'title')))
         institution = 'HKU' if row['institution'] == 'The University of Hong Kong' else choose(row, 'institution')
-        lines.append(r'{\fontsize{10.5}{13.5}\selectfont\textbf{' + research_title + r'}\quad ' + tex(institution) + r'\hfill ' + tex(choose(row, 'dates')) + r'\par}')
+        lines.append(r'{\fontsize{10.5}{13.5}\selectfont\textbf{' + research_title + r'}\hspace{1.6em}' + tex(institution) + r'\hfill ' + tex(choose(row, 'dates')) + r'\par}')
         if row.get('settings'):
             lines.append(tex(choose(row, 'settings')))
         if row.get('metric_note'):

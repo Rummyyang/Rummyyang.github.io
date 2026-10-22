@@ -22,6 +22,14 @@ def a(url, label):
 def h(label, id):
     return f'<h1 id="{id}"><span style="color: #336699">{label}</span></h1>'
 
+def research_text(value, links):
+    matches = sorted((value.index(link['text']), link) for link in links if link['text'] in value)
+    parts, end = [], 0
+    for start, link in matches:
+        parts.extend([escape(value[end:start]), a(link['url'], link['text'])])
+        end = start + len(link['text'])
+    return ''.join(parts) + escape(value[end:])
+
 parts = [start_marker, h("Biography", "Biography"), '<p>I am a Ph.D. student in Electrical and Electronic Engineering at the University of Hong Kong, supervised by '+a('https://scholar.google.com/citations?user=PM_uMYIAAAAJ&hl=en', 'Prof. Ngai Wong')+'. I received my M.Eng. in Big Data Engineering from Tsinghua University in 2025, advised by '+a('https://scholar.google.com/citations?user=4gH3sxsAAAAJ&hl=en','Prof. Yujiu Yang')+', and my B.Eng. from Huazhong University of Science and Technology in 2021.</p>', '<p><strong>'+a('/cv/runming_yang_cv_zh.pdf', '中文学术简历（PDF）')+'</strong> &nbsp; · &nbsp; '+a('/cv/runming_yang_cv_en.pdf', 'English CV (PDF)')+'</p>', h('Research Interests','Research-Interests'), '<p>'+escape('; '.join(data['interests']))+'. My work explores model compression and efficient reasoning in large language models.</p>', h('Publications','Publications'), '<p>Selected published and accepted papers. '+a('/cv/runming_yang_cv_zh.pdf', 'Full publications and preprints (Chinese PDF)')+'.</p>', '<p><small>* indicates equal contribution.</small></p>', '<ul>']
 for p in [x for x in data['publications'] if x['type']=='publication']:
     paper_url = p.get('paper_url')
@@ -39,17 +47,19 @@ if data.get('current_research'):
     for project in data['current_research']:
         title = a(project['project_url'], project['title']) if project.get('project_url') else escape(project['title'])
         institution = 'HKU' if project['institution'] == 'The University of Hong Kong' else project['institution']
-        parts.append('<p><strong>'+title+'</strong> — '+escape(institution)+' — '+escape(project['dates'])+'</p>')
+        parts.append('<p><strong>'+title+'</strong><span style="margin-left:1.6em">'+escape(institution)+'</span> — '+escape(project['dates'])+'</p>')
         if project.get('settings'):
             note = '<br><small>'+escape(project['metric_note'])+'</small>' if project.get('metric_note') else ''
             parts.append('<p>'+escape(project['settings'])+note+'</p>')
         items = []
         for i, bullet in enumerate(project['bullets']):
             lead = project.get('bullet_leads', [])[i] if i < len(project.get('bullet_leads', [])) else ''
-            content = '<strong>'+escape(lead)+'</strong> '+escape(bullet[len(lead):].lstrip()) if lead and bullet.startswith(lead) else escape(bullet)
-            links = project.get('bullet_links', [])
-            if i < len(links):
-                content += ' ' + ' '.join(a(link['url'], link['label']) for link in links[i])
+            groups = project.get('bullet_inline_links', [])
+            links = groups[i] if i < len(groups) else []
+            for link in links:
+                if bullet.count(link['text']) != 1:
+                    raise ValueError('Research link text must occur exactly once in its bullet')
+            content = '<strong>'+research_text(lead, links)+'</strong> '+research_text(bullet[len(lead):].lstrip(), links) if lead and bullet.startswith(lead) else research_text(bullet, links)
             items.append('<li>'+content+'</li>')
         parts.append('<ul>'+''.join(items)+'</ul>')
 parts.append(end_marker)

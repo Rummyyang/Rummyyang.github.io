@@ -506,43 +506,38 @@
         "Distinguished solving a problem from delivering an answer on time.",
         "Characterized the benefits and compression costs of an OPD starting point for RL."
       ],
-      "bullet_links": [
+      "bullet_inline_links": [
         [
           {
             "url": "https://rummyyang.github.io/research/opd/opd_deck.html#7",
-            "label_zh": "[规模对照·第7页]",
-            "label": "[Scaling · p.7]"
+            "text_zh": "增益随学生规模递减",
+            "text": "Gains from non-thinking teachers decline with student size"
           }
         ],
         [
           {
             "url": "https://rummyyang.github.io/research/opd/opd_deck.html#2",
-            "label_zh": "[思考上限·第2页]",
-            "label": "[Ceiling · p.2]"
+            "text_zh": "接近各自思考模式",
+            "text": "approaching their own thinking-mode performance"
           }
         ],
         [
           {
             "url": "https://rummyyang.github.io/research/opd/opd_deck.html#3",
-            "label_zh": "[预算·第3页]",
-            "label": "[Budget · p.3]"
+            "text_zh": "预算不足",
+            "text": "insufficient budgets"
           },
           {
             "url": "https://rummyyang.github.io/research/opd/opd_deck.html#6",
-            "label_zh": "[终止·第6页]",
-            "label": "[Stopping · p.6]"
+            "text_zh": "答后不停",
+            "text": "failure to stop"
           }
         ],
         [
           {
-            "url": "https://rummyyang.github.io/research/opd/opd_deck.html#3",
-            "label_zh": "[RL预算·第3页]",
-            "label": "[RL budget · p.3]"
-          },
-          {
             "url": "https://rummyyang.github.io/research/opd/opd_deck.html#5",
-            "label_zh": "[短程RL·第5页]",
-            "label": "[Short RL · p.5]"
+            "text_zh": "训练窗口",
+            "text": "narrower training windows"
           }
         ]
       ]
