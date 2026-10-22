@@ -15,6 +15,8 @@ end_marker = "<!-- CV SUMMARY END -->"
 def a(url, label):
     standalone = url.startswith(('/cv/', '/research/', 'https://rummyyang.github.io/research/'))
     mode = ' data-pjax="false"' if standalone else ''
+    if url.startswith(('/research/', 'https://rummyyang.github.io/research/')):
+        mode += ' target="_blank" rel="noopener noreferrer"'
     return f'<a{mode} href="{escape(url, quote=True)}">{escape(label)}</a>'
 
 def h(label, id):
@@ -38,8 +40,17 @@ if data.get('current_research'):
         title = a(project['project_url'], project['title']) if project.get('project_url') else escape(project['title'])
         parts.append('<p><strong>'+title+'</strong> — '+escape(project['dates'])+'</p>')
         if project.get('settings'):
-            parts.append('<p>'+escape(project['settings'])+'<br><small>'+escape(project.get('metric_note',''))+'</small></p>')
-        parts.append('<ul>'+''.join('<li>'+escape(b)+'</li>' for b in project['bullets'])+'</ul>')
+            note = '<br><small>'+escape(project['metric_note'])+'</small>' if project.get('metric_note') else ''
+            parts.append('<p>'+escape(project['settings'])+note+'</p>')
+        items = []
+        for i, bullet in enumerate(project['bullets']):
+            lead = project.get('bullet_leads', [])[i] if i < len(project.get('bullet_leads', [])) else ''
+            content = '<strong>'+escape(lead)+'</strong> '+escape(bullet[len(lead):].lstrip()) if lead and bullet.startswith(lead) else escape(bullet)
+            links = project.get('bullet_links', [])
+            if i < len(links):
+                content += ' ' + ' '.join(a(link['url'], link['label']) for link in links[i])
+            items.append('<li>'+content+'</li>')
+        parts.append('<ul>'+''.join(items)+'</ul>')
         if project.get('project_url'):
             parts.append('<p>'+a(project['project_url'], 'Interactive experiment slides')+'</p>')
 parts.append(end_marker)

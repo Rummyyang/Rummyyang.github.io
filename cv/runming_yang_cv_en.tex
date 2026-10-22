@@ -48,21 +48,20 @@ B.Eng. in AI and Automation\quad |\quad Science and Engineering Cross-Innovation
 \begin{rSection}{RESEARCH INTERNSHIP}
 \textbf{Tencent}\hfill Nov. 2023 - Jun. 2025\\Research Intern
 \begin{itemize}
-\item Synthesized multimodal data and conducted model post-training and evaluation for image-text content moderation in QQ group chats, Qzone, and short-video comments.
-\item Deployed models in tiers and accelerated inference; trained models were deployed in internal risk-control systems, improving throughput and reducing false-positive rates over the previous solution.
-\item Researched large/small model collaboration, data distillation, and lightweight modeling; contributed to two academic papers (Shadow-FT and LLM-NEO) and one company patent.
+\item Built data-synthesis pipelines for image-text content moderation and used the resulting data for model post-training and evaluation.
+\item Fine-tuned large models on the full dataset, then distilled smaller models using filtered data. Deployed models in tiers in production, improving throughput and reducing false positives over the previous solution.
+\item Researched large/small model collaboration and lightweight modeling, contributing to two academic papers and one company patent.
 \end{itemize}
 \end{rSection}
 \begin{rSection}{ONGOING RESEARCH}
-\textbf{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#1}{How On-policy Distillation Affects Reasoning and Subsequent RL}}\hfill 2026.09 - 2026.10\\
+\textbf{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#1}{On-policy Distillation: Thinking-Mode Transfer and Subsequent RL}}\hfill 2026.09 - 2026.10\\
 The University of Hong Kong\quad |\quad Ph.D. Research\hfill \href{https://rummyyang.github.io/research/opd/opd_deck.html\#1}{[Slides]}
-\\[1pt]Qwen3 0.6B/1.7B/4B students; 8B primary teacher
-\\[1pt]{\small\textcolor{summarytext}{Accuracy figures below: Qwen3-1.7B, MATH-500, 16K generation budget, avg@4.}}
+\\[1pt]Qwen3 0.6B / 1.7B / 4B students and an 8B teacher, with comparisons of teacher prompting, generation budgets, and stopping behavior. Accuracy figures use MATH-500 avg@4.
 \begin{itemize}
-\item Designed comparisons of teacher prompts, self-distillation, and direct RL to investigate why distillation can improve downstream RL results.
-\item Switching the same teacher to a thinking prompt yielded 86.75\% accuracy for 1.7B, versus 73.45\% for the base model and 76.20\% for standard OPD; self-distillation at 1.7B and 4B achieved similar results.
-\item Used budget curves, forced-finalization interventions, and stopping analyses to distinguish long pre-answer reasoning from continued generation after an answer, showing how correctness and timely delivery can diverge.
-\item Under the same downstream RL setup, distillation followed by RL reached 87.25\% versus 81.70\% for direct RL, with gains at lower budgets accompanied by reduced accuracy at higher budgets.
+\item \textbf{Thinking-mode teachers overcome saturation in standard OPD gains.} Gains from non-thinking teachers decline with student size, reaching zero at 4B. With a thinking-mode teacher, 1.7B / 4B still gain 13.3 / 9.5 percentage points over their base models at a 16K budget. \mbox{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#7}{[Scaling · p.7]}}
+\item \textbf{Behavioral evidence supports transfer of the student's own thinking mode.} At 32K, 1.7B / 4B reach 90.9\% / 95.2\%, approaching their own thinking-mode performance, with similar results from self-distillation at all three sizes. Per-question accuracy profiles align more closely with the student's thinking mode and correlate significantly less with the external teacher, supporting gains from accessing existing reasoning capabilities. \mbox{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#2}{[Ceiling · p.2]}}
+\item \textbf{Distinguished solving a problem from delivering an answer on time.} After truncation at 2K, allowing 32 additional tokens for a forced answer raises 1.7B accuracy from 17.8\% to 72.8\%. Used post-answer p(EOS) and continuation behavior to diagnose insufficient budgets and failure to stop, analyze transfer of teacher stopping signals, and explore a one-step correction segmented by the reference model. \mbox{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#3}{[Budget · p.3]}} \mbox{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#6}{[Stopping · p.6]}}
+\item \textbf{Characterized the benefits and compression costs of an OPD starting point for RL.} Under the same downstream RL setup, 1.7B OPD+RL reaches 87.3\% at 16K versus 81.7\% for direct RL. Short-run RL further shows that narrower training windows produce stronger length compression but larger accuracy losses on competition problems at long budgets. \mbox{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#3}{[RL budget · p.3]}} \mbox{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#5}{[Short RL · p.5]}}
 \end{itemize}
 \end{rSection}
 \newpage

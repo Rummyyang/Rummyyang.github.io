@@ -30,6 +30,21 @@ def authors(value):
     return ', '.join(parts)
 
 
+def research_bullet(row, index, zh):
+    suffix = '_zh' if zh else ''
+    value = row['bullets' + suffix][index]
+    leads = row.get('bullet_leads' + suffix, [])
+    if index < len(leads) and value.startswith(leads[index]):
+        lead = leads[index]
+        rendered = r'\textbf{' + tex(lead) + '} ' + tex(value[len(lead):].lstrip())
+    else:
+        rendered = tex(value)
+    links = row.get('bullet_links', [])
+    if index < len(links):
+        rendered += ' ' + ' '.join(r'\mbox{' + href(link['url'], link['label' + suffix]) + '}' for link in links[index])
+    return rendered
+
+
 def render(lang):
     zh = lang == 'zh'
     choose = lambda row, key: row.get(key + '_zh', row[key]) if zh else row[key]
@@ -145,18 +160,17 @@ def render(lang):
             lines.extend([r'\begingroup', r'\fontsize{11}{16}\selectfont'])
             research_title = (href(row['project_url'], choose(row, 'title'))
                               if row.get('project_url') else research_tex(choose(row, 'title')))
-            lines.append(r'\textbf{' + research_title
-                         + r'}\quad ' + research_tex(choose(row, 'institution'))
-                         + ' | ' + research_tex(choose(row, 'role'))
-                         + r'\hfill ' + research_tex(choose(row, 'dates')) + r'\\[2pt]')
-            settings = research_tex(row['settings_zh'])
+            lines.append(r'\textbf{' + research_title + r'}\\[2pt]')
+            institution = research_tex(choose(row, 'institution')) + ' | ' + research_tex(choose(row, 'role'))
             if row.get('project_url'):
-                settings += r'\hfill ' + href(row['project_url'], '[实验图解]')
-            lines.append(settings + r'\\[1pt]')
+                institution += r'\quad ' + href(row['project_url'], '[实验图解]')
+            lines.append(institution + r'\hfill ' + research_tex(choose(row, 'dates')) + r'\\[2pt]')
+            settings = research_tex(row['settings_zh'])
+            lines.append(settings)
             if row.get('metric_note_zh'):
                 lines.append(r'{\small\textcolor{summarytext}{' + research_tex(row['metric_note_zh']) + '}}')
             lines.append(r'\begin{itemize}[itemsep=4pt,topsep=5pt]')
-            lines.extend(r'\item ' + research_tex(b) for b in row['bullets_zh'])
+            lines.extend(r'\item ' + research_bullet(row, i, zh) for i in range(len(row['bullets_zh'])))
             lines.extend([r'\end{itemize}', r'\endgroup'])
             continue
         research_title = (href(row['project_url'], choose(row, 'title'))
@@ -171,7 +185,7 @@ def render(lang):
         if row.get('metric_note'):
             lines.append(r'\\[1pt]{\small\textcolor{summarytext}{' + tex(choose(row, 'metric_note')) + '}}')
         lines.append(r'\begin{itemize}')
-        lines.extend(r'\item ' + tex(b) for b in choose(row, 'bullets'))
+        lines.extend(r'\item ' + research_bullet(row, i, zh) for i in range(len(choose(row, 'bullets'))))
         lines.append(r'\end{itemize}')
     lines.append(r'\end{rSection}')
     lines.append(r'\newpage')

@@ -49,22 +49,22 @@ ECE PhD 在读\quad |\quad 导师：\href{https://scholar.google.com/citations?u
 \begin{rSection}{科研实习 / Research Internship}
 \textbf{腾讯}\quad 科研实习生\hfill 2023.11 - 2025.06
 \begin{itemize}
-\item 面向 QQ 群聊、空间及短视频评论等场景的图文内容审核，开展多模态数据合成、模型后训练与测评。
-\item 分级部署模型并推理加速，训练模型已在内部风控系统上线，相较前代方案提升吞吐率并降低误杀率。
-\item 研究大小模型协作、数据蒸馏与模型轻量化，产出两篇学术论文（Shadow-FT 和 LLM-NEO）及一项公司专利。
+\item 面向图文数据审核场景，搭建数据合成管线，基于相关数据完成模型后训练与测评。
+\item 基于全量数据微调大模型，经数据过滤后蒸馏小模型，采用分级部署上线业务，相较前代方案提升吞吐率并降低误杀率。
+\item 研究大小模型协作与模型轻量化，产出两篇学术论文及一项公司专利。
 \end{itemize}
 \end{rSection}
 \begin{rSection}{在研项目 / Ongoing Research}
 \begingroup
 \fontsize{11}{16}\selectfont
-\textbf{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#1}{On-policy 蒸馏如何影响推理与后续 RL}}\quad 香港大学 | 博士阶段研究\hfill 2026.09 - 2026.10\\[2pt]
-Qwen3 0.6B/1.7B/4B 学生，主教师 8B\hfill \href{https://rummyyang.github.io/research/opd/opd_deck.html\#1}{[实验图解]}\\[1pt]
-{\small\textcolor{summarytext}{以下准确率均为 1.7B，MATH-500，16K 生成预算，avg@4。}}
+\textbf{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#1}{On-policy 蒸馏：思考模式的迁移及其与 RL 的衔接}}\\[2pt]
+香港大学 | 博士阶段研究\quad \href{https://rummyyang.github.io/research/opd/opd_deck.html\#1}{[实验图解]}\hfill 2026.09 - 2026.10\\[2pt]
+以 Qwen3 0.6B / 1.7B / 4B 为学生、8B 为教师，围绕教师提示模式、生成预算与终止行为设计对照，准确率为 MATH-500 avg@4。
 \begin{itemize}[itemsep=4pt,topsep=5pt]
-\item 围绕“蒸馏为何能改善后续 RL”，设计教师提示、自蒸馏与直接 RL 对照，追查收益来源。
-\item 同一教师改用思考提示后，1.7B 准确率达 86.75\%（原模型 73.45\%、标准 OPD 76.20\%）；1.7B/4B 自蒸馏也取得相近表现。
-\item 结合预算曲线、强制收尾与停止行为分析，区分答前推理过长和答后持续生成，揭示“答对”与“及时交付”的差异。
-\item 在相同下游 RL 设置下，蒸馏后 RL 达 87.25\%，高于直接 RL 的 81.70\%；同时发现低预算收益与高预算准确率之间的权衡。
+\item \textbf{思考教师突破常规 OPD 的收益饱和。} 非思考教师 OPD 的增益随学生规模递减，在 4B 上降至零，改用思考模式教师后，16K 预算下，1.7B / 4B 相对基座仍提升 13.3 / 9.5 个百分点。 \mbox{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#7}{[规模对照·第7页]}}
+\item \textbf{行为分析支持学生自身思考模式的迁移。} 32K 预算下，1.7B / 4B 分别达 90.9\% / 95.2\%，接近各自思考模式，三个尺寸的自蒸馏也取得相近表现。学生的逐题正确率轮廓与自身思考模式更一致、与外部教师的相关显著更低，支持收益可来自已有思考能力的调用。 \mbox{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#2}{[思考上限·第2页]}}
+\item \textbf{区分“会做题”与“及时交卷”。} 1.7B 在 2K 截断后追加 32 tokens 强制作答，准确率从 17.8\% 回升至 72.8\%，结合答案后的 p(EOS) 与续写行为，分别诊断预算不足和答后不停，分析教师停止信号的迁移，并探索按参考模型分段的一步式修正。 \mbox{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#3}{[预算·第3页]}} \mbox{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#6}{[终止·第6页]}}
+\item \textbf{刻画 OPD 起点对 RL 的收益与压缩代价。} 相同下游 RL 设置下，OPD+RL 的 1.7B 在 16K 预算上达 87.3\%，高于直接 RL 的 81.7\%，短程 RL 进一步揭示训练窗口的影响：窗口越窄，长度压缩越强，长预算下的竞赛题准确率损失也越大。 \mbox{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#3}{[RL预算·第3页]}} \mbox{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#5}{[短程RL·第5页]}}
 \end{itemize}
 \endgroup
 \end{rSection}
