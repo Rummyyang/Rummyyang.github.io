@@ -16,7 +16,7 @@ def a(url, label):
     standalone = url.startswith(('/cv/', '/research/', 'https://rummyyang.github.io/research/'))
     mode = ' data-pjax="false"' if standalone else ''
     if url.startswith(('/research/', 'https://rummyyang.github.io/research/')):
-        mode += ' target="_blank" rel="noopener noreferrer" style="color:#102b46;font-weight:700"'
+        mode += ' target="_blank" rel="noopener noreferrer" style="color:#0066cc;font-weight:700"'
     return f'<a{mode} href="{escape(url, quote=True)}">{escape(label)}</a>'
 
 def h(label, id):
