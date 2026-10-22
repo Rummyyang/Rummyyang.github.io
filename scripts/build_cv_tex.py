@@ -81,7 +81,8 @@ def render(lang):
 \usepackage{needspace}
 \usepackage{enumitem}
 \definecolor{venueblue}{RGB}{28,66,105}
-\definecolor{researchblue}{RGB}{0,102,204}
+\definecolor{researchblue}{RGB}{0,85,170}
+\definecolor{researchtitle}{RGB}{24,34,45}
 \definecolor{venuefill}{RGB}{235,241,245}
 \definecolor{submissionfill}{RGB}{244,243,240}
 \definecolor{venuetext}{RGB}{50,70,86}
@@ -174,7 +175,7 @@ def render(lang):
                         .replace('→', r'$\rightarrow$').replace('≈', r'$\approx$')
                         .replace('α', r'$\alpha$').replace('7.5±0.5', r'$7.5\pm0.5$'))
             lines.extend([r'\begingroup', r'\fontsize{11}{16}\selectfont'])
-            research_title = (href(row['project_url'], choose(row, 'title'), 'researchblue')
+            research_title = (href(row['project_url'], choose(row, 'title'), 'researchtitle')
                               if row.get('project_url') else research_tex(choose(row, 'title')))
             institution = research_tex(choose(row, 'institution')) + ' | ' + research_tex(choose(row, 'role'))
             lines.append(r'\textbf{' + research_title + r'}\hspace{1.6em}' + institution + r'\hfill ' + research_tex(choose(row, 'dates')) + r'\\[2pt]')
@@ -186,7 +187,7 @@ def render(lang):
             lines.extend(r'\item ' + research_bullet(row, i, zh) for i in range(len(row['bullets_zh'])))
             lines.extend([r'\end{itemize}', r'\endgroup'])
             continue
-        research_title = (href(row['project_url'], choose(row, 'title'), 'researchblue')
+        research_title = (href(row['project_url'], choose(row, 'title'), 'researchtitle')
                           if row.get('project_url') else tex(choose(row, 'title')))
         institution = 'HKU' if row['institution'] == 'The University of Hong Kong' else choose(row, 'institution')
         lines.append(r'{\fontsize{10.5}{13.5}\selectfont\textbf{' + research_title + r'}\hspace{1.6em}' + tex(institution) + r'\hfill ' + tex(choose(row, 'dates')) + r'\par}')

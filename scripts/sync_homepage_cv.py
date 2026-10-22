@@ -12,11 +12,12 @@ page = path.read_text()
 start_marker = "<!-- CV SUMMARY START -->"
 end_marker = "<!-- CV SUMMARY END -->"
 
-def a(url, label):
+def a(url, label, research_title=False):
     standalone = url.startswith(('/cv/', '/research/', 'https://rummyyang.github.io/research/'))
     mode = ' data-pjax="false"' if standalone else ''
     if url.startswith(('/research/', 'https://rummyyang.github.io/research/')):
-        mode += ' target="_blank" rel="noopener noreferrer" style="color:#0066cc;font-weight:700"'
+        color = '#18222d' if research_title else '#0055aa'
+        mode += f' target="_blank" rel="noopener noreferrer" style="color:{color};font-weight:700"'
     return f'<a{mode} href="{escape(url, quote=True)}">{escape(label)}</a>'
 
 def h(label, id):
@@ -45,7 +46,7 @@ for e in data['experience']:
 if data.get('current_research'):
     parts.append(h('Current Research', 'Current-Research'))
     for project in data['current_research']:
-        title = a(project['project_url'], project['title']) if project.get('project_url') else escape(project['title'])
+        title = a(project['project_url'], project['title'], research_title=True) if project.get('project_url') else escape(project['title'])
         institution = 'HKU' if project['institution'] == 'The University of Hong Kong' else project['institution']
         parts.append('<p><strong>'+title+'</strong><span style="margin-left:1.6em">'+escape(institution)+'</span> — '+escape(project['dates'])+'</p>')
         if project.get('settings'):
