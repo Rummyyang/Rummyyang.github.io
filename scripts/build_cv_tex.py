@@ -38,7 +38,7 @@ def research_text(value, links, zh):
     matches = sorted((value.index(link[key]), link) for link in links if link[key] in value)
     parts, end = [], 0
     for start, link in matches:
-        parts.extend([tex(value[end:start]), href(link['url'], link[key], 'researchblue')])
+        parts.extend([tex(value[end:start]), r'\textbf{' + href(link['url'], link[key], 'researchblue') + '}'])
         end = start + len(link[key])
     return ''.join(parts) + tex(value[end:])
 
@@ -81,7 +81,7 @@ def render(lang):
 \usepackage{needspace}
 \usepackage{enumitem}
 \definecolor{venueblue}{RGB}{28,66,105}
-\definecolor{researchblue}{RGB}{20,49,80}
+\definecolor{researchblue}{RGB}{16,43,70}
 \definecolor{venuefill}{RGB}{235,241,245}
 \definecolor{submissionfill}{RGB}{244,243,240}
 \definecolor{venuetext}{RGB}{50,70,86}
