@@ -160,11 +160,8 @@ def render(lang):
             lines.extend([r'\begingroup', r'\fontsize{11}{16}\selectfont'])
             research_title = (href(row['project_url'], choose(row, 'title'))
                               if row.get('project_url') else research_tex(choose(row, 'title')))
-            lines.append(r'\textbf{' + research_title + r'}\\[2pt]')
             institution = research_tex(choose(row, 'institution')) + ' | ' + research_tex(choose(row, 'role'))
-            if row.get('project_url'):
-                institution += r'\quad ' + href(row['project_url'], '[实验图解]')
-            lines.append(institution + r'\hfill ' + research_tex(choose(row, 'dates')) + r'\\[2pt]')
+            lines.append(r'\textbf{' + research_title + r'}\quad ' + institution + r'\hfill ' + research_tex(choose(row, 'dates')) + r'\\[2pt]')
             settings = research_tex(row['settings_zh'])
             lines.append(settings)
             if row.get('metric_note_zh'):
@@ -175,13 +172,10 @@ def render(lang):
             continue
         research_title = (href(row['project_url'], choose(row, 'title'))
                           if row.get('project_url') else tex(choose(row, 'title')))
-        lines.append(r'\textbf{' + research_title + r'}\hfill ' + tex(choose(row, 'dates')) + r'\\')
-        institution = tex(choose(row, 'institution')) + r'\quad |\quad ' + tex(choose(row, 'role'))
-        if row.get('project_url'):
-            institution += r'\hfill ' + href(row['project_url'], '[Slides]')
-        lines.append(institution)
+        institution = 'HKU' if row['institution'] == 'The University of Hong Kong' else choose(row, 'institution')
+        lines.append(r'{\fontsize{10.5}{13.5}\selectfont\textbf{' + research_title + r'}\quad ' + tex(institution) + r'\hfill ' + tex(choose(row, 'dates')) + r'\par}')
         if row.get('settings'):
-            lines.append(r'\\[1pt]' + tex(choose(row, 'settings')))
+            lines.append(tex(choose(row, 'settings')))
         if row.get('metric_note'):
             lines.append(r'\\[1pt]{\small\textcolor{summarytext}{' + tex(choose(row, 'metric_note')) + '}}')
         lines.append(r'\begin{itemize}')

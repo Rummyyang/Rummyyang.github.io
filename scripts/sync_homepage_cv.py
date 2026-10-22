@@ -38,7 +38,8 @@ if data.get('current_research'):
     parts.append(h('Current Research', 'Current-Research'))
     for project in data['current_research']:
         title = a(project['project_url'], project['title']) if project.get('project_url') else escape(project['title'])
-        parts.append('<p><strong>'+title+'</strong> — '+escape(project['dates'])+'</p>')
+        institution = 'HKU' if project['institution'] == 'The University of Hong Kong' else project['institution']
+        parts.append('<p><strong>'+title+'</strong> — '+escape(institution)+' — '+escape(project['dates'])+'</p>')
         if project.get('settings'):
             note = '<br><small>'+escape(project['metric_note'])+'</small>' if project.get('metric_note') else ''
             parts.append('<p>'+escape(project['settings'])+note+'</p>')
@@ -51,8 +52,6 @@ if data.get('current_research'):
                 content += ' ' + ' '.join(a(link['url'], link['label']) for link in links[i])
             items.append('<li>'+content+'</li>')
         parts.append('<ul>'+''.join(items)+'</ul>')
-        if project.get('project_url'):
-            parts.append('<p>'+a(project['project_url'], 'Interactive experiment slides')+'</p>')
 parts.append(end_marker)
 new='\n'.join(parts)
 if start_marker in page:
