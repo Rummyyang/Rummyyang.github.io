@@ -64,8 +64,8 @@ ECE PhD 在读\quad |\quad 导师：\href{https://scholar.google.com/citations?u
 \begin{itemize}[itemsep=4pt,topsep=5pt]
 \item \textbf{思考教师突破常规 OPD 的收益饱和。} 非思考教师 OPD 的\textbf{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#7}{\textcolor{researchblue}{增益随学生规模递减}}}，在 4B 上降至零，改用思考模式教师后，16K 预算下，1.7B / 4B 相对基座仍提升 13.3 / 9.5 个百分点。
 \item \textbf{行为分析支持学生自身思考模式的迁移。} 32K 预算下，1.7B / 4B 分别达 90.9\% / 95.2\%，\textbf{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#2}{\textcolor{researchblue}{接近各自思考模式}}}，三个尺寸的自蒸馏也取得相近表现。学生的逐题正确率轮廓与自身思考模式更一致、与外部教师的相关显著更低，支持收益可来自已有思考能力的调用。
-\item \textbf{区分“会做题”与“及时交卷”。} 1.7B 在 2K 截断后追加 32 tokens 强制作答，准确率从 17.8\% 回升至 72.8\%，结合答案后的 p(EOS) 与续写行为，分别诊断\textbf{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#3}{\textcolor{researchblue}{预算不足}}}和\textbf{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#6}{\textcolor{researchblue}{答后不停}}}，分析教师停止信号的迁移，并探索按参考模型分段的一步式修正。
-\item \textbf{刻画 OPD 起点对 RL 的收益与压缩代价。} 相同下游 RL 设置下，OPD+RL 的 1.7B 在 16K 预算上达 87.3\%，高于直接 RL 的 81.7\%，短程 RL 进一步揭示\textbf{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#5}{\textcolor{researchblue}{训练窗口}}}的影响：窗口越窄，长度压缩越强，长预算下的竞赛题准确率损失也越大。
+\item \textbf{区分“会做题”与“及时交卷”。} 1.7B 在 2K 截断后追加 32 tokens \textbf{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#3}{\textcolor{researchblue}{强制作答}}}，准确率从 17.8\% 回升至 72.8\%，表明 OPD 提高非思考模式上限的同时，也引入了长度爆炸。通过答案后的 \textbf{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#6}{\textcolor{researchblue}{p(EOS) 与交叉续写探针}}}，发现教师在学生答案后仍偏向续写，揭示停止行为未能随思考模式一并迁移的问题。
+\item \textbf{刻画 OPD+RL 的收益与长度控制。} 相同下游 RL 设置下，1.7B 从 OPD 起点出发，在 16K 预算上达到 87.3\%，高于直接 RL 的 81.7\%。短程 RL 显示，rollout length 影响\textbf{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#5}{\textcolor{researchblue}{长度压缩与准确率上限的取舍}}}；拟在固定 rollout length 下引入自适应长度 threshold 调节奖励，减少冗余生成，同时保留难题所需的推理长度。
 \end{itemize}
 \endgroup
 \end{rSection}

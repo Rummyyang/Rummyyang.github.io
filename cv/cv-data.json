@@ -470,7 +470,7 @@
       "institution": "The University of Hong Kong",
       "role": "Ph.D. Research",
       "dates": "2026.09 - 2026.10",
-      "summary": "Thinking-mode teachers overcome saturation in standard OPD gains. Gains from non-thinking teachers decline with student size, reaching zero at 4B. With a thinking-mode teacher, 1.7B / 4B still gain 13.3 / 9.5 percentage points over their base models at a 16K budget. Behavioral evidence supports transfer of the student's own thinking mode. At 32K, 1.7B / 4B reach 90.9% / 95.2%, approaching their own thinking-mode performance, with similar results from self-distillation at all three sizes. Per-question accuracy profiles align more closely with the student's thinking mode and correlate significantly less with the external teacher, supporting gains from accessing existing reasoning capabilities. Distinguished solving a problem from delivering an answer on time. After truncation at 2K, allowing 32 additional tokens for a forced answer raises 1.7B accuracy from 17.8% to 72.8%. Used post-answer p(EOS) and continuation behavior to diagnose insufficient budgets and failure to stop, analyze transfer of teacher stopping signals, and explore a one-step correction segmented by the reference model. Characterized the benefits and compression costs of an OPD starting point for RL. Under the same downstream RL setup, 1.7B OPD+RL reaches 87.3% at 16K versus 81.7% for direct RL. Short-run RL further shows that narrower training windows produce stronger length compression but larger accuracy losses on competition problems at long budgets.",
+      "summary": "Thinking-mode teachers overcome saturation in standard OPD gains. Gains from non-thinking teachers decline with student size, reaching zero at 4B. With a thinking-mode teacher, 1.7B / 4B still gain 13.3 / 9.5 percentage points over their base models at a 16K budget. Behavioral evidence supports transfer of the student's own thinking mode. At 32K, 1.7B / 4B reach 90.9% / 95.2%, approaching their own thinking-mode performance, with similar results from self-distillation at all three sizes. Per-question accuracy profiles align more closely with the student's thinking mode and correlate significantly less with the external teacher, supporting gains from accessing existing reasoning capabilities. Distinguished solving a problem from delivering an answer on time. After truncation at 2K, allowing 32 additional tokens for a forced answer raises 1.7B accuracy from 17.8% to 72.8%, showing that OPD raises the non-thinking accuracy ceiling while also causing length inflation. Post-answer p(EOS) and cross-continuation probes show that the teacher still favors continuation after the student's answer, indicating that stopping behavior does not transfer alongside the thinking mode. Characterized the benefits of OPD+RL and length control. Under the same downstream RL setup, 1.7B starting from OPD reaches 87.3% at a 16K budget, versus 81.7% for direct RL. Short-run RL shows that rollout length affects the trade-off between length compression and accuracy ceilings. Propose reward adjustment using an adaptive length threshold at fixed rollout length to reduce redundant generation while preserving the reasoning needed for difficult problems.",
       "title_zh": "On-policy 蒸馏：思考模式的迁移及其与 RL 的衔接",
       "institution_zh": "香港大学",
       "role_zh": "博士阶段研究",
@@ -478,33 +478,33 @@
       "bullets": [
         "Thinking-mode teachers overcome saturation in standard OPD gains. Gains from non-thinking teachers decline with student size, reaching zero at 4B. With a thinking-mode teacher, 1.7B / 4B still gain 13.3 / 9.5 percentage points over their base models at a 16K budget.",
         "Behavioral evidence supports transfer of the student's own thinking mode. At 32K, 1.7B / 4B reach 90.9% / 95.2%, approaching their own thinking-mode performance, with similar results from self-distillation at all three sizes. Per-question accuracy profiles align more closely with the student's thinking mode and correlate significantly less with the external teacher, supporting gains from accessing existing reasoning capabilities.",
-        "Distinguished solving a problem from delivering an answer on time. After truncation at 2K, allowing 32 additional tokens for a forced answer raises 1.7B accuracy from 17.8% to 72.8%. Used post-answer p(EOS) and continuation behavior to diagnose insufficient budgets and failure to stop, analyze transfer of teacher stopping signals, and explore a one-step correction segmented by the reference model.",
-        "Characterized the benefits and compression costs of an OPD starting point for RL. Under the same downstream RL setup, 1.7B OPD+RL reaches 87.3% at 16K versus 81.7% for direct RL. Short-run RL further shows that narrower training windows produce stronger length compression but larger accuracy losses on competition problems at long budgets."
+        "Distinguished solving a problem from delivering an answer on time. After truncation at 2K, allowing 32 additional tokens for a forced answer raises 1.7B accuracy from 17.8% to 72.8%, showing that OPD raises the non-thinking accuracy ceiling while also causing length inflation. Post-answer p(EOS) and cross-continuation probes show that the teacher still favors continuation after the student's answer, indicating that stopping behavior does not transfer alongside the thinking mode.",
+        "Characterized the benefits of OPD+RL and length control. Under the same downstream RL setup, 1.7B starting from OPD reaches 87.3% at a 16K budget, versus 81.7% for direct RL. Short-run RL shows that rollout length affects the trade-off between length compression and accuracy ceilings. Propose reward adjustment using an adaptive length threshold at fixed rollout length to reduce redundant generation while preserving the reasoning needed for difficult problems."
       ],
       "bullets_zh": [
         "思考教师突破常规 OPD 的收益饱和。非思考教师 OPD 的增益随学生规模递减，在 4B 上降至零，改用思考模式教师后，16K 预算下，1.7B / 4B 相对基座仍提升 13.3 / 9.5 个百分点。",
         "行为分析支持学生自身思考模式的迁移。32K 预算下，1.7B / 4B 分别达 90.9% / 95.2%，接近各自思考模式，三个尺寸的自蒸馏也取得相近表现。学生的逐题正确率轮廓与自身思考模式更一致、与外部教师的相关显著更低，支持收益可来自已有思考能力的调用。",
-        "区分“会做题”与“及时交卷”。1.7B 在 2K 截断后追加 32 tokens 强制作答，准确率从 17.8% 回升至 72.8%，结合答案后的 p(EOS) 与续写行为，分别诊断预算不足和答后不停，分析教师停止信号的迁移，并探索按参考模型分段的一步式修正。",
-        "刻画 OPD 起点对 RL 的收益与压缩代价。相同下游 RL 设置下，OPD+RL 的 1.7B 在 16K 预算上达 87.3%，高于直接 RL 的 81.7%，短程 RL 进一步揭示训练窗口的影响：窗口越窄，长度压缩越强，长预算下的竞赛题准确率损失也越大。"
+        "区分“会做题”与“及时交卷”。1.7B 在 2K 截断后追加 32 tokens 强制作答，准确率从 17.8% 回升至 72.8%，表明 OPD 提高非思考模式上限的同时，也引入了长度爆炸。通过答案后的 p(EOS) 与交叉续写探针，发现教师在学生答案后仍偏向续写，揭示停止行为未能随思考模式一并迁移的问题。",
+        "刻画 OPD+RL 的收益与长度控制。相同下游 RL 设置下，1.7B 从 OPD 起点出发，在 16K 预算上达到 87.3%，高于直接 RL 的 81.7%。短程 RL 显示，rollout length 影响长度压缩与准确率上限的取舍；拟在固定 rollout length 下引入自适应长度 threshold 调节奖励，减少冗余生成，同时保留难题所需的推理长度。"
       ],
-      "framing_status": "User-approved CV revision dated 2026-10-22, published with one-decimal result values and the generation budget attached to each result. Model identifiers, token counts, and dates retain their conventional notation. The reported three-size self-distillation comparison and 32-token forced-answer intervention follow the latest user-supplied account. This wording update is not a new independent experiment audit. The same downstream RL setup does not imply equal total cost. Reference-segmented one-step correction remains an exploratory direction, not a reported gain. The removed concluding goal is not included.",
+      "framing_status": "User-approved CV revision dated 2026-10-22. Third and fourth bullets use the approved stopping-behavior interpretation and rollout-length terminology. Adaptive length threshold reward adjustment is a proposal, not an executed intervention or measured gain. Result values retain one decimal; model identifiers, token counts, and dates retain conventional notation. This copy edit is not a new independent experiment audit. Identical downstream RL settings do not imply equal total cost. First two bullets and internship wording remain unchanged.",
       "settings_zh": "以 Qwen3 0.6B / 1.7B / 4B 为学生、8B 为教师，围绕教师提示模式、生成预算与终止行为设计对照，准确率为 MATH-500 avg@4。",
       "inline_institution_zh": true,
-      "summary_zh": "思考教师突破常规 OPD 的收益饱和。非思考教师 OPD 的增益随学生规模递减，在 4B 上降至零，改用思考模式教师后，16K 预算下，1.7B / 4B 相对基座仍提升 13.3 / 9.5 个百分点。 行为分析支持学生自身思考模式的迁移。32K 预算下，1.7B / 4B 分别达 90.9% / 95.2%，接近各自思考模式，三个尺寸的自蒸馏也取得相近表现。学生的逐题正确率轮廓与自身思考模式更一致、与外部教师的相关显著更低，支持收益可来自已有思考能力的调用。 区分“会做题”与“及时交卷”。1.7B 在 2K 截断后追加 32 tokens 强制作答，准确率从 17.8% 回升至 72.8%，结合答案后的 p(EOS) 与续写行为，分别诊断预算不足和答后不停，分析教师停止信号的迁移，并探索按参考模型分段的一步式修正。 刻画 OPD 起点对 RL 的收益与压缩代价。相同下游 RL 设置下，OPD+RL 的 1.7B 在 16K 预算上达 87.3%，高于直接 RL 的 81.7%，短程 RL 进一步揭示训练窗口的影响：窗口越窄，长度压缩越强，长预算下的竞赛题准确率损失也越大。",
-      "framing_status_zh": "2026-10-22 用户确认稿，结果保留一位小数，模型名称、预算、token 数及日期保持惯用写法。三个尺寸自蒸馏及32 tokens强制作答按用户最新提供内容表述，本次为文案与发布更新，不重新认证实验。第三点以探索按参考模型分段的一步式修正结束。",
+      "summary_zh": "思考教师突破常规 OPD 的收益饱和。非思考教师 OPD 的增益随学生规模递减，在 4B 上降至零，改用思考模式教师后，16K 预算下，1.7B / 4B 相对基座仍提升 13.3 / 9.5 个百分点。 行为分析支持学生自身思考模式的迁移。32K 预算下，1.7B / 4B 分别达 90.9% / 95.2%，接近各自思考模式，三个尺寸的自蒸馏也取得相近表现。学生的逐题正确率轮廓与自身思考模式更一致、与外部教师的相关显著更低，支持收益可来自已有思考能力的调用。 区分“会做题”与“及时交卷”。1.7B 在 2K 截断后追加 32 tokens 强制作答，准确率从 17.8% 回升至 72.8%，表明 OPD 提高非思考模式上限的同时，也引入了长度爆炸。通过答案后的 p(EOS) 与交叉续写探针，发现教师在学生答案后仍偏向续写，揭示停止行为未能随思考模式一并迁移的问题。 刻画 OPD+RL 的收益与长度控制。相同下游 RL 设置下，1.7B 从 OPD 起点出发，在 16K 预算上达到 87.3%，高于直接 RL 的 81.7%。短程 RL 显示，rollout length 影响长度压缩与准确率上限的取舍；拟在固定 rollout length 下引入自适应长度 threshold 调节奖励，减少冗余生成，同时保留难题所需的推理长度。",
+      "framing_status_zh": "2026-10-22 用户确认第三、四点更新：终止行为表述与 rollout length 术语；自适应长度 threshold 调节奖励为拟开展方案，非已完成效果。数值保留一位小数，模型名称、预算、token 数和日期保持惯用写法。本次为文案及发布更新，不重新认证实验；前两点及实习经历保持不变。",
       "settings": "Qwen3 0.6B / 1.7B / 4B students and an 8B teacher, with comparisons of teacher prompting, generation budgets, and stopping behavior. Accuracy figures use MATH-500 avg@4.",
       "project_url": "https://rummyyang.github.io/research/opd/opd_deck.html#1",
       "bullet_leads_zh": [
         "思考教师突破常规 OPD 的收益饱和。",
         "行为分析支持学生自身思考模式的迁移。",
         "区分“会做题”与“及时交卷”。",
-        "刻画 OPD 起点对 RL 的收益与压缩代价。"
+        "刻画 OPD+RL 的收益与长度控制。"
       ],
       "bullet_leads": [
         "Thinking-mode teachers overcome saturation in standard OPD gains.",
         "Behavioral evidence supports transfer of the student's own thinking mode.",
         "Distinguished solving a problem from delivering an answer on time.",
-        "Characterized the benefits and compression costs of an OPD starting point for RL."
+        "Characterized the benefits of OPD+RL and length control."
       ],
       "bullet_inline_links": [
         [
@@ -524,20 +524,20 @@
         [
           {
             "url": "https://rummyyang.github.io/research/opd/opd_deck.html#3",
-            "text_zh": "预算不足",
-            "text": "insufficient budgets"
+            "text_zh": "强制作答",
+            "text": "forced answer"
           },
           {
             "url": "https://rummyyang.github.io/research/opd/opd_deck.html#6",
-            "text_zh": "答后不停",
-            "text": "failure to stop"
+            "text_zh": "p(EOS) 与交叉续写探针",
+            "text": "p(EOS) and cross-continuation probes"
           }
         ],
         [
           {
             "url": "https://rummyyang.github.io/research/opd/opd_deck.html#5",
-            "text_zh": "训练窗口",
-            "text": "narrower training windows"
+            "text_zh": "长度压缩与准确率上限的取舍",
+            "text": "trade-off between length compression and accuracy ceilings"
           }
         ]
       ]
