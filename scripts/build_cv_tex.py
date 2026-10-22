@@ -13,8 +13,11 @@ def tex(value):
     return rendered.replace('杨余久 教授', r'杨余久\hspace{0.35em}教授').replace('大数据工程 硕士', r'大数据工程\hspace{0.35em}硕士').replace('工学 学士', r'工学\hspace{0.35em}学士')
 
 
-def href(url, label):
-    return r'\href{' + url.replace('%', r'\%').replace('#', r'\#') + '}{' + tex(label) + '}'
+def href(url, label, color=None):
+    rendered = tex(label)
+    if color:
+        rendered = r'\textcolor{' + color + '}{' + rendered + '}'
+    return r'\href{' + url.replace('%', r'\%').replace('#', r'\#') + '}{' + rendered + '}'
 
 
 def authors(value):
@@ -35,7 +38,7 @@ def research_text(value, links, zh):
     matches = sorted((value.index(link[key]), link) for link in links if link[key] in value)
     parts, end = [], 0
     for start, link in matches:
-        parts.extend([tex(value[end:start]), href(link['url'], link[key])])
+        parts.extend([tex(value[end:start]), href(link['url'], link[key], 'researchblue')])
         end = start + len(link[key])
     return ''.join(parts) + tex(value[end:])
 
@@ -78,6 +81,7 @@ def render(lang):
 \usepackage{needspace}
 \usepackage{enumitem}
 \definecolor{venueblue}{RGB}{28,66,105}
+\definecolor{researchblue}{RGB}{20,49,80}
 \definecolor{venuefill}{RGB}{235,241,245}
 \definecolor{submissionfill}{RGB}{244,243,240}
 \definecolor{venuetext}{RGB}{50,70,86}
@@ -170,7 +174,7 @@ def render(lang):
                         .replace('→', r'$\rightarrow$').replace('≈', r'$\approx$')
                         .replace('α', r'$\alpha$').replace('7.5±0.5', r'$7.5\pm0.5$'))
             lines.extend([r'\begingroup', r'\fontsize{11}{16}\selectfont'])
-            research_title = (href(row['project_url'], choose(row, 'title'))
+            research_title = (href(row['project_url'], choose(row, 'title'), 'researchblue')
                               if row.get('project_url') else research_tex(choose(row, 'title')))
             institution = research_tex(choose(row, 'institution')) + ' | ' + research_tex(choose(row, 'role'))
             lines.append(r'\textbf{' + research_title + r'}\hspace{1.6em}' + institution + r'\hfill ' + research_tex(choose(row, 'dates')) + r'\\[2pt]')
@@ -182,7 +186,7 @@ def render(lang):
             lines.extend(r'\item ' + research_bullet(row, i, zh) for i in range(len(row['bullets_zh'])))
             lines.extend([r'\end{itemize}', r'\endgroup'])
             continue
-        research_title = (href(row['project_url'], choose(row, 'title'))
+        research_title = (href(row['project_url'], choose(row, 'title'), 'researchblue')
                           if row.get('project_url') else tex(choose(row, 'title')))
         institution = 'HKU' if row['institution'] == 'The University of Hong Kong' else choose(row, 'institution')
         lines.append(r'{\fontsize{10.5}{13.5}\selectfont\textbf{' + research_title + r'}\hspace{1.6em}' + tex(institution) + r'\hfill ' + tex(choose(row, 'dates')) + r'\par}')

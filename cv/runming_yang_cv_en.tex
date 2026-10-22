@@ -13,6 +13,7 @@
 \usepackage{needspace}
 \usepackage{enumitem}
 \definecolor{venueblue}{RGB}{28,66,105}
+\definecolor{researchblue}{RGB}{20,49,80}
 \definecolor{venuefill}{RGB}{235,241,245}
 \definecolor{submissionfill}{RGB}{244,243,240}
 \definecolor{venuetext}{RGB}{50,70,86}
@@ -54,13 +55,13 @@ B.Eng. in AI and Automation\quad |\quad Science and Engineering Cross-Innovation
 \end{itemize}
 \end{rSection}
 \begin{rSection}{ONGOING RESEARCH}
-{\fontsize{10.5}{13.5}\selectfont\textbf{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#1}{On-policy Distillation: Thinking-Mode Transfer and Subsequent RL}}\hspace{1.6em}HKU\hfill 2026.09 - 2026.10\par}
+{\fontsize{10.5}{13.5}\selectfont\textbf{\href{https://rummyyang.github.io/research/opd/opd_deck.html\#1}{\textcolor{researchblue}{On-policy Distillation: Thinking-Mode Transfer and Subsequent RL}}}\hspace{1.6em}HKU\hfill 2026.09 - 2026.10\par}
 Qwen3 0.6B / 1.7B / 4B students and an 8B teacher, with comparisons of teacher prompting, generation budgets, and stopping behavior. Accuracy figures use MATH-500 avg@4.
 \begin{itemize}
-\item \textbf{Thinking-mode teachers overcome saturation in standard OPD gains.} \href{https://rummyyang.github.io/research/opd/opd_deck.html\#7}{Gains from non-thinking teachers decline with student size}, reaching zero at 4B. With a thinking-mode teacher, 1.7B / 4B still gain 13.3 / 9.5 percentage points over their base models at a 16K budget.
-\item \textbf{Behavioral evidence supports transfer of the student's own thinking mode.} At 32K, 1.7B / 4B reach 90.9\% / 95.2\%, \href{https://rummyyang.github.io/research/opd/opd_deck.html\#2}{approaching their own thinking-mode performance}, with similar results from self-distillation at all three sizes. Per-question accuracy profiles align more closely with the student's thinking mode and correlate significantly less with the external teacher, supporting gains from accessing existing reasoning capabilities.
-\item \textbf{Distinguished solving a problem from delivering an answer on time.} After truncation at 2K, allowing 32 additional tokens for a forced answer raises 1.7B accuracy from 17.8\% to 72.8\%. Used post-answer p(EOS) and continuation behavior to diagnose \href{https://rummyyang.github.io/research/opd/opd_deck.html\#3}{insufficient budgets} and \href{https://rummyyang.github.io/research/opd/opd_deck.html\#6}{failure to stop}, analyze transfer of teacher stopping signals, and explore a one-step correction segmented by the reference model.
-\item \textbf{Characterized the benefits and compression costs of an OPD starting point for RL.} Under the same downstream RL setup, 1.7B OPD+RL reaches 87.3\% at 16K versus 81.7\% for direct RL. Short-run RL further shows that \href{https://rummyyang.github.io/research/opd/opd_deck.html\#5}{narrower training windows} produce stronger length compression but larger accuracy losses on competition problems at long budgets.
+\item \textbf{Thinking-mode teachers overcome saturation in standard OPD gains.} \href{https://rummyyang.github.io/research/opd/opd_deck.html\#7}{\textcolor{researchblue}{Gains from non-thinking teachers decline with student size}}, reaching zero at 4B. With a thinking-mode teacher, 1.7B / 4B still gain 13.3 / 9.5 percentage points over their base models at a 16K budget.
+\item \textbf{Behavioral evidence supports transfer of the student's own thinking mode.} At 32K, 1.7B / 4B reach 90.9\% / 95.2\%, \href{https://rummyyang.github.io/research/opd/opd_deck.html\#2}{\textcolor{researchblue}{approaching their own thinking-mode performance}}, with similar results from self-distillation at all three sizes. Per-question accuracy profiles align more closely with the student's thinking mode and correlate significantly less with the external teacher, supporting gains from accessing existing reasoning capabilities.
+\item \textbf{Distinguished solving a problem from delivering an answer on time.} After truncation at 2K, allowing 32 additional tokens for a forced answer raises 1.7B accuracy from 17.8\% to 72.8\%. Used post-answer p(EOS) and continuation behavior to diagnose \href{https://rummyyang.github.io/research/opd/opd_deck.html\#3}{\textcolor{researchblue}{insufficient budgets}} and \href{https://rummyyang.github.io/research/opd/opd_deck.html\#6}{\textcolor{researchblue}{failure to stop}}, analyze transfer of teacher stopping signals, and explore a one-step correction segmented by the reference model.
+\item \textbf{Characterized the benefits and compression costs of an OPD starting point for RL.} Under the same downstream RL setup, 1.7B OPD+RL reaches 87.3\% at 16K versus 81.7\% for direct RL. Short-run RL further shows that \href{https://rummyyang.github.io/research/opd/opd_deck.html\#5}{\textcolor{researchblue}{narrower training windows}} produce stronger length compression but larger accuracy losses on competition problems at long budgets.
 \end{itemize}
 \end{rSection}
 \newpage
