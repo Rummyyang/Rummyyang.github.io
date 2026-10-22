@@ -82,7 +82,7 @@ def render(lang):
 \usepackage{enumitem}
 \definecolor{venueblue}{RGB}{28,66,105}
 \definecolor{researchblue}{RGB}{0,85,170}
-\definecolor{researchtitle}{RGB}{24,34,45}
+\definecolor{researchtitle}{RGB}{28,66,105}
 \definecolor{venuefill}{RGB}{235,241,245}
 \definecolor{submissionfill}{RGB}{244,243,240}
 \definecolor{venuetext}{RGB}{50,70,86}

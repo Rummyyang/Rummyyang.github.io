@@ -16,7 +16,7 @@ def a(url, label, research_title=False):
     standalone = url.startswith(('/cv/', '/research/', 'https://rummyyang.github.io/research/'))
     mode = ' data-pjax="false"' if standalone else ''
     if url.startswith(('/research/', 'https://rummyyang.github.io/research/')):
-        color = '#18222d' if research_title else '#0055aa'
+        color = '#1c4269' if research_title else '#0055aa'
         mode += f' target="_blank" rel="noopener noreferrer" style="color:{color};font-weight:700"'
     return f'<a{mode} href="{escape(url, quote=True)}">{escape(label)}</a>'
 
