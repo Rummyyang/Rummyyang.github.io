@@ -95,7 +95,7 @@
       "dates": "Nov. 2023 - Jun. 2025",
       "bullets": [
         "Built data-synthesis pipelines for image-text content moderation and used the resulting data for model post-training and evaluation.",
-        "Fine-tuned large models on the full dataset, then distilled smaller models using filtered data. Deployed models in tiers in production, improving throughput and reducing false positives over the previous solution.",
+        "Deployed models in tiers in production, fine-tuning large models on the full dataset and distilling smaller models using filtered data, improving throughput and reducing false positives over the previous solution.",
         "Researched large/small model collaboration and lightweight modeling, contributing to two academic papers and one company patent."
       ],
       "organization_zh": "腾讯",
@@ -103,7 +103,7 @@
       "dates_zh": "2023.11 - 2025.06",
       "bullets_zh": [
         "面向图文数据审核场景，搭建数据合成管线，基于相关数据完成模型后训练与测评。",
-        "基于全量数据微调大模型，经数据过滤后蒸馏小模型，采用分级部署上线业务，相较前代方案提升吞吐率并降低误杀率。",
+        "采用分级部署形式上线业务，全量数据微调大模型，数据过滤后蒸馏小模型，较前代提升吞吐率并降低误杀率。",
         "研究大小模型协作与模型轻量化，产出两篇学术论文及一项公司专利。"
       ]
     }
