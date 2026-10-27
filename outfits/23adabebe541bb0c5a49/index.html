@@ -8,20 +8,20 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta name="theme-color" content="#f5f2ec">
   <title>衣间 · Style Atelier</title>
-  <link rel="stylesheet" href="styles.css">
-  <script type="module" src="app.js"></script>
+  <link rel="stylesheet" href="styles.css?v=photo-v2">
+  <script type="module" src="app.js?v=photo-v2"></script>
 </head>
 <body>
   <a class="skip" href="#main">跳到内容</a>
   <header class="masthead">
     <a class="wordmark" href="./" aria-label="衣间首页"><span class="brand-symbol">衣</span><span>衣间 <small>STYLE ATELIER</small></span></a>
-    <span class="edition">私人书签 · Vol. 01</span>
+    <span class="edition">私人书签 · Vol. 02</span>
     <button class="text-button" id="about-open">关于展台 <span aria-hidden="true">↗</span></button>
   </header>
   <main id="main">
     <section class="intro">
       <div class="intro-copy"><p class="eyebrow">A WARDROBE, IN THE MAKING</p><h1>先喜欢，<br>再成为<span>你的风格。</span></h1><p class="intro-description">从日常的松弛，到稍正式的从容。<br>每组挑几套愿意穿出门的，我们慢慢找到方向。</p><div class="intro-meta"><span><b id="group-total">08</b> 风格章节</span><span><b id="look-total">32</b> 搭配提案</span><span>每次只选 <b>4</b> 套</span></div></div>
-      <div class="hero-art" id="hero-art" aria-label="本期穿搭示意"><div class="hero-caption">THE EVERYDAY EDIT <span>衣服为生活服务。</span></div></div>
+      <div class="hero-art" id="hero-art" aria-label="本期 AI 摄影风格穿搭示意"><div class="hero-caption">THE EVERYDAY EDIT <span>衣服为生活服务。</span></div></div>
     </section>
     <nav class="view-nav" aria-label="展台功能">
       <button data-view="explore" class="active" aria-current="page">分组挑选 <span id="progress-count">0 / 8</span></button>
@@ -32,9 +32,9 @@
     <section id="content" tabindex="-1"><p class="loading">正在打开衣间…</p></section>
     <noscript><p class="notice">开启浏览器 JavaScript 后，可以查看搭配示意、保存选择和生成每日提案。</p></noscript>
   </main>
-  <footer><span>衣间 <i>Less guessing. More you.</i></span><p>原创搭配与矢量示意 · 非真人试穿 · 偏好仅保存在本浏览器</p><button class="text-button" id="footer-export">导出我的选择 ↗</button></footer>
+  <footer><span>衣间 <i>Less guessing. More you.</i></span><p>原创搭配 · AI 摄影风格示意，非真人试穿 · 偏好仅保存在本浏览器</p><button class="text-button" id="footer-export">导出我的选择 ↗</button></footer>
   <dialog id="detail-dialog" aria-labelledby="detail-title"><button class="dialog-close" aria-label="关闭搭配详情" data-close>×</button><div id="detail-content"></div></dialog>
-  <dialog id="about-dialog" aria-labelledby="about-title"><button class="dialog-close" aria-label="关闭说明" data-close>×</button><div class="about-copy"><p class="eyebrow">ABOUT THE ATELIER</p><h2 id="about-title">先探索，不急着定型。</h2><p>每组四套，可多选“想穿”，也可选“欣赏”或“暂不适合”。没选不等于不喜欢，整组都不心动也可以跳过。</p><p>图画是原创服装配色与轮廓示意，不是博主原图、真人试穿或身材预测。版型、尺码和质感仍需实际试穿判断。</p><p>“今日提案”按北京时间每天从当前搭配库选四套：兼顾你喜欢的方向与少量探索。它不是每天实时抓取博主动态。新增内容会在编辑更新后加入。</p><p>本页没有主页入口，并请求搜索引擎不收录，但持有链接的人仍能访问。选择保存在浏览器本地，不会自动发送给对话或跨设备同步。需要进一步个性化时，复制偏好摘要发回对话；也可导出备份后在另一设备导入。</p><p>本页不收集体重、身高、照片或账户资料。清除浏览器数据会清除本地偏好。</p></div></dialog>
+  <dialog id="about-dialog" aria-labelledby="about-title"><button class="dialog-close" aria-label="关闭说明" data-close>×</button><div class="about-copy"><p class="eyebrow">ABOUT THE ATELIER</p><h2 id="about-title">先探索，不急着定型。</h2><p>每组四套，可多选“想穿”，也可选“欣赏”或“暂不适合”。没选不等于不喜欢，整组都不心动也可以跳过。</p><p>本期图片为 AI 生成的摄影风格穿搭示意，不是博主原图、你的照片或真人试穿。它帮助比较颜色、层次和轮廓；服装细节可能与清单略有差异，版型、尺码和质感仍需实际试穿判断。</p><p>“今日提案”按北京时间每天从当前搭配库选四套：兼顾你喜欢的方向与少量探索。它不是每天实时抓取博主动态。新增内容会在编辑更新后加入。</p><p>本页没有主页入口，并请求搜索引擎不收录，但持有链接的人仍能访问。选择保存在浏览器本地，不会自动发送给对话或跨设备同步。需要进一步个性化时，复制偏好摘要发回对话；也可导出备份后在另一设备导入。</p><p>本页不收集体重、身高、照片或账户资料。清除浏览器数据会清除本地偏好。</p></div></dialog>
   <dialog id="export-dialog" aria-labelledby="export-title"><button class="dialog-close" aria-label="关闭偏好摘要" data-close>×</button><div class="about-copy"><p class="eyebrow">YOUR STYLE NOTES</p><h2 id="export-title">把你的选择带回对话。</h2><p>复制下面的摘要发给我，我会据此调整下一批。仅在本页点选，不会自动同步到对话。</p><textarea id="summary-text" rows="12" readonly aria-label="可复制的偏好摘要"></textarea><div class="button-row"><button class="primary" id="copy-summary">复制摘要</button><button class="secondary" id="download-data">下载备份</button><label class="secondary import-label">导入备份<input type="file" id="import-data" accept="application/json,.json"></label></div></div></dialog>
   <dialog id="reset-dialog" aria-labelledby="reset-title"><div class="about-copy"><h2 id="reset-title">重新开始挑选？</h2><p>这会清除本页保存在此浏览器中的选择和进度。建议先导出备份。</p><div class="button-row"><button class="secondary" data-close>保留选择</button><button class="danger" id="confirm-reset">清除并重新开始</button></div></div></dialog>
   <div id="toast" role="status" aria-live="polite"></div>

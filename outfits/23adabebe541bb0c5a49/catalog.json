@@ -163,7 +163,12 @@
         "background": "#E8EDF0",
         "detail": "plain"
       },
-      "group": "clean"
+      "group": "clean",
+      "photo": {
+        "src": "assets/lookbook-clean-v2.webp",
+        "cell": 0,
+        "count": 4
+      }
     },
     {
       "id": "A02",
@@ -215,7 +220,12 @@
         "background": "#E4E2DC",
         "detail": "plain"
       },
-      "group": "clean"
+      "group": "clean",
+      "photo": {
+        "src": "assets/lookbook-clean-v2.webp",
+        "cell": 1,
+        "count": 4
+      }
     },
     {
       "id": "A03",
@@ -272,7 +282,12 @@
         "background": "#ECE9DF",
         "detail": "plain"
       },
-      "group": "clean"
+      "group": "clean",
+      "photo": {
+        "src": "assets/lookbook-clean-v2.webp",
+        "cell": 2,
+        "count": 4
+      }
     },
     {
       "id": "A04",
@@ -328,7 +343,12 @@
         "background": "#E8EDED",
         "detail": "plain"
       },
-      "group": "clean"
+      "group": "clean",
+      "photo": {
+        "src": "assets/lookbook-clean-v2.webp",
+        "cell": 3,
+        "count": 4
+      }
     },
     {
       "id": "B01",
@@ -384,7 +404,12 @@
         "background": "#EAE2D5",
         "detail": "cable"
       },
-      "group": "soft"
+      "group": "soft",
+      "photo": {
+        "src": "assets/lookbook-soft-v2.webp",
+        "cell": 0,
+        "count": 4
+      }
     },
     {
       "id": "B02",
@@ -441,7 +466,12 @@
         "background": "#E8DFD3",
         "detail": "plain"
       },
-      "group": "soft"
+      "group": "soft",
+      "photo": {
+        "src": "assets/lookbook-soft-v2.webp",
+        "cell": 1,
+        "count": 4
+      }
     },
     {
       "id": "B03",
@@ -498,7 +528,12 @@
         "background": "#E7DFD0",
         "detail": "plain"
       },
-      "group": "soft"
+      "group": "soft",
+      "photo": {
+        "src": "assets/lookbook-soft-v2.webp",
+        "cell": 2,
+        "count": 4
+      }
     },
     {
       "id": "B04",
@@ -554,7 +589,12 @@
         "background": "#EEE4DF",
         "detail": "plain"
       },
-      "group": "soft"
+      "group": "soft",
+      "photo": {
+        "src": "assets/lookbook-soft-v2.webp",
+        "cell": 3,
+        "count": 4
+      }
     },
     {
       "id": "C01",
@@ -611,7 +651,12 @@
         "background": "#E5E9EA",
         "detail": "plain"
       },
-      "group": "smart"
+      "group": "smart",
+      "photo": {
+        "src": "assets/lookbook-smart-v2.webp",
+        "cell": 0,
+        "count": 4
+      }
     },
     {
       "id": "C02",
@@ -667,7 +712,12 @@
         "background": "#EAE2D6",
         "detail": "plain"
       },
-      "group": "smart"
+      "group": "smart",
+      "photo": {
+        "src": "assets/lookbook-smart-v2.webp",
+        "cell": 1,
+        "count": 4
+      }
     },
     {
       "id": "C03",
@@ -724,7 +774,12 @@
         "background": "#E6E8E3",
         "detail": "plain"
       },
-      "group": "smart"
+      "group": "smart",
+      "photo": {
+        "src": "assets/lookbook-smart-v2.webp",
+        "cell": 2,
+        "count": 4
+      }
     },
     {
       "id": "C04",
@@ -781,7 +836,12 @@
         "background": "#E4E8E8",
         "detail": "plain"
       },
-      "group": "smart"
+      "group": "smart",
+      "photo": {
+        "src": "assets/lookbook-smart-v2.webp",
+        "cell": 3,
+        "count": 4
+      }
     },
     {
       "id": "D01",
@@ -837,7 +897,12 @@
         "background": "#E9E2D6",
         "detail": "plain"
       },
-      "group": "ivy"
+      "group": "ivy",
+      "photo": {
+        "src": "assets/lookbook-ivy-v2.webp",
+        "cell": 0,
+        "count": 4
+      }
     },
     {
       "id": "D02",
@@ -894,7 +959,12 @@
         "background": "#E9DEDA",
         "detail": "plain"
       },
-      "group": "ivy"
+      "group": "ivy",
+      "photo": {
+        "src": "assets/lookbook-ivy-v2.webp",
+        "cell": 1,
+        "count": 4
+      }
     },
     {
       "id": "D03",
@@ -951,7 +1021,12 @@
         "background": "#E5E3D9",
         "detail": "stripe"
       },
-      "group": "ivy"
+      "group": "ivy",
+      "photo": {
+        "src": "assets/lookbook-ivy-v2.webp",
+        "cell": 2,
+        "count": 4
+      }
     },
     {
       "id": "D04",
@@ -1008,7 +1083,12 @@
         "background": "#ECE7DD",
         "detail": "plain"
       },
-      "group": "ivy"
+      "group": "ivy",
+      "photo": {
+        "src": "assets/lookbook-ivy-v2.webp",
+        "cell": 3,
+        "count": 4
+      }
     },
     {
       "id": "E01",
@@ -1060,7 +1140,12 @@
         "background": "#DCE1DF",
         "detail": "plain"
       },
-      "group": "city"
+      "group": "city",
+      "photo": {
+        "src": "assets/lookbook-city-v2.webp",
+        "cell": 0,
+        "count": 4
+      }
     },
     {
       "id": "E02",
@@ -1112,7 +1197,12 @@
         "background": "#E2E6E5",
         "detail": "plain"
       },
-      "group": "city"
+      "group": "city",
+      "photo": {
+        "src": "assets/lookbook-city-v2.webp",
+        "cell": 1,
+        "count": 4
+      }
     },
     {
       "id": "E03",
@@ -1169,7 +1259,12 @@
         "background": "#DEE4E1",
         "detail": "plain"
       },
-      "group": "city"
+      "group": "city",
+      "photo": {
+        "src": "assets/lookbook-city-v2.webp",
+        "cell": 2,
+        "count": 4
+      }
     },
     {
       "id": "E04",
@@ -1226,7 +1321,12 @@
         "background": "#E4E7E0",
         "detail": "plain"
       },
-      "group": "city"
+      "group": "city",
+      "photo": {
+        "src": "assets/lookbook-city-v2.webp",
+        "cell": 3,
+        "count": 4
+      }
     },
     {
       "id": "F01",
@@ -1283,7 +1383,12 @@
         "background": "#E8E1D4",
         "detail": "plain"
       },
-      "group": "workwear"
+      "group": "workwear",
+      "photo": {
+        "src": "assets/lookbook-workwear-v2.webp",
+        "cell": 0,
+        "count": 4
+      }
     },
     {
       "id": "F02",
@@ -1340,7 +1445,12 @@
         "background": "#E9E5D9",
         "detail": "plain"
       },
-      "group": "workwear"
+      "group": "workwear",
+      "photo": {
+        "src": "assets/lookbook-workwear-v2.webp",
+        "cell": 1,
+        "count": 4
+      }
     },
     {
       "id": "F03",
@@ -1397,7 +1507,12 @@
         "background": "#E7DDCD",
         "detail": "plain"
       },
-      "group": "workwear"
+      "group": "workwear",
+      "photo": {
+        "src": "assets/lookbook-workwear-v2.webp",
+        "cell": 2,
+        "count": 4
+      }
     },
     {
       "id": "F04",
@@ -1454,7 +1569,12 @@
         "background": "#E3E7E2",
         "detail": "check"
       },
-      "group": "workwear"
+      "group": "workwear",
+      "photo": {
+        "src": "assets/lookbook-workwear-v2.webp",
+        "cell": 3,
+        "count": 4
+      }
     },
     {
       "id": "G01",
@@ -1510,7 +1630,12 @@
         "background": "#E1E7E7",
         "detail": "plain"
       },
-      "group": "sport"
+      "group": "sport",
+      "photo": {
+        "src": "assets/lookbook-sport-v2.webp",
+        "cell": 0,
+        "count": 4
+      }
     },
     {
       "id": "G02",
@@ -1567,7 +1692,12 @@
         "background": "#DEE6E8",
         "detail": "plain"
       },
-      "group": "sport"
+      "group": "sport",
+      "photo": {
+        "src": "assets/lookbook-sport-v2.webp",
+        "cell": 1,
+        "count": 4
+      }
     },
     {
       "id": "G03",
@@ -1624,7 +1754,12 @@
         "background": "#E4EADB",
         "detail": "plain"
       },
-      "group": "sport"
+      "group": "sport",
+      "photo": {
+        "src": "assets/lookbook-sport-v2.webp",
+        "cell": 2,
+        "count": 4
+      }
     },
     {
       "id": "G04",
@@ -1680,7 +1815,12 @@
         "background": "#E9E8DA",
         "detail": "plain"
       },
-      "group": "sport"
+      "group": "sport",
+      "photo": {
+        "src": "assets/lookbook-sport-v2.webp",
+        "cell": 3,
+        "count": 4
+      }
     },
     {
       "id": "H01",
@@ -1736,7 +1876,12 @@
         "background": "#EEE4D3",
         "detail": "plain"
       },
-      "group": "occasion"
+      "group": "occasion",
+      "photo": {
+        "src": "assets/lookbook-occasion-v2.webp",
+        "cell": 0,
+        "count": 4
+      }
     },
     {
       "id": "H02",
@@ -1789,7 +1934,12 @@
         "background": "#DDE2DF",
         "detail": "plain"
       },
-      "group": "occasion"
+      "group": "occasion",
+      "photo": {
+        "src": "assets/lookbook-occasion-v2.webp",
+        "cell": 1,
+        "count": 4
+      }
     },
     {
       "id": "H03",
@@ -1847,7 +1997,12 @@
         "background": "#E3E7E9",
         "detail": "plain"
       },
-      "group": "occasion"
+      "group": "occasion",
+      "photo": {
+        "src": "assets/lookbook-occasion-v2.webp",
+        "cell": 2,
+        "count": 4
+      }
     },
     {
       "id": "H04",
@@ -1904,7 +2059,13 @@
         "background": "#E8DFD8",
         "detail": "plain"
       },
-      "group": "occasion"
+      "group": "occasion",
+      "photo": {
+        "src": "assets/lookbook-occasion-v2.webp",
+        "cell": 3,
+        "count": 4
+      }
     }
-  ]
+  ],
+  "visualEdition": "2026-10-27-photo-v2"
 }

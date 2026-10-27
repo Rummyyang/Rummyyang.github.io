@@ -1,4 +1,4 @@
-import {renderLook} from './illustration.js';
+import {renderPhoto} from './photo.js';
 import {STORAGE_KEY,FEATURE_LABELS,emptyState,sanitizeState,profile,recommend,shanghaiDate,preferenceSummary} from './core.mjs';
 
 const $=s=>document.querySelector(s);
@@ -11,7 +11,7 @@ function persist(){storage.set(state);updateCounts();}
 function updateCounts(){const p=profile(catalog,state);$('#progress-count').textContent=state.visited.length+' / '+catalog.groups.length;$('#likes-count').textContent=p.liked.length;document.querySelectorAll('[data-view]').forEach(b=>{b.classList.toggle('active',b.dataset.view===view);if(b.dataset.view===view)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});}
 function ratingRow(o){return '<div class="rating-row" aria-label="'+escape(o.title)+'的偏好">'+[[2,'♡ 想穿'],[1,'欣赏'],[-1,'暂不适合']].map(([n,label])=>'<button class="rate '+(state.ratings[o.id]===n?'selected':'')+'" data-rate="'+o.id+'" data-rating="'+n+'" aria-pressed="'+(state.ratings[o.id]===n)+'" aria-label="'+escape(o.id+' '+o.title+'：'+label)+'">'+label+'</button>').join('')+'</div>';}
 function reasonSelect(o){if(state.ratings[o.id]!==-1)return '';return '<select class="reason-select" data-reason="'+o.id+'" aria-label="'+escape(o.title)+'不适合的原因"><option value="">原因（可选）</option>'+['太正式','太休闲','太宽松','太贴身','不喜欢配色','不适合我的生活','不想费心打理'].map(x=>'<option '+(state.reasons[o.id]===x?'selected':'')+'>'+x+'</option>').join('')+'</select>';}
-function lookCard(o,context){return '<article class="look-card '+(state.ratings[o.id]===2?'liked':'')+'" data-card="'+o.id+'"><button class="look-image" data-detail="'+o.id+'" aria-label="查看 '+escape(o.id+' '+o.title)+' 搭配详情"><span class="look-id">'+o.id+'</span>'+renderLook(o,context)+'<span class="look-zoom">看搭配 ↗</span>'+(o.recommendation?'<span class="look-label">'+escape(o.recommendation)+'</span>':'')+'</button><div class="look-body"><div class="look-title-row"><h3>'+escape(o.title)+'</h3><span class="swatches" aria-label="'+escape(o.palette.map(x=>x.name).join('、'))+'">'+o.palette.map(c=>'<span class="swatch" style="background:'+c.hex+'" title="'+escape(c.name)+'"></span>').join('')+'</span></div><p class="look-subtitle">'+escape(o.subtitle)+'</p>'+ratingRow(o)+reasonSelect(o)+'</div></article>';}
+function lookCard(o,context){return '<article class="look-card '+(state.ratings[o.id]===2?'liked':'')+'" data-card="'+o.id+'"><button class="look-image" data-detail="'+o.id+'" aria-label="查看 '+escape(o.id+' '+o.title)+' 搭配详情"><span class="look-id">'+o.id+'</span>'+renderPhoto(o,context)+'<span class="look-zoom">看搭配 ↗</span>'+(o.recommendation?'<span class="look-label">'+escape(o.recommendation)+'</span>':'')+'</button><div class="look-body"><div class="look-title-row"><h3>'+escape(o.title)+'</h3><span class="swatches" aria-label="'+escape(o.palette.map(x=>x.name).join('、'))+'">'+o.palette.map(c=>'<span class="swatch" style="background:'+c.hex+'" title="'+escape(c.name)+'"></span>').join('')+'</span></div><p class="look-subtitle">'+escape(o.subtitle)+'</p>'+ratingRow(o)+reasonSelect(o)+'</div></article>';}
 function grid(outfits,context,extra=''){return '<div class="looks-grid '+extra+'">'+outfits.map(o=>lookCard(o,context)).join('')+'</div>';}
 function heading(kicker,title,sub,aside=''){return '<div class="section-heading"><div><p class="eyebrow">'+escape(kicker)+'</p><h2>'+escape(title)+'</h2><p>'+escape(sub)+'</p></div>'+(aside?'<div class="aside-note">'+aside+'</div>':'')+'</div>';}
 function explore(){
@@ -20,7 +20,7 @@ function explore(){
  content.innerHTML='<div class="group-steps" aria-label="风格章节">'+catalog.groups.map((x,i)=>'<button class="group-step '+(i===state.groupIndex?'active ':'')+(state.visited.includes(x.id)?'done':'')+'" data-group="'+i+'" '+(i===state.groupIndex?'aria-current="step"':'')+'><span>'+String(i+1).padStart(2,'0')+'</span>'+escape(x.name)+'</button>').join('')+'</div>'+
  heading('CHAPTER '+String(state.groupIndex+1).padStart(2,'0')+' / '+String(catalog.groups.length).padStart(2,'0'),g.name,g.subtitle,'每组可选 1–2 套，也可以全选或跳过。<br>先看感觉，再打开详情看版型。')+
  grid(looks,'explore')+
- '<div class="chapter-bottom"><p>'+escape(g.description)+'<br><strong>'+(choices?'本组 '+choices+' 套想穿':done?'这组已浏览，可随时修改选择':'不必为了完成进度而选喜欢')+'</strong></p><div class="button-row"><button class="secondary" id="previous-group" '+(state.groupIndex===0?'disabled':'')+'>← 上一组</button><button class="primary" id="next-group">'+(state.groupIndex===catalog.groups.length-1?'看我的方向 ↗':'保存并看下一组 →')+'</button></div></div><div class="help-strip">用“想穿”表达自己的生活选择，用“欣赏”收藏好看的灵感。插画只展示配色和轮廓，实际质感与合身度需要试穿。</div>';
+ '<div class="chapter-bottom"><p>'+escape(g.description)+'<br><strong>'+(choices?'本组 '+choices+' 套想穿':done?'这组已浏览，可随时修改选择':'不必为了完成进度而选喜欢')+'</strong></p><div class="button-row"><button class="secondary" id="previous-group" '+(state.groupIndex===0?'disabled':'')+'>← 上一组</button><button class="primary" id="next-group">'+(state.groupIndex===catalog.groups.length-1?'看我的方向 ↗':'保存并看下一组 →')+'</button></div></div><div class="help-strip">用“想穿”表达自己的生活选择，用“欣赏”收藏好看的灵感。图片为 AI 生成的摄影风格示意；服装细节以搭配清单为准，合身度仍需试穿。</div>';
 }
 function dailyView(){
  const date=shanghaiDate(),entry=(daily.entries||[]).find(e=>e.date===date),fallback=recommend(catalog,state,date,variant);
@@ -74,20 +74,20 @@ function updateRating(id,rating){
 function detail(id,open=true){
  const o=catalog.outfits.find(x=>x.id===id);if(!o)return;
  const creators=o.creatorIds.map(id=>catalog.creators.find(c=>c.id===id)).filter(Boolean);
- $('#detail-content').innerHTML='<div class="detail-layout"><div class="detail-art">'+renderLook(o,'detail')+'</div><div class="detail-copy"><p class="eyebrow">'+o.id+' · '+escape(o.season)+' · '+escape(o.occasion.join(' / '))+'</p><h2 id="detail-title">'+escape(o.title)+'</h2><p>'+escape(o.subtitle)+'</p><ul>'+o.items.map(x=>'<li>'+escape(x)+'</li>').join('')+'</ul><h4>这套的感觉</h4><p>'+escape(o.why)+'</p><h4>试穿时，留意这里</h4><p>'+escape(o.fitNote)+'</p><h4>先用衣柜试一次</h4><p>'+escape(o.tryFirst)+'</p><h4>相关风格参考 · 非同款出处</h4>'+creators.map(c=>'<a href="'+escape(c.url)+'" target="_blank" rel="noopener noreferrer">'+escape(c.name)+' ↗</a>').join(' · ')+ratingRow(o)+reasonSelect(o)+'<p style="font-size:10px">矢量搭配示意，不代表真人上身效果。</p></div></div>';
+ $('#detail-content').innerHTML='<div class="detail-layout"><div class="detail-art">'+renderPhoto(o,'detail')+'</div><div class="detail-copy"><p class="eyebrow">'+o.id+' · '+escape(o.season)+' · '+escape(o.occasion.join(' / '))+'</p><h2 id="detail-title">'+escape(o.title)+'</h2><p>'+escape(o.subtitle)+'</p><ul>'+o.items.map(x=>'<li>'+escape(x)+'</li>').join('')+'</ul><h4>这套的感觉</h4><p>'+escape(o.why)+'</p><h4>试穿时，留意这里</h4><p>'+escape(o.fitNote)+'</p><h4>先用衣柜试一次</h4><p>'+escape(o.tryFirst)+'</p><h4>相关风格参考 · 非同款出处</h4>'+creators.map(c=>'<a href="'+escape(c.url)+'" target="_blank" rel="noopener noreferrer">'+escape(c.name)+' ↗</a>').join(' · ')+ratingRow(o)+reasonSelect(o)+'<p style="font-size:10px">AI 生成的摄影风格示意，非真人试穿；服装细节可能与清单略有差异。</p></div></div>';
  if(open)$('#detail-dialog').showModal();
 }
 function exportOpen(){$('#summary-text').value=preferenceSummary(catalog,state);$('#export-dialog').showModal();}
 async function init(){
  try{
-   const response=await fetch('./catalog.json');if(!response.ok)throw new Error('catalog');catalog=await response.json();
+   const response=await fetch('./catalog.json',{cache:'no-cache'});if(!response.ok)throw new Error('catalog');catalog=await response.json();
    if(!Array.isArray(catalog.groups)||!catalog.groups.length||!Array.isArray(catalog.outfits)||!catalog.outfits.length)throw new Error('catalog');
-   try{const r=await fetch('./daily.json');if(r.ok)daily=await r.json();}catch{}
+   try{const r=await fetch('./daily.json',{cache:'no-cache'});if(r.ok)daily=await r.json();}catch{}
    state=sanitizeState(storage.get(),catalog);
    $('#group-total').textContent=String(catalog.groups.length).padStart(2,'0');
    $('#look-total').textContent=catalog.outfits.length;
    const hero=[catalog.outfits[4]||catalog.outfits[0],catalog.outfits[8]||catalog.outfits[1]];
-   $('#hero-art').insertAdjacentHTML('afterbegin',hero.map((o,i)=>renderLook(o,'hero'+i)).join(''));
+   $('#hero-art').insertAdjacentHTML('afterbegin',hero.map((o,i)=>renderPhoto(o,'hero'+i)).join(''));
    render();
  }catch{content.innerHTML='<div class="empty-state"><h3>展台暂时没有加载成功。</h3><p>请检查连接后刷新页面。已有选择仍保留在本浏览器，不会因加载失败而清除。</p><button class="primary" id="reload">重新加载</button></div>';}
 }
