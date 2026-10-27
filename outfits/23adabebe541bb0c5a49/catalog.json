@@ -2065,7 +2065,1088 @@
         "cell": 3,
         "count": 4
       }
+    },
+    {
+      "id": "I01",
+      "group": "city",
+      "title": "皮革与燕麦内层",
+      "subtitle": "黑色短外套，用柔软针织拉开质感",
+      "occasion": [
+        "日常",
+        "咖啡",
+        "约会"
+      ],
+      "season": "秋冬／早春",
+      "items": [
+        "黑色简洁皮革拉链短夹克，敞开穿",
+        "燕麦色细针织上衣",
+        "炭灰单褶宽直筒羊毛长裤",
+        "黑色侧拉链短靴"
+      ],
+      "palette": [
+        {
+          "name": "黑",
+          "hex": "#222322"
+        },
+        {
+          "name": "燕麦",
+          "hex": "#CFC6B5"
+        },
+        {
+          "name": "炭灰",
+          "hex": "#4A4B4C"
+        }
+      ],
+      "features": {
+        "formality": 3,
+        "relax": 4,
+        "contrast": 3,
+        "warmth": 2
+      },
+      "why": "皮革、细针织和羊毛各有不同表面，颜色少也能看出层次；浅色领口把视线引向面部。",
+      "fitNote": "皮夹克拉上拉链后仍应能自然抱臂；裤脚轻触鞋面即可，不要在靴口堆成一团。",
+      "tryFirst": "先用黑色短夹克替代皮衣，比较燕麦色与黑色内搭，确认喜欢明暗变化后再决定材质。",
+      "creatorIds": [],
+      "tags": [
+        "皮革",
+        "短外套",
+        "宽直筒"
+      ],
+      "visual": {
+        "top": "knit",
+        "outer": "jacket",
+        "bottom": "wide",
+        "shoes": "boots",
+        "topColor": "#CFC6B5",
+        "outerColor": "#222322",
+        "bottomColor": "#4A4B4C",
+        "shoeColor": "#202020",
+        "background": "#E8E6E1",
+        "detail": "plain"
+      },
+      "photo": {
+        "src": "assets/lookbook-round2-city-v3.webp",
+        "cell": 0,
+        "count": 4
+      }
+    },
+    {
+      "id": "I02",
+      "group": "city",
+      "title": "黑上衣与象牙丹宁",
+      "subtitle": "小圆领外套，配干净的浅色裤线",
+      "occasion": [
+        "日常",
+        "看展",
+        "咖啡"
+      ],
+      "season": "春秋",
+      "items": [
+        "黑色细斜纹无领短外套，敞开穿",
+        "黑色圆领T恤",
+        "象牙白厚实宽直筒牛仔裤",
+        "黑色便士乐福鞋与黑袜"
+      ],
+      "palette": [
+        {
+          "name": "黑",
+          "hex": "#232524"
+        },
+        {
+          "name": "象牙白",
+          "hex": "#E9E4D7"
+        }
+      ],
+      "features": {
+        "formality": 2,
+        "relax": 4,
+        "contrast": 5,
+        "warmth": 3
+      },
+      "why": "无领短外套减少领口重叠，黑色上半身和浅色牛仔裤形成清楚的比例；丹宁让整套保持日常感。",
+      "fitNote": "浅色裤料先在自然光下检查透视和口袋痕迹；坐下时腰腹有余量，裤腿才能保持平直。",
+      "tryFirst": "把黑色上衣分别放在裤外、只轻收前摆，比较腰线是否更清楚。",
+      "creatorIds": [],
+      "tags": [
+        "黑白对比",
+        "无领",
+        "浅色丹宁"
+      ],
+      "visual": {
+        "top": "tee",
+        "outer": "jacket",
+        "bottom": "wide",
+        "shoes": "loafers",
+        "topColor": "#232524",
+        "outerColor": "#232524",
+        "bottomColor": "#E9E4D7",
+        "shoeColor": "#222222",
+        "background": "#E8E6E1",
+        "detail": "plain"
+      },
+      "photo": {
+        "src": "assets/lookbook-round2-city-v3.webp",
+        "cell": 1,
+        "count": 4
+      }
+    },
+    {
+      "id": "I03",
+      "group": "city",
+      "title": "双排扣与旧黑丹宁",
+      "subtitle": "有肩线的外套，搭一点旧感",
+      "occasion": [
+        "通勤",
+        "看展",
+        "晚餐"
+      ],
+      "season": "春秋",
+      "items": [
+        "炭灰宽松双排扣羊毛西装外套，敞开穿",
+        "白色圆领T恤",
+        "洗水黑直筒牛仔裤，无破洞",
+        "黑色皮质乐福鞋与黑袜"
+      ],
+      "palette": [
+        {
+          "name": "炭灰",
+          "hex": "#4C4D50"
+        },
+        {
+          "name": "白",
+          "hex": "#F0EEE7"
+        },
+        {
+          "name": "洗水黑",
+          "hex": "#555653"
+        }
+      ],
+      "features": {
+        "formality": 3,
+        "relax": 4,
+        "contrast": 3,
+        "warmth": 1
+      },
+      "why": "双排扣的翻领提供结构，洗水丹宁把正式感放轻；白T只占中间一条，让深色层次保持清楚。",
+      "fitNote": "先看外套肩点和袖长，不靠过大尺码制造宽松；双排扣敞开时两侧前襟也应自然垂下。",
+      "tryFirst": "用同一件灰外套比较黑西裤与洗水黑牛仔裤，感受正式度差异。",
+      "creatorIds": [],
+      "tags": [
+        "双排扣",
+        "洗水丹宁",
+        "轻正式"
+      ],
+      "visual": {
+        "top": "tee",
+        "outer": "blazer",
+        "bottom": "straight",
+        "shoes": "loafers",
+        "topColor": "#F0EEE7",
+        "outerColor": "#4C4D50",
+        "bottomColor": "#555653",
+        "shoeColor": "#222222",
+        "background": "#E8E6E1",
+        "detail": "plain"
+      },
+      "photo": {
+        "src": "assets/lookbook-round2-city-v3.webp",
+        "cell": 2,
+        "count": 4
+      }
+    },
+    {
+      "id": "I04",
+      "group": "city",
+      "title": "石墨风衣与帽衫",
+      "subtitle": "长外层、轻内搭，让线条自然下落",
+      "occasion": [
+        "日常",
+        "散步",
+        "旅行"
+      ],
+      "season": "春秋",
+      "items": [
+        "石墨灰轻薄长风衣，敞开穿、不系腰带",
+        "黑色薄连帽衫，帽子自然放在领外",
+        "黑色宽直筒西裤",
+        "炭灰与米白配色的简洁复古跑鞋"
+      ],
+      "palette": [
+        {
+          "name": "石墨灰",
+          "hex": "#64666A"
+        },
+        {
+          "name": "黑",
+          "hex": "#252626"
+        },
+        {
+          "name": "米白",
+          "hex": "#E5E2D9"
+        }
+      ],
+      "features": {
+        "formality": 1,
+        "relax": 5,
+        "contrast": 2,
+        "warmth": 1
+      },
+      "why": "薄帽衫和跑鞋让长风衣更轻松，黑色内搭与裤子连成一条，再用灰色外层划出边界。",
+      "fitNote": "内层选薄款，避免肩颈堆厚；走路时下摆应能自然打开，裤脚不要拖地或遮住整双鞋。",
+      "tryFirst": "在镜前比较风衣敞开与系带，再走几步，看哪一种下摆活动更舒服。",
+      "creatorIds": [],
+      "tags": [
+        "长风衣",
+        "薄帽衫",
+        "运动混搭"
+      ],
+      "visual": {
+        "top": "hoodie",
+        "outer": "coat",
+        "bottom": "wide",
+        "shoes": "sneakers",
+        "topColor": "#252626",
+        "outerColor": "#64666A",
+        "bottomColor": "#252626",
+        "shoeColor": "#8A8B89",
+        "background": "#E8E6E1",
+        "detail": "plain"
+      },
+      "photo": {
+        "src": "assets/lookbook-round2-city-v3.webp",
+        "cell": 3,
+        "count": 4
+      }
+    },
+    {
+      "id": "J01",
+      "group": "clean",
+      "title": "深蓝半拉链与烟灰蓝",
+      "subtitle": "领口一小块白色，让近色搭配透气",
+      "occasion": [
+        "通勤",
+        "咖啡",
+        "会面"
+      ],
+      "season": "秋冬／早春",
+      "items": [
+        "海军蓝细针半拉链针织，领口适度拉开",
+        "白色衬衫，只露领口",
+        "烟灰蓝单褶宽直筒羊毛长裤",
+        "中灰麂皮乐福鞋与同色袜"
+      ],
+      "palette": [
+        {
+          "name": "海军蓝",
+          "hex": "#273346"
+        },
+        {
+          "name": "烟灰蓝",
+          "hex": "#818B96"
+        },
+        {
+          "name": "白",
+          "hex": "#EEECE5"
+        }
+      ],
+      "features": {
+        "formality": 3,
+        "relax": 4,
+        "contrast": 3,
+        "warmth": 1
+      },
+      "why": "蓝灰同色系容易连贯，细小的白领口负责提亮；拉链针织比衬衫夹克更柔软。",
+      "fitNote": "领口打开后衬衫领尖不要挤成一团；针织下摆停在腰胯附近，避免弹力罗纹勒出明显鼓包。",
+      "tryFirst": "拉链分别开到锁骨附近和更高一点，比较领口形状，不必额外叠项链。",
+      "creatorIds": [],
+      "tags": [
+        "半拉链针织",
+        "蓝灰近色",
+        "麂皮"
+      ],
+      "visual": {
+        "top": "shirt",
+        "outer": "jacket",
+        "bottom": "wide",
+        "shoes": "loafers",
+        "topColor": "#EEECE5",
+        "outerColor": "#273346",
+        "bottomColor": "#818B96",
+        "shoeColor": "#85878A",
+        "background": "#E8E6E1",
+        "detail": "plain"
+      },
+      "photo": {
+        "src": "assets/lookbook-round2-clean-v3.webp",
+        "cell": 0,
+        "count": 4
+      }
+    },
+    {
+      "id": "J02",
+      "group": "clean",
+      "title": "米白立领与深橄榄",
+      "subtitle": "少一个翻领，保留棉布的清爽轮廓",
+      "occasion": [
+        "日常",
+        "咖啡",
+        "会面"
+      ],
+      "season": "春秋／温和夏日",
+      "items": [
+        "米白长袖棉质立领衬衫，领口开一颗扣、下摆收进裤腰",
+        "深橄榄绿宽直筒棉质长裤",
+        "深棕色简洁皮带",
+        "黑色素面德比鞋"
+      ],
+      "palette": [
+        {
+          "name": "米白",
+          "hex": "#EAE5D9"
+        },
+        {
+          "name": "深橄榄",
+          "hex": "#555A43"
+        },
+        {
+          "name": "深棕",
+          "hex": "#574234"
+        }
+      ],
+      "features": {
+        "formality": 2,
+        "relax": 4,
+        "contrast": 3,
+        "warmth": 4
+      },
+      "why": "立领衬衫与棉裤都没有太多装饰，深橄榄只作为一大块安静的颜色，皮带补足腰线。",
+      "fitNote": "领圈留出活动空间，抬手后肩背不拉扯；裤腰坐下不勒，收进的衬衫可以轻轻抽出一点余量。",
+      "tryFirst": "先用米白衬衫搭深色棉裤，比较袖口放下与卷一折，选择更自然的一种。",
+      "creatorIds": [],
+      "tags": [
+        "立领衬衫",
+        "深橄榄",
+        "棉质"
+      ],
+      "visual": {
+        "top": "shirt",
+        "outer": "none",
+        "bottom": "wide",
+        "shoes": "derby",
+        "topColor": "#EAE5D9",
+        "outerColor": "#EAE5D9",
+        "bottomColor": "#555A43",
+        "shoeColor": "#222322",
+        "background": "#E8E6E1",
+        "detail": "plain"
+      },
+      "photo": {
+        "src": "assets/lookbook-round2-clean-v3.webp",
+        "cell": 1,
+        "count": 4
+      }
+    },
+    {
+      "id": "J03",
+      "group": "clean",
+      "title": "矿物色短夹克",
+      "subtitle": "石色、烟蓝和灰褐，安静但不单调",
+      "occasion": [
+        "日常",
+        "散步",
+        "咖啡"
+      ],
+      "season": "春秋",
+      "items": [
+        "浅石色拉链短夹克，敞开穿",
+        "灰调烟蓝圆领T恤",
+        "深灰褐直筒长裤",
+        "石灰色麂皮简洁运动鞋"
+      ],
+      "palette": [
+        {
+          "name": "浅石色",
+          "hex": "#D1CCBF"
+        },
+        {
+          "name": "烟蓝",
+          "hex": "#768A98"
+        },
+        {
+          "name": "灰褐",
+          "hex": "#766C60"
+        }
+      ],
+      "features": {
+        "formality": 1,
+        "relax": 3,
+        "contrast": 2,
+        "warmth": 3
+      },
+      "why": "三种低饱和颜色放在一起，靠深浅而非强反差区分层次；麂皮鞋呼应外套的柔和表面。",
+      "fitNote": "短外套下摆应自然落在腰胯附近；内搭只露少量下摆即可，避免上下几层横线挤在一起。",
+      "tryFirst": "用现有浅色外套，把白T换成烟蓝或灰蓝T恤，观察脸旁颜色是否仍显清爽。",
+      "creatorIds": [],
+      "tags": [
+        "矿物色",
+        "低对比",
+        "短夹克"
+      ],
+      "visual": {
+        "top": "tee",
+        "outer": "jacket",
+        "bottom": "straight",
+        "shoes": "sneakers",
+        "topColor": "#768A98",
+        "outerColor": "#D1CCBF",
+        "bottomColor": "#766C60",
+        "shoeColor": "#BCB8AF",
+        "background": "#E8E6E1",
+        "detail": "plain"
+      },
+      "photo": {
+        "src": "assets/lookbook-round2-clean-v3.webp",
+        "cell": 2,
+        "count": 4
+      }
+    },
+    {
+      "id": "J04",
+      "group": "clean",
+      "title": "深蓝开衫与浅丹宁",
+      "subtitle": "一深一浅，用针织替代外套的硬度",
+      "occasion": [
+        "日常",
+        "咖啡",
+        "周末"
+      ],
+      "season": "春秋",
+      "items": [
+        "深蓝无领V领细针开衫，中间纽扣扣起、最下方一颗敞开",
+        "白色圆领T恤",
+        "浅蓝洗水直筒牛仔裤，无破洞",
+        "米白低帮简洁运动鞋"
+      ],
+      "palette": [
+        {
+          "name": "深蓝",
+          "hex": "#263449"
+        },
+        {
+          "name": "浅丹宁蓝",
+          "hex": "#A4B6C3"
+        },
+        {
+          "name": "米白",
+          "hex": "#E9E6DC"
+        }
+      ],
+      "features": {
+        "formality": 1,
+        "relax": 3,
+        "contrast": 3,
+        "warmth": 1
+      },
+      "why": "深蓝开衫围住白色领口，下半身换成浅牛仔蓝，整体轻快但仍有明确轮廓。",
+      "fitNote": "开衫扣起后纽扣之间不应张口；下摆不勒腰，裤腿保留余量但不需要特意放大。",
+      "tryFirst": "比较开衫全敞开与扣中间两三颗，选出胸腹布料最平顺的状态。",
+      "creatorIds": [],
+      "tags": [
+        "细针开衫",
+        "浅色丹宁",
+        "日常层次"
+      ],
+      "visual": {
+        "top": "tee",
+        "outer": "cardigan",
+        "bottom": "straight",
+        "shoes": "sneakers",
+        "topColor": "#E9E6DC",
+        "outerColor": "#263449",
+        "bottomColor": "#A4B6C3",
+        "shoeColor": "#E9E6DC",
+        "background": "#E8E6E1",
+        "detail": "plain"
+      },
+      "photo": {
+        "src": "assets/lookbook-round2-clean-v3.webp",
+        "cell": 3,
+        "count": 4
+      }
+    },
+    {
+      "id": "K01",
+      "group": "ivy",
+      "title": "细条纹翻领针织",
+      "subtitle": "条纹收细，灯芯绒负责纹理",
+      "occasion": [
+        "日常",
+        "咖啡",
+        "书店"
+      ],
+      "season": "秋冬／早春",
+      "items": [
+        "海军蓝底米白细横条纹长袖针织Polo，纯深蓝翻领",
+        "炭灰单褶直筒灯芯绒长裤",
+        "深棕便士乐福鞋与深色袜"
+      ],
+      "palette": [
+        {
+          "name": "海军蓝",
+          "hex": "#29364A"
+        },
+        {
+          "name": "米白",
+          "hex": "#E5E0D3"
+        },
+        {
+          "name": "炭灰",
+          "hex": "#535455"
+        },
+        {
+          "name": "深棕",
+          "hex": "#563E30"
+        }
+      ],
+      "features": {
+        "formality": 2,
+        "relax": 3,
+        "contrast": 2,
+        "warmth": 2
+      },
+      "why": "细横条纹留住学院感，翻领比圆领更利落；下半身用低调灯芯绒丰富表面，而不是再加图案。",
+      "fitNote": "Polo领口自然打开即可，针织肩线不要下垂太多；灯芯绒裤先看臀腿余量，避免坐下绷住。",
+      "tryFirst": "先把条纹上衣搭纯色深裤，比较光滑棉布和细条灯芯绒的质感差异。",
+      "creatorIds": [],
+      "tags": [
+        "细条纹",
+        "翻领针织",
+        "灯芯绒"
+      ],
+      "visual": {
+        "top": "polo",
+        "outer": "none",
+        "bottom": "straight",
+        "shoes": "loafers",
+        "topColor": "#29364A",
+        "outerColor": "#29364A",
+        "bottomColor": "#535455",
+        "shoeColor": "#563E30",
+        "background": "#E8E6E1",
+        "detail": "stripe"
+      },
+      "photo": {
+        "src": "assets/lookbook-round2-ivy-v3.webp",
+        "cell": 0,
+        "count": 4
+      }
+    },
+    {
+      "id": "K02",
+      "group": "ivy",
+      "title": "橄榄人字纹与棕色灯芯绒",
+      "subtitle": "粗细不同的面料，组成温暖学院感",
+      "occasion": [
+        "会面",
+        "书店",
+        "周末"
+      ],
+      "season": "秋冬",
+      "items": [
+        "深橄榄绿人字纹粗花呢单排扣外套，敞开穿",
+        "浅蓝牛津纺扣领衬衫，领口开一颗、下摆收进裤腰",
+        "中棕直筒灯芯绒长裤",
+        "深酒红便士乐福鞋与棕色袜"
+      ],
+      "palette": [
+        {
+          "name": "深橄榄",
+          "hex": "#545A47"
+        },
+        {
+          "name": "浅蓝",
+          "hex": "#B6C7D2"
+        },
+        {
+          "name": "中棕",
+          "hex": "#866343"
+        },
+        {
+          "name": "深酒红",
+          "hex": "#643D3D"
+        }
+      ],
+      "features": {
+        "formality": 3,
+        "relax": 3,
+        "contrast": 3,
+        "warmth": 4
+      },
+      "why": "人字纹和灯芯绒属于两种不同尺度的纹理，浅蓝衬衫把棕绿配色提亮，酒红只放在鞋上。",
+      "fitNote": "外套无需紧收腰，胸前与背部应能活动；灯芯绒选择不过分粗厚的款式，裤脚收在鞋面附近。",
+      "tryFirst": "先保留浅蓝衬衫和棕裤，分别搭光滑深色外套与有纹理的外套，看看更喜欢哪一种。",
+      "creatorIds": [],
+      "tags": [
+        "人字纹",
+        "棕绿配色",
+        "复古面料"
+      ],
+      "visual": {
+        "top": "shirt",
+        "outer": "blazer",
+        "bottom": "straight",
+        "shoes": "loafers",
+        "topColor": "#B6C7D2",
+        "outerColor": "#545A47",
+        "bottomColor": "#866343",
+        "shoeColor": "#643D3D",
+        "background": "#E8E6E1",
+        "detail": "plain"
+      },
+      "photo": {
+        "src": "assets/lookbook-round2-ivy-v3.webp",
+        "cell": 1,
+        "count": 4
+      }
+    },
+    {
+      "id": "K03",
+      "group": "ivy",
+      "title": "驼色背心与深蓝衬衫",
+      "subtitle": "明亮背心放在中间，深色上下呼应",
+      "occasion": [
+        "通勤",
+        "书店",
+        "会面"
+      ],
+      "season": "春秋／室内冬日",
+      "items": [
+        "驼色V领无袖针织背心",
+        "深蓝长袖牛津衬衫，领口开一颗、下摆收进裤腰",
+        "炭灰直筒羊毛长裤",
+        "深棕素面德比鞋"
+      ],
+      "palette": [
+        {
+          "name": "驼色",
+          "hex": "#B99568"
+        },
+        {
+          "name": "深蓝",
+          "hex": "#2C3B4D"
+        },
+        {
+          "name": "炭灰",
+          "hex": "#4E5152"
+        }
+      ],
+      "features": {
+        "formality": 3,
+        "relax": 3,
+        "contrast": 3,
+        "warmth": 4
+      },
+      "why": "把浅色留给背心、深色放在衬衫和裤子上，学院层次会更沉稳；V领让衬衫领口留有空间。",
+      "fitNote": "背心袖窿不应卡住腋下，也不要大到露出过多衬衫褶皱；衬衫袖口整齐露出即可。",
+      "tryFirst": "把同一件背心分别搭白衬衫与深蓝衬衫，比较明暗顺序带来的变化。",
+      "creatorIds": [],
+      "tags": [
+        "针织背心",
+        "深色衬衫",
+        "驼色"
+      ],
+      "visual": {
+        "top": "shirt",
+        "outer": "vest",
+        "bottom": "straight",
+        "shoes": "derby",
+        "topColor": "#2C3B4D",
+        "outerColor": "#B99568",
+        "bottomColor": "#4E5152",
+        "shoeColor": "#563F30",
+        "background": "#E8E6E1",
+        "detail": "plain"
+      },
+      "photo": {
+        "src": "assets/lookbook-round2-ivy-v3.webp",
+        "cell": 2,
+        "count": 4
+      }
+    },
+    {
+      "id": "K04",
+      "group": "ivy",
+      "title": "无字棒球夹克与乐福鞋",
+      "subtitle": "保留校园轮廓，用皮鞋收住休闲感",
+      "occasion": [
+        "周末",
+        "散步",
+        "咖啡"
+      ],
+      "season": "春秋",
+      "items": [
+        "中灰羊毛棒球夹克，象牙白皮革袖，无字母与徽章，敞开穿",
+        "深蓝圆领T恤",
+        "卡其色直筒斜纹棉裤",
+        "酒红皮质便士乐福鞋与同色袜"
+      ],
+      "palette": [
+        {
+          "name": "中灰",
+          "hex": "#858786"
+        },
+        {
+          "name": "象牙白",
+          "hex": "#DFD9CA"
+        },
+        {
+          "name": "卡其",
+          "hex": "#B8A783"
+        },
+        {
+          "name": "酒红",
+          "hex": "#674043"
+        }
+      ],
+      "features": {
+        "formality": 1,
+        "relax": 4,
+        "contrast": 3,
+        "warmth": 4
+      },
+      "why": "棒球夹克的拼色和罗纹已经足够有辨识度，裤子保持素净，乐福鞋让整体更成熟。",
+      "fitNote": "夹克袖子弯肘时有余量，罗纹下摆不要勒得上衣鼓起；棉裤选直筒，避免脚踝过紧。",
+      "tryFirst": "同一套先搭运动鞋，再换乐福鞋，比较自己喜欢的休闲程度。",
+      "creatorIds": [],
+      "tags": [
+        "棒球夹克",
+        "皮革拼接",
+        "学院休闲"
+      ],
+      "visual": {
+        "top": "tee",
+        "outer": "jacket",
+        "bottom": "straight",
+        "shoes": "loafers",
+        "topColor": "#28364A",
+        "outerColor": "#858786",
+        "bottomColor": "#B8A783",
+        "shoeColor": "#674043",
+        "background": "#E8E6E1",
+        "detail": "plain"
+      },
+      "photo": {
+        "src": "assets/lookbook-round2-ivy-v3.webp",
+        "cell": 3,
+        "count": 4
+      }
+    },
+    {
+      "id": "L01",
+      "group": "soft",
+      "title": "暗梅针织与灰褐宽裤",
+      "subtitle": "少量紫调，留在柔软的上半身",
+      "occasion": [
+        "咖啡",
+        "约会",
+        "日常"
+      ],
+      "season": "秋冬／早春",
+      "items": [
+        "低饱和暗梅色插肩细针圆领针织",
+        "米白T恤，只露一线领口",
+        "暖灰褐单褶宽直筒羊毛长裤",
+        "黑色便士乐福鞋与深色袜"
+      ],
+      "palette": [
+        {
+          "name": "暗梅",
+          "hex": "#6B4C60"
+        },
+        {
+          "name": "暖灰褐",
+          "hex": "#9A8C7D"
+        },
+        {
+          "name": "米白",
+          "hex": "#E7E1D4"
+        }
+      ],
+      "features": {
+        "formality": 2,
+        "relax": 4,
+        "contrast": 2,
+        "warmth": 4
+      },
+      "why": "暗梅比鲜紫更柔和，与灰褐相邻时不会抢走全部注意力；插肩和宽裤让面料自然垂落。",
+      "fitNote": "针织胸腹不贴身，下摆轻落即可；宽裤的腰和臀仍要合适，不用靠加大尺码制造垂感。",
+      "tryFirst": "把酒红或暗梅上衣放在脸旁自然光下比较，再用已有灰裤试一套。",
+      "creatorIds": [],
+      "tags": [
+        "暗梅",
+        "柔软针织",
+        "低饱和"
+      ],
+      "visual": {
+        "top": "knit",
+        "outer": "none",
+        "bottom": "wide",
+        "shoes": "loafers",
+        "topColor": "#6B4C60",
+        "outerColor": "#6B4C60",
+        "bottomColor": "#9A8C7D",
+        "shoeColor": "#222222",
+        "background": "#E8E6E1",
+        "detail": "plain"
+      },
+      "photo": {
+        "src": "assets/lookbook-round2-explore-v3.webp",
+        "cell": 0,
+        "count": 4
+      }
+    },
+    {
+      "id": "L02",
+      "group": "smart",
+      "title": "烟蓝软西装",
+      "subtitle": "成套穿得轻一些，用T恤和麂皮收尾",
+      "occasion": [
+        "会面",
+        "通勤",
+        "晚餐"
+      ],
+      "season": "春秋",
+      "items": [
+        "烟蓝轻结构单排扣羊毛西装外套，敞开穿",
+        "同面料烟蓝直筒西裤",
+        "米白圆领T恤",
+        "深棕麂皮便士乐福鞋与同色袜"
+      ],
+      "palette": [
+        {
+          "name": "烟蓝",
+          "hex": "#708596"
+        },
+        {
+          "name": "米白",
+          "hex": "#E8E3D7"
+        },
+        {
+          "name": "深棕",
+          "hex": "#5D4534"
+        }
+      ],
+      "features": {
+        "formality": 4,
+        "relax": 3,
+        "contrast": 3,
+        "warmth": 2
+      },
+      "why": "同色成套让整体线条完整，T恤与麂皮鞋降低拘谨感，适合想试西装又希望保持松弛的场合。",
+      "fitNote": "肩线和胸围先合适，裤腰坐下能舒适呼吸；裤脚轻触鞋面，外套敞开时前襟自然落下。",
+      "tryFirst": "先用手头蓝色外套和近色裤子看整体效果，再决定是否需要购入成套款式。",
+      "creatorIds": [],
+      "tags": [
+        "烟蓝",
+        "软西装",
+        "同色成套"
+      ],
+      "visual": {
+        "top": "tee",
+        "outer": "blazer",
+        "bottom": "straight",
+        "shoes": "loafers",
+        "topColor": "#E8E3D7",
+        "outerColor": "#708596",
+        "bottomColor": "#708596",
+        "shoeColor": "#5D4534",
+        "background": "#E8E6E1",
+        "detail": "plain"
+      },
+      "photo": {
+        "src": "assets/lookbook-round2-explore-v3.webp",
+        "cell": 1,
+        "count": 4
+      }
+    },
+    {
+      "id": "L03",
+      "group": "workwear",
+      "title": "橄榄蜡棉与黑丹宁",
+      "subtitle": "实用口袋，配简洁的深色裤线",
+      "occasion": [
+        "周末",
+        "散步",
+        "旅行"
+      ],
+      "season": "秋冬／早春",
+      "items": [
+        "深橄榄绿轻蜡棉田野夹克，深棕灯芯绒领，敞开穿",
+        "米白长袖亨利领上衣，领口开两颗扣",
+        "黑色直筒牛仔裤",
+        "棕色麂皮沙漠短靴"
+      ],
+      "palette": [
+        {
+          "name": "深橄榄",
+          "hex": "#4F5943"
+        },
+        {
+          "name": "米白",
+          "hex": "#E7E0D0"
+        },
+        {
+          "name": "黑",
+          "hex": "#2C2D2B"
+        },
+        {
+          "name": "棕",
+          "hex": "#856345"
+        }
+      ],
+      "features": {
+        "formality": 1,
+        "relax": 4,
+        "contrast": 3,
+        "warmth": 4
+      },
+      "why": "蜡棉、灯芯绒领和麂皮鞋提供实用质感，黑牛仔裤保持干净；亨利领只增加一小处细节。",
+      "fitNote": "装入少量随身物品后口袋仍不鼓胀；肩背便于抬手，牛仔裤在靴口只留少量褶皱。",
+      "tryFirst": "用现有橄榄外套先搭黑牛仔裤，看看比蓝牛仔裤更利落的效果是否合意。",
+      "creatorIds": [],
+      "tags": [
+        "蜡棉",
+        "亨利领",
+        "轻工装"
+      ],
+      "visual": {
+        "top": "shirt",
+        "outer": "jacket",
+        "bottom": "straight",
+        "shoes": "boots",
+        "topColor": "#E7E0D0",
+        "outerColor": "#4F5943",
+        "bottomColor": "#2C2D2B",
+        "shoeColor": "#856345",
+        "background": "#E8E6E1",
+        "detail": "plain"
+      },
+      "photo": {
+        "src": "assets/lookbook-round2-explore-v3.webp",
+        "cell": 2,
+        "count": 4
+      }
+    },
+    {
+      "id": "L04",
+      "group": "occasion",
+      "title": "巧克力丝绒与黑色内层",
+      "subtitle": "用一种柔和光泽，丰富晚间深色",
+      "occasion": [
+        "晚餐",
+        "约会",
+        "聚会"
+      ],
+      "season": "秋冬／室内晚间",
+      "items": [
+        "深巧克力棕单排扣丝绒外套，同面料平驳领，敞开穿",
+        "黑色开领衬衫，下摆收进裤腰",
+        "黑色宽直筒羊毛长裤",
+        "黑色素面皮质乐福鞋与深色袜"
+      ],
+      "palette": [
+        {
+          "name": "巧克力",
+          "hex": "#503C32"
+        },
+        {
+          "name": "黑",
+          "hex": "#252525"
+        }
+      ],
+      "features": {
+        "formality": 4,
+        "relax": 3,
+        "contrast": 2,
+        "warmth": 4
+      },
+      "why": "丝绒的细微反光足以让深色组合有区别，其余单品保持素面，把重点留给外套质地。",
+      "fitNote": "试衣时同时在自然光和室内灯下看光泽；肩部平顺、袖子不绷，衬衫领口无需开得过低。",
+      "tryFirst": "先用深棕外套搭全黑内层确认配色，再试少量有光泽的面料，判断是否适合常去的场合。",
+      "creatorIds": [],
+      "tags": [
+        "丝绒",
+        "巧克力棕",
+        "晚间质感"
+      ],
+      "visual": {
+        "top": "shirt",
+        "outer": "blazer",
+        "bottom": "wide",
+        "shoes": "loafers",
+        "topColor": "#252525",
+        "outerColor": "#503C32",
+        "bottomColor": "#252525",
+        "shoeColor": "#252525",
+        "background": "#E8E6E1",
+        "detail": "plain"
+      },
+      "photo": {
+        "src": "assets/lookbook-round2-explore-v3.webp",
+        "cell": 3,
+        "count": 4
+      }
     }
   ],
-  "visualEdition": "2026-10-27-photo-v2"
+  "visualEdition": "2026-10-27-photo-v3",
+  "collections": [
+    {
+      "id": "round2-city",
+      "title": "城市黑白 · 材质与轮廓",
+      "subtitle": "皮革、丹宁、细斜纹与轻风衣",
+      "note": "颜色收敛一点，让短与长、软与挺形成变化。先挑最想穿的一套，再比较同样深色的不同材质。",
+      "outfitIds": [
+        "I01",
+        "I02",
+        "I03",
+        "I04"
+      ]
+    },
+    {
+      "id": "round2-clean",
+      "title": "日常极简 · 近色与领口",
+      "subtitle": "蓝灰、米白、石色与轻针织",
+      "note": "把变化放在领口、明暗顺序和面料表面。适合用现有单品开始试，不必一次替换整套衣橱。",
+      "outfitIds": [
+        "J01",
+        "J02",
+        "J03",
+        "J04"
+      ]
+    },
+    {
+      "id": "round2-ivy",
+      "title": "学院复古 · 克制的细节",
+      "subtitle": "细条纹、灯芯绒、背心与无字夹克",
+      "note": "每套只突出一两种学院元素，其他部分保持干净。可以比较自己更喜欢针织的柔和，还是外套的结构。",
+      "outfitIds": [
+        "K01",
+        "K02",
+        "K03",
+        "K04"
+      ]
+    },
+    {
+      "id": "round2-explore",
+      "title": "向外探索 · 四种新质感",
+      "subtitle": "暗梅、烟蓝、橄榄蜡棉与巧克力丝绒",
+      "note": "在安静配色中拓宽场景和触感：柔软日常、轻松通勤、周末工装与晚间质感各试一套。",
+      "outfitIds": [
+        "L01",
+        "L02",
+        "L03",
+        "L04"
+      ]
+    }
+  ]
 }

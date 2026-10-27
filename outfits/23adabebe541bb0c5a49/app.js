@@ -3,7 +3,8 @@ import {STORAGE_KEY,FEATURE_LABELS,emptyState,sanitizeState,profile,recommend,sh
 
 const $=s=>document.querySelector(s);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let catalog,state=emptyState(),daily={entries:[]},view='explore',groupFilter='all',occasionFilter='all',onlyLikes=false,variant=0,saveWorks=true,toastTimer;
+let catalog,state=emptyState(),daily={entries:[]},view='round2',collectionIndex=0,groupFilter='all',occasionFilter='all',onlyLikes=false,variant=0,saveWorks=true,toastTimer;
+const viewNames=['round2','explore','daily','library','profile'];
 const content=$('#content');
 const storage={get(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');}catch{return null;}},set(s){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s));saveWorks=true;}catch{saveWorks=false;toast('浏览器暂时无法保存，请导出选择，避免丢失。');}}};
 function toast(message){const notice=$('#toast');(document.querySelector('dialog[open]')||document.body).appendChild(notice);notice.textContent=message;notice.classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>notice.classList.remove('visible'),3500);}
@@ -14,6 +15,19 @@ function reasonSelect(o){if(state.ratings[o.id]!==-1)return '';return '<select c
 function lookCard(o,context){return '<article class="look-card '+(state.ratings[o.id]===2?'liked':'')+'" data-card="'+o.id+'"><button class="look-image" data-detail="'+o.id+'" aria-label="查看 '+escape(o.id+' '+o.title)+' 搭配详情"><span class="look-id">'+o.id+'</span>'+renderPhoto(o,context)+'<span class="look-zoom">看搭配 ↗</span>'+(o.recommendation?'<span class="look-label">'+escape(o.recommendation)+'</span>':'')+'</button><div class="look-body"><div class="look-title-row"><h3>'+escape(o.title)+'</h3><span class="swatches" aria-label="'+escape(o.palette.map(x=>x.name).join('、'))+'">'+o.palette.map(c=>'<span class="swatch" style="background:'+c.hex+'" title="'+escape(c.name)+'"></span>').join('')+'</span></div><p class="look-subtitle">'+escape(o.subtitle)+'</p>'+ratingRow(o)+reasonSelect(o)+'</div></article>';}
 function grid(outfits,context,extra=''){return '<div class="looks-grid '+extra+'">'+outfits.map(o=>lookCard(o,context)).join('')+'</div>';}
 function heading(kicker,title,sub,aside=''){return '<div class="section-heading"><div><p class="eyebrow">'+escape(kicker)+'</p><h2>'+escape(title)+'</h2><p>'+escape(sub)+'</p></div>'+(aside?'<div class="aside-note">'+aside+'</div>':'')+'</div>';}
+function collections(){return (Array.isArray(catalog.collections)?catalog.collections:[]).filter(c=>c&&Array.isArray(c.outfitIds)&&c.outfitIds.length===4&&new Set(c.outfitIds).size===4&&c.outfitIds.every(id=>catalog.outfits.some(o=>o.id===id)));}
+function round2(){
+ const edits=collections();
+ if(!edits.length){content.innerHTML=heading('THE NEXT EDIT','下一轮，正在准备。','原有搭配和本地选择仍然可以查看。')+'<div class="empty-state"><p>新一轮精选尚未加载。可以先回看最初的八组，或浏览全部搭配。</p><div class="button-row" style="justify-content:center"><button class="primary" data-view="explore">回看第一轮</button><button class="secondary" data-view="library">全部搭配</button></div></div>';return;}
+ collectionIndex=Math.max(0,Math.min(collectionIndex,edits.length-1));
+ const edit=edits[collectionIndex],looks=edit.outfitIds.map(id=>catalog.outfits.find(o=>o.id===id));
+ const choices=looks.filter(o=>state.ratings[o.id]===2).length;
+ content.innerHTML='<div class="round2-intro"><p class="eyebrow">THE SECOND EDIT · 16 NEW LOOKS</p><h2>沿着喜欢，打开一点新可能。</h2><p>三组延伸：城市黑白、日常极简、学院复古；再留一组新尝试，看看不同的颜色、材质与场景。每组四套，照样凭感觉选择。</p></div>'+
+ '<div class="group-steps collection-steps" aria-label="第二轮精选分组">'+edits.map((c,i)=>'<button class="group-step '+(i===collectionIndex?'active':'')+'" data-collection="'+i+'" '+(i===collectionIndex?'aria-current="step"':'')+'><span>'+String(i+1).padStart(2,'0')+'</span>'+escape(c.title)+'</button>').join('')+'</div>'+
+ heading('SECOND EDIT '+String(collectionIndex+1).padStart(2,'0')+' / '+String(edits.length).padStart(2,'0'),edit.title,edit.subtitle,'可以多选，也可以整组跳过。<br>点击图片，看单品和试穿重点。')+
+ grid(looks,'round2')+
+ '<div class="chapter-bottom"><p>'+escape(edit.note)+'<br><strong>'+(choices?'本组 '+choices+' 套想穿':'给熟悉的风格和新尝试同样的机会')+'</strong></p><div class="button-row"><button class="secondary" id="previous-collection" '+(collectionIndex===0?'disabled':'')+'>← 上一组</button><button class="primary" id="next-collection">'+(collectionIndex===edits.length-1?'看我的方向 ↗':'保存并看下一组 →')+'</button></div></div><div class="help-strip">新旧选择一起保存在本浏览器。看完后导出偏好摘要，下一轮便能继续调整。图片是 AI 生成的虚构模特摄影示意，非真人试穿。</div>';
+}
 function explore(){
  const g=catalog.groups[state.groupIndex],looks=catalog.outfits.filter(o=>o.group===g.id).slice(0,4);
  const choices=looks.filter(o=>state.ratings[o.id]===2).length,done=state.visited.includes(g.id);
@@ -56,8 +70,8 @@ function profileView(){
  '<div class="creator-list">'+catalog.creators.map(c=>'<article class="creator"><a href="'+escape(c.url)+'" target="_blank" rel="noopener noreferrer">'+escape(c.name)+' ↗</a><p>'+escape(c.focus)+'</p><p>'+escape(c.caveat)+'</p><small>'+escape(c.verification)+' · '+escape(c.handle)+'</small></article>').join('')+'</div><div class="chapter-bottom"><p>选择不会自动同步到对话。复制摘要后发给我，下一批才能结合你的反馈。</p><button class="text-button" id="reset-open">清除本地选择</button></div>';
 }
 function featureWord(k,n){const low=n<2.4,high=n>3.6;return ({formality:low?'日常休闲':high?'偏正式':'轻松得体',relax:low?'偏合体':high?'舒展宽松':'适度余量',contrast:low?'低对比、近色':high?'明暗分明':'适度对比',warmth:low?'冷色倾向':high?'暖色倾向':'冷暖均衡'})[k];}
-function render(focus=false){updateCounts();({explore,daily:dailyView,library,profile:profileView})[view]();if(focus){content.focus({preventScroll:true});content.scrollIntoView({behavior:'auto',block:'start'});}}
-function navigate(target){if(!['explore','daily','library','profile'].includes(target))return;view=target;render(true);}
+function render(focus=false){updateCounts();({round2,explore,daily:dailyView,library,profile:profileView})[view]();if(focus){content.focus({preventScroll:true});content.scrollIntoView({behavior:'auto',block:'start'});}}
+function navigate(target){if(!viewNames.includes(target))return;view=target;history.replaceState(null,'','#'+target);render(true);}
 function updateRating(id,rating){
  if(!catalog.outfits.some(o=>o.id===id))return;
  const restoreFocus=document.activeElement?.dataset.rate===id;
@@ -86,9 +100,10 @@ async function init(){
    state=sanitizeState(storage.get(),catalog);
    $('#group-total').textContent=String(catalog.groups.length).padStart(2,'0');
    $('#look-total').textContent=catalog.outfits.length;
-   const hero=[catalog.outfits[4]||catalog.outfits[0],catalog.outfits[8]||catalog.outfits[1]];
+   const hero=[catalog.outfits.find(o=>o.id==='I01')||catalog.outfits[4]||catalog.outfits[0],catalog.outfits.find(o=>o.id==='K01')||catalog.outfits[8]||catalog.outfits[1]];
    $('#hero-art').insertAdjacentHTML('afterbegin',hero.map((o,i)=>renderPhoto(o,'hero'+i)).join(''));
-   render();
+   const requestedView=location.hash.slice(1);view=viewNames.includes(requestedView)?requestedView:collections().length?'round2':'explore';
+   render(viewNames.includes(requestedView));
  }catch{content.innerHTML='<div class="empty-state"><h3>展台暂时没有加载成功。</h3><p>请检查连接后刷新页面。已有选择仍保留在本浏览器，不会因加载失败而清除。</p><button class="primary" id="reload">重新加载</button></div>';}
 }
 document.addEventListener('click',event=>{
@@ -97,20 +112,25 @@ document.addEventListener('click',event=>{
  if(b.id==='reload'){location.reload();return;}
  if(!catalog)return;
  if(b.dataset.view){navigate(b.dataset.view);return;}
+ if(b.dataset.collection!==undefined){collectionIndex=Number(b.dataset.collection);render(true);return;}
  if(b.dataset.group!==undefined){state.groupIndex=Number(b.dataset.group);persist();render(true);return;}
  if(b.dataset.detail){detail(b.dataset.detail);return;}
  if(b.dataset.rate){updateRating(b.dataset.rate,Number(b.dataset.rating));return;}
  if(b.hasAttribute('data-export')||b.id==='footer-export'){exportOpen();return;}
  if(b.id==='about-open'){$('#about-dialog').showModal();return;}
+ if(b.id==='next-collection'){
+   persist();if(collectionIndex<collections().length-1){collectionIndex++;render(true);}else navigate('profile');return;
+ }
+ if(b.id==='previous-collection'){collectionIndex=Math.max(0,collectionIndex-1);render(true);return;}
  if(b.id==='next-group'){
    const g=catalog.groups[state.groupIndex];if(!state.visited.includes(g.id))state.visited.push(g.id);
-   if(state.groupIndex<catalog.groups.length-1)state.groupIndex++;else view='profile';persist();render(true);return;
+   if(state.groupIndex<catalog.groups.length-1){state.groupIndex++;persist();render(true);}else{persist();navigate('profile');}return;
  }
  if(b.id==='previous-group'){state.groupIndex=Math.max(0,state.groupIndex-1);persist();render(true);return;}
  if(b.id==='reroll'){variant++;render();return;}
  if(b.id==='clear-filters'){groupFilter='all';occasionFilter='all';onlyLikes=false;render();return;}
  if(b.id==='reset-open'){$('#reset-dialog').showModal();return;}
- if(b.id==='confirm-reset'){state=emptyState();persist();$('#reset-dialog').close();view='explore';render(true);toast('已重新开始。');return;}
+ if(b.id==='confirm-reset'){state=emptyState();collectionIndex=0;persist();$('#reset-dialog').close();navigate(collections().length?'round2':'explore');toast('已重新开始。');return;}
  if(b.id==='copy-summary'){
    const value=$('#summary-text').value;
    if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(value).then(()=>toast('已复制，粘贴到对话即可。')).catch(()=>{ $('#summary-text').focus();$('#summary-text').select();toast('请手动复制已选中的摘要。'); });
@@ -134,7 +154,7 @@ document.addEventListener('change',async event=>{
      const raw=JSON.parse(await file.text());if(raw.version!==1||typeof raw.ratings!=='object'||!Array.isArray(raw.visited))throw new Error('invalid');
      const incoming=sanitizeState(raw,catalog);
      state=sanitizeState({...state,ratings:{...state.ratings,...incoming.ratings},reasons:{...state.reasons,...incoming.reasons},visited:[...state.visited,...incoming.visited]},catalog);
-     persist();$('#export-dialog').close();view='profile';render(true);toast('已合并备份，原有选择保留。');
+     persist();$('#export-dialog').close();navigate('profile');toast('已合并备份，原有选择保留。');
    }catch{toast('无法读取备份，请选择衣间导出的 JSON 文件。');}el.value='';
  }
 });
@@ -143,4 +163,5 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden&&view==='d
 let displayedDate=shanghaiDate();
 setInterval(()=>{const date=shanghaiDate();if(date!==displayedDate){displayedDate=date;variant=0;if(view==='daily'&&catalog&&!document.hidden)render();}},60000);
 window.addEventListener('storage',event=>{if(event.key===STORAGE_KEY&&catalog){state=sanitizeState(storage.get(),catalog);render();}});
+window.addEventListener('hashchange',()=>{const target=location.hash.slice(1);if(catalog&&viewNames.includes(target)&&target!==view){view=target;render(true);}});
 init();
