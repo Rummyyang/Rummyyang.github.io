@@ -1,0 +1,1910 @@
+{
+  "version": 1,
+  "curatedAt": "2026-10-27",
+  "groups": [
+    {
+      "id": "clean",
+      "name": "日常极简",
+      "subtitle": "少一点装饰，多一点清楚的轮廓",
+      "description": "用熟悉的基础款比较明暗、衣长和裤腿宽度，找到每天都愿意穿的组合。"
+    },
+    {
+      "id": "soft",
+      "name": "温柔质感",
+      "subtitle": "柔和颜色与有触感的面料",
+      "description": "用燕麦、棕、灰和低饱和色探索亲切、舒展的感觉，重点看针织、垂感与层次。"
+    },
+    {
+      "id": "smart",
+      "name": "聪明通勤",
+      "subtitle": "有精神，也方便过日常生活",
+      "description": "在衬衫、针织和休闲西装之间调整正式程度，兼顾办公、见面与城市出行。"
+    },
+    {
+      "id": "ivy",
+      "name": "学院复古",
+      "subtitle": "一点经典，一点轻松",
+      "description": "以牛津衬衫、条纹、针织背心和卡其色为线索，先试单个学院元素，再决定是否叠加。"
+    },
+    {
+      "id": "city",
+      "name": "城市黑白",
+      "subtitle": "用深浅、层次和轮廓表达",
+      "description": "比较利落全黑、宽松黑白、灰色层次与短外套，感受克制与鲜明之间的差别。"
+    },
+    {
+      "id": "workwear",
+      "name": "轻工装",
+      "subtitle": "有结构，也有日常的轻松",
+      "description": "尝试橄榄绿、靛蓝、棕与米白，控制口袋和细节的数量，保留活动空间。"
+    },
+    {
+      "id": "sport",
+      "name": "运动休闲",
+      "subtitle": "轻快、舒适、有完整感",
+      "description": "从卫衣、运动夹克和舒适长裤出发，比较同色套装、轻户外与更整洁的混搭。"
+    },
+    {
+      "id": "occasion",
+      "name": "约会与正式",
+      "subtitle": "让衣服贴合见面时的情境",
+      "description": "从白天咖啡到晚餐与正式邀请逐步增加正式程度，观察自己喜欢的精神状态。"
+    }
+  ],
+  "creators": [
+    {
+      "id": "harry",
+      "name": "Harry Has",
+      "handle": "@harryhas",
+      "url": "https://www.instagram.com/harryhas/",
+      "focus": "基础款、简洁配色与可反复使用的日常轮廓。",
+      "caveat": "当前主页待复核；不推断身高或身材适配。全黑与宽松搭配需按自己的肩线和衣长调整。",
+      "verification": "待复核"
+    },
+    {
+      "id": "daniel",
+      "name": "Daniel Simmons",
+      "handle": "@imdanielsimmons",
+      "url": "https://www.instagram.com/imdanielsimmons/",
+      "focus": "中性色、针织、垂坠面料和舒展层次。",
+      "caveat": "仅确认过主页可访问；未核验身体数据，也不代表每套适合所有人。大落肩和宽裤需试穿。",
+      "verification": "已核实主页"
+    },
+    {
+      "id": "tim",
+      "name": "Tim Dessaint",
+      "handle": "@timdessaint",
+      "url": "https://www.instagram.com/timdessaint/",
+      "focus": "通过衣长、裤型与配色理解整体比例。",
+      "caveat": "当前主页待复核；学习比较方法，不直接复制他的腰线或上下身分割位置。",
+      "verification": "待复核"
+    },
+    {
+      "id": "parker",
+      "name": "Parker York Smith",
+      "handle": "@parkeryorksmith",
+      "url": "https://www.instagram.com/parkeryorksmith/",
+      "focus": "衬衫、西裤与休闲外套的日常组合。",
+      "caveat": "当前主页待复核；复古配饰和较成熟的造型需按年龄偏好与实际场景取舍。",
+      "verification": "待复核"
+    },
+    {
+      "id": "marcel",
+      "name": "Marcel Floruss",
+      "handle": "@marcelfloruss",
+      "url": "https://www.instagram.com/marcelfloruss/",
+      "focus": "休闲到稍正式的完整搭配和外套层次。",
+      "caveat": "当前主页待复核；部分造型具有拍摄感，单品数量、价格与身材条件都不必照搬。",
+      "verification": "待复核"
+    },
+    {
+      "id": "brian",
+      "name": "Brian Sacawa · He Spoke Style",
+      "handle": "@hespokestyle",
+      "url": "https://www.instagram.com/hespokestyle/",
+      "focus": "正式程度、剪裁、领口与裤长的细节。",
+      "caveat": "当前主页待复核；偏传统绅装，按活动着装要求使用，不必成为每日固定风格。",
+      "verification": "待复核"
+    }
+  ],
+  "outfits": [
+    {
+      "id": "A01",
+      "title": "白与蓝的日常",
+      "subtitle": "衬衫敞开穿，轻松看清层次",
+      "occasion": [
+        "日常",
+        "咖啡",
+        "散步"
+      ],
+      "season": "春夏／初秋",
+      "items": [
+        "白色圆领T恤",
+        "海军蓝轻薄衬衫，敞开穿",
+        "中蓝直筒牛仔裤",
+        "白色简洁运动鞋"
+      ],
+      "palette": [
+        {
+          "name": "白",
+          "hex": "#F5F2E9"
+        },
+        {
+          "name": "海军蓝",
+          "hex": "#263B50"
+        },
+        {
+          "name": "牛仔蓝",
+          "hex": "#6686A0"
+        }
+      ],
+      "features": {
+        "formality": 1,
+        "relax": 3,
+        "contrast": 3,
+        "warmth": 2
+      },
+      "why": "外层深、内层浅，结构简单，适合用来比较自己喜欢贴身一些还是宽松一些。",
+      "fitNote": "先看衬衫肩部是否舒服；下摆不要因追求长度而盖住太多裤子。",
+      "tryFirst": "用已有白T和蓝色外套试穿，分别拍敞开与扣一两颗扣子的效果。",
+      "creatorIds": [
+        "harry",
+        "tim"
+      ],
+      "visual": {
+        "top": "tee",
+        "outer": "overshirt",
+        "bottom": "straight",
+        "shoes": "sneakers",
+        "topColor": "#F5F2E9",
+        "outerColor": "#263B50",
+        "bottomColor": "#6686A0",
+        "shoeColor": "#EEEDE5",
+        "background": "#E8EDF0",
+        "detail": "plain"
+      },
+      "group": "clean"
+    },
+    {
+      "id": "A02",
+      "title": "炭灰与黑",
+      "subtitle": "低对比，轮廓更安静",
+      "occasion": [
+        "日常",
+        "简餐",
+        "通勤"
+      ],
+      "season": "春秋",
+      "items": [
+        "炭灰圆领薄针织",
+        "黑色直筒长裤",
+        "黑色乐福鞋"
+      ],
+      "palette": [
+        {
+          "name": "炭灰",
+          "hex": "#565653"
+        },
+        {
+          "name": "黑",
+          "hex": "#252626"
+        }
+      ],
+      "features": {
+        "formality": 2,
+        "relax": 2,
+        "contrast": 1,
+        "warmth": 2
+      },
+      "why": "颜色接近时，注意力更容易落在领口、面料和裤脚上，适合探索克制的感觉。",
+      "fitNote": "针织下摆自然落在腰附近即可；裤脚可轻触鞋面，别强求露脚踝。",
+      "tryFirst": "用已有深色上衣和裤子试一套，比较运动鞋与皮鞋带来的变化。",
+      "creatorIds": [
+        "harry",
+        "daniel"
+      ],
+      "visual": {
+        "top": "knit",
+        "outer": "none",
+        "bottom": "straight",
+        "shoes": "loafers",
+        "topColor": "#565653",
+        "outerColor": "#565653",
+        "bottomColor": "#252626",
+        "shoeColor": "#202120",
+        "background": "#E4E2DC",
+        "detail": "plain"
+      },
+      "group": "clean"
+    },
+    {
+      "id": "A03",
+      "title": "橄榄绿短夹克",
+      "subtitle": "上身有结构，下身保持简单",
+      "occasion": [
+        "周末",
+        "出行",
+        "日常"
+      ],
+      "season": "春秋",
+      "items": [
+        "米白圆领T恤",
+        "橄榄绿短夹克",
+        "深蓝直筒长裤",
+        "米白运动鞋"
+      ],
+      "palette": [
+        {
+          "name": "米白",
+          "hex": "#EDE8D9"
+        },
+        {
+          "name": "橄榄绿",
+          "hex": "#69715D"
+        },
+        {
+          "name": "深蓝",
+          "hex": "#2C3747"
+        }
+      ],
+      "features": {
+        "formality": 2,
+        "relax": 3,
+        "contrast": 3,
+        "warmth": 3
+      },
+      "why": "短外套与直筒裤形成清楚的上下身分界，低饱和绿增加变化但不复杂。",
+      "fitNote": "短外套以抬手不明显牵拉为先；如果觉得上身显短，试稍长的下摆。",
+      "tryFirst": "把现有外套拉链开到胸前，再全敞开，比较两种层次。",
+      "creatorIds": [
+        "harry",
+        "marcel"
+      ],
+      "visual": {
+        "top": "tee",
+        "outer": "jacket",
+        "bottom": "straight",
+        "shoes": "sneakers",
+        "topColor": "#EDE8D9",
+        "outerColor": "#69715D",
+        "bottomColor": "#2C3747",
+        "shoeColor": "#E8E3D7",
+        "background": "#ECE9DF",
+        "detail": "plain"
+      },
+      "group": "clean"
+    },
+    {
+      "id": "A04",
+      "title": "浅蓝与宽灰裤",
+      "subtitle": "清爽衬衫，留一点活动空间",
+      "occasion": [
+        "通勤",
+        "展览",
+        "午餐"
+      ],
+      "season": "春夏／初秋",
+      "items": [
+        "浅蓝牛津衬衫",
+        "中灰宽直筒长裤",
+        "深棕德比鞋"
+      ],
+      "palette": [
+        {
+          "name": "浅蓝",
+          "hex": "#B5CCD7"
+        },
+        {
+          "name": "中灰",
+          "hex": "#91928D"
+        },
+        {
+          "name": "深棕",
+          "hex": "#53483F"
+        }
+      ],
+      "features": {
+        "formality": 3,
+        "relax": 4,
+        "contrast": 2,
+        "warmth": 2
+      },
+      "why": "浅色上装与宽直裤更舒展，适合比较自己对裤腿余量和衬衫正式感的喜好。",
+      "fitNote": "裤腰合适后再看裤腿；宽裤不必同时加长，避免裤脚层层堆积。",
+      "tryFirst": "试衬衫自然垂放与少量塞入两种方式，选自己看着更舒服的。",
+      "creatorIds": [
+        "tim",
+        "daniel"
+      ],
+      "visual": {
+        "top": "shirt",
+        "outer": "none",
+        "bottom": "wide",
+        "shoes": "derby",
+        "topColor": "#B5CCD7",
+        "outerColor": "#B5CCD7",
+        "bottomColor": "#91928D",
+        "shoeColor": "#53483F",
+        "background": "#E8EDED",
+        "detail": "plain"
+      },
+      "group": "clean"
+    },
+    {
+      "id": "B01",
+      "title": "燕麦色的一整天",
+      "subtitle": "浅色同调，针织纹理做主角",
+      "occasion": [
+        "咖啡",
+        "周末",
+        "约会"
+      ],
+      "season": "秋冬／早春",
+      "items": [
+        "燕麦色绞花针织",
+        "奶油白直筒长裤",
+        "浅棕乐福鞋"
+      ],
+      "palette": [
+        {
+          "name": "燕麦",
+          "hex": "#D5C7B0"
+        },
+        {
+          "name": "奶油白",
+          "hex": "#EFE8D9"
+        },
+        {
+          "name": "浅棕",
+          "hex": "#A17D59"
+        }
+      ],
+      "features": {
+        "formality": 2,
+        "relax": 3,
+        "contrast": 1,
+        "warmth": 3
+      },
+      "why": "相邻的暖色配在一起，视觉柔和；针织纹理让基础款有可看的细节。",
+      "fitNote": "厚针织先检查腋下与胸前是否堆得太满；下摆不必紧紧卡住腰部。",
+      "tryFirst": "现有米色上衣搭最浅的一条裤子，先感受整套浅色是否自在。",
+      "creatorIds": [
+        "daniel",
+        "marcel"
+      ],
+      "visual": {
+        "top": "knit",
+        "outer": "none",
+        "bottom": "straight",
+        "shoes": "loafers",
+        "topColor": "#D5C7B0",
+        "outerColor": "#D5C7B0",
+        "bottomColor": "#EFE8D9",
+        "shoeColor": "#A17D59",
+        "background": "#EAE2D5",
+        "detail": "cable"
+      },
+      "group": "soft"
+    },
+    {
+      "id": "B02",
+      "title": "巧克力开衫",
+      "subtitle": "深色外层，浅色内搭与宽裤",
+      "occasion": [
+        "书店",
+        "室内聚会",
+        "约会"
+      ],
+      "season": "春秋",
+      "items": [
+        "奶油白T恤",
+        "巧克力棕开衫",
+        "浅灰宽直筒长裤",
+        "棕色乐福鞋"
+      ],
+      "palette": [
+        {
+          "name": "巧克力棕",
+          "hex": "#5D493D"
+        },
+        {
+          "name": "奶油白",
+          "hex": "#F0E7D7"
+        },
+        {
+          "name": "浅灰",
+          "hex": "#B8B8AE"
+        }
+      ],
+      "features": {
+        "formality": 2,
+        "relax": 4,
+        "contrast": 3,
+        "warmth": 3
+      },
+      "why": "开衫能让整体显得松弛，深浅层次又保留边界，适合喜欢亲近感的方向。",
+      "fitNote": "开衫肩线与袖筒不用过大；坐下后腹部和下摆不应明显拱起。",
+      "tryFirst": "用已有深色开衫或衬衫替代外层，比较全开与只扣中间一颗。",
+      "creatorIds": [
+        "daniel",
+        "harry"
+      ],
+      "visual": {
+        "top": "tee",
+        "outer": "cardigan",
+        "bottom": "wide",
+        "shoes": "loafers",
+        "topColor": "#F0E7D7",
+        "outerColor": "#5D493D",
+        "bottomColor": "#B8B8AE",
+        "shoeColor": "#6F513E",
+        "background": "#E8DFD3",
+        "detail": "plain"
+      },
+      "group": "soft"
+    },
+    {
+      "id": "B03",
+      "title": "驼色长外套",
+      "subtitle": "墨绿内搭，让暖色更沉静",
+      "occasion": [
+        "冬日出行",
+        "晚餐",
+        "通勤"
+      ],
+      "season": "冬季",
+      "items": [
+        "墨绿薄高领针织",
+        "驼色长外套",
+        "深靛蓝直筒牛仔裤",
+        "深棕短靴"
+      ],
+      "palette": [
+        {
+          "name": "驼色",
+          "hex": "#B4946D"
+        },
+        {
+          "name": "墨绿",
+          "hex": "#334C43"
+        },
+        {
+          "name": "靛蓝",
+          "hex": "#263B4D"
+        }
+      ],
+      "features": {
+        "formality": 3,
+        "relax": 3,
+        "contrast": 3,
+        "warmth": 5
+      },
+      "why": "长外层与深色内搭形成纵向层次，适合想尝试更成熟、安静的冬季形象。",
+      "fitNote": "外套长度先看行走和坐下是否方便；肩部应能容纳内搭而不牵拉。",
+      "tryFirst": "先用自己的长外套配深色内搭，领口不舒服就换普通圆领。",
+      "creatorIds": [
+        "daniel",
+        "marcel"
+      ],
+      "visual": {
+        "top": "turtleneck",
+        "outer": "coat",
+        "bottom": "straight",
+        "shoes": "boots",
+        "topColor": "#334C43",
+        "outerColor": "#B4946D",
+        "bottomColor": "#263B4D",
+        "shoeColor": "#584334",
+        "background": "#E7DFD0",
+        "detail": "plain"
+      },
+      "group": "soft"
+    },
+    {
+      "id": "B04",
+      "title": "雾粉与深蓝",
+      "subtitle": "一点柔和色彩，仍然很好穿",
+      "occasion": [
+        "周末",
+        "约会",
+        "朋友见面"
+      ],
+      "season": "春秋",
+      "items": [
+        "灰调雾粉圆领薄针织",
+        "海军蓝直筒长裤",
+        "白色简洁运动鞋"
+      ],
+      "palette": [
+        {
+          "name": "雾粉",
+          "hex": "#C4A8A5"
+        },
+        {
+          "name": "海军蓝",
+          "hex": "#2A3B4E"
+        },
+        {
+          "name": "白",
+          "hex": "#F3F0E8"
+        }
+      ],
+      "features": {
+        "formality": 2,
+        "relax": 3,
+        "contrast": 3,
+        "warmth": 2
+      },
+      "why": "小范围低饱和粉能测试你对颜色的接受度，深蓝裤子让整套容易落地。",
+      "fitNote": "领口和下摆保持平整；不喜欢贴身时，留自然余量即可。",
+      "tryFirst": "用衣柜里任意柔和有色上衣搭深蓝裤，比较它和灰色上衣的感觉。",
+      "creatorIds": [
+        "tim",
+        "parker"
+      ],
+      "visual": {
+        "top": "knit",
+        "outer": "none",
+        "bottom": "straight",
+        "shoes": "sneakers",
+        "topColor": "#C4A8A5",
+        "outerColor": "#C4A8A5",
+        "bottomColor": "#2A3B4E",
+        "shoeColor": "#F0EEE5",
+        "background": "#EEE4DF",
+        "detail": "plain"
+      },
+      "group": "soft"
+    },
+    {
+      "id": "C01",
+      "title": "蓝灰通勤",
+      "subtitle": "衬衫与休闲西装的可靠组合",
+      "occasion": [
+        "通勤",
+        "会面",
+        "演讲"
+      ],
+      "season": "春秋",
+      "items": [
+        "浅蓝衬衫",
+        "海军蓝休闲西装外套",
+        "中灰直筒长裤",
+        "深棕德比鞋"
+      ],
+      "palette": [
+        {
+          "name": "浅蓝",
+          "hex": "#BCD1DD"
+        },
+        {
+          "name": "海军蓝",
+          "hex": "#29394D"
+        },
+        {
+          "name": "中灰",
+          "hex": "#888D8C"
+        }
+      ],
+      "features": {
+        "formality": 4,
+        "relax": 2,
+        "contrast": 3,
+        "warmth": 3
+      },
+      "why": "蓝灰关系清楚，适合体验较正式但仍能用于日常工作的形象。",
+      "fitNote": "扣上外套时前襟不应明显拉出横褶；袖长与衬衫袖口一起检查。",
+      "tryFirst": "先把已有衬衫与灰裤搭好，再加外套，比较你需要多少正式感。",
+      "creatorIds": [
+        "brian",
+        "parker"
+      ],
+      "visual": {
+        "top": "shirt",
+        "outer": "blazer",
+        "bottom": "straight",
+        "shoes": "derby",
+        "topColor": "#BCD1DD",
+        "outerColor": "#29394D",
+        "bottomColor": "#888D8C",
+        "shoeColor": "#4B3D32",
+        "background": "#E5E9EA",
+        "detail": "plain"
+      },
+      "group": "smart"
+    },
+    {
+      "id": "C02",
+      "title": "针织Polo通勤",
+      "subtitle": "有领口，也有轻松感",
+      "occasion": [
+        "通勤",
+        "午餐",
+        "商务休闲"
+      ],
+      "season": "春夏／初秋",
+      "items": [
+        "沙色针织Polo",
+        "深棕直筒长裤",
+        "棕色乐福鞋"
+      ],
+      "palette": [
+        {
+          "name": "沙色",
+          "hex": "#CDBD9F"
+        },
+        {
+          "name": "深棕",
+          "hex": "#655448"
+        },
+        {
+          "name": "棕",
+          "hex": "#79583F"
+        }
+      ],
+      "features": {
+        "formality": 3,
+        "relax": 3,
+        "contrast": 2,
+        "warmth": 2
+      },
+      "why": "Polo领口提供一点整洁感，同色系减少搭配负担，适合无须西装的场合。",
+      "fitNote": "胸前纽扣附近不应紧绷；裤腰以坐下舒服且不下滑为准。",
+      "tryFirst": "用已有Polo配最简单的深色裤，分别试塞衣与自然垂放。",
+      "creatorIds": [
+        "parker",
+        "daniel"
+      ],
+      "visual": {
+        "top": "polo",
+        "outer": "none",
+        "bottom": "straight",
+        "shoes": "loafers",
+        "topColor": "#CDBD9F",
+        "outerColor": "#CDBD9F",
+        "bottomColor": "#655448",
+        "shoeColor": "#79583F",
+        "background": "#EAE2D6",
+        "detail": "plain"
+      },
+      "group": "smart"
+    },
+    {
+      "id": "C03",
+      "title": "浅灰宽松外套",
+      "subtitle": "米白内搭，正式与休闲之间",
+      "occasion": [
+        "创意办公",
+        "展览",
+        "见面"
+      ],
+      "season": "春秋",
+      "items": [
+        "米白圆领T恤",
+        "浅灰休闲西装外套",
+        "炭灰宽直筒长裤",
+        "米白简洁运动鞋"
+      ],
+      "palette": [
+        {
+          "name": "米白",
+          "hex": "#EEE8DC"
+        },
+        {
+          "name": "浅灰",
+          "hex": "#B4B6B2"
+        },
+        {
+          "name": "炭灰",
+          "hex": "#555A59"
+        }
+      ],
+      "features": {
+        "formality": 3,
+        "relax": 4,
+        "contrast": 2,
+        "warmth": 3
+      },
+      "why": "西装外套配T恤与运动鞋，用更松的裤型试探现代、轻松的通勤方向。",
+      "fitNote": "宽松应来自适当余量；领口悬空或袖子吞手时，先调整外套尺寸。",
+      "tryFirst": "把现有西装内搭换成素T，保留其余单品，观察风格变化。",
+      "creatorIds": [
+        "tim",
+        "marcel"
+      ],
+      "visual": {
+        "top": "tee",
+        "outer": "blazer",
+        "bottom": "wide",
+        "shoes": "sneakers",
+        "topColor": "#EEE8DC",
+        "outerColor": "#B4B6B2",
+        "bottomColor": "#555A59",
+        "shoeColor": "#E8E6DE",
+        "background": "#E6E8E3",
+        "detail": "plain"
+      },
+      "group": "smart"
+    },
+    {
+      "id": "C04",
+      "title": "深蓝拉链夹克",
+      "subtitle": "短外层与白衬衫，清楚利落",
+      "occasion": [
+        "通勤",
+        "出差",
+        "城市出行"
+      ],
+      "season": "春秋",
+      "items": [
+        "白色衬衫",
+        "深蓝简洁拉链夹克",
+        "浅卡其微收口长裤",
+        "深棕德比鞋"
+      ],
+      "palette": [
+        {
+          "name": "深蓝",
+          "hex": "#2C4052"
+        },
+        {
+          "name": "白",
+          "hex": "#F1EFE6"
+        },
+        {
+          "name": "浅卡其",
+          "hex": "#BEAE8C"
+        }
+      ],
+      "features": {
+        "formality": 3,
+        "relax": 2,
+        "contrast": 3,
+        "warmth": 3
+      },
+      "why": "用短夹克替换西装，保留衬衫领口和整洁鞋型，适合移动较多的一天。",
+      "fitNote": "裤腿收窄程度以坐下和跨步舒服为先；夹克下摆别紧勒在腰部。",
+      "tryFirst": "现有衬衫外加最简单的夹克，先不加其他配饰。",
+      "creatorIds": [
+        "parker",
+        "harry"
+      ],
+      "visual": {
+        "top": "shirt",
+        "outer": "jacket",
+        "bottom": "tapered",
+        "shoes": "derby",
+        "topColor": "#F1EFE6",
+        "outerColor": "#2C4052",
+        "bottomColor": "#BEAE8C",
+        "shoeColor": "#514438",
+        "background": "#E4E8E8",
+        "detail": "plain"
+      },
+      "group": "smart"
+    },
+    {
+      "id": "D01",
+      "title": "牛津蓝与卡其",
+      "subtitle": "轻量学院感，从两种颜色开始",
+      "occasion": [
+        "校园",
+        "图书馆",
+        "周末"
+      ],
+      "season": "春秋",
+      "items": [
+        "浅蓝牛津衬衫",
+        "卡其色直筒长裤",
+        "深棕乐福鞋"
+      ],
+      "palette": [
+        {
+          "name": "牛津蓝",
+          "hex": "#ACC6D6"
+        },
+        {
+          "name": "卡其",
+          "hex": "#B8A27C"
+        },
+        {
+          "name": "深棕",
+          "hex": "#5B4937"
+        }
+      ],
+      "features": {
+        "formality": 3,
+        "relax": 3,
+        "contrast": 2,
+        "warmth": 2
+      },
+      "why": "经典配色很容易用现有单品还原，适合先判断你是否喜欢学院方向。",
+      "fitNote": "衬衫不要为了领围合适而肩部过宽；裤子不必特意卷成九分。",
+      "tryFirst": "试一次不加外套的蓝衬衫配浅棕裤，袖子自然放下或整齐卷起。",
+      "creatorIds": [
+        "parker",
+        "brian"
+      ],
+      "visual": {
+        "top": "shirt",
+        "outer": "none",
+        "bottom": "straight",
+        "shoes": "loafers",
+        "topColor": "#ACC6D6",
+        "outerColor": "#ACC6D6",
+        "bottomColor": "#B8A27C",
+        "shoeColor": "#5B4937",
+        "background": "#E9E2D6",
+        "detail": "plain"
+      },
+      "group": "ivy"
+    },
+    {
+      "id": "D02",
+      "title": "酒红开衫",
+      "subtitle": "深色针织，搭出温暖的学院气息",
+      "occasion": [
+        "校园",
+        "书店",
+        "朋友见面"
+      ],
+      "season": "秋冬／早春",
+      "items": [
+        "白色牛津衬衫",
+        "酒红开衫",
+        "深灰宽直筒长裤",
+        "黑色乐福鞋"
+      ],
+      "palette": [
+        {
+          "name": "酒红",
+          "hex": "#74474B"
+        },
+        {
+          "name": "白",
+          "hex": "#EDEADF"
+        },
+        {
+          "name": "深灰",
+          "hex": "#555C5D"
+        }
+      ],
+      "features": {
+        "formality": 3,
+        "relax": 4,
+        "contrast": 3,
+        "warmth": 4
+      },
+      "why": "酒红作为整套唯一的明显颜色，搭配衬衫领口和宽裤，复古感更突出。",
+      "fitNote": "衬衫领子平整即可；两层面料在腋下或腰部堆积时，可换薄一点的内搭。",
+      "tryFirst": "先用任何深色开衫搭白衬衫，喜欢轮廓后再考虑酒红色。",
+      "creatorIds": [
+        "parker",
+        "daniel"
+      ],
+      "visual": {
+        "top": "shirt",
+        "outer": "cardigan",
+        "bottom": "wide",
+        "shoes": "loafers",
+        "topColor": "#EDEADF",
+        "outerColor": "#74474B",
+        "bottomColor": "#555C5D",
+        "shoeColor": "#272C2B",
+        "background": "#E9DEDA",
+        "detail": "plain"
+      },
+      "group": "ivy"
+    },
+    {
+      "id": "D03",
+      "title": "条纹与深色丹宁",
+      "subtitle": "横条纹给日常一点节奏",
+      "occasion": [
+        "周末",
+        "校园",
+        "散步"
+      ],
+      "season": "春秋",
+      "items": [
+        "米白深蓝条纹针织",
+        "海军蓝短夹克",
+        "深靛蓝直筒牛仔裤",
+        "棕色短靴"
+      ],
+      "palette": [
+        {
+          "name": "米白",
+          "hex": "#E7DFCA"
+        },
+        {
+          "name": "海军蓝",
+          "hex": "#33465A"
+        },
+        {
+          "name": "靛蓝",
+          "hex": "#2D4050"
+        }
+      ],
+      "features": {
+        "formality": 2,
+        "relax": 3,
+        "contrast": 3,
+        "warmth": 3
+      },
+      "why": "条纹只放在内搭上，外层保持素色，适合喜欢复古但不想整套装饰的人。",
+      "fitNote": "条纹疏密按喜好选；短夹克衣长和裤腰一起看，避免上身比例过短。",
+      "tryFirst": "有条纹上衣就用素色外套盖住一部分，比较露出多少更喜欢。",
+      "creatorIds": [
+        "harry",
+        "marcel"
+      ],
+      "visual": {
+        "top": "knit",
+        "outer": "jacket",
+        "bottom": "straight",
+        "shoes": "boots",
+        "topColor": "#E7DFCA",
+        "outerColor": "#33465A",
+        "bottomColor": "#2D4050",
+        "shoeColor": "#76563F",
+        "background": "#E5E3D9",
+        "detail": "stripe"
+      },
+      "group": "ivy"
+    },
+    {
+      "id": "D04",
+      "title": "灰针织背心",
+      "subtitle": "白衬衫与奶油裤，轻一点的复古",
+      "occasion": [
+        "校园",
+        "展览",
+        "午间约会"
+      ],
+      "season": "春秋",
+      "items": [
+        "白色衬衫",
+        "中灰针织背心",
+        "奶油色直筒长裤",
+        "棕色乐福鞋"
+      ],
+      "palette": [
+        {
+          "name": "白",
+          "hex": "#F3F0E7"
+        },
+        {
+          "name": "中灰",
+          "hex": "#90938D"
+        },
+        {
+          "name": "奶油",
+          "hex": "#DED4BC"
+        }
+      ],
+      "features": {
+        "formality": 3,
+        "relax": 3,
+        "contrast": 2,
+        "warmth": 3
+      },
+      "why": "背心提供层次而没有完整外套的厚度，浅裤让学院组合显得清爽。",
+      "fitNote": "背心腋下留空间但别大幅张开；下摆平整落下即可，不必紧束。",
+      "tryFirst": "如果没有背心，先把薄针织搭在衬衫外比较领口层次，无需立即添置。",
+      "creatorIds": [
+        "parker",
+        "tim"
+      ],
+      "visual": {
+        "top": "shirt",
+        "outer": "vest",
+        "bottom": "straight",
+        "shoes": "loafers",
+        "topColor": "#F3F0E7",
+        "outerColor": "#90938D",
+        "bottomColor": "#DED4BC",
+        "shoeColor": "#73563F",
+        "background": "#ECE7DD",
+        "detail": "plain"
+      },
+      "group": "ivy"
+    },
+    {
+      "id": "E01",
+      "title": "黑色轮廓",
+      "subtitle": "同色组合，用线条表达",
+      "occasion": [
+        "城市日常",
+        "晚间见面",
+        "展览"
+      ],
+      "season": "春秋",
+      "items": [
+        "黑色圆领薄针织",
+        "黑色直筒长裤",
+        "黑色德比鞋"
+      ],
+      "palette": [
+        {
+          "name": "柔黑",
+          "hex": "#2F3333"
+        },
+        {
+          "name": "深黑",
+          "hex": "#1E2425"
+        }
+      ],
+      "features": {
+        "formality": 3,
+        "relax": 2,
+        "contrast": 1,
+        "warmth": 2
+      },
+      "why": "减少颜色信息后，能清楚比较裤宽、上衣下摆与鞋型是不是你喜欢的。",
+      "fitNote": "选择略有面料差别的上下装；先看肩胸余量，不追求全身紧贴。",
+      "tryFirst": "现有黑上衣配黑裤，分别试自然下摆与轻塞前摆的效果。",
+      "creatorIds": [
+        "harry",
+        "tim"
+      ],
+      "visual": {
+        "top": "knit",
+        "outer": "none",
+        "bottom": "straight",
+        "shoes": "derby",
+        "topColor": "#2F3333",
+        "outerColor": "#2F3333",
+        "bottomColor": "#1E2425",
+        "shoeColor": "#242829",
+        "background": "#DCE1DF",
+        "detail": "plain"
+      },
+      "group": "city"
+    },
+    {
+      "id": "E02",
+      "title": "白T与宽黑裤",
+      "subtitle": "强对比，轮廓更鲜明",
+      "occasion": [
+        "周末",
+        "咖啡",
+        "城市日常"
+      ],
+      "season": "春夏",
+      "items": [
+        "白色稍宽松T恤",
+        "黑色宽直筒长裤",
+        "白色简洁运动鞋"
+      ],
+      "palette": [
+        {
+          "name": "白",
+          "hex": "#F2F0E9"
+        },
+        {
+          "name": "黑",
+          "hex": "#292E30"
+        }
+      ],
+      "features": {
+        "formality": 1,
+        "relax": 4,
+        "contrast": 5,
+        "warmth": 1
+      },
+      "why": "两种颜色就能看清上下身轮廓，适合试探你对宽裤和鲜明对比的接受度。",
+      "fitNote": "T恤以肩部自然为先；如果上下都宽显得没边界，可先缩短上衣或轻塞衣摆。",
+      "tryFirst": "把白T配现有最宽的一条深裤，再与直筒裤做同角度比较。",
+      "creatorIds": [
+        "tim",
+        "harry"
+      ],
+      "visual": {
+        "top": "tee",
+        "outer": "none",
+        "bottom": "wide",
+        "shoes": "sneakers",
+        "topColor": "#F2F0E9",
+        "outerColor": "#F2F0E9",
+        "bottomColor": "#292E30",
+        "shoeColor": "#ECEDE8",
+        "background": "#E2E6E5",
+        "detail": "plain"
+      },
+      "group": "city"
+    },
+    {
+      "id": "E03",
+      "title": "灰色长层次",
+      "subtitle": "深浅灰之间，保留柔和边界",
+      "occasion": [
+        "冬日通勤",
+        "展览",
+        "晚餐"
+      ],
+      "season": "冬季",
+      "items": [
+        "中灰高领针织",
+        "深灰长外套",
+        "浅灰直筒长裤",
+        "黑色短靴"
+      ],
+      "palette": [
+        {
+          "name": "中灰",
+          "hex": "#949996"
+        },
+        {
+          "name": "深灰",
+          "hex": "#4E5758"
+        },
+        {
+          "name": "浅灰",
+          "hex": "#C0C2BA"
+        }
+      ],
+      "features": {
+        "formality": 3,
+        "relax": 3,
+        "contrast": 2,
+        "warmth": 5
+      },
+      "why": "同一色系靠明度建立层次，长外套和浅裤组合适合尝试安静的城市风格。",
+      "fitNote": "高领舒适度优先；外套前襟自然垂下，裤长以走路不拖地为底线。",
+      "tryFirst": "先用深灰外套配比它浅的裤子，内搭领型可换成现有圆领。",
+      "creatorIds": [
+        "daniel",
+        "marcel"
+      ],
+      "visual": {
+        "top": "turtleneck",
+        "outer": "coat",
+        "bottom": "straight",
+        "shoes": "boots",
+        "topColor": "#949996",
+        "outerColor": "#4E5758",
+        "bottomColor": "#C0C2BA",
+        "shoeColor": "#282D2D",
+        "background": "#DEE4E1",
+        "detail": "plain"
+      },
+      "group": "city"
+    },
+    {
+      "id": "E04",
+      "title": "石白短夹克",
+      "subtitle": "亮色外层，深色内搭更利落",
+      "occasion": [
+        "城市出行",
+        "约会",
+        "周末"
+      ],
+      "season": "春秋",
+      "items": [
+        "黑色T恤",
+        "石白色短夹克",
+        "炭灰微收口长裤",
+        "黑色运动鞋"
+      ],
+      "palette": [
+        {
+          "name": "石白",
+          "hex": "#DCDCD1"
+        },
+        {
+          "name": "黑",
+          "hex": "#282D2E"
+        },
+        {
+          "name": "炭灰",
+          "hex": "#555E5E"
+        }
+      ],
+      "features": {
+        "formality": 2,
+        "relax": 2,
+        "contrast": 4,
+        "warmth": 3
+      },
+      "why": "浅外套带来更清楚的边界，短外层与微收口裤让整体偏轻快、整齐。",
+      "fitNote": "夹克不要只看胸围，抬手时肩部也要顺畅；裤腿收口避免紧贴小腿。",
+      "tryFirst": "把已有最浅的外套罩在深色内搭上，试试看你是否喜欢亮色放在外层。",
+      "creatorIds": [
+        "harry",
+        "marcel"
+      ],
+      "visual": {
+        "top": "tee",
+        "outer": "jacket",
+        "bottom": "tapered",
+        "shoes": "sneakers",
+        "topColor": "#282D2E",
+        "outerColor": "#DCDCD1",
+        "bottomColor": "#555E5E",
+        "shoeColor": "#292E2F",
+        "background": "#E4E7E0",
+        "detail": "plain"
+      },
+      "group": "city"
+    },
+    {
+      "id": "F01",
+      "title": "橄榄衬衫外套",
+      "subtitle": "工装元素控制在一件外套",
+      "occasion": [
+        "周末",
+        "城市散步",
+        "出行"
+      ],
+      "season": "春秋",
+      "items": [
+        "米白T恤",
+        "橄榄绿衬衫外套",
+        "深蓝直筒牛仔裤",
+        "棕色短靴"
+      ],
+      "palette": [
+        {
+          "name": "米白",
+          "hex": "#E8E2D0"
+        },
+        {
+          "name": "橄榄绿",
+          "hex": "#71745A"
+        },
+        {
+          "name": "深蓝",
+          "hex": "#34495A"
+        }
+      ],
+      "features": {
+        "formality": 2,
+        "relax": 3,
+        "contrast": 3,
+        "warmth": 3
+      },
+      "why": "工装口袋与丹宁形成清楚的风格，其他单品保持简单，更容易穿进日常。",
+      "fitNote": "先检查外套口袋是否鼓起；肩部和袖筒适中，比叠很多工装细节更容易掌握。",
+      "tryFirst": "用一件有口袋的衬衫敞开穿，配已有牛仔裤，先不加额外配件。",
+      "creatorIds": [
+        "marcel",
+        "harry"
+      ],
+      "visual": {
+        "top": "tee",
+        "outer": "overshirt",
+        "bottom": "straight",
+        "shoes": "boots",
+        "topColor": "#E8E2D0",
+        "outerColor": "#71745A",
+        "bottomColor": "#34495A",
+        "shoeColor": "#77573D",
+        "background": "#E8E1D4",
+        "detail": "plain"
+      },
+      "group": "workwear"
+    },
+    {
+      "id": "F02",
+      "title": "靛蓝与米白",
+      "subtitle": "有质感的蓝外套，配明亮裤子",
+      "occasion": [
+        "周末",
+        "咖啡",
+        "展览"
+      ],
+      "season": "春秋",
+      "items": [
+        "浅灰圆领T恤",
+        "靛蓝工装夹克",
+        "米白宽直筒长裤",
+        "棕色德比鞋"
+      ],
+      "palette": [
+        {
+          "name": "浅灰",
+          "hex": "#C6C7BE"
+        },
+        {
+          "name": "靛蓝",
+          "hex": "#3D5870"
+        },
+        {
+          "name": "米白",
+          "hex": "#E7DFCB"
+        }
+      ],
+      "features": {
+        "formality": 2,
+        "relax": 4,
+        "contrast": 3,
+        "warmth": 3
+      },
+      "why": "米白裤子让工装方向更轻、更明亮，也适合比较你对浅色下装的接受度。",
+      "fitNote": "宽裤的腰部应稳固；夹克下摆与裤腰接近时，注意坐下是否方便。",
+      "tryFirst": "先把现有蓝外套搭最浅的长裤，不需要专门的工装款也能测试配色。",
+      "creatorIds": [
+        "daniel",
+        "marcel"
+      ],
+      "visual": {
+        "top": "tee",
+        "outer": "jacket",
+        "bottom": "wide",
+        "shoes": "derby",
+        "topColor": "#C6C7BE",
+        "outerColor": "#3D5870",
+        "bottomColor": "#E7DFCB",
+        "shoeColor": "#70563F",
+        "background": "#E9E5D9",
+        "detail": "plain"
+      },
+      "group": "workwear"
+    },
+    {
+      "id": "F03",
+      "title": "棕色短夹克",
+      "subtitle": "暖色外层，卡其绿长裤",
+      "occasion": [
+        "旅行",
+        "周末",
+        "朋友见面"
+      ],
+      "season": "秋冬／早春",
+      "items": [
+        "米色薄针织",
+        "棕色简洁短夹克",
+        "灰绿直筒长裤",
+        "深棕短靴"
+      ],
+      "palette": [
+        {
+          "name": "米色",
+          "hex": "#D3C4A6"
+        },
+        {
+          "name": "棕",
+          "hex": "#8A644B"
+        },
+        {
+          "name": "灰绿",
+          "hex": "#7B8171"
+        }
+      ],
+      "features": {
+        "formality": 2,
+        "relax": 3,
+        "contrast": 2,
+        "warmth": 4
+      },
+      "why": "棕、绿、米色形成自然的暖调关系，适合希望有一点粗犷感但保持整洁的方向。",
+      "fitNote": "厚外套与针织叠穿后仍应能前伸手臂；裤腿不要因为配靴子而刻意拖长。",
+      "tryFirst": "有棕色外套就搭灰绿或灰色裤，先测试颜色，不必追求特殊材质。",
+      "creatorIds": [
+        "marcel",
+        "parker"
+      ],
+      "visual": {
+        "top": "knit",
+        "outer": "jacket",
+        "bottom": "straight",
+        "shoes": "boots",
+        "topColor": "#D3C4A6",
+        "outerColor": "#8A644B",
+        "bottomColor": "#7B8171",
+        "shoeColor": "#594435",
+        "background": "#E7DDCD",
+        "detail": "plain"
+      },
+      "group": "workwear"
+    },
+    {
+      "id": "F04",
+      "title": "蓝格衬衫与深灰裤",
+      "subtitle": "少量图案，轮廓保持干净",
+      "occasion": [
+        "周末",
+        "校园",
+        "日常"
+      ],
+      "season": "春秋",
+      "items": [
+        "米白T恤",
+        "低对比蓝灰格纹衬衫，敞开穿",
+        "深灰微收口长裤",
+        "灰色运动鞋"
+      ],
+      "palette": [
+        {
+          "name": "米白",
+          "hex": "#EAE4D6"
+        },
+        {
+          "name": "蓝灰",
+          "hex": "#6C8190"
+        },
+        {
+          "name": "深灰",
+          "hex": "#505957"
+        }
+      ],
+      "features": {
+        "formality": 1,
+        "relax": 3,
+        "contrast": 2,
+        "warmth": 2
+      },
+      "why": "格纹只占上身一层，搭深色简单裤型，适合先尝试图案而不把整套变复杂。",
+      "fitNote": "格纹疏密按喜好选；如果衬衫较长，先试扣少量扣子看比例。",
+      "tryFirst": "已有格纹衬衫就与素色内搭和裤子组合，其他配件保持简单。",
+      "creatorIds": [
+        "harry",
+        "tim"
+      ],
+      "visual": {
+        "top": "tee",
+        "outer": "overshirt",
+        "bottom": "tapered",
+        "shoes": "sneakers",
+        "topColor": "#EAE4D6",
+        "outerColor": "#6C8190",
+        "bottomColor": "#505957",
+        "shoeColor": "#A7ADA7",
+        "background": "#E3E7E2",
+        "detail": "check"
+      },
+      "group": "workwear"
+    },
+    {
+      "id": "G01",
+      "title": "灰卫衣与海军蓝",
+      "subtitle": "舒适基础款，也有颜色关系",
+      "occasion": [
+        "日常",
+        "校园",
+        "通勤途中"
+      ],
+      "season": "春秋",
+      "items": [
+        "浅灰连帽卫衣",
+        "海军蓝直筒休闲长裤",
+        "白色运动鞋"
+      ],
+      "palette": [
+        {
+          "name": "浅灰",
+          "hex": "#BABEBB"
+        },
+        {
+          "name": "海军蓝",
+          "hex": "#304657"
+        },
+        {
+          "name": "白",
+          "hex": "#ECECE2"
+        }
+      ],
+      "features": {
+        "formality": 1,
+        "relax": 4,
+        "contrast": 3,
+        "warmth": 3
+      },
+      "why": "卫衣与不紧身的直筒裤组合轻松，适合比较你更喜欢运动感还是更整齐的轮廓。",
+      "fitNote": "帽子不要拉扯领口；裤腰舒适，裤脚自然落下而非大量堆积。",
+      "tryFirst": "用现有卫衣配一条普通直筒裤，再与运动裤比较整体感觉。",
+      "creatorIds": [
+        "harry",
+        "tim"
+      ],
+      "visual": {
+        "top": "hoodie",
+        "outer": "none",
+        "bottom": "straight",
+        "shoes": "sneakers",
+        "topColor": "#BABEBB",
+        "outerColor": "#BABEBB",
+        "bottomColor": "#304657",
+        "shoeColor": "#ECECE2",
+        "background": "#E1E7E7",
+        "detail": "plain"
+      },
+      "group": "sport"
+    },
+    {
+      "id": "G02",
+      "title": "深蓝同色运动层次",
+      "subtitle": "连帽内搭与短夹克，整套更统一",
+      "occasion": [
+        "旅行",
+        "周末",
+        "城市出行"
+      ],
+      "season": "春秋",
+      "items": [
+        "深蓝薄连帽卫衣",
+        "海军蓝轻夹克",
+        "深蓝微收口休闲长裤",
+        "灰白运动鞋"
+      ],
+      "palette": [
+        {
+          "name": "深蓝",
+          "hex": "#354D60"
+        },
+        {
+          "name": "海军蓝",
+          "hex": "#283C4E"
+        },
+        {
+          "name": "灰白",
+          "hex": "#D8DDD7"
+        }
+      ],
+      "features": {
+        "formality": 1,
+        "relax": 4,
+        "contrast": 1,
+        "warmth": 4
+      },
+      "why": "同色让多层穿搭保持统一，适合探索简洁、舒适的运动休闲方向。",
+      "fitNote": "卫衣与夹克叠穿后肩部应轻松；下装不要上下同时过于宽大。",
+      "tryFirst": "选颜色最接近的现有卫衣与裤子，外套按温度增减。",
+      "creatorIds": [
+        "harry",
+        "marcel"
+      ],
+      "visual": {
+        "top": "hoodie",
+        "outer": "jacket",
+        "bottom": "tapered",
+        "shoes": "sneakers",
+        "topColor": "#354D60",
+        "outerColor": "#283C4E",
+        "bottomColor": "#344B5D",
+        "shoeColor": "#D8DDD7",
+        "background": "#DEE6E8",
+        "detail": "plain"
+      },
+      "group": "sport"
+    },
+    {
+      "id": "G03",
+      "title": "浅绿轻户外",
+      "subtitle": "一点明亮颜色，适合活动的一天",
+      "occasion": [
+        "城市散步",
+        "旅行",
+        "周末"
+      ],
+      "season": "春秋",
+      "items": [
+        "米白T恤",
+        "灰调浅绿轻夹克",
+        "炭灰直筒休闲长裤",
+        "灰色运动鞋"
+      ],
+      "palette": [
+        {
+          "name": "浅绿",
+          "hex": "#A9B8A2"
+        },
+        {
+          "name": "米白",
+          "hex": "#ECE8DA"
+        },
+        {
+          "name": "炭灰",
+          "hex": "#4F5C59"
+        }
+      ],
+      "features": {
+        "formality": 1,
+        "relax": 4,
+        "contrast": 3,
+        "warmth": 3
+      },
+      "why": "浅绿外层与简单长裤呈现轻户外感觉，适合比较自己是否喜欢更有活力的颜色。",
+      "fitNote": "轻夹克下摆无需紧紧抽绳；裤腿保证步行方便，口袋数量按需要选择。",
+      "tryFirst": "现有浅色外套配深灰裤即可先测试，普通散步不需要额外装备。",
+      "creatorIds": [
+        "tim",
+        "marcel"
+      ],
+      "visual": {
+        "top": "tee",
+        "outer": "jacket",
+        "bottom": "straight",
+        "shoes": "sneakers",
+        "topColor": "#ECE8DA",
+        "outerColor": "#A9B8A2",
+        "bottomColor": "#4F5C59",
+        "shoeColor": "#9FAAA5",
+        "background": "#E4EADB",
+        "detail": "plain"
+      },
+      "group": "sport"
+    },
+    {
+      "id": "G04",
+      "title": "米白Polo与短裤",
+      "subtitle": "暖天里也保持清楚的领口",
+      "occasion": [
+        "夏日周末",
+        "咖啡",
+        "轻松旅行"
+      ],
+      "season": "夏季",
+      "items": [
+        "米白针织Polo",
+        "海军蓝直筒短裤",
+        "白色运动鞋"
+      ],
+      "palette": [
+        {
+          "name": "米白",
+          "hex": "#EAE3D2"
+        },
+        {
+          "name": "海军蓝",
+          "hex": "#324B60"
+        },
+        {
+          "name": "白",
+          "hex": "#F0EEE5"
+        }
+      ],
+      "features": {
+        "formality": 2,
+        "relax": 3,
+        "contrast": 3,
+        "warmth": 1
+      },
+      "why": "Polo领口与简单短裤兼顾清爽和完整感，适合测试你对露腿比例的偏好。",
+      "fitNote": "短裤长度以坐下和走动自在为先；裤口不紧勒，也不必固定追求某个位置。",
+      "tryFirst": "现有Polo配最简单的短裤，分别看站立与坐下时是否舒服。",
+      "creatorIds": [
+        "parker",
+        "marcel"
+      ],
+      "visual": {
+        "top": "polo",
+        "outer": "none",
+        "bottom": "shorts",
+        "shoes": "sneakers",
+        "topColor": "#EAE3D2",
+        "outerColor": "#EAE3D2",
+        "bottomColor": "#324B60",
+        "shoeColor": "#F0EEE5",
+        "background": "#E9E8DA",
+        "detail": "plain"
+      },
+      "group": "sport"
+    },
+    {
+      "id": "H01",
+      "title": "奶油色午间约会",
+      "subtitle": "深棕下装，亲近又整洁",
+      "occasion": [
+        "白天约会",
+        "咖啡",
+        "午餐"
+      ],
+      "season": "春夏／初秋",
+      "items": [
+        "奶油色针织Polo",
+        "深棕宽直筒长裤",
+        "棕色乐福鞋"
+      ],
+      "palette": [
+        {
+          "name": "奶油色",
+          "hex": "#E4D9BE"
+        },
+        {
+          "name": "深棕",
+          "hex": "#605045"
+        },
+        {
+          "name": "棕",
+          "hex": "#805C42"
+        }
+      ],
+      "features": {
+        "formality": 3,
+        "relax": 4,
+        "contrast": 3,
+        "warmth": 2
+      },
+      "why": "暖浅色靠近脸部，深色裤子提供稳定的底色，适合喜欢温和、从容方向的人。",
+      "fitNote": "Polo衣长配宽裤一起判断；若衣摆太长，可轻塞后留一点自然余量。",
+      "tryFirst": "用已有浅色有领上衣配棕或灰裤，先体验这一组深浅关系。",
+      "creatorIds": [
+        "daniel",
+        "parker"
+      ],
+      "visual": {
+        "top": "polo",
+        "outer": "none",
+        "bottom": "wide",
+        "shoes": "loafers",
+        "topColor": "#E4D9BE",
+        "outerColor": "#E4D9BE",
+        "bottomColor": "#605045",
+        "shoeColor": "#805C42",
+        "background": "#EEE4D3",
+        "detail": "plain"
+      },
+      "group": "occasion"
+    },
+    {
+      "id": "H02",
+      "title": "深色晚餐",
+      "subtitle": "黑针织与灰外套，安静有分量",
+      "occasion": [
+        "晚餐",
+        "约会",
+        "室内活动"
+      ],
+      "season": "秋冬／早春",
+      "items": [
+        "黑色薄高领针织",
+        "深灰休闲西装外套",
+        "黑色直筒长裤",
+        "黑色德比鞋"
+      ],
+      "palette": [
+        {
+          "name": "黑",
+          "hex": "#282D2D"
+        },
+        {
+          "name": "深灰",
+          "hex": "#555D5E"
+        }
+      ],
+      "features": {
+        "formality": 4,
+        "relax": 2,
+        "contrast": 1,
+        "warmth": 4
+      },
+      "why": "低对比的深色组合强调面料和领口，适合稍正式的晚间见面。",
+      "fitNote": "高领不舒服可换圆领；西装肩部自然贴合，不用靠持续挺胸撑起。",
+      "tryFirst": "现有深色内搭加灰外套，先省去饰品，观察是否符合你的日常气质。",
+      "creatorIds": [
+        "brian",
+        "harry"
+      ],
+      "visual": {
+        "top": "turtleneck",
+        "outer": "blazer",
+        "bottom": "straight",
+        "shoes": "derby",
+        "topColor": "#282D2D",
+        "outerColor": "#555D5E",
+        "bottomColor": "#23292A",
+        "shoeColor": "#252A2A",
+        "background": "#DDE2DF",
+        "detail": "plain"
+      },
+      "group": "occasion"
+    },
+    {
+      "id": "H03",
+      "title": "蓝白正式组合",
+      "subtitle": "适用于要求明确的正式场合",
+      "occasion": [
+        "正式会面",
+        "典礼",
+        "正式邀请"
+      ],
+      "season": "春秋／室内",
+      "items": [
+        "白色衬衫",
+        "海军蓝西装外套",
+        "同面料海军蓝直筒西裤",
+        "黑色德比鞋",
+        "深蓝素色领带（按着装要求决定）"
+      ],
+      "palette": [
+        {
+          "name": "白",
+          "hex": "#F0EFE7"
+        },
+        {
+          "name": "海军蓝",
+          "hex": "#2A3D52"
+        },
+        {
+          "name": "黑",
+          "hex": "#242B2D"
+        }
+      ],
+      "features": {
+        "formality": 5,
+        "relax": 1,
+        "contrast": 4,
+        "warmth": 3
+      },
+      "why": "同面料上下装形成完整正式轮廓，供你判断自己在特定活动中喜欢的端正程度。",
+      "fitNote": "外套扣合时不明显拉扯，裤腰可正常坐下；活动若另有着装要求，以邀请为准。",
+      "tryFirst": "先用现有衬衫和最正式的外套试比例，不必为试风格购买整套西装。",
+      "creatorIds": [
+        "brian",
+        "parker"
+      ],
+      "visual": {
+        "top": "shirt",
+        "outer": "blazer",
+        "bottom": "straight",
+        "shoes": "derby",
+        "topColor": "#F0EFE7",
+        "outerColor": "#2A3D52",
+        "bottomColor": "#2A3D52",
+        "shoeColor": "#242B2D",
+        "background": "#E3E7E9",
+        "detail": "plain"
+      },
+      "group": "occasion"
+    },
+    {
+      "id": "H04",
+      "title": "酒红针织与深蓝外套",
+      "subtitle": "温暖颜色，适合秋冬见面",
+      "occasion": [
+        "冬日约会",
+        "聚餐",
+        "演出"
+      ],
+      "season": "秋冬",
+      "items": [
+        "暗酒红圆领针织",
+        "海军蓝长外套",
+        "中灰直筒长裤",
+        "深棕短靴"
+      ],
+      "palette": [
+        {
+          "name": "暗酒红",
+          "hex": "#74464B"
+        },
+        {
+          "name": "海军蓝",
+          "hex": "#2D4053"
+        },
+        {
+          "name": "中灰",
+          "hex": "#999A91"
+        }
+      ],
+      "features": {
+        "formality": 3,
+        "relax": 3,
+        "contrast": 3,
+        "warmth": 5
+      },
+      "why": "酒红在深蓝外套里小面积出现，适合喜欢成熟配色，又希望保留一点温度的人。",
+      "fitNote": "外套袖筒应容纳针织；上身层次较多时，裤子保持平整简单。",
+      "tryFirst": "现有有色针织配深色外套即可先试，红色并非必须。",
+      "creatorIds": [
+        "marcel",
+        "parker"
+      ],
+      "visual": {
+        "top": "knit",
+        "outer": "coat",
+        "bottom": "straight",
+        "shoes": "boots",
+        "topColor": "#74464B",
+        "outerColor": "#2D4053",
+        "bottomColor": "#999A91",
+        "shoeColor": "#594333",
+        "background": "#E8DFD8",
+        "detail": "plain"
+      },
+      "group": "occasion"
+    }
+  ]
+}
