@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "curatedAt": "2026-10-27",
+  "curatedAt": "2026-10-28",
   "groups": [
     {
       "id": "clean",
@@ -65,19 +65,19 @@
       "id": "daniel",
       "name": "Daniel Simmons",
       "handle": "@imdanielsimmons",
-      "url": "https://www.instagram.com/imdanielsimmons/",
+      "url": "https://danielsimmons.co/",
       "focus": "中性色、针织、垂坠面料和舒展层次。",
-      "caveat": "仅确认过主页可访问；未核验身体数据，也不代表每套适合所有人。大落肩和宽裤需试穿。",
-      "verification": "已核实主页"
+      "caveat": "品牌页面用于观察丹宁、针织与长外套；有商业属性，不代表个人当日穿搭，也不据此推断尺码适配。",
+      "verification": "2026-10-28 已核 FW26 品牌首页"
     },
     {
       "id": "tim",
       "name": "Tim Dessaint",
-      "handle": "@timdessaint",
-      "url": "https://www.instagram.com/timdessaint/",
+      "handle": "本人品牌 DESSAINT",
+      "url": "https://dessaintstudio.com/pages/about-dessaint",
       "focus": "通过衣长、裤型与配色理解整体比例。",
-      "caveat": "当前主页待复核；学习比较方法，不直接复制他的腰线或上下身分割位置。",
-      "verification": "待复核"
+      "caveat": "已核实本人品牌的比例、垂坠与面料理念；未声称追踪当日个人动态。具体衣长与裤型仍需试穿。",
+      "verification": "2026-10-28 已核本人品牌介绍"
     },
     {
       "id": "parker",
@@ -3096,9 +3096,832 @@
         "cell": 3,
         "count": 4
       }
+    },
+    {
+      "id": "M01",
+      "group": "city",
+      "title": "黑色同色绳饰",
+      "subtitle": "让军装细节靠近衣服本身的颜色",
+      "occasion": [
+        "日常",
+        "咖啡",
+        "约会"
+      ],
+      "season": "秋冬／早春",
+      "items": [
+        "黑色羊毛立领短夹克，三组同色横向绳饰、敞开穿",
+        "中灰圆领T恤",
+        "洗水黑直筒牛仔裤，无破洞",
+        "黑色素面侧拉链短靴"
+      ],
+      "palette": [
+        {
+          "name": "黑",
+          "hex": "#242426"
+        },
+        {
+          "name": "中灰",
+          "hex": "#888989"
+        },
+        {
+          "name": "洗水黑",
+          "hex": "#494A4C"
+        }
+      ],
+      "features": {
+        "formality": 2,
+        "relax": 3,
+        "contrast": 2,
+        "warmth": 2
+      },
+      "why": "同色绳饰保留拿破仑风夹克的辨识度，洗水丹宁让它进入日常场景；先比较是否喜欢领口和横向装饰。",
+      "fitNote": "肩线与胸围以能自然抬手为准；立领不应顶到下颌，绳饰不应因胸口绷紧而变形。",
+      "tryFirst": "先试黑色同色绳饰款，内搭灰T；与普通黑夹克拍同角度对比，判断细节是否过多。",
+      "tags": [
+        "军装细节",
+        "同色绳饰",
+        "洗水丹宁"
+      ],
+      "visual": {
+        "top": "tee",
+        "outer": "jacket",
+        "bottom": "straight",
+        "shoes": "boots",
+        "topColor": "#888989",
+        "outerColor": "#242426",
+        "bottomColor": "#494A4C",
+        "shoeColor": "#202021",
+        "background": "#E8E6E1",
+        "detail": "plain"
+      },
+      "referenceIds": [
+        "src-napoleon-voguehk-2026",
+        "src-napoleon-gq-2025"
+      ],
+      "inspirationNote": "取自近期拿破仑风夹克报道中的立领与对称绳饰，编辑转译为低对比日常搭配；非品牌同款。",
+      "creatorIds": [],
+      "photo": {
+        "src": "assets/lookbook-round3-military-v4.webp",
+        "cell": 0,
+        "count": 4
+      }
+    },
+    {
+      "id": "M02",
+      "group": "smart",
+      "title": "海军蓝军官短外套",
+      "subtitle": "用两列金属扣，代替横向绳饰",
+      "occasion": [
+        "通勤",
+        "会面",
+        "约会"
+      ],
+      "season": "秋冬",
+      "items": [
+        "海军蓝羊毛双排扣短外套，翻领、两列小号暗黄铜扣，敞开穿",
+        "燕麦色细针圆领针织",
+        "暖浅灰直筒西裤",
+        "黑色素面德比鞋"
+      ],
+      "palette": [
+        {
+          "name": "海军蓝",
+          "hex": "#25334A"
+        },
+        {
+          "name": "燕麦",
+          "hex": "#D4CCBA"
+        },
+        {
+          "name": "暖浅灰",
+          "hex": "#BCBAB3"
+        }
+      ],
+      "features": {
+        "formality": 4,
+        "relax": 3,
+        "contrast": 3,
+        "warmth": 2
+      },
+      "why": "双排扣与少量金属扣带来整洁结构，浅色内搭和裤装减轻深蓝外套的厚重感。",
+      "fitNote": "扣上后前襟应平顺，后背不应拉出横褶；衣长覆盖腰部，坐下时不在腹部堆积。",
+      "tryFirst": "先把双排扣外套与浅灰裤组合，比较敞开和扣起；观察自己更喜欢开放层次还是完整外形。",
+      "tags": [
+        "军官风",
+        "双排扣",
+        "金属扣"
+      ],
+      "visual": {
+        "top": "knit",
+        "outer": "jacket",
+        "bottom": "straight",
+        "shoes": "derby",
+        "topColor": "#D4CCBA",
+        "outerColor": "#25334A",
+        "bottomColor": "#BCBAB3",
+        "shoeColor": "#202021",
+        "background": "#E8E6E1",
+        "detail": "plain"
+      },
+      "referenceIds": [
+        "src-napoleon-gq-2025"
+      ],
+      "inspirationNote": "由报道中的双列金属扣军装表达延伸为短外套；属于军官风元素转译，不将所有双排扣外套称为拿破仑外套。",
+      "creatorIds": [],
+      "photo": {
+        "src": "assets/lookbook-round3-military-v4.webp",
+        "cell": 1,
+        "count": 4
+      }
+    },
+    {
+      "id": "M03",
+      "group": "workwear",
+      "title": "橄榄肩章与褶裥丹宁",
+      "subtitle": "把军装感放在肩线、胸袋与棉斜纹",
+      "occasion": [
+        "日常",
+        "周末",
+        "咖啡"
+      ],
+      "season": "秋季／春季",
+      "items": [
+        "深橄榄棉斜纹短夹克，衬衫领、肩章与两只平整胸袋，敞开穿",
+        "象牙白细针半高领针织",
+        "深靛蓝单褶宽直筒牛仔裤",
+        "巧克力棕麂皮便士乐福鞋与深色袜"
+      ],
+      "palette": [
+        {
+          "name": "深橄榄",
+          "hex": "#4B5140"
+        },
+        {
+          "name": "象牙白",
+          "hex": "#EBE5D7"
+        },
+        {
+          "name": "深靛蓝",
+          "hex": "#293B50"
+        }
+      ],
+      "features": {
+        "formality": 2,
+        "relax": 4,
+        "contrast": 3,
+        "warmth": 3
+      },
+      "why": "哑光棉、细针织与有褶裥的丹宁形成三种表面；麂皮乐福鞋让口袋夹克适合城市出行。",
+      "fitNote": "肩章应落在肩部，不向手臂滑落；胸袋不应鼓起，牛仔裤大腿和膝部都留出活动量。",
+      "tryFirst": "保留现有橄榄外套，先换宽直筒深丹宁与乐福鞋；再判断是否需要肩章或胸袋细节。",
+      "tags": [
+        "军装细节",
+        "肩章",
+        "褶裥丹宁"
+      ],
+      "visual": {
+        "top": "turtleneck",
+        "outer": "jacket",
+        "bottom": "wide",
+        "shoes": "loafers",
+        "topColor": "#EBE5D7",
+        "outerColor": "#4B5140",
+        "bottomColor": "#293B50",
+        "shoeColor": "#574335",
+        "background": "#E8E6E1",
+        "detail": "plain"
+      },
+      "referenceIds": [
+        "src-napoleon-voguehk-2026",
+        "src-napoleon-gq-2025"
+      ],
+      "inspirationNote": "由军装夹克街头化的报道延伸至棉斜纹、肩章和胸袋；这是较轻的军事元素探索，不是横绳饰拿破仑款。",
+      "creatorIds": [],
+      "photo": {
+        "src": "assets/lookbook-round3-military-v4.webp",
+        "cell": 2,
+        "count": 4
+      }
+    },
+    {
+      "id": "M04",
+      "group": "occasion",
+      "title": "黑丝绒与旧金绳扣",
+      "subtitle": "晚间多一点装饰，裤装保持简洁",
+      "occasion": [
+        "晚餐",
+        "演出",
+        "约会"
+      ],
+      "season": "秋冬",
+      "items": [
+        "黑色丝绒立领短夹克，三组小号旧金色绳扣、敞开穿",
+        "黑色细针圆领针织",
+        "中灰单褶宽直筒羊毛裤",
+        "黑色素面皮质乐福鞋与黑袜"
+      ],
+      "palette": [
+        {
+          "name": "黑丝绒",
+          "hex": "#202024"
+        },
+        {
+          "name": "旧金",
+          "hex": "#9A8358"
+        },
+        {
+          "name": "中灰",
+          "hex": "#818285"
+        }
+      ],
+      "features": {
+        "formality": 4,
+        "relax": 3,
+        "contrast": 3,
+        "warmth": 3
+      },
+      "why": "丝绒的光泽和少量金色装饰共同成为重点，中灰裤为深色上半身留出明暗变化。",
+      "fitNote": "绳扣以平贴衣面为宜；裤腿从大腿顺畅落下，裤脚轻触鞋面，不压出大量褶皱。",
+      "tryFirst": "先以普通黑丝绒外套搭灰裤，确认喜欢晚间质感后，再试只有少量绳扣的款式。",
+      "tags": [
+        "拿破仑风",
+        "丝绒",
+        "晚间"
+      ],
+      "visual": {
+        "top": "knit",
+        "outer": "jacket",
+        "bottom": "wide",
+        "shoes": "loafers",
+        "topColor": "#202024",
+        "outerColor": "#202024",
+        "bottomColor": "#818285",
+        "shoeColor": "#202021",
+        "background": "#E8E6E1",
+        "detail": "plain"
+      },
+      "referenceIds": [
+        "src-napoleon-voguehk-2026",
+        "src-napoleon-gq-2025"
+      ],
+      "inspirationNote": "把报道中的装饰性绳扣缩减为三组，并与丝绒结合做晚间原创转译；非品牌成衣复刻。",
+      "creatorIds": [],
+      "photo": {
+        "src": "assets/lookbook-round3-military-v4.webp",
+        "cell": 3,
+        "count": 4
+      }
+    },
+    {
+      "id": "N01",
+      "group": "city",
+      "title": "长直线与浅蓝领口",
+      "subtitle": "用清楚的纵向轮廓，观察秀场的衣长变化",
+      "occasion": [
+        "通勤",
+        "会面",
+        "约会"
+      ],
+      "season": "秋冬",
+      "items": [
+        "深巧克力棕直线单排扣羊毛长大衣，长度过膝、敞开穿",
+        "浅蓝尖领棉府绸衬衫，领口开一颗、下摆收进裤腰",
+        "炭灰直筒羊毛长裤",
+        "黑色薄底系带皮鞋"
+      ],
+      "palette": [
+        {
+          "name": "深巧克力",
+          "hex": "#443B36"
+        },
+        {
+          "name": "浅蓝",
+          "hex": "#BCD0DC"
+        },
+        {
+          "name": "炭灰",
+          "hex": "#505259"
+        }
+      ],
+      "features": {
+        "formality": 4,
+        "relax": 3,
+        "contrast": 3,
+        "warmth": 3
+      },
+      "why": "长外套形成连续线条，浅蓝领口让深色搭配有清晰的起点；衣长与肩线同时准确，才会显得轻巧。",
+      "fitNote": "先检查肩点、袖口和胸围，再选择衣长；不要只靠加大尺码获得过膝长度，走路时下摆应能自然展开。",
+      "tryFirst": "用现有长大衣搭浅蓝衬衫与炭灰裤，拍正面和侧面，比较衣长与袖长是否各自合适。",
+      "tags": [
+        "长直线",
+        "府绸衬衫",
+        "秀场转译"
+      ],
+      "visual": {
+        "top": "shirt",
+        "outer": "coat",
+        "bottom": "straight",
+        "shoes": "derby",
+        "topColor": "#BCD0DC",
+        "outerColor": "#443B36",
+        "bottomColor": "#505259",
+        "shoeColor": "#202021",
+        "background": "#E8E6E1",
+        "detail": "plain"
+      },
+      "referenceIds": [
+        "src-prada-fw26"
+      ],
+      "inspirationNote": "Prada 2026秋冬男装官方说明强调修长、清晰的新轮廓；此处将这一思路转成原创日常组合，非秀场原款或同款。",
+      "creatorIds": [],
+      "photo": {
+        "src": "assets/lookbook-round3-runway-v4.webp",
+        "cell": 0,
+        "count": 4
+      }
+    },
+    {
+      "id": "N02",
+      "group": "occasion",
+      "title": "松弛的深蓝礼服外套",
+      "subtitle": "保留缎面领口，配一件自然开领的衬衫",
+      "occasion": [
+        "晚餐",
+        "演出",
+        "约会"
+      ],
+      "season": "春秋／室内",
+      "items": [
+        "午夜蓝微松单排单扣外套，同色缎面尖驳领，敞开穿",
+        "象牙白柔软开领衬衫，下摆收进裤腰",
+        "黑色单褶宽直筒羊毛长裤",
+        "黑色素面皮质乐福鞋与黑袜"
+      ],
+      "palette": [
+        {
+          "name": "午夜蓝",
+          "hex": "#263247"
+        },
+        {
+          "name": "象牙白",
+          "hex": "#ECE7DC"
+        },
+        {
+          "name": "黑",
+          "hex": "#242526"
+        }
+      ],
+      "features": {
+        "formality": 4,
+        "relax": 4,
+        "contrast": 4,
+        "warmth": 2
+      },
+      "why": "礼服式领口负责晚间质感，柔软开领与宽直筒裤让身体更舒展；这套适合允许自由搭配的见面场景。",
+      "fitNote": "外套微松也要让肩点稳定，驳领应平贴胸前；衬衫开口以坐下后仍自在为准。",
+      "tryFirst": "先把深蓝外套配象牙白开领衬衫与黑裤，确认喜欢这一明暗关系后再试缎面驳领。",
+      "tags": [
+        "礼服元素",
+        "缎面驳领",
+        "开领"
+      ],
+      "visual": {
+        "top": "shirt",
+        "outer": "blazer",
+        "bottom": "wide",
+        "shoes": "loafers",
+        "topColor": "#ECE7DC",
+        "outerColor": "#263247",
+        "bottomColor": "#242526",
+        "shoeColor": "#202021",
+        "background": "#E8E6E1",
+        "detail": "plain"
+      },
+      "referenceIds": [
+        "src-dior-ss27"
+      ],
+      "inspirationNote": "Dior 2027夏季官方秀场说明提出更松弛的礼服剪裁；此处为日常晚间转译，非品牌同款，也不替代有明确礼服要求的着装。",
+      "creatorIds": [],
+      "photo": {
+        "src": "assets/lookbook-round3-runway-v4.webp",
+        "cell": 1,
+        "count": 4
+      }
+    },
+    {
+      "id": "N03",
+      "group": "ivy",
+      "title": "细千鸟格与烟蓝内层",
+      "subtitle": "让传统图案出现在轻一点的外套上",
+      "occasion": [
+        "日常",
+        "咖啡",
+        "会面"
+      ],
+      "season": "春秋",
+      "items": [
+        "灰黑细千鸟格印花棉斜纹衬衫夹克，衬衫领、敞开穿",
+        "烟蓝色细针圆领针织",
+        "洗水黑直筒牛仔裤，无破洞",
+        "黑色素面德比鞋"
+      ],
+      "palette": [
+        {
+          "name": "灰黑",
+          "hex": "#6F7173"
+        },
+        {
+          "name": "烟蓝",
+          "hex": "#7B919E"
+        },
+        {
+          "name": "洗水黑",
+          "hex": "#474A4E"
+        }
+      ],
+      "features": {
+        "formality": 3,
+        "relax": 3,
+        "contrast": 2,
+        "warmth": 2
+      },
+      "why": "轻棉布上的细图案保留学院气息，烟蓝内层让灰黑组合柔和一些，裤装保持安静。",
+      "fitNote": "图案在前襟与胸口应自然平整；外套袖口到手腕附近即可，避免靠过长袖子营造宽松。",
+      "tryFirst": "先将灰黑小图案外套与烟蓝上衣搭在一起，观察近看细节和远看整体是否都清楚。",
+      "tags": [
+        "千鸟格",
+        "印花棉布",
+        "轻外套"
+      ],
+      "visual": {
+        "top": "knit",
+        "outer": "overshirt",
+        "bottom": "straight",
+        "shoes": "derby",
+        "topColor": "#7B919E",
+        "outerColor": "#6F7173",
+        "bottomColor": "#474A4E",
+        "shoeColor": "#202021",
+        "background": "#E8E6E1",
+        "detail": "check"
+      },
+      "referenceIds": [
+        "src-dior-ss27"
+      ],
+      "inspirationNote": "Dior 2027夏季官方说明提到以印花呈现千鸟格；本套将传统图案与较轻面料结合做原创日常转译，不声称品牌发布了图中夹克。",
+      "creatorIds": [],
+      "photo": {
+        "src": "assets/lookbook-round3-runway-v4.webp",
+        "cell": 2,
+        "count": 4
+      }
+    },
+    {
+      "id": "N04",
+      "group": "soft",
+      "title": "蓝色色块与浅蓝宽裤",
+      "subtitle": "把秀场的柔软配色，放进清楚的衬衫裤装",
+      "occasion": [
+        "咖啡",
+        "日常",
+        "约会"
+      ],
+      "season": "春秋／室内",
+      "items": [
+        "烟蓝拼深蓝色块长袖衬衫，翻领、开两颗纽扣，下摆收进裤腰",
+        "浅石蓝单褶宽直筒长裤",
+        "深巧克力棕麂皮便士乐福鞋与同色袜"
+      ],
+      "palette": [
+        {
+          "name": "烟蓝",
+          "hex": "#7C95A6"
+        },
+        {
+          "name": "深蓝",
+          "hex": "#293E58"
+        },
+        {
+          "name": "浅石蓝",
+          "hex": "#AEBFC9"
+        }
+      ],
+      "features": {
+        "formality": 2,
+        "relax": 4,
+        "contrast": 3,
+        "warmth": 2
+      },
+      "why": "蓝色内部的深浅变化比多种鲜艳颜色更容易组合，柔软衬衫和宽裤让整套保持轻盈。",
+      "fitNote": "色块衬衫肩部应自然落下，领口和袖口要清楚；宽裤靠合适腰围固定，不靠腰带硬收过多布量。",
+      "tryFirst": "先把烟蓝衬衫与浅蓝裤搭在一起；如果喜欢整体近色关系，再试带一块深蓝拼色的上衣。",
+      "tags": [
+        "色块衬衫",
+        "近色组合",
+        "柔软轮廓"
+      ],
+      "visual": {
+        "top": "shirt",
+        "outer": "none",
+        "bottom": "wide",
+        "shoes": "loafers",
+        "topColor": "#7C95A6",
+        "outerColor": "#7C95A6",
+        "bottomColor": "#AEBFC9",
+        "shoeColor": "#554235",
+        "background": "#E8E6E1",
+        "detail": "plain"
+      },
+      "referenceIds": [
+        "src-dries-ss27"
+      ],
+      "inspirationNote": "Dries Van Noten 2027春夏男装官方系列中的柔软轮廓、蓝色色块衬衫与浅蓝宽裤提供方向；此套为简化后的原创日常转译，非品牌同款。",
+      "creatorIds": [],
+      "photo": {
+        "src": "assets/lookbook-round3-runway-v4.webp",
+        "cell": 3,
+        "count": 4
+      }
+    },
+    {
+      "id": "O01",
+      "group": "city",
+      "title": "灰格大衣与细条纹裤",
+      "subtitle": "用两种细图案，搭出安静的城市层次",
+      "occasion": [
+        "日常",
+        "会面",
+        "约会"
+      ],
+      "season": "秋冬",
+      "items": [
+        "中灰细格翻领羊毛长大衣，长度到膝附近、敞开穿",
+        "黑色细针圆领针织",
+        "炭灰细竖条纹宽直筒长裤",
+        "深棕麂皮低帮系带鞋"
+      ],
+      "palette": [
+        {
+          "name": "中灰",
+          "hex": "#8A8B8C"
+        },
+        {
+          "name": "黑",
+          "hex": "#252627"
+        },
+        {
+          "name": "炭灰",
+          "hex": "#4B4D50"
+        }
+      ],
+      "features": {
+        "formality": 3,
+        "relax": 4,
+        "contrast": 2,
+        "warmth": 2
+      },
+      "why": "大衣的细格与裤子的细条纹都保持低对比，黑色内搭把两个图案连接起来，远看仍然整洁。",
+      "fitNote": "外套内穿针织后仍能抱臂；宽裤从腰臀顺畅落下，裤脚稍触鞋面即可。",
+      "tryFirst": "先只保留格纹大衣或条纹裤其中一件，确认喜欢之后再把两个细图案同时穿上。",
+      "tags": [
+        "细格长大衣",
+        "细条纹",
+        "明星观察"
+      ],
+      "visual": {
+        "top": "knit",
+        "outer": "coat",
+        "bottom": "wide",
+        "shoes": "derby",
+        "topColor": "#252627",
+        "outerColor": "#8A8B8C",
+        "bottomColor": "#4B4D50",
+        "shoeColor": "#674C3A",
+        "background": "#E8E6E1",
+        "detail": "check"
+      },
+      "referenceIds": [
+        "src-hartnett-overcoat-2026"
+      ],
+      "inspirationNote": "根据GQ 2026年10月5日公开图中Josh Hartnett的灰格大衣、深色针织与细条纹宽裤做原创转译；鞋型为编辑搭配，未声称品牌同款。",
+      "creatorIds": [],
+      "photo": {
+        "src": "assets/lookbook-round3-people-v4.webp",
+        "cell": 0,
+        "count": 4
+      }
+    },
+    {
+      "id": "O02",
+      "group": "clean",
+      "title": "细竖纹衬衫与灰褐宽裤",
+      "subtitle": "开领、微光泽与宽直筒，适合轻松见面",
+      "occasion": [
+        "咖啡",
+        "会面",
+        "约会"
+      ],
+      "season": "春秋／室内",
+      "items": [
+        "浅米灰细竖纹翻领衬衫，开两颗领口纽扣、下摆收进裤腰",
+        "灰褐单褶宽直筒羊毛长裤",
+        "深棕便士乐福鞋与同色袜",
+        "深棕简洁皮带"
+      ],
+      "palette": [
+        {
+          "name": "浅米灰",
+          "hex": "#D9D6CB"
+        },
+        {
+          "name": "灰褐",
+          "hex": "#817B70"
+        },
+        {
+          "name": "深棕",
+          "hex": "#514238"
+        }
+      ],
+      "features": {
+        "formality": 3,
+        "relax": 4,
+        "contrast": 2,
+        "warmth": 3
+      },
+      "why": "细竖纹增加近看细节，衬衫与裤子都带一点灰调，开领与宽裤让正式感更轻松。",
+      "fitNote": "领口打开后仍应平贴胸前；衬衫塞入裤腰不要过度绷紧，腰腹处留出少量活动空间。",
+      "tryFirst": "用现有细条纹衬衫配灰褐裤，比较开一颗和两颗领口纽扣，再决定哪种更自在。",
+      "tags": [
+        "细竖纹",
+        "开领衬衫",
+        "宽直筒"
+      ],
+      "visual": {
+        "top": "shirt",
+        "outer": "none",
+        "bottom": "wide",
+        "shoes": "loafers",
+        "topColor": "#D9D6CB",
+        "outerColor": "#D9D6CB",
+        "bottomColor": "#817B70",
+        "shoeColor": "#514238",
+        "background": "#E8E6E1",
+        "detail": "stripe"
+      },
+      "referenceIds": [
+        "src-teller-driver-business-casual-2026"
+      ],
+      "inspirationNote": "根据GQ 2026年9月29日公开图中Miles Teller的浅色细竖纹衬衫与灰褐宽裤做原创转译；鞋和皮带是编辑选择，非已核验明星单品。",
+      "creatorIds": [],
+      "photo": {
+        "src": "assets/lookbook-round3-people-v4.webp",
+        "cell": 1,
+        "count": 4
+      }
+    },
+    {
+      "id": "O03",
+      "group": "ivy",
+      "title": "小窗格衬衫与旧蓝丹宁",
+      "subtitle": "用棕色系带靴，让格纹更有分量",
+      "occasion": [
+        "日常",
+        "周末",
+        "咖啡"
+      ],
+      "season": "春秋",
+      "items": [
+        "黑底米白小窗格长袖翻领衬衫，领口开一颗、下摆收进裤腰",
+        "洗旧深灰蓝直筒牛仔裤，无破洞",
+        "中棕色素面系带短靴",
+        "深棕简洁皮带"
+      ],
+      "palette": [
+        {
+          "name": "黑",
+          "hex": "#282A2C"
+        },
+        {
+          "name": "米白",
+          "hex": "#E8E3D7"
+        },
+        {
+          "name": "旧灰蓝",
+          "hex": "#5B6876"
+        },
+        {
+          "name": "中棕",
+          "hex": "#845D3F"
+        }
+      ],
+      "features": {
+        "formality": 2,
+        "relax": 3,
+        "contrast": 3,
+        "warmth": 3
+      },
+      "why": "小窗格比大块拼色更容易融入日常，旧蓝丹宁与棕色皮靴提供清楚的材质变化。",
+      "fitNote": "衬衫胸口与肩背不应拉扯格纹；裤口应能自然落在靴筒外，不在脚踝收得太紧。",
+      "tryFirst": "把现有深色格纹衬衫塞入直筒牛仔裤，配棕鞋，比较露出腰线与自然放下的效果。",
+      "tags": [
+        "窗格衬衫",
+        "洗旧丹宁",
+        "系带靴"
+      ],
+      "visual": {
+        "top": "shirt",
+        "outer": "none",
+        "bottom": "straight",
+        "shoes": "boots",
+        "topColor": "#282A2C",
+        "outerColor": "#282A2C",
+        "bottomColor": "#5B6876",
+        "shoeColor": "#845D3F",
+        "background": "#E8E6E1",
+        "detail": "check"
+      },
+      "referenceIds": [
+        "src-teller-driver-business-casual-2026"
+      ],
+      "inspirationNote": "根据GQ 2026年9月29日公开图中Adam Driver的深色小窗格衬衫、洗旧丹宁和棕黄色系带靴做日常转译；不标注未经核验的服装品牌。",
+      "creatorIds": [],
+      "photo": {
+        "src": "assets/lookbook-round3-people-v4.webp",
+        "cell": 2,
+        "count": 4
+      }
+    },
+    {
+      "id": "O04",
+      "group": "clean",
+      "title": "黑白旅行层次",
+      "subtitle": "白T与宽黑裤，加一件可以随时脱下的针织外层",
+      "occasion": [
+        "日常",
+        "旅行",
+        "周末"
+      ],
+      "season": "春秋／室内",
+      "items": [
+        "黑色圆领全拉链细针开衫，敞开穿",
+        "白色圆领T恤，下摆收进裤腰",
+        "黑色单褶宽直筒长裤",
+        "米白色薄底低帮运动鞋",
+        "巧克力棕素面皮质大托特包"
+      ],
+      "palette": [
+        {
+          "name": "黑",
+          "hex": "#252628"
+        },
+        {
+          "name": "白",
+          "hex": "#F0EDE5"
+        },
+        {
+          "name": "巧克力棕",
+          "hex": "#554238"
+        }
+      ],
+      "features": {
+        "formality": 2,
+        "relax": 4,
+        "contrast": 4,
+        "warmth": 2
+      },
+      "why": "黑白基础让裤型和外层轮廓更清楚，细针外套方便应对室内外变化，棕色包增加一点温暖的材质。",
+      "fitNote": "全拉链外层拉上后不应绷在腹部；宽裤腰围要稳定，走路时裤脚不要踩到鞋跟。",
+      "tryFirst": "用白T与宽黑裤试薄底鞋，再加黑色轻针织外层；比较有无外层时的衣长关系。",
+      "tags": [
+        "旅行层次",
+        "薄底鞋",
+        "全拉链针织"
+      ],
+      "visual": {
+        "top": "tee",
+        "outer": "cardigan",
+        "bottom": "wide",
+        "shoes": "sneakers",
+        "topColor": "#F0EDE5",
+        "outerColor": "#252628",
+        "bottomColor": "#252628",
+        "shoeColor": "#EDE8DE",
+        "background": "#E8E6E1",
+        "detail": "plain"
+      },
+      "referenceIds": [
+        "src-elordi-bottega-venice-2025"
+      ],
+      "inspirationNote": "以GQ 2025年8月29日核实的Jacob Elordi机场白T与黑裤为基础；黑色针织外层、配色和素面托特是编辑新增建议，非明星原造型或品牌同款。",
+      "creatorIds": [],
+      "photo": {
+        "src": "assets/lookbook-round3-people-v4.webp",
+        "cell": 3,
+        "count": 4
+      }
     }
   ],
-  "visualEdition": "2026-10-27-photo-v3",
+  "visualEdition": "2026-10-28-photo-v4",
   "collections": [
     {
       "id": "round2-city",
@@ -3146,6 +3969,44 @@
         "L02",
         "L03",
         "L04"
+      ]
+    }
+  ],
+  "round3Collections": [
+    {
+      "id": "round3-military",
+      "title": "军装细节 · 从低调到晚间",
+      "subtitle": "同色绳饰、双列金属扣、肩章与丝绒",
+      "note": "先看领形和装饰，再比较面料与裤装。M01、M04探索拿破仑风绳饰；M02、M03属于更广义的军官或军事元素，概念有所不同。",
+      "outfitIds": [
+        "M01",
+        "M02",
+        "M03",
+        "M04"
+      ]
+    },
+    {
+      "id": "round3-runway",
+      "title": "秀场转译 · 轮廓与面料",
+      "subtitle": "长直线、松弛礼服、轻千鸟格与蓝色色块",
+      "note": "从已核验的官方秀场说明取出一个可日常使用的想法。图片是原创搭配示意；2026秋冬与2027春夏分属不同季节，近期发布不等于当季现货。",
+      "outfitIds": [
+        "N01",
+        "N02",
+        "N03",
+        "N04"
+      ]
+    },
+    {
+      "id": "round3-people",
+      "title": "人物观察 · 衣服如何进入日常",
+      "subtitle": "格纹长外套、开领衬衫、旧丹宁与旅行层次",
+      "note": "从公开人物造型观察颜色、图案与比例，再加入日常搭配建议。参考来源与新增部分分别说明，人物出镜也不代表对产品的独立推荐。",
+      "outfitIds": [
+        "O01",
+        "O02",
+        "O03",
+        "O04"
       ]
     }
   ]

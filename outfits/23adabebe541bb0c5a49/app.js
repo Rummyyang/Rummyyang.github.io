@@ -3,8 +3,8 @@ import {STORAGE_KEY,FEATURE_LABELS,emptyState,sanitizeState,profile,recommend,sh
 
 const $=s=>document.querySelector(s);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let catalog,state=emptyState(),daily={entries:[]},view='round2',collectionIndex=0,groupFilter='all',occasionFilter='all',onlyLikes=false,variant=0,saveWorks=true,toastTimer;
-const viewNames=['round2','explore','daily','library','profile'];
+let catalog,state=emptyState(),daily={entries:[]},references={},view='round3',collectionIndices={round2:0,round3:0},groupFilter='all',occasionFilter='all',onlyLikes=false,variant=0,saveWorks=true,toastTimer;
+const viewNames=['round3','round2','explore','daily','references','library','profile'];
 const content=$('#content');
 const storage={get(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');}catch{return null;}},set(s){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s));saveWorks=true;}catch{saveWorks=false;toast('浏览器暂时无法保存，请导出选择，避免丢失。');}}};
 function toast(message){const notice=$('#toast');(document.querySelector('dialog[open]')||document.body).appendChild(notice);notice.textContent=message;notice.classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>notice.classList.remove('visible'),3500);}
@@ -15,18 +15,56 @@ function reasonSelect(o){if(state.ratings[o.id]!==-1)return '';return '<select c
 function lookCard(o,context){return '<article class="look-card '+(state.ratings[o.id]===2?'liked':'')+'" data-card="'+o.id+'"><button class="look-image" data-detail="'+o.id+'" aria-label="查看 '+escape(o.id+' '+o.title)+' 搭配详情"><span class="look-id">'+o.id+'</span>'+renderPhoto(o,context)+'<span class="look-zoom">看搭配 ↗</span>'+(o.recommendation?'<span class="look-label">'+escape(o.recommendation)+'</span>':'')+'</button><div class="look-body"><div class="look-title-row"><h3>'+escape(o.title)+'</h3><span class="swatches" aria-label="'+escape(o.palette.map(x=>x.name).join('、'))+'">'+o.palette.map(c=>'<span class="swatch" style="background:'+c.hex+'" title="'+escape(c.name)+'"></span>').join('')+'</span></div><p class="look-subtitle">'+escape(o.subtitle)+'</p>'+ratingRow(o)+reasonSelect(o)+'</div></article>';}
 function grid(outfits,context,extra=''){return '<div class="looks-grid '+extra+'">'+outfits.map(o=>lookCard(o,context)).join('')+'</div>';}
 function heading(kicker,title,sub,aside=''){return '<div class="section-heading"><div><p class="eyebrow">'+escape(kicker)+'</p><h2>'+escape(title)+'</h2><p>'+escape(sub)+'</p></div>'+(aside?'<div class="aside-note">'+aside+'</div>':'')+'</div>';}
-function collections(){return (Array.isArray(catalog.collections)?catalog.collections:[]).filter(c=>c&&Array.isArray(c.outfitIds)&&c.outfitIds.length===4&&new Set(c.outfitIds).size===4&&c.outfitIds.every(id=>catalog.outfits.some(o=>o.id===id)));}
-function round2(){
- const edits=collections();
- if(!edits.length){content.innerHTML=heading('THE NEXT EDIT','下一轮，正在准备。','原有搭配和本地选择仍然可以查看。')+'<div class="empty-state"><p>新一轮精选尚未加载。可以先回看最初的八组，或浏览全部搭配。</p><div class="button-row" style="justify-content:center"><button class="primary" data-view="explore">回看第一轮</button><button class="secondary" data-view="library">全部搭配</button></div></div>';return;}
- collectionIndex=Math.max(0,Math.min(collectionIndex,edits.length-1));
- const edit=edits[collectionIndex],looks=edit.outfitIds.map(id=>catalog.outfits.find(o=>o.id===id));
+function collections(round='round2'){
+ const entries=round==='round3'?catalog.round3Collections:catalog.collections;
+ return (Array.isArray(entries)?entries:[]).filter(c=>c&&Array.isArray(c.outfitIds)&&c.outfitIds.length===4&&new Set(c.outfitIds).size===4&&c.outfitIds.every(id=>catalog.outfits.some(o=>o.id===id)));
+}
+function preferredView(){return collections('round3').length?'round3':collections('round2').length?'round2':'explore';}
+function collectionView(round){
+ const edits=collections(round),third=round==='round3';
+ if(!edits.length){content.innerHTML=heading('THE NEXT EDIT','下一轮，正在准备。','原有搭配和本地选择仍然可以查看。')+'<div class="empty-state"><p>这一轮精选尚未加载。可以先回看原有搭配。</p><div class="button-row" style="justify-content:center"><button class="primary" data-view="'+(third?'round2':'explore')+'">回看上一轮</button><button class="secondary" data-view="library">全部搭配</button></div></div>';return;}
+ const index=collectionIndices[round]=Math.max(0,Math.min(collectionIndices[round],edits.length-1));
+ const edit=edits[index],looks=edit.outfitIds.map(id=>catalog.outfits.find(o=>o.id===id));
  const choices=looks.filter(o=>state.ratings[o.id]===2).length;
- content.innerHTML='<div class="round2-intro"><p class="eyebrow">THE SECOND EDIT · 16 NEW LOOKS</p><h2>沿着喜欢，打开一点新可能。</h2><p>三组延伸：城市黑白、日常极简、学院复古；再留一组新尝试，看看不同的颜色、材质与场景。每组四套，照样凭感觉选择。</p></div>'+
- '<div class="group-steps collection-steps" aria-label="第二轮精选分组">'+edits.map((c,i)=>'<button class="group-step '+(i===collectionIndex?'active':'')+'" data-collection="'+i+'" '+(i===collectionIndex?'aria-current="step"':'')+'><span>'+String(i+1).padStart(2,'0')+'</span>'+escape(c.title)+'</button>').join('')+'</div>'+
- heading('SECOND EDIT '+String(collectionIndex+1).padStart(2,'0')+' / '+String(edits.length).padStart(2,'0'),edit.title,edit.subtitle,'可以多选，也可以整组跳过。<br>点击图片，看单品和试穿重点。')+
- grid(looks,'round2')+
- '<div class="chapter-bottom"><p>'+escape(edit.note)+'<br><strong>'+(choices?'本组 '+choices+' 套想穿':'给熟悉的风格和新尝试同样的机会')+'</strong></p><div class="button-row"><button class="secondary" id="previous-collection" '+(collectionIndex===0?'disabled':'')+'>← 上一组</button><button class="primary" id="next-collection">'+(collectionIndex===edits.length-1?'看我的方向 ↗':'保存并看下一组 →')+'</button></div></div><div class="help-strip">新旧选择一起保存在本浏览器。看完后导出偏好摘要，下一轮便能继续调整。图片是 AI 生成的虚构模特摄影示意，非真人试穿。</div>';
+ content.innerHTML='<div class="round2-intro"><p class="eyebrow">THE '+(third?'THIRD':'SECOND')+' EDIT · '+edits.reduce((n,c)=>n+c.outfitIds.length,0)+' LOOKS</p><h2>'+(third?'把秀场灵感，穿进日常。':'沿着喜欢，打开一点新可能。')+'</h2><p>'+(third?'从轮廓、材质和一处细节开始尝试。每组四套，打开搭配详情看组成，也可到「秀场与参考」核对来源、了解设计转译。':'三组延伸：城市黑白、日常极简、学院复古；再留一组新尝试，看看不同的颜色、材质与场景。每组四套，照样凭感觉选择。')+'</p></div>'+
+ '<div class="group-steps collection-steps" aria-label="'+(third?'第三':'第二')+'轮精选分组">'+edits.map((c,i)=>'<button class="group-step '+(i===index?'active':'')+'" data-collection="'+i+'" '+(i===index?'aria-current="step"':'')+'><span>'+String(i+1).padStart(2,'0')+'</span>'+escape(c.title)+'</button>').join('')+'</div>'+
+ heading((third?'THIRD':'SECOND')+' EDIT '+String(index+1).padStart(2,'0')+' / '+String(edits.length).padStart(2,'0'),edit.title,edit.subtitle,'可以多选，也可以整组跳过。<br>点击图片，看单品和试穿重点。')+
+ grid(looks,round)+
+ '<div class="chapter-bottom"><p>'+escape(edit.note)+'<br><strong>'+(choices?'本组 '+choices+' 套想穿':'给熟悉的风格和新尝试同样的机会')+'</strong></p><div class="button-row"><button class="secondary" id="previous-collection" '+(index===0?'disabled':'')+'>← 上一组</button><button class="primary" id="next-collection">'+(index===edits.length-1?'看我的方向 ↗':'保存并看下一组 →')+'</button></div></div><div class="help-strip">新旧选择一起保存在本浏览器。看完后导出偏好摘要，下一轮便能继续调整。图片是 AI 生成的虚构模特摄影示意，非真人试穿。</div>';
+}
+function round2(){collectionView('round2');}
+function round3(){collectionView('round3');}
+function list(value){return Array.isArray(value)?value:[];}
+function textList(value){return list(value).filter(x=>typeof x==='string'&&x.trim());}
+function safeUrl(value){try{const url=new URL(value);return /^https?:$/.test(url.protocol)?url.href:'';}catch{return '';}}
+function referenceSources(ids){return textList(ids).map(id=>list(references.sources).find(s=>s&&s.id===id)).filter(Boolean);}
+function sourceLinks(ids){
+ const sources=referenceSources(ids);
+ return sources.length?'<ul class="source-links">'+sources.map(s=>{
+   const url=safeUrl(s.url),title=escape(s.title||s.publisher||'来源页面');
+   return '<li>'+(url?'<a href="'+escape(url)+'" target="_blank" rel="noopener noreferrer">'+title+' ↗</a>':'<span>'+title+'</span>')+'<small>'+[s.publisher,s.publishedAt?'发布 '+s.publishedAt:null,s.season,s.verifiedAt?'核对 '+s.verifiedAt:null].filter(Boolean).map(escape).join(' · ')+'</small></li>';
+ }).join('')+'</ul>':'<p class="reference-muted">来源信息待补充。</p>';
+}
+function sourceCaption(ids){return referenceSources(ids).map(s=>[s.publisher||s.title,s.publishedAt].filter(Boolean).map(escape).join(' · ')).join(' / ');}
+function referenceList(items,className=''){const values=textList(items);return values.length?'<ul class="reference-points '+className+'">'+values.map(x=>'<li>'+escape(x)+'</li>').join('')+'</ul>':'';}
+function referenceLooks(ids){const looks=textList(ids).map(id=>catalog.outfits.find(o=>o.id===id)).filter(Boolean);return looks.length?'<div class="reference-looks">'+looks.map(o=>'<button class="secondary" data-detail="'+escape(o.id)+'">'+escape(o.id+' '+o.title)+' ↗</button>').join('')+'</div>':'';}
+function referencesView(){
+ const definition=references.definition&&typeof references.definition==='object'?references.definition:null;
+ const trends=list(references.trends).filter(x=>x&&typeof x==='object'),people=list(references.people).filter(x=>x&&typeof x==='object');
+ if(!definition&&!trends.length&&!people.length){content.innerHTML=heading('THE REFERENCE DESK','秀场与参考','从原始出处看细节，再决定怎样穿进日常。')+'<div class="empty-state"><h3>参考资料正在整理。</h3><p>搭配库和本地选择仍可正常使用，稍后刷新即可查看。</p><button class="primary" data-view="round3">继续看搭配</button></div>';return;}
+ content.innerHTML=heading('THE REFERENCE DESK','秀场与参考',references.intro||'从原始出处看细节，再决定怎样穿进日常。',references.updatedAt?'本期核对 '+escape(references.updatedAt):'')+
+ '<div class="reference-note">来源中的秀场、红毯与个人造型，与展台的日常搭配建议分别标注。点击来源可看原文和原图；展台搭配为设计转译，非品牌同款／真人试穿。</div>'+
+ (definition?'<article class="reference-definition"><div><p class="eyebrow">THE STYLE GLOSSARY</p><h3>'+escape(definition.title||'款式词典')+'</h3><p>'+escape(definition.body)+'</p>'+referenceList(definition.features)+'</div><div class="definition-aside">'+(definition.takeaway?'<span class="reference-label">怎么理解、怎么试</span><p>'+escape(definition.takeaway)+'</p>':'')+sourceLinks(definition.sourceIds)+'</div></article>':'')+
+ (trends.length?heading('FROM THE COLLECTIONS','看懂细节，再选适合的。','季节、原始出处与编辑建议一起看。')+'<div class="reference-grid">'+trends.map(t=>'<article class="reference-card"><p class="eyebrow">'+[t.brand,t.season].filter(Boolean).map(escape).join(' · ')+'</p><h3>'+escape(t.title||'设计参考')+'</h3>'+(t.evidenceType?'<span class="evidence-type">'+escape(t.evidenceType)+'</span>':'')+'<div class="reference-original"><span class="reference-label">来源观察</span><p>'+escape(t.summary)+'</p>'+referenceList(t.details)+'</div>'+(t.adaptation||textList(t.fitNotes).length?'<div class="reference-adaptation"><span class="reference-label">编辑转译 · 日常穿法</span>'+(t.adaptation?'<p>'+escape(t.adaptation)+'</p>':'')+referenceList(t.fitNotes)+'</div>':'')+referenceLooks(t.outfitIds)+'<p class="source-caption">'+sourceCaption(t.sourceIds)+'</p><details class="reference-source-details"><summary>原文与原图来源</summary>'+sourceLinks(t.sourceIds)+'</details></article>').join('')+'</div>':'')+
+ (people.length?heading('PEOPLE & PERSONAL STYLE','把人当参考，不必照单全收。','从公开造型中选取值得尝试的搭配方法。')+'<div class="people-grid">'+people.map(p=>'<article class="person-card"><p class="eyebrow">'+escape(p.type||'风格参考')+'</p><h3>'+escape(p.name||'人物参考')+'</h3>'+(p.focus?'<p class="person-focus">'+escape(p.focus)+'</p>':'')+(p.look?'<span class="reference-label">公开造型观察</span><p>'+escape(p.look)+'</p>':'')+(p.translation?'<div class="reference-adaptation"><span class="reference-label">编辑转译 · 可以借鉴</span><p>'+escape(p.translation)+'</p></div>':'')+sourceLinks(p.sourceIds)+(safeUrl(p.accountUrl)?'<a class="account-link" href="'+escape(safeUrl(p.accountUrl))+'" target="_blank" rel="noopener noreferrer">公开账号入口 ↗</a>':'')+'</article>').join('')+'</div>':'')+
+ '<div class="chapter-bottom"><p>喜欢一个细节即可，不必接受整套秀场造型。</p><button class="primary" data-view="round3">回到第三轮精选 →</button></div>';
+}
+function outfitReferences(o){
+ const ids=textList(o.referenceIds);if(!ids.length)return '';
+ const direct=referenceSources(ids).map(s=>s.id),linked=[];
+ ids.forEach(id=>{const ref=list(references.trends).concat(list(references.people)).find(x=>x&&x.id===id);if(ref)linked.push(ref);});
+ const sourceIds=[...new Set(direct.concat(linked.flatMap(x=>textList(x.sourceIds))))];
+ return '<div class="detail-references"><h4>秀场与人物参考</h4>'+(linked.length?'<p>'+linked.map(x=>escape(x.title||x.name)).join(' · ')+'</p>':'')+(o.inspirationNote?'<p>'+escape(o.inspirationNote)+'</p>':'')+sourceLinks(sourceIds)+'<p class="reference-muted">设计转译，非品牌同款／真人试穿。</p><button class="text-button" data-open-references>看完整参考笔记 ↗</button></div>';
 }
 function explore(){
  const g=catalog.groups[state.groupIndex],looks=catalog.outfits.filter(o=>o.group===g.id).slice(0,4);
@@ -70,7 +108,7 @@ function profileView(){
  '<div class="creator-list">'+catalog.creators.map(c=>'<article class="creator"><a href="'+escape(c.url)+'" target="_blank" rel="noopener noreferrer">'+escape(c.name)+' ↗</a><p>'+escape(c.focus)+'</p><p>'+escape(c.caveat)+'</p><small>'+escape(c.verification)+' · '+escape(c.handle)+'</small></article>').join('')+'</div><div class="chapter-bottom"><p>选择不会自动同步到对话。复制摘要后发给我，下一批才能结合你的反馈。</p><button class="text-button" id="reset-open">清除本地选择</button></div>';
 }
 function featureWord(k,n){const low=n<2.4,high=n>3.6;return ({formality:low?'日常休闲':high?'偏正式':'轻松得体',relax:low?'偏合体':high?'舒展宽松':'适度余量',contrast:low?'低对比、近色':high?'明暗分明':'适度对比',warmth:low?'冷色倾向':high?'暖色倾向':'冷暖均衡'})[k];}
-function render(focus=false){updateCounts();({round2,explore,daily:dailyView,library,profile:profileView})[view]();if(focus){content.focus({preventScroll:true});content.scrollIntoView({behavior:'auto',block:'start'});}}
+function render(focus=false){updateCounts();({round3,round2,explore,daily:dailyView,references:referencesView,library,profile:profileView})[view]();if(focus){content.focus({preventScroll:true});content.scrollIntoView({behavior:'auto',block:'start'});}}
 function navigate(target){if(!viewNames.includes(target))return;view=target;history.replaceState(null,'','#'+target);render(true);}
 function updateRating(id,rating){
  if(!catalog.outfits.some(o=>o.id===id))return;
@@ -87,8 +125,8 @@ function updateRating(id,rating){
 }
 function detail(id,open=true){
  const o=catalog.outfits.find(x=>x.id===id);if(!o)return;
- const creators=o.creatorIds.map(id=>catalog.creators.find(c=>c.id===id)).filter(Boolean);
- $('#detail-content').innerHTML='<div class="detail-layout"><div class="detail-art">'+renderPhoto(o,'detail')+'</div><div class="detail-copy"><p class="eyebrow">'+o.id+' · '+escape(o.season)+' · '+escape(o.occasion.join(' / '))+'</p><h2 id="detail-title">'+escape(o.title)+'</h2><p>'+escape(o.subtitle)+'</p><ul>'+o.items.map(x=>'<li>'+escape(x)+'</li>').join('')+'</ul><h4>这套的感觉</h4><p>'+escape(o.why)+'</p><h4>试穿时，留意这里</h4><p>'+escape(o.fitNote)+'</p><h4>先用衣柜试一次</h4><p>'+escape(o.tryFirst)+'</p><h4>相关风格参考 · 非同款出处</h4>'+creators.map(c=>'<a href="'+escape(c.url)+'" target="_blank" rel="noopener noreferrer">'+escape(c.name)+' ↗</a>').join(' · ')+ratingRow(o)+reasonSelect(o)+'<p style="font-size:10px">AI 生成的摄影风格示意，非真人试穿；服装细节可能与清单略有差异。</p></div></div>';
+ const creators=list(o.creatorIds).map(id=>list(catalog.creators).find(c=>c.id===id)).filter(Boolean);
+ $('#detail-content').innerHTML='<div class="detail-layout"><div class="detail-art">'+renderPhoto(o,'detail')+'</div><div class="detail-copy"><p class="eyebrow">'+o.id+' · '+escape(o.season)+' · '+escape(o.occasion.join(' / '))+'</p><h2 id="detail-title">'+escape(o.title)+'</h2><p>'+escape(o.subtitle)+'</p><ul>'+o.items.map(x=>'<li>'+escape(x)+'</li>').join('')+'</ul><h4>这套的感觉</h4><p>'+escape(o.why)+'</p><h4>试穿时，留意这里</h4><p>'+escape(o.fitNote)+'</p><h4>先用衣柜试一次</h4><p>'+escape(o.tryFirst)+'</p>'+(creators.length?'<h4>相关风格参考 · 非同款出处</h4>'+creators.map(c=>'<a href="'+escape(c.url)+'" target="_blank" rel="noopener noreferrer">'+escape(c.name)+' ↗</a>').join(' · '):'')+outfitReferences(o)+ratingRow(o)+reasonSelect(o)+'<p style="font-size:10px">AI 生成的摄影风格示意，非真人试穿；服装细节可能与清单略有差异。</p></div></div>';
  if(open)$('#detail-dialog').showModal();
 }
 function exportOpen(){$('#summary-text').value=preferenceSummary(catalog,state);$('#export-dialog').showModal();}
@@ -96,13 +134,13 @@ async function init(){
  try{
    const response=await fetch('./catalog.json',{cache:'no-cache'});if(!response.ok)throw new Error('catalog');catalog=await response.json();
    if(!Array.isArray(catalog.groups)||!catalog.groups.length||!Array.isArray(catalog.outfits)||!catalog.outfits.length)throw new Error('catalog');
-   try{const r=await fetch('./daily.json',{cache:'no-cache'});if(r.ok)daily=await r.json();}catch{}
+   await Promise.all([fetch('./daily.json',{cache:'no-cache'}).then(async r=>{if(r.ok){const data=await r.json();if(data&&Array.isArray(data.entries))daily=data;}}).catch(()=>{}),fetch('./references.json',{cache:'no-cache'}).then(async r=>{if(r.ok){const data=await r.json();if(data&&typeof data==='object'&&!Array.isArray(data))references=data;}}).catch(()=>{})]);
    state=sanitizeState(storage.get(),catalog);
    $('#group-total').textContent=String(catalog.groups.length).padStart(2,'0');
    $('#look-total').textContent=catalog.outfits.length;
-   const hero=[catalog.outfits.find(o=>o.id==='I01')||catalog.outfits[4]||catalog.outfits[0],catalog.outfits.find(o=>o.id==='K01')||catalog.outfits[8]||catalog.outfits[1]];
+   const hero=[catalog.outfits.find(o=>o.id==='M01')||catalog.outfits.find(o=>o.id==='I01')||catalog.outfits[4]||catalog.outfits[0],catalog.outfits.find(o=>o.id==='N01')||catalog.outfits.find(o=>o.id==='K01')||catalog.outfits[8]||catalog.outfits[1]];
    $('#hero-art').insertAdjacentHTML('afterbegin',hero.map((o,i)=>renderPhoto(o,'hero'+i)).join(''));
-   const requestedView=location.hash.slice(1);view=viewNames.includes(requestedView)?requestedView:collections().length?'round2':'explore';
+   const requestedView=location.hash.slice(1);view=viewNames.includes(requestedView)?requestedView:preferredView();
    render(viewNames.includes(requestedView));
  }catch{content.innerHTML='<div class="empty-state"><h3>展台暂时没有加载成功。</h3><p>请检查连接后刷新页面。已有选择仍保留在本浏览器，不会因加载失败而清除。</p><button class="primary" id="reload">重新加载</button></div>';}
 }
@@ -112,16 +150,17 @@ document.addEventListener('click',event=>{
  if(b.id==='reload'){location.reload();return;}
  if(!catalog)return;
  if(b.dataset.view){navigate(b.dataset.view);return;}
- if(b.dataset.collection!==undefined){collectionIndex=Number(b.dataset.collection);render(true);return;}
+ if(b.hasAttribute('data-open-references')){$('#detail-dialog').close();navigate('references');return;}
+ if(b.dataset.collection!==undefined&&['round2','round3'].includes(view)){const index=Number(b.dataset.collection);if(Number.isInteger(index)){collectionIndices[view]=index;render(true);}return;}
  if(b.dataset.group!==undefined){state.groupIndex=Number(b.dataset.group);persist();render(true);return;}
  if(b.dataset.detail){detail(b.dataset.detail);return;}
  if(b.dataset.rate){updateRating(b.dataset.rate,Number(b.dataset.rating));return;}
  if(b.hasAttribute('data-export')||b.id==='footer-export'){exportOpen();return;}
  if(b.id==='about-open'){$('#about-dialog').showModal();return;}
  if(b.id==='next-collection'){
-   persist();if(collectionIndex<collections().length-1){collectionIndex++;render(true);}else navigate('profile');return;
+   if(!['round2','round3'].includes(view))return;persist();if(collectionIndices[view]<collections(view).length-1){collectionIndices[view]++;render(true);}else navigate('profile');return;
  }
- if(b.id==='previous-collection'){collectionIndex=Math.max(0,collectionIndex-1);render(true);return;}
+ if(b.id==='previous-collection'&&['round2','round3'].includes(view)){collectionIndices[view]=Math.max(0,collectionIndices[view]-1);render(true);return;}
  if(b.id==='next-group'){
    const g=catalog.groups[state.groupIndex];if(!state.visited.includes(g.id))state.visited.push(g.id);
    if(state.groupIndex<catalog.groups.length-1){state.groupIndex++;persist();render(true);}else{persist();navigate('profile');}return;
@@ -130,7 +169,7 @@ document.addEventListener('click',event=>{
  if(b.id==='reroll'){variant++;render();return;}
  if(b.id==='clear-filters'){groupFilter='all';occasionFilter='all';onlyLikes=false;render();return;}
  if(b.id==='reset-open'){$('#reset-dialog').showModal();return;}
- if(b.id==='confirm-reset'){state=emptyState();collectionIndex=0;persist();$('#reset-dialog').close();navigate(collections().length?'round2':'explore');toast('已重新开始。');return;}
+ if(b.id==='confirm-reset'){state=emptyState();collectionIndices={round2:0,round3:0};persist();$('#reset-dialog').close();navigate(preferredView());toast('已重新开始。');return;}
  if(b.id==='copy-summary'){
    const value=$('#summary-text').value;
    if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(value).then(()=>toast('已复制，粘贴到对话即可。')).catch(()=>{ $('#summary-text').focus();$('#summary-text').select();toast('请手动复制已选中的摘要。'); });

@@ -1,0 +1,317 @@
+{
+  "updatedAt": "2026-10-28",
+  "intro": "有日期的秀场线索、品牌原页与人物造型。近期报道和长期参考分别标明；趋势是学习线索，不是热度榜。",
+  "definition": {
+    "title": "“拿破仑外套”，先认细节",
+    "body": "这是时尚报道中的军礼服风格通称。最容易辨认的是立领、胸前成对的横向绳饰、绳结与金属扣；有些版本还带肩章或收腰。不同军装元素常被放在同一个流行标签下，不代表同一种严格的历史制服。",
+    "features": [
+      "Frogging 指装饰编绳、绳结或绳扣等细节；它也可以出现在现代飞行夹克上。",
+      "双排扣描述门襟结构。只有两列纽扣的普通海军外套，不自动等于绳饰军礼服式夹克。",
+      "2025年12月与2026年8月的时装媒体报道支持这类元素回潮；这里不把报道数量当成实时销量或热度排名。"
+    ],
+    "takeaway": "先试深色同色绳饰，把视觉重点放在一处；配素色内搭、直筒裤与简洁鞋。短夹克要同时试肩线、袖长和背长；髋部附近的下摆可作为比较起点，具体仍取决于躯干比例。",
+    "sourceIds": [
+      "src-napoleon-voguehk-2026",
+      "src-napoleon-gq-2025",
+      "src-balmain-frogging"
+    ]
+  },
+  "sources": [
+    {
+      "id": "src-napoleon-voguehk-2026",
+      "title": "拿破仑军装外套的回潮观察",
+      "publisher": "Vogue Hong Kong",
+      "url": "https://www.voguehk.com/zh/article/fashion/napoleon-jacket-street-chic-trend-ss26/",
+      "publishedAt": "2026-08-03",
+      "season": "2026春夏相关报道",
+      "verifiedAt": "2026-10-28"
+    },
+    {
+      "id": "src-napoleon-gq-2025",
+      "title": "拿破仑外套：2025秋冬男装回潮",
+      "publisher": "GQ Hong Kong",
+      "url": "https://gqhongkong.com/en/style-en/fall-winter-2025-the-napoleon-jacket-is-making-a-comeback",
+      "publishedAt": "2025-12-08",
+      "season": "2025秋冬与2026春夏",
+      "verifiedAt": "2026-10-28"
+    },
+    {
+      "id": "src-balmain-frogging",
+      "title": "Satin bomber jacket with frogging · Black",
+      "publisher": "Balmain official",
+      "url": "https://balmain.com/en-kw/products/satin-bomber-jacket-with-frogging-black-hh1tfc85pd59sqn",
+      "publishedAt": null,
+      "season": null,
+      "verifiedAt": "2026-10-28"
+    },
+    {
+      "id": "src-prada-fw26",
+      "title": "Prada Fall/Winter 2026 menswear show: Before and next",
+      "publisher": "Prada 官方",
+      "url": "https://www.pradagroup.com/en/news-media/press-releases-documents/2026/26-01-18-prada-fw-2026-menswear-show.html",
+      "publishedAt": "2026-01-18",
+      "season": "Fall/Winter 2026 Menswear",
+      "verifiedAt": "2026-10-28"
+    },
+    {
+      "id": "src-prada-fw26-runway",
+      "title": "Prada Fall/Winter 2026 Menswear Show",
+      "publisher": "Prada 官方",
+      "url": "https://www.prada.com/hk/en/pradasphere/fashion-shows/2026/fw-menswear.html",
+      "publishedAt": null,
+      "season": "Fall/Winter 2026 Menswear",
+      "verifiedAt": "2026-10-28"
+    },
+    {
+      "id": "src-dior-ss27",
+      "title": "Summer 2027 Men's Show",
+      "publisher": "Dior 官方",
+      "url": "https://www.dior.com/en_hk/fashion/mens-fashion/shows/summer-2027-show",
+      "publishedAt": null,
+      "season": "Summer 2027 Menswear",
+      "verifiedAt": "2026-10-28"
+    },
+    {
+      "id": "src-dries-ss27",
+      "title": "Men Spring Summer 2027",
+      "publisher": "Dries Van Noten 官方",
+      "url": "https://www.driesvannoten.com/en-hk/pages/show-ss-27-men",
+      "publishedAt": null,
+      "season": "Spring/Summer 2027 Menswear",
+      "verifiedAt": "2026-10-28"
+    },
+    {
+      "id": "src-elordi-bottega-venice-2025",
+      "title": "Jacob Elordi Brought a New It Bag to Venice",
+      "publisher": "GQ",
+      "url": "https://www.gq.com/story/jacob-elordi-bottega-veneta-luggage-venice-film-festival-2025",
+      "publishedAt": "2025-08-29",
+      "season": null,
+      "verifiedAt": "2026-10-28"
+    },
+    {
+      "id": "src-hartnett-overcoat-2026",
+      "title": "Josh Hartnett Just Declared Open Season on Overcoats",
+      "publisher": "GQ",
+      "url": "https://www.gq.com/story/josh-hartnett-fall-style-10-05-2026",
+      "publishedAt": "2026-10-05",
+      "season": null,
+      "verifiedAt": "2026-10-28"
+    },
+    {
+      "id": "src-teller-driver-business-casual-2026",
+      "title": "Miles Teller and Adam Driver Just Nailed Business Casual in Two Very Different Ways",
+      "publisher": "GQ",
+      "url": "https://www.gq.com/story/miles-teller-adam-driver-business-casual-style",
+      "publishedAt": "2026-09-29",
+      "season": null,
+      "verifiedAt": "2026-10-28"
+    },
+    {
+      "id": "src-dessaint-about",
+      "title": "ABOUT DESSAINT",
+      "publisher": "DESSAINT",
+      "url": "https://dessaintstudio.com/pages/about-dessaint",
+      "publishedAt": null,
+      "season": null,
+      "verifiedAt": "2026-10-28"
+    },
+    {
+      "id": "src-danielsimmons-fw26",
+      "title": "FW26 Collection 3",
+      "publisher": "Daniel Simmons",
+      "url": "https://danielsimmons.co/",
+      "publishedAt": null,
+      "season": "FW26",
+      "verifiedAt": "2026-10-28"
+    }
+  ],
+  "trends": [
+    {
+      "id": "trend-military-details",
+      "title": "军礼服细节，减到一两处",
+      "brand": "Balmain / Dior / Kenzo 等",
+      "season": "2025秋冬—2026春夏报道线索",
+      "evidenceType": "时装媒体趋势报道",
+      "summary": "GQ香港以男装系列讨论编绳、金属扣与军装元素的重新组合；Vogue香港在2026年8月继续报道这一路线。媒体中也混有女装与舞台造型，需分别看待。",
+      "details": [
+        "参考原图时，分别观察绳饰密度、纽扣排列和领口高度。",
+        "Kenzo的街头化、Balmain的装饰感与其他品牌的抽象处理，是不同方向。"
+      ],
+      "adaptation": "M01保留同色黑绳饰，M04用少量旧金绳扣作晚间变化；M02双排扣与M03肩袢只是军装元素的延伸，分别理解即可。",
+      "fitNotes": [
+        "立领不顶下颌；扣合后胸前绳饰不应被拉扯变形。",
+        "上身装饰较强时，裤型保持清楚、裤脚少堆积。"
+      ],
+      "sourceIds": [
+        "src-napoleon-gq-2025",
+        "src-napoleon-voguehk-2026"
+      ],
+      "outfitIds": [
+        "M01",
+        "M02",
+        "M03",
+        "M04"
+      ]
+    },
+    {
+      "id": "trend-balmain-frogging",
+      "title": "绳饰也可以放进飞行夹克",
+      "brand": "Balmain",
+      "season": "官方商品页未标季节",
+      "evidenceType": "品牌官方男装款式",
+      "summary": "官方男装页面列有黑色 Satin bomber jacket with frogging，将编绳细节与缎面飞行夹克结合。",
+      "details": [
+        "此处确认款式名称与黑色；不据页面标题推断纤维成分、尺码或当前可购状态。"
+      ],
+      "adaptation": "借鉴的是“简洁外套＋少量绳饰”这一方法。M01与M04的面料、衣型、裤鞋组合均为展台原创设计。",
+      "fitNotes": [
+        "短外套应单独核对袖长与衣长，避免为补长度而把肩宽一起放大。"
+      ],
+      "sourceIds": [
+        "src-balmain-frogging"
+      ],
+      "outfitIds": [
+        "M01",
+        "M04"
+      ]
+    },
+    {
+      "id": "trend-prada-line",
+      "title": "长线条，也可以很清楚",
+      "brand": "Prada",
+      "season": "2026秋冬男装",
+      "evidenceType": "品牌官方秀场与发布稿",
+      "summary": "官方说明强调修长而精确的轮廓，以及对熟悉传统元素的重新构造。",
+      "details": [
+        "参考的是当季秋冬系列的轮廓思路。"
+      ],
+      "adaptation": "N01把长直线转成巧克力棕大衣、浅蓝尖领衬衫与炭灰裤；颜色和单品组合为原创。",
+      "fitNotes": [
+        "先看肩部与颈后是否贴合，再比较衣长。",
+        "试走路、坐下和抬手；长衣与裤脚避免一起大量堆积。"
+      ],
+      "sourceIds": [
+        "src-prada-fw26",
+        "src-prada-fw26-runway"
+      ],
+      "outfitIds": [
+        "N01"
+      ]
+    },
+    {
+      "id": "trend-dior-relaxed",
+      "title": "礼服语言，放松一点",
+      "brand": "Dior",
+      "season": "2027夏季男装 · 已发布秀场",
+      "evidenceType": "品牌官方秀场说明",
+      "summary": "官方说明提到更松弛的礼服剪裁，并用印花呈现千鸟格。",
+      "details": [
+        "这是下一春夏设计参考，不能直接当作当前现货清单。"
+      ],
+      "adaptation": "N02用深蓝礼服式外套与开领衬衫比较正式感；N03把细千鸟格放进轻外层，再配洗黑丹宁。",
+      "fitNotes": [
+        "松弛仍需检查肩部、颈后和袖长。",
+        "有明确礼服要求的场合，先遵守活动着装要求。"
+      ],
+      "sourceIds": [
+        "src-dior-ss27"
+      ],
+      "outfitIds": [
+        "N02",
+        "N03"
+      ]
+    },
+    {
+      "id": "trend-dries-soft-color",
+      "title": "给深色衣柜留一组蓝色",
+      "brand": "Dries Van Noten",
+      "season": "2027春夏男装 · 已发布秀场",
+      "evidenceType": "品牌官方系列说明与主造型图集",
+      "summary": "官方系列说明强调柔软与松弛；主图集Look 17的图片说明列出蓝色色块衬衫和浅蓝宽裤。",
+      "details": [
+        "可到原页比较完整秀场造型；本展台使用不透的日常面料。"
+      ],
+      "adaptation": "N04用两档蓝色做色块上衣，搭浅蓝宽直筒裤，保留配色变化并简化装饰。",
+      "fitNotes": [
+        "同时试坐和抬臂，确认垂坠不等于过量堆积。",
+        "先比较一件色块上衣，再决定是否尝试浅色裤。"
+      ],
+      "sourceIds": [
+        "src-dries-ss27"
+      ],
+      "outfitIds": [
+        "N04"
+      ]
+    }
+  ],
+  "people": [
+    {
+      "id": "josh-hartnett",
+      "name": "Josh Hartnett",
+      "type": "演员 · 公开造型",
+      "focus": "灰格长大衣的纵向层次 · 2026-10-05",
+      "look": "2026年10月报道的公开头图：灰格长大衣、深色圆领内搭与细条纹宽裤。品牌未逐件核实。",
+      "translation": "O01保留长外层与细纹理的对照，裤鞋细节按日常需求重新组合；也可先用纯灰裤降低纹样密度。",
+      "sourceIds": [
+        "src-hartnett-overcoat-2026"
+      ]
+    },
+    {
+      "id": "miles-teller",
+      "name": "Miles Teller",
+      "type": "演员 · 公开造型",
+      "focus": "细竖纹与灰褐宽裤 · 2026-09-29",
+      "look": "2026年9月电影节座谈头图：浅米灰细竖纹开领衬衫、灰褐宽裤。原图未显示鞋，品牌未核实。",
+      "translation": "O02用开领与灰褐近色搭配比较松弛感，鞋和皮带为编辑选择。",
+      "sourceIds": [
+        "src-teller-driver-business-casual-2026"
+      ]
+    },
+    {
+      "id": "adam-driver",
+      "name": "Adam Driver",
+      "type": "演员 · 公开造型",
+      "focus": "小窗格、旧丹宁与棕靴 · 2026-09-29",
+      "look": "同场座谈头图：黑底浅色小窗格衬衫、洗旧深灰蓝丹宁、棕黄系带靴。品牌未核实。",
+      "translation": "O03保留小格纹、旧丹宁和棕靴；从一件有纹样的衬衫开始。",
+      "sourceIds": [
+        "src-teller-driver-business-casual-2026"
+      ]
+    },
+    {
+      "id": "jacob-elordi",
+      "name": "Jacob Elordi",
+      "type": "演员 · 公开造型",
+      "focus": "白与黑的旅行基础 · 2025 历史参考",
+      "look": "2025年威尼斯机场报道：白T、黑长裤、Prada薄底鞋与Bottega Veneta托特。属于有商业背景的历史造型参考。",
+      "translation": "O04沿用白T黑裤底子，黑色针织外层和素面托特是编辑新增；不称明星原造型。",
+      "sourceIds": [
+        "src-elordi-bottega-venice-2025"
+      ]
+    },
+    {
+      "id": "tim-dessaint",
+      "name": "Tim Dessaint",
+      "type": "创作者 · 本人品牌学习入口",
+      "focus": "比例、垂坠与面料 · 长期学习",
+      "look": "已核实本人品牌介绍：关注比例、垂坠、运动状态和面料触感；不是当日个人穿搭动态。",
+      "translation": "比较同色棉布、针织与羊毛的垂坠，试穿时拍正面和侧面，看衣摆、裤腰与肩线。此为编辑应用。",
+      "sourceIds": [
+        "src-dessaint-about"
+      ]
+    },
+    {
+      "id": "daniel-simmons",
+      "name": "Daniel Simmons",
+      "type": "创作者 · 本人品牌学习入口",
+      "focus": "丹宁、长外套与针织 · FW26 品牌观察",
+      "look": "2026年10月28日品牌首页显示FW26：原色丹宁夹克、长大衣、刷毛棉衬衫与拉链针织。属于品牌观察。",
+      "translation": "用熟悉的靛蓝、棕和深灰比较不同材质；可以先尝试一件丹宁外套或拉链针织，具体组合由衣柜决定。",
+      "sourceIds": [
+        "src-danielsimmons-fw26"
+      ],
+      "accountUrl": "https://www.instagram.com/imdanielsimmons/"
+    }
+  ]
+}

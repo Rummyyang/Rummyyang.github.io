@@ -8,25 +8,27 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta name="theme-color" content="#f5f2ec">
   <title>衣间 · Style Atelier</title>
-  <link rel="stylesheet" href="styles.css?v=photo-v3">
-  <script type="module" src="app.js?v=photo-v3"></script>
+  <link rel="stylesheet" href="styles.css?v=photo-v4">
+  <script type="module" src="app.js?v=photo-v4"></script>
 </head>
 <body>
   <a class="skip" href="#main">跳到内容</a>
   <header class="masthead">
     <a class="wordmark" href="./" aria-label="衣间首页"><span class="brand-symbol">衣</span><span>衣间 <small>STYLE ATELIER</small></span></a>
-    <span class="edition">私人书签 · Vol. 03</span>
+    <span class="edition">私人书签 · Vol. 04</span>
     <button class="text-button" id="about-open">关于展台 <span aria-hidden="true">↗</span></button>
   </header>
   <main id="main">
     <section class="intro">
-      <div class="intro-copy"><p class="eyebrow">A WARDROBE, IN THE MAKING</p><h1>先喜欢，<br>再成为<span>你的风格。</span></h1><p class="intro-description">熟悉的轮廓，再加一点新的可能。<br>第二轮新增十六套，每组挑几套愿意穿出门的。</p><div class="intro-meta"><span><b id="group-total">08</b> 基础风格</span><span><b id="look-total">48</b> 搭配提案</span><span>每组浏览 <b>4</b> 套</span></div></div>
-      <div class="hero-art" id="hero-art" aria-label="本期 AI 虚构模特摄影风格穿搭示意"><div class="hero-caption">THE SECOND EDIT <span>给熟悉的风格，留一点新鲜感。</span></div></div>
+      <div class="intro-copy"><p class="eyebrow">A WARDROBE, IN THE MAKING</p><h1>先喜欢，<br>再成为<span>你的风格。</span></h1><p class="intro-description">把秀场灵感带进日常衣柜。<br>第三轮十二套，沿着轮廓、材质和细节继续探索。</p><div class="intro-meta"><span><b id="group-total">08</b> 基础风格</span><span><b id="look-total">60</b> 搭配提案</span><span>每组浏览 <b>4</b> 套</span></div></div>
+      <div class="hero-art" id="hero-art" aria-label="本期 AI 虚构模特摄影风格穿搭示意"><div class="hero-caption">THE THIRD EDIT <span>从秀场细节，到日常衣柜。</span></div></div>
     </section>
     <nav class="view-nav" aria-label="展台功能">
-      <button data-view="round2" class="active" aria-current="page">第二轮精选</button>
+      <button data-view="round3" class="active" aria-current="page">第三轮精选</button>
+      <button data-view="round2">第二轮精选</button>
       <button data-view="explore">第一轮初选 <span id="progress-count">0 / 8</span></button>
       <button data-view="daily">今日提案 <span class="small-dot"></span></button>
+      <button data-view="references">秀场与参考</button>
       <button data-view="library">全部搭配</button>
       <button data-view="profile">我的偏好 <span id="likes-count">0</span></button>
     </nav>
