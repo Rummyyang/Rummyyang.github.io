@@ -22,7 +22,8 @@ GOOD=""
 while read -r u; do [ -n "$u" ] || continue; code=$(https_proxy=$u HTTPS_PROXY=$u curl -sS -o /dev/null -w "%{http_code}" --max-time 20 https://github.com/ 2&gt;/dev/null); hf=$(https_proxy=$u HTTPS_PROXY=$u curl -sS -o /dev/null -w "%{http_code}" --max-time 20 https://huggingface.co/api/models/Qwen/Qwen3-1.7B 2&gt;/dev/null); echo "  candidate $(echo "$u" | cut -c1-8)... github $code hf $hf"; [ "$code" = 200 ] &amp;&amp; [ "$hf" = 200 ] &amp;&amp; { GOOD=$u; break; }; done &lt; $C
 echo "direct: github $(curl -sS -o /dev/null -w '%{http_code}' --max-time 15 https://github.com/ 2&gt;/dev/null) hf $(curl -sS -o /dev/null -w '%{http_code}' --max-time 15 https://huggingface.co/api/models/Qwen/Qwen3-1.7B 2&gt;/dev/null)"
 if [ -z "$GOOD" ]; then echo "NO WORKING PROXY FOUND: send this output; also ask the machine owner how git/pip reach the internet here (proxy host:port)"; exit 1; fi
-umask 077; printf 'export https_proxy=%s\nexport HTTPS_PROXY=%s\nexport http_proxy=%s\nexport HTTP_PROXY=%s\nexport no_proxy=localhost,127.0.0.1\n' "$GOOD" "$GOOD" "$GOOD" "$GOOD" &gt; /root/h800_proxy.env
+NP="localhost,127.0.0.1,::1,$(hostname),$(hostname -I 2&gt;/dev/null | tr -s ' ' ',' | sed 's/,$//')"
+umask 077; printf 'export https_proxy=%s\nexport HTTPS_PROXY=%s\nexport http_proxy=%s\nexport HTTP_PROXY=%s\nexport no_proxy=%s\nexport NO_PROXY=%s\n' "$GOOD" "$GOOD" "$GOOD" "$GOOD" "$NP" "$NP" &gt; /root/h800_proxy.env
 echo "saved /root/h800_proxy.env (github and hf reachable through it)"
 tmux kill-session -t h800 2&gt;/dev/null; tmux kill-session -t h800loops 2&gt;/dev/null
 tmux new-session -d -s h800 '. /root/h800_proxy.env; bash /root/h800_setup.sh 2&gt;&amp;1 | tee -a /root/h800_setup.log; echo EXIT_$? &gt;&gt; /root/h800_setup.log; sleep infinity'
