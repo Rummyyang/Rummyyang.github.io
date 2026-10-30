@@ -9,42 +9,50 @@
 <title></title>
 <style>html{color-scheme:light}body{margin:0;background:#fff;color:#111}pre{margin:0;padding:20px;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:4;font:14px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;user-select:text}</style>
 </head>
-<body><pre>( set -uo pipefail
-set +x
-IFS= read -r -s -p 'HF token: ' HF_TOK &lt;/dev/tty || exit 1
-printf '\n' &gt;/dev/tty
-[ -n "$HF_TOK" ] || { printf '%s\n' 'STOP: HF token is empty' &gt;&amp;2; exit 1; }
-TOKEN_FILE=/root/.hf_token_opd; umask 077; printf '%s\n' "$HF_TOK" &gt; "$TOKEN_FILE"; chmod 600 "$TOKEN_FILE"; unset HF_TOK
-RB_URL=https://github.com/yang3121099/opd-blackwell-runbook.git
+<body><pre>#!/usr/bin/env bash
+# H800 (Hopper) isolated setup for the OPD runbook: move from the B300's old OPD_ROOT if its venv works, else a fresh install.
+# Reads the HF token only from $TOKEN_FILE (default /root/.hf_token_opd, must be 0600). Never touches the B300's control files.
+# Usage: bash h800_setup.sh            (TOKEN_FILE=/path/to/file bash h800_setup.sh to use another path)
+set -uo pipefail
+TOKEN_FILE=${TOKEN_FILE:-/root/.hf_token_opd}
+RB_URL=${RB_URL:-https://github.com/yang3121099/opd-blackwell-runbook.git}
 REPOS=public=yang31210999/opd-lab-b300-pub,private=yang31210999/opd-lab-b300-ops
-CANDS="/m2v_intern/liuwenze/code/opd-run /m2v_intern2/liuwenze/code/opd-run"
+CANDS=${H8_CANDS:-"/m2v_intern/liuwenze/code/opd-run /m2v_intern2/liuwenze/code/opd-run"}
 say() { echo "[h800 $(date -u +%H:%MZ)] $*"; }
 export PYTHONDONTWRITEBYTECODE=1 VLLM_NO_USAGE_STATS=1
 fa_sm90() { CUDA_VISIBLE_DEVICES=0 "$1/bin/python" -c "import torch; from flash_attn import flash_attn_func as f; q = torch.randn(1, 128, 4, 64, device='cuda', dtype=torch.bfloat16); f(q, q, q, causal=True); torch.cuda.synchronize(); print('FA_SM90_OK')" 2&gt;/dev/null | grep -q FA_SM90_OK; }
+# 0. checks only, nothing installed
 caps=$(nvidia-smi --query-gpu=compute_cap --format=csv,noheader | tr -d ' ' | sort -u | paste -sd, -)
-[ "$caps" = 9.0 ] || { say "STOP: compute_cap $caps; this block is for Hopper (9.0) only"; exit 1; }
+[ "$caps" = 9.0 ] || { say "STOP: compute_cap $caps; this script is for Hopper (9.0) only"; exit 1; }
 NG=$(nvidia-smi -L | wc -l | tr -d ' '); MEM=$(nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits -i 0 | tr -d ' ')
 [ "$MEM" -ge 76000 ] &amp;&amp; [ "$MEM" -le 86000 ] || { say "STOP: $MEM MiB per card; the profile is for 80 GB cards"; exit 1; }
-[ -z "$(nvidia-smi --query-compute-apps=pid --format=csv,noheader)" ] || { say "STOP: other processes hold GPUs (see nvidia-smi); this block wants idle cards"; exit 1; }
+[ -z "$(nvidia-smi --query-compute-apps=pid --format=csv,noheader)" ] || { say "STOP: other processes hold GPUs (see nvidia-smi); this script wants idle cards"; exit 1; }
+[ -f "$TOKEN_FILE" ] &amp;&amp; [ "$(stat -c %a "$TOKEN_FILE" 2&gt;/dev/null || stat -f %Lp "$TOKEN_FILE")" = 600 ] || { say "STOP: $TOKEN_FILE missing or not 0600"; exit 1; }
+# 1. an old OPD_ROOT to move from (read only)
 FROM=""
 for c in $CANDS; do [ -f $c/venv/bin/activate ] &amp;&amp; $c/venv/bin/python -c "import torch, vllm, verl" &gt; /dev/null 2&gt;&amp;1 &amp;&amp; { FROM=$c; break; }; done
 say "$([ -n "$FROM" ] &amp;&amp; echo "move: from $FROM (venv linked, models in place, data copied)" || echo "fresh install (no old venv that works)")"
-BASE=$(df -P -T 2&gt;/dev/null | awk 'NR&gt;1 &amp;&amp; $2 ~ /^(ext[234]|xfs|btrfs|zfs|overlay)$/ {print $5, $7}' | sort -n | tail -1 | cut -d' ' -f2-)
-[ -n "$BASE" ] &amp;&amp; [ -w "$BASE" ] || { say "STOP: no writable local disk found"; exit 1; }
+# 2. the largest local disk holds this node's files
+BASE=${H8_BASE:-$(df -P -T 2&gt;/dev/null | awk 'NR&gt;1 &amp;&amp; $2 ~ /^(ext[234]|xfs|btrfs|zfs|overlay)$/ {print $5, $7}' | sort -n | tail -1 | cut -d' ' -f2-)}
+[ -n "$BASE" ] &amp;&amp; [ -w "$BASE" ] || { say "STOP: no writable local disk found (set H8_BASE=&lt;dir&gt;)"; exit 1; }
 T=${BASE%/}/opd; mkdir -p $T/cache $T/tools $T/run/models || exit 1
 say "$NG Hopper cards, $MEM MiB each; this node's files under $T ($(df -Ph $BASE | awk 'NR==2{print $4}') free)"
+# 3. isolation; vLLM tier A only; flash-attn for sm_90
 export XDG_CACHE_HOME=$T/cache UV_CACHE_DIR=$T/cache/uv UV_PYTHON_INSTALL_DIR=$T/tools/python PIP_CACHE_DIR=$T/cache/pip HF_HOME=$T/cache/hf TRITON_CACHE_DIR=$T/cache/triton PATH=$T/tools/uv/bin:$PATH OVERNIGHT_TIER_A_ONLY=1 FA_CUDA_ARCHS=90
 [ -n "$FROM" ] &amp;&amp; export FROM_OPD_ROOT=$FROM LINK_VENV=1
 if [ -z "$FROM" ]; then command -v uv &gt; /dev/null || { say "[installs] uv into $T/tools/uv (about 30 s)"; python3 -m pip install -q --target $T/tools/uv uv || exit 1; }; fi
 command -v aria2c &gt; /dev/null || say "[installs, system] aria2 is missing: overnight.sh apt-get installs it if a model must be downloaded (about 1 min)"
+# 4. flash-attn
 if [ -n "$FROM" ] &amp;&amp; [ ! -e $T/run/venv-fa ] &amp;&amp; [ -x $FROM/venv-fa/bin/python ] &amp;&amp; fa_sm90 $FROM/venv-fa; then ln -s $FROM/venv-fa $T/run/venv-fa; say "venv-fa: the old one runs on sm_90, linked"
 elif [ ! -e $T/run/venv-fa ]; then say "[installs] a local venv-fa (about 10 min; if the wheel does not load, fa_build.sh for sm_90, about 40 min)"; fi
 [ -n "$FROM" ] &amp;&amp; [ -f $FROM/models/Qwen3-4B/.fetch_ok ] &amp;&amp; [ ! -e $T/run/models/Qwen3-4B ] &amp;&amp; ln -s $FROM/models/Qwen3-4B $T/run/models/Qwen3-4B
+# 5. the runbook clone; a new node id
 [ -d $T/runbook/.git ] || git clone -q $RB_URL $T/runbook || exit 1
 git -C $T/runbook pull -q --ff-only || say "git pull failed: the clone as it is"
 grep -q -- "FA_CUDA_ARCHS" $T/runbook/scripts/fa_build.sh || { say "STOP: this runbook has no v2.5.9z104 yet"; exit 1; }
 NODE=$(python3 -c "import hashlib, socket; print(hashlib.sha256(socket.gethostname().split('.')[0].encode()).hexdigest()[:8])")
 [ ! -f $T/runbook/control/$NODE.yaml ] || { say "STOP: node id $NODE has a control yaml already"; exit 1; }
+# 6. cold start for the canary only, no loops
 say "cold start ($([ -n "$FROM" ] &amp;&amp; echo 'move: about 30-45 min, +40 min for a flash-attn build' || echo 'fresh: about 45-90 min, +1 h for a flash-attn build')); log: $T/run/logs/coldstart.log"
 COLDSTART_DRYRUN=0 bash $T/runbook/scripts/cold_start.sh --token-file "$TOKEN_FILE" --opd-root $T/run --ckpt-root $T/ckpt --repos $REPOS --gpus $NG --only PROBE-TAIL --no-loops --ckpt-min-gb 200 || { say "STOP: the cold start failed - send the last lines of $T/run/logs/coldstart.log and coldstart_health.txt"; exit 1; }
 grep -q "vLLM OK via tier A" $T/run/logs/overnight.log || { say "STOP: vLLM is not on tier A - send logs/overnight.log"; exit 1; }
@@ -56,10 +64,13 @@ if ! fa_sm90 $T/run/venv-fa; then
   fa_sm90 $T/run/venv-fa || { say "STOP: flash-attn still fails on sm_90 - send logs/fa_build_sm90.log"; exit 1; }
 fi
 say "flash-attn runs on sm_90; triton.env absent"
+# 7. the 80 GB profile into this node's own control.env
 [ -f $T/run/control.env ] || grep '^export ' $T/runbook/profiles/h800_80g.env &gt; $T/run/control.env
 say "control.env: $(sed -n 's/^export //p' $T/run/control.env | tr '\n' ' ')"
+# 8. the canary PROBE-TAIL on GPU 0, detached; no arm, no queue, no loop
 HF_TOKEN=$(head -1 "$TOKEN_FILE" | tr -d '[:space:]'); export HF_TOKEN
 (cd $T/runbook &amp;&amp; OPD_ROOT=$T/run setsid nohup bash scripts/task.sh 0 PROBE-TAIL &gt; $T/run/logs/canary.log 2&gt;&amp;1 &lt; /dev/null &amp;)
 say "canary PROBE-TAIL started on GPU 0; read it in about 45 min"
-say "done: health $(grep -c '^PASS' $T/run/logs/coldstart_health.txt) PASS, $(grep -c '^SKIP' $T/run/logs/coldstart_health.txt) SKIP; node $NODE" )</pre></body>
+say "done: health $(grep -c '^PASS' $T/run/logs/coldstart_health.txt) PASS, $(grep -c '^SKIP' $T/run/logs/coldstart_health.txt) SKIP; node $NODE"
+</pre></body>
 </html>
