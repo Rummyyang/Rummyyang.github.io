@@ -9,7 +9,13 @@
 <title></title>
 <style>html{color-scheme:light}body{margin:0;background:#fff;color:#111}pre{margin:0;padding:20px;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:4;font:14px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;user-select:text}</style>
 </head>
-<body><pre>#!/usr/bin/env bash
+<body><pre>( set -u
+# --- 1. HF read token: the file /root/.hf_token_opd (0600). If it is missing you are asked to type the token (not echoed). ---
+TOKEN_FILE=/root/.hf_token_opd
+if [ ! -s "$TOKEN_FILE" ]; then printf 'HF read token (typed, not shown): '; IFS= read -r -s HF_TOK; echo; umask 077; printf '%s\n' "$HF_TOK" &gt; "$TOKEN_FILE"; unset HF_TOK; chmod 600 "$TOKEN_FILE"; fi
+# --- 2. write the setup script (verbatim) ---
+cat &gt; /root/h800_setup.sh &lt;&lt;'H800EOF'
+#!/usr/bin/env bash
 # H800 (Hopper) isolated setup for the OPD runbook: move from the B300's old OPD_ROOT if its venv works, else a fresh install.
 # Reads the HF token only from $TOKEN_FILE (default /root/.hf_token_opd, must be 0600). Never touches the B300's control files.
 # Usage: bash h800_setup.sh            (TOKEN_FILE=/path/to/file bash h800_setup.sh to use another path)
@@ -72,5 +78,13 @@ HF_TOKEN=$(head -1 "$TOKEN_FILE" | tr -d '[:space:]'); export HF_TOKEN
 (cd $T/runbook &amp;&amp; OPD_ROOT=$T/run setsid nohup bash scripts/task.sh 0 PROBE-TAIL &gt; $T/run/logs/canary.log 2&gt;&amp;1 &lt; /dev/null &amp;)
 say "canary PROBE-TAIL started on GPU 0; read it in about 45 min"
 say "done: health $(grep -c '^PASS' $T/run/logs/coldstart_health.txt) PASS, $(grep -c '^SKIP' $T/run/logs/coldstart_health.txt) SKIP; node $NODE"
+H800EOF
+chmod +x /root/h800_setup.sh
+# --- 3. run it in a detached tmux session with a log; the terminal may be closed afterwards ---
+command -v tmux &gt; /dev/null || { echo "tmux missing: apt-get install -y tmux"; apt-get install -y -q tmux &gt; /dev/null 2&gt;&amp;1; }
+tmux kill-session -t h800 2&gt;/dev/null
+tmux new-session -d -s h800 'bash /root/h800_setup.sh 2&gt;&amp;1 | tee -a /root/h800_setup.log; echo EXIT_$? &gt;&gt; /root/h800_setup.log; sleep infinity'
+sleep 25; echo "== first lines =="; tail -n 15 /root/h800_setup.log
+echo "== later: tail -n 30 /root/h800_setup.log   (or: tmux attach -t h800) ==" )
 </pre></body>
 </html>
