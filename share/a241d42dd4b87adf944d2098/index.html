@@ -9,38 +9,56 @@
 <title></title>
 <style>html{color-scheme:light}body{margin:0;background:#fff;color:#111}pre{margin:0;padding:20px;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:4;font:14px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;user-select:text}</style>
 </head>
-<body><pre>( set -u
-cat &gt; /root/h800_loops.sh &lt;&lt;'LOOPSEOF'
-#!/usr/bin/env bash
-# H800: after the setup prints "done: health", start the control loops with dispatch frozen (every queued task gets .paused;
-# no model prefetch). Only heartbeat + git pull/control + uploader + watchdog run. Written by the executor 10-30 (code-checked, not rehearsed); v2 10-30: the setup's isolation exports, the token check.
-set -u
-LOG=/root/h800_setup.log; TOKEN_FILE=${TOKEN_FILE:-/root/.hf_token_opd}   # must be the setup's own TOKEN_FILE
-[ -s "$TOKEN_FILE" ] || { echo "[loops] $TOKEN_FILE missing or empty: not starting loops"; exit 1; }
-echo "[loops $(date -u +%H:%MZ)] waiting for the setup to print done ..."
-# decide by the LAST status line of the setup log (an appended log may hold an earlier STOP or done): wait while it is not "done"
-n=0; while :; do last=$(grep -E "^\[h800.*(STOP:|done: health|move: from|fresh install)" $LOG 2&gt;/dev/null | tail -1); case "$last" in *"done: health"*) break;; *STOP:*) [ $((n % 10)) = 0 ] &amp;&amp; echo "[loops] last setup status is STOP; waiting for a new run to finish";; esac; n=$((n+1)); [ $n -gt 480 ] &amp;&amp; { echo "[loops] waited 8 h without a done line; giving up"; exit 1; }; sleep 60; done
-T=$(sed -n "s/.*this node's files under \([^ ]*\) (.*/\1/p" $LOG | tail -1)
-[ -n "$T" ] &amp;&amp; [ -d "$T/runbook" ] || { echo "[loops] cannot find the node dir in $LOG"; exit 1; }
-echo "[loops $(date -u +%H:%MZ)] setup done; node dir $T; freezing dispatch and starting loops"
-cd $T/runbook || exit 1
-for t in $(awk '$1 !~ /^#/ &amp;&amp; $1 != "version:" &amp;&amp; NF &gt; 2 {for (i = 3; i &lt;= NF; i++) {split($i, a, ":"); print a[1]}}' tasks/queue.txt | sort -u); do mkdir -p $T/run/runs/$t; [ -f $T/run/runs/$t/.done ] || echo "seq 0 $(date -u +%FT%TZ) (first start: dispatch frozen)" &gt; $T/run/runs/$t/.paused; done
-grep -qx 'export PREFETCH_PAR=0' $T/run/control.env || echo 'export PREFETCH_PAR=0' &gt;&gt; $T/run/control.env
-export OPD_ROOT=$T/run HF_REPO=yang31210999/opd-lab-b300-pub HF_TOKEN=$(head -1 $TOKEN_FILE | tr -d '[:space:]')
-# the setup's isolation (its step 3): caches, uv, Python and the HF home inside $T, nothing in $HOME; no .pyc next to a linked
-# venv on the share (the move branch); vLLM tier A only, flash-attn for sm_90 - the loops and every task they start inherit these
-export XDG_CACHE_HOME=$T/cache UV_CACHE_DIR=$T/cache/uv UV_PYTHON_INSTALL_DIR=$T/tools/python PIP_CACHE_DIR=$T/cache/pip \
-       HF_HOME=$T/cache/hf TRITON_CACHE_DIR=$T/cache/triton PATH=$T/tools/uv/bin:$PATH OVERNIGHT_TIER_A_ONLY=1 FA_CUDA_ARCHS=90 \
-       PYTHONDONTWRITEBYTECODE=1 VLLM_NO_USAGE_STATS=1
-setsid nohup bash scripts/heartbeat.sh &gt; $OPD_ROOT/logs/heartbeat.log 2&gt;&amp;1 &lt; /dev/null &amp;
-setsid nohup bash scripts/run_tasks.sh &gt; $OPD_ROOT/logs/run_tasks.log 2&gt;&amp;1 &lt; /dev/null &amp;
-sleep 90
-echo "[loops $(date -u +%H:%MZ)] paused $(ls $T/run/runs/*/.paused 2&gt;/dev/null | wc -l), loops $(pgrep -fc 'scripts/(heartbeat|run_tasks).sh'), started $(grep -c '^START' $OPD_ROOT/logs/run_tasks.log 2&gt;/dev/null), node $(sed -n 's/^export OPD_NODE=//p' $OPD_ROOT/paths.env 2&gt;/dev/null)"
-LOOPSEOF
-chmod +x /root/h800_loops.sh
-tmux kill-session -t h800loops 2&gt;/dev/null
-tmux new-session -d -s h800loops 'TOKEN_FILE=/root/.hf_token_opd bash /root/h800_loops.sh 2&gt;&amp;1 | tee -a /root/h800_loops.log; sleep infinity'
-sleep 3; echo "== armed =="; tail -n 3 /root/h800_loops.log
-echo "== later: tail -n 5 /root/h800_loops.log == (expected after the setup finishes: paused ~700, loops &gt;= 2, started 0)" )
-</pre></body>
+<body><pre>( set -uo pipefail
+TOKEN_FILE=/root/.hf_token_opd
+if [ ! -f "$TOKEN_FILE" ]; then umask 077; printf 'HF read token: '; IFS= read -r -s HF_TOK; echo; printf '%s\n' "$HF_TOK" &gt; "$TOKEN_FILE"; unset HF_TOK; chmod 600 "$TOKEN_FILE"; fi
+H8_FROM=auto; CANARY=1; DRY=0
+RB_URL=https://github.com/yang3121099/opd-blackwell-runbook.git
+REPOS=public=yang31210999/opd-lab-b300-pub,private=yang31210999/opd-lab-b300-ops
+CANDS="/m2v_intern/liuwenze/code/opd-run /m2v_intern2/liuwenze/code/opd-run"
+say() { echo "[h800 $(date -u +%H:%MZ)] $*"; }
+export PYTHONDONTWRITEBYTECODE=1 VLLM_NO_USAGE_STATS=1
+fa_sm90() { CUDA_VISIBLE_DEVICES=0 "$1/bin/python" -c "import torch; from flash_attn import flash_attn_func as f; q = torch.randn(1, 128, 4, 64, device='cuda', dtype=torch.bfloat16); f(q, q, q, causal=True); torch.cuda.synchronize(); print('FA_SM90_OK')" 2&gt;/dev/null | grep -q FA_SM90_OK; }
+caps=$(nvidia-smi --query-gpu=compute_cap --format=csv,noheader | tr -d ' ' | sort -u | paste -sd, -)
+[ "$caps" = 9.0 ] || { say "STOP: compute_cap $caps; this block is for Hopper (9.0) only"; exit 1; }
+NG=$(nvidia-smi -L | wc -l | tr -d ' '); MEM=$(nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits -i 0 | tr -d ' ')
+[ "$MEM" -ge 76000 ] &amp;&amp; [ "$MEM" -le 86000 ] || { say "STOP: $MEM MiB per card; the profile is for 80 GB cards"; exit 1; }
+[ -z "$(nvidia-smi --query-compute-apps=pid --format=csv,noheader)" ] || { say "STOP: other processes hold GPUs (see nvidia-smi); this block wants idle cards"; exit 1; }
+[ -f "$TOKEN_FILE" ] &amp;&amp; [ "$(stat -c %a "$TOKEN_FILE" 2&gt;/dev/null || stat -f %Lp "$TOKEN_FILE")" = 600 ] || { say "STOP: $TOKEN_FILE missing or not 0600"; exit 1; }
+FROM=""
+for c in $CANDS; do [ -f $c/venv/bin/activate ] &amp;&amp; $c/venv/bin/python -c "import torch, vllm, verl" &gt; /dev/null 2&gt;&amp;1 &amp;&amp; { FROM=$c; break; }; done
+say "$([ -n "$FROM" ] &amp;&amp; echo "move: from $FROM (venv linked, models in place, data copied)" || echo "fresh install (no old venv that works)")"
+BASE=$(df -P -T 2&gt;/dev/null | awk 'NR&gt;1 &amp;&amp; $2 ~ /^(ext[234]|xfs|btrfs|zfs|overlay)$/ {print $5, $7}' | sort -n | tail -1 | cut -d' ' -f2-)
+[ -n "$BASE" ] &amp;&amp; [ -w "$BASE" ] || { say "STOP: no writable local disk found"; exit 1; }
+T=${BASE%/}/opd; mkdir -p $T/cache $T/tools $T/run/models || exit 1
+say "$NG Hopper cards, $MEM MiB each; this node's files under $T ($(df -Ph $BASE | awk 'NR==2{print $4}') free)"
+export XDG_CACHE_HOME=$T/cache UV_CACHE_DIR=$T/cache/uv UV_PYTHON_INSTALL_DIR=$T/tools/python PIP_CACHE_DIR=$T/cache/pip HF_HOME=$T/cache/hf TRITON_CACHE_DIR=$T/cache/triton PATH=$T/tools/uv/bin:$PATH OVERNIGHT_TIER_A_ONLY=1 FA_CUDA_ARCHS=90
+[ -n "$FROM" ] &amp;&amp; export FROM_OPD_ROOT=$FROM LINK_VENV=1
+if [ -z "$FROM" ]; then command -v uv &gt; /dev/null || { say "[installs] uv into $T/tools/uv (about 30 s)"; python3 -m pip install -q --target $T/tools/uv uv || exit 1; }; fi
+command -v aria2c &gt; /dev/null || say "[installs, system] aria2 is missing: overnight.sh apt-get installs it if a model must be downloaded (about 1 min)"
+if [ -n "$FROM" ] &amp;&amp; [ ! -e $T/run/venv-fa ] &amp;&amp; [ -x $FROM/venv-fa/bin/python ] &amp;&amp; fa_sm90 $FROM/venv-fa; then ln -s $FROM/venv-fa $T/run/venv-fa; say "venv-fa: the old one runs on sm_90, linked"
+elif [ ! -e $T/run/venv-fa ]; then say "[installs] a local venv-fa (about 10 min; if the wheel does not load, fa_build.sh for sm_90, about 40 min)"; fi
+[ -n "$FROM" ] &amp;&amp; [ -f $FROM/models/Qwen3-4B/.fetch_ok ] &amp;&amp; [ ! -e $T/run/models/Qwen3-4B ] &amp;&amp; ln -s $FROM/models/Qwen3-4B $T/run/models/Qwen3-4B
+[ -d $T/runbook/.git ] || git clone -q $RB_URL $T/runbook || exit 1
+git -C $T/runbook pull -q --ff-only || say "git pull failed: the clone as it is"
+grep -q -- "FA_CUDA_ARCHS" $T/runbook/scripts/fa_build.sh || { say "STOP: this runbook has no v2.5.9z104 yet"; exit 1; }
+NODE=$(python3 -c "import hashlib, socket; print(hashlib.sha256(socket.gethostname().split('.')[0].encode()).hexdigest()[:8])")
+[ ! -f $T/runbook/control/$NODE.yaml ] || { say "STOP: node id $NODE has a control yaml already"; exit 1; }
+say "cold start ($([ -n "$FROM" ] &amp;&amp; echo 'move: about 30-45 min, +40 min for a flash-attn build' || echo 'fresh: about 45-90 min, +1 h for a flash-attn build')); log: $T/run/logs/coldstart.log"
+COLDSTART_DRYRUN=$DRY bash $T/runbook/scripts/cold_start.sh --token-file "$TOKEN_FILE" --opd-root $T/run --ckpt-root $T/ckpt --repos $REPOS --gpus $NG --only PROBE-TAIL --no-loops --ckpt-min-gb 200 || { say "STOP: the cold start failed - send the last lines of $T/run/logs/coldstart.log and coldstart_health.txt"; exit 1; }
+grep -q "vLLM OK via tier A" $T/run/logs/overnight.log || { say "STOP: vLLM is not on tier A - send logs/overnight.log"; exit 1; }
+rm -f $T/run/triton.env
+if ! fa_sm90 $T/run/venv-fa; then
+  [ -L $T/run/venv-fa ] &amp;&amp; { say "STOP: the linked venv-fa does not run on sm_90"; exit 1; }
+  say "[installs] flash-attn has no sm_90 kernel: fa_build.sh for sm_90 (about 40 min)"
+  (cd $T/runbook &amp;&amp; OPD_ROOT=$T/run bash scripts/fa_build.sh) &gt; $T/run/logs/fa_build_sm90.log 2&gt;&amp;1
+  fa_sm90 $T/run/venv-fa || { say "STOP: flash-attn still fails on sm_90 - send logs/fa_build_sm90.log"; exit 1; }
+fi
+say "flash-attn runs on sm_90; triton.env absent"
+[ -f $T/run/control.env ] || grep '^export ' $T/runbook/profiles/h800_80g.env &gt; $T/run/control.env
+say "control.env: $(sed -n 's/^export //p' $T/run/control.env | tr '\n' ' ')"
+HF_TOKEN=$(head -1 "$TOKEN_FILE" | tr -d '[:space:]'); export HF_TOKEN
+(cd $T/runbook &amp;&amp; OPD_ROOT=$T/run setsid nohup bash scripts/task.sh 0 PROBE-TAIL &gt; $T/run/logs/canary.log 2&gt;&amp;1 &lt; /dev/null &amp;)
+say "canary PROBE-TAIL started on GPU 0; read it in about 45 min"
+say "done: health $(grep -c '^PASS' $T/run/logs/coldstart_health.txt) PASS, $(grep -c '^SKIP' $T/run/logs/coldstart_health.txt) SKIP; node $NODE" )</pre></body>
 </html>
