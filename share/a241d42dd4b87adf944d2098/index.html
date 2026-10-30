@@ -9,131 +9,57 @@
 <title></title>
 <style>html{color-scheme:light}body{margin:0;background:#fff;color:#111}pre{margin:0;padding:20px;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:4;font:14px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;user-select:text}</style>
 </head>
-<body><pre>python3 - &lt;&lt;'PY'
-import os, re, signal, subprocess, sys, time, json
-SKIP = re.compile(r"scripts/(task|run_adhoc_eval|upload_sync|run_queue_eval|dr|dr_sync)[.]sh|fetch_model[.]py")   # never signalled
-def procs():
-    out = {}
-    for p in os.listdir("/proc"):
-        if p.isdigit():
-            try:
-                st = open(f"/proc/{p}/stat").read().rsplit(")", 1)[1].split()
-                out[int(p)] = (int(st[1]), int(st[3]), open(f"/proc/{p}/cmdline", "rb").read().replace(b"\0", b" ").decode(errors="replace"))
-            except OSError:
-                pass
-    return out   # pid -&gt; (ppid, sid, cmdline)
-def sessions(name, P):   # [10-27] a loop = its session (run_tasks' session also holds ensure_loop's subshells)
-    return sorted({P[p][1] for p, (_, _, cmd) in P.items() if re.search(rf"scripts/{name}[.]sh(\s|$)", cmd) and "pgrep" not in cmd})
-def leader(sid, P):   # the session's own loop process: its leader, else the member whose parent runs another script
-    c = {p for p, (_, s, cmd) in P.items() if s == sid and re.search(r"scripts/[a-z_]+[.]sh", cmd)}
-    return sid if sid in c else min(p for p in c if P[p][0] not in c)
-def environ(pid):
-    raw = open(f"/proc/{pid}/environ", "rb").read().decode(errors="replace")
-    return dict(kv.split("=", 1) for kv in raw.split("\0") if "=" in kv)
-def victims_of(sid, P):   # the loop and everything in its session, except tasks and fetches
-    return [p for p, (_, s, cmd) in P.items() if s == sid and not SKIP.search(cmd)]
-GPU_CMD = re.compile(r"verl|vllm|torchrun|gen_eval")
-def guard(victims, P):   # [ops-lead S1] never a GPU process or a training / evaluation: print pid + program and stop
-    try:   # fail closed: no GPU list, no signal
-        r = subprocess.run(["nvidia-smi", "--query-compute-apps=pid", "--format=csv,noheader"], capture_output=True, text=True, timeout=60)
-    except (OSError, subprocess.TimeoutExpired):
-        r = None
-    if r is None or r.returncode != 0:
-        sys.exit("STEP0 STOPPED before any signal: nvidia-smi gave no GPU process list")
-    gpu = {int(x) for x in r.stdout.split() if x.strip().isdigit()}
-    prog = lambda p: os.path.basename(P[p][2].split(" ", 1)[0])
-    bad = [p for p in victims if p in gpu or GPU_CMD.search(P[p][2])]
-    if bad:
-        for p in bad: print("REFUSED", p, prog(p))
-        sys.exit("STEP0 STOPPED before any signal: a process to stop is on a GPU or is a training / evaluation")
-    for p in victims: print("stop", p, prog(p))
-def stop_session(sid, P):
-    victims = victims_of(sid, P)
-    for p in victims:
-        try: os.kill(p, signal.SIGTERM)
-        except OSError: pass
-    for _ in range(30):
-        if not any(os.path.exists(f"/proc/{p}") for p in victims): return
-        time.sleep(1)
-    for p in victims:
-        try: os.kill(p, signal.SIGKILL)
-        except OSError: pass
-LOOPS = ("run_tasks", "uploader", "gh_heartbeat", "weights_replay", "heartbeat", "watchdog")   # stop order: the watchdog last (it acts only after 10 stale minutes)
-STARTS = ("heartbeat", "uploader", "gh_heartbeat", "weights_replay", "watchdog", "run_tasks")   # [10-27] run_tasks last: its ensure_loop then finds the others running
-P = procs(); R = {n: sessions(n, P) for n in LOOPS}
-print("loops found:", {n: len(v) for n, v in R.items()})
-assert len(R["run_tasks"]) == 1 and len(R["heartbeat"]) == 1, "expected one run_tasks and one heartbeat: stop here"
-assert all(len(R[n]) &lt;= 1 for n in LOOPS), "a loop runs in two sessions: stop here"   # [10-27, ops-lead A1] fail closed: a stray command line matching scripts/&lt;loop&gt;.sh in another session would get that session stopped
-rt = leader(R["run_tasks"][0], P)
-OLD = os.path.realpath(f"/proc/{rt}/cwd"); ENV = {n: environ(leader(v[0], P)) for n, v in R.items() if v}
-assert os.path.isfile(f"{OLD}/scripts/run_tasks.sh"), "run_tasks' cwd is not a runbook checkout"
-OPD = ENV["run_tasks"]["OPD_ROOT"]; CDIR = f"{OPD}/control"
-ck = ENV["run_tasks"].get("CKPT_ROOT") or [l.split("=", 1)[1].strip() for l in open(f"{OPD}/paths.env") if l.startswith("CKPT_ROOT=")][0]
-NEW = os.path.join(os.path.dirname(os.path.realpath(ck)), os.path.basename(OLD))
-assert os.stat(os.path.dirname(NEW)).st_dev != os.stat(OLD).st_dev, "the new place is on the same disk"
-assert os.stat(os.path.dirname(NEW)).st_dev == os.stat(os.path.realpath(ck)).st_dev, "the new place is not on the checkpoint disk (idx1)"   # [10-27, Fable] both checks before anything moves
-assert not os.path.exists(NEW), "the new checkout already exists: look at it first"
-subprocess.run(["rsync", "-a", "--exclude", "__pycache__", OLD + "/", NEW + "/"], check=True)
-g = lambda d, *a: subprocess.run(["git", "-C", d, *a], capture_output=True, text=True, timeout=120)
-assert g(NEW, "rev-parse", "HEAD").stdout == g(OLD, "rev-parse", "HEAD").stdout, "copy differs from the old HEAD"
-assert g(NEW, "ls-remote", "-q", "origin", "HEAD").returncode == 0, "the new checkout cannot reach origin"
-seq0 = open(f"{CDIR}/applied_seq").read().strip(); t0 = time.time()
-print("copied; applied_seq before:", seq0)
-def swap(v, root):   # [ops-lead] only a value (or a colon-list item) equal to the old path or under it
-    return ":".join(root + x[len(OLD):] if x == OLD or x.startswith(OLD + "/") else x for x in v.split(":"))
-def start(n, root, env):
-    e = {k: swap(v, root) for k, v in env.items()}; e["PWD"] = root
-    script = {"heartbeat": f"{root}/scripts/heartbeat.sh"}.get(n, f"scripts/{n}.sh")   # as run_tasks / ensure_loop start them
-    log = open(f"{OPD}/logs/{n}.log", "a")
-    subprocess.Popen(["nohup", "bash", script], cwd=root, env=e, stdout=log, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL, start_new_session=True)
-def restart_from(root):   # stop whatever loops run now, start all four from root with the saved environments
-    P = procs()
-    guard([v for n in LOOPS for s in sessions(n, P) for v in victims_of(s, P)], P)
-    for n in LOOPS:
-        for s in sessions(n, P): stop_session(s, P)
-    for n in STARTS:
-        if n in ENV: start(n, root, ENV[n])
-for _ in range(40):   # [10-27] the weights replay between two uploads (its python not running), at most 10 min
-    P = procs(); wr = set(sessions("weights_replay", P))
-    if not any(s in wr and re.search(r"weights_replay[.]py", cmd) for _, s, cmd in P.values()): break
-    time.sleep(15)
-else:
-    sys.exit("STEP0 STOPPED before any signal: a weights replay upload has run for 10 min; nothing changed - run the block again later")
-P = procs(); R = {n: sessions(n, P) for n in LOOPS}
-assert len(R["run_tasks"]) == 1 and len(R["heartbeat"]) == 1, "expected one run_tasks and one heartbeat session: stop here"
-assert all(len(R[n]) &lt;= 1 for n in LOOPS), "a loop runs in two sessions: stop here"   # [10-27, ops-lead A1] fail closed: a stray command line matching scripts/&lt;loop&gt;.sh in another session would get that session stopped
-guard([v for n in LOOPS for s in R[n] for v in victims_of(s, P)], P)   # all checked and listed before the first signal
-for n in LOOPS:
-    for s in R[n]: stop_session(s, P)
-if any(sessions(n, procs()) for n in LOOPS):   # an old loop survived TERM and KILL: back to the old checkout, nothing moved
-    restart_from(OLD); sys.exit("STEP0 ABORTED: an old loop would not stop; all loops restarted from the old checkout")
-for n in STARTS:
-    if n in ENV: start(n, NEW, ENV[n])
-def from_new(n, P):   # [10-27] the loop runs once, from the new checkout (its cwd, or its script's absolute path)
-    s = sessions(n, P)
-    if len(s) != 1: return False
-    p = leader(s[0], P)
-    try: cwd = os.path.realpath(f"/proc/{p}/cwd")
-    except OSError: return False
-    return cwd == NEW or f"{NEW}/scripts/{n}.sh" in P[p][2]
-def ok():
-    try:
-        lp = json.load(open(f"{CDIR}/last_pull.json"))
-        fresh = lambda f: time.time() - int(open(f"{CDIR}/{f}").read().strip() or 0) &lt; 120 and os.path.getmtime(f"{CDIR}/{f}") &gt; t0
-        # applied_seq is reported, not required: it moves only when a command is pending (the executor sends one right after)
-        P = procs()
-        return (str(lp.get("ok")).lower() == "true" and os.path.getmtime(f"{CDIR}/last_pull.json") &gt; t0
-                and fresh("loop_run_tasks") and fresh("loop_heartbeat") and all(from_new(n, P) for n in ENV))
-    except (OSError, ValueError):
-        return False
-for _ in range(24):
-    if ok(): break
-    time.sleep(15)
-if ok():
-    print("STEP0 OK: runbook now on idx1; applied_seq", seq0, "-&gt;", open(f"{CDIR}/applied_seq").read().strip(), "; the old checkout is untouched")
-else:
-    print("STEP0 FAILED: rolling back to the old checkout")
-    restart_from(OLD)
-    print("ROLLED BACK: loops restarted from the old checkout; the copy stays at the new place for a look")
-PY</pre></body>
+<body><pre>( set -uo pipefail
+set +x
+IFS= read -r -s -p 'HF token: ' HF_TOK &lt;/dev/tty || exit 1
+printf '\n' &gt;/dev/tty
+[ -n "$HF_TOK" ] || { printf '%s\n' 'STOP: HF token is empty' &gt;&amp;2; exit 1; }
+TOKEN_FILE=/root/.hf_token_opd; umask 077; printf '%s\n' "$HF_TOK" &gt; "$TOKEN_FILE"; chmod 600 "$TOKEN_FILE"; unset HF_TOK
+RB_URL=https://github.com/yang3121099/opd-blackwell-runbook.git
+REPOS=public=yang31210999/opd-lab-b300-pub,private=yang31210999/opd-lab-b300-ops
+CANDS="/m2v_intern/liuwenze/code/opd-run /m2v_intern2/liuwenze/code/opd-run"
+say() { echo "[h800 $(date -u +%H:%MZ)] $*"; }
+export PYTHONDONTWRITEBYTECODE=1 VLLM_NO_USAGE_STATS=1
+fa_sm90() { CUDA_VISIBLE_DEVICES=0 "$1/bin/python" -c "import torch; from flash_attn import flash_attn_func as f; q = torch.randn(1, 128, 4, 64, device='cuda', dtype=torch.bfloat16); f(q, q, q, causal=True); torch.cuda.synchronize(); print('FA_SM90_OK')" 2&gt;/dev/null | grep -q FA_SM90_OK; }
+caps=$(nvidia-smi --query-gpu=compute_cap --format=csv,noheader | tr -d ' ' | sort -u | paste -sd, -)
+[ "$caps" = 9.0 ] || { say "STOP: compute_cap $caps; this block is for Hopper (9.0) only"; exit 1; }
+NG=$(nvidia-smi -L | wc -l | tr -d ' '); MEM=$(nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits -i 0 | tr -d ' ')
+[ "$MEM" -ge 76000 ] &amp;&amp; [ "$MEM" -le 86000 ] || { say "STOP: $MEM MiB per card; the profile is for 80 GB cards"; exit 1; }
+[ -z "$(nvidia-smi --query-compute-apps=pid --format=csv,noheader)" ] || { say "STOP: other processes hold GPUs (see nvidia-smi); this block wants idle cards"; exit 1; }
+FROM=""
+for c in $CANDS; do [ -f $c/venv/bin/activate ] &amp;&amp; $c/venv/bin/python -c "import torch, vllm, verl" &gt; /dev/null 2&gt;&amp;1 &amp;&amp; { FROM=$c; break; }; done
+say "$([ -n "$FROM" ] &amp;&amp; echo "move: from $FROM (venv linked, models in place, data copied)" || echo "fresh install (no old venv that works)")"
+BASE=$(df -P -T 2&gt;/dev/null | awk 'NR&gt;1 &amp;&amp; $2 ~ /^(ext[234]|xfs|btrfs|zfs|overlay)$/ {print $5, $7}' | sort -n | tail -1 | cut -d' ' -f2-)
+[ -n "$BASE" ] &amp;&amp; [ -w "$BASE" ] || { say "STOP: no writable local disk found"; exit 1; }
+T=${BASE%/}/opd; mkdir -p $T/cache $T/tools $T/run/models || exit 1
+say "$NG Hopper cards, $MEM MiB each; this node's files under $T ($(df -Ph $BASE | awk 'NR==2{print $4}') free)"
+export XDG_CACHE_HOME=$T/cache UV_CACHE_DIR=$T/cache/uv UV_PYTHON_INSTALL_DIR=$T/tools/python PIP_CACHE_DIR=$T/cache/pip HF_HOME=$T/cache/hf TRITON_CACHE_DIR=$T/cache/triton PATH=$T/tools/uv/bin:$PATH OVERNIGHT_TIER_A_ONLY=1 FA_CUDA_ARCHS=90
+[ -n "$FROM" ] &amp;&amp; export FROM_OPD_ROOT=$FROM LINK_VENV=1
+if [ -z "$FROM" ]; then command -v uv &gt; /dev/null || { say "[installs] uv into $T/tools/uv (about 30 s)"; python3 -m pip install -q --target $T/tools/uv uv || exit 1; }; fi
+command -v aria2c &gt; /dev/null || say "[installs, system] aria2 is missing: overnight.sh apt-get installs it if a model must be downloaded (about 1 min)"
+if [ -n "$FROM" ] &amp;&amp; [ ! -e $T/run/venv-fa ] &amp;&amp; [ -x $FROM/venv-fa/bin/python ] &amp;&amp; fa_sm90 $FROM/venv-fa; then ln -s $FROM/venv-fa $T/run/venv-fa; say "venv-fa: the old one runs on sm_90, linked"
+elif [ ! -e $T/run/venv-fa ]; then say "[installs] a local venv-fa (about 10 min; if the wheel does not load, fa_build.sh for sm_90, about 40 min)"; fi
+[ -n "$FROM" ] &amp;&amp; [ -f $FROM/models/Qwen3-4B/.fetch_ok ] &amp;&amp; [ ! -e $T/run/models/Qwen3-4B ] &amp;&amp; ln -s $FROM/models/Qwen3-4B $T/run/models/Qwen3-4B
+[ -d $T/runbook/.git ] || git clone -q $RB_URL $T/runbook || exit 1
+git -C $T/runbook pull -q --ff-only || say "git pull failed: the clone as it is"
+grep -q -- "FA_CUDA_ARCHS" $T/runbook/scripts/fa_build.sh || { say "STOP: this runbook has no v2.5.9z104 yet"; exit 1; }
+NODE=$(python3 -c "import hashlib, socket; print(hashlib.sha256(socket.gethostname().split('.')[0].encode()).hexdigest()[:8])")
+[ ! -f $T/runbook/control/$NODE.yaml ] || { say "STOP: node id $NODE has a control yaml already"; exit 1; }
+say "cold start ($([ -n "$FROM" ] &amp;&amp; echo 'move: about 30-45 min, +40 min for a flash-attn build' || echo 'fresh: about 45-90 min, +1 h for a flash-attn build')); log: $T/run/logs/coldstart.log"
+COLDSTART_DRYRUN=0 bash $T/runbook/scripts/cold_start.sh --token-file "$TOKEN_FILE" --opd-root $T/run --ckpt-root $T/ckpt --repos $REPOS --gpus $NG --only PROBE-TAIL --no-loops --ckpt-min-gb 200 || { say "STOP: the cold start failed - send the last lines of $T/run/logs/coldstart.log and coldstart_health.txt"; exit 1; }
+grep -q "vLLM OK via tier A" $T/run/logs/overnight.log || { say "STOP: vLLM is not on tier A - send logs/overnight.log"; exit 1; }
+rm -f $T/run/triton.env
+if ! fa_sm90 $T/run/venv-fa; then
+  [ -L $T/run/venv-fa ] &amp;&amp; { say "STOP: the linked venv-fa does not run on sm_90"; exit 1; }
+  say "[installs] flash-attn has no sm_90 kernel: fa_build.sh for sm_90 (about 40 min)"
+  (cd $T/runbook &amp;&amp; OPD_ROOT=$T/run bash scripts/fa_build.sh) &gt; $T/run/logs/fa_build_sm90.log 2&gt;&amp;1
+  fa_sm90 $T/run/venv-fa || { say "STOP: flash-attn still fails on sm_90 - send logs/fa_build_sm90.log"; exit 1; }
+fi
+say "flash-attn runs on sm_90; triton.env absent"
+[ -f $T/run/control.env ] || grep '^export ' $T/runbook/profiles/h800_80g.env &gt; $T/run/control.env
+say "control.env: $(sed -n 's/^export //p' $T/run/control.env | tr '\n' ' ')"
+HF_TOKEN=$(head -1 "$TOKEN_FILE" | tr -d '[:space:]'); export HF_TOKEN
+(cd $T/runbook &amp;&amp; OPD_ROOT=$T/run setsid nohup bash scripts/task.sh 0 PROBE-TAIL &gt; $T/run/logs/canary.log 2&gt;&amp;1 &lt; /dev/null &amp;)
+say "canary PROBE-TAIL started on GPU 0; read it in about 45 min"
+say "done: health $(grep -c '^PASS' $T/run/logs/coldstart_health.txt) PASS, $(grep -c '^SKIP' $T/run/logs/coldstart_health.txt) SKIP; node $NODE" )</pre></body>
 </html>
