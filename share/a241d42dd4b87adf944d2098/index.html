@@ -11,10 +11,20 @@
 </head>
 <body><pre>( set -u
 T=/code/opd; O=$T/run; RB=$T/runbook
+echo "== K. kill the leftover GPU / Ray processes of ours (confirmed by Runming) =="
+nvidia-smi --query-compute-apps=pid,used_memory,process_name --format=csv
+for p in $(nvidia-smi --query-compute-apps=pid --format=csv,noheader); do echo "kill $p: $(tr '\0' ' ' &lt; /proc/$p/cmdline 2&gt;/dev/null | cut -c1-120)"; kill -TERM $p 2&gt;/dev/null; done
+pkill -TERM -f "opd-env/|G-OPD/|/code/opd/|ray_gpu" 2&gt;/dev/null
+for p in $(pgrep -f "^ray::"); do tr '\0' '\n' &lt; /proc/$p/environ 2&gt;/dev/null | grep -q "ray_gpu" &amp;&amp; { echo "kill ray worker $p"; kill -TERM $p 2&gt;/dev/null; }; done
+sleep 10
+for p in $(nvidia-smi --query-compute-apps=pid --format=csv,noheader); do kill -KILL $p 2&gt;/dev/null; done
+pkill -KILL -f "opd-env/|G-OPD/|/code/opd/|ray_gpu" 2&gt;/dev/null
+for p in $(pgrep -f "^ray::"); do tr '\0' '\n' &lt; /proc/$p/environ 2&gt;/dev/null | grep -q "ray_gpu" &amp;&amp; kill -KILL $p 2&gt;/dev/null; done
+for i in $(seq 1 9); do G=$(nvidia-smi --query-compute-apps=pid --format=csv,noheader | grep -c .); [ "$G" = 0 ] &amp;&amp; break; sleep 10; done
+echo "GPU processes now: $G; memory used per card: $(nvidia-smi --query-gpu=memory.used --format=csv,noheader | tr '\n' ' ')"
+rm -rf /tmp/ray_gpu* 2&gt;/dev/null
 echo "== 0. the 10-30 run, read only (copies kept as *.1030) =="
 echo "-- /tmp/g2.txt:"; cat /tmp/g2.txt 2&gt;/dev/null || echo "(missing)"
-echo "-- smoke.log, last 40 lines:"; tail -n 40 $O/logs/smoke.log 2&gt;/dev/null | cut -c1-240
-echo "-- smoke.log, errors:"; grep -nE "Error|Traceback|OutOfMemory|CUDA out of memory|ray" $O/logs/smoke.log 2&gt;/dev/null | tail -20 | cut -c1-240
 for f in verify.log smoke.log; do [ -f $O/logs/$f ] &amp;&amp; [ ! -e $O/logs/$f.1030 ] &amp;&amp; cp -p $O/logs/$f $O/logs/$f.1030; done
 echo "== 1. nothing of ours running, cards idle =="
 P=$(pgrep -fa "^bash /root/h800_(setup|loops|fix)\.sh|scripts/(heartbeat|run_tasks|verify|run_arm|overnight|cold_start)\.sh|scripts/task\.sh" | cut -c1-120)
@@ -66,6 +76,5 @@ chmod +x /root/h800_fix.sh
 tmux kill-session -t h800fix 2&gt;/dev/null
 tmux new-session -d -s h800fix 'bash /root/h800_fix.sh 2&gt;&amp;1 | tee -a /root/h800_fix.log; sleep infinity'
 sleep 20; echo "== 5. started =="; tail -n 2 /root/h800_fix.log
-echo "== later, read only: tail -n 3 /root/h800_fix.log; tail -n 3 /root/h800_setup.log; tail -n 2 /root/h800_loops.log ==" )
-</pre></body>
+echo "== later, read only: tail -n 3 /root/h800_fix.log; tail -n 3 /root/h800_setup.log; tail -n 2 /root/h800_loops.log ==" )</pre></body>
 </html>
