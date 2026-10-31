@@ -10,71 +10,46 @@
 <style>html{color-scheme:light}body{margin:0;background:#fff;color:#111}pre{margin:0;padding:20px;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:4;font:14px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;user-select:text}</style>
 </head>
 <body><pre>( set -u
-T=/code/opd; O=$T/run; RB=$T/runbook
-echo "== K. kill the leftover GPU / Ray processes of ours (confirmed by Runming) =="
-nvidia-smi --query-compute-apps=pid,used_memory,process_name --format=csv
-for p in $(nvidia-smi --query-compute-apps=pid --format=csv,noheader); do echo "kill $p: $(tr '\0' ' ' &lt; /proc/$p/cmdline 2&gt;/dev/null | cut -c1-120)"; kill -TERM $p 2&gt;/dev/null; done
-pkill -TERM -f "opd-env/|G-OPD/|/code/opd/|ray_gpu" 2&gt;/dev/null
-for p in $(pgrep -f "^ray::"); do tr '\0' '\n' &lt; /proc/$p/environ 2&gt;/dev/null | grep -q "ray_gpu" &amp;&amp; { echo "kill ray worker $p"; kill -TERM $p 2&gt;/dev/null; }; done
-sleep 10
-for p in $(nvidia-smi --query-compute-apps=pid --format=csv,noheader); do kill -KILL $p 2&gt;/dev/null; done
-pkill -KILL -f "opd-env/|G-OPD/|/code/opd/|ray_gpu" 2&gt;/dev/null
+T=/code/opd; O=$T/run; RB=$T/runbook; TOKEN_FILE=/root/.hf_token_opd
+echo "== C1. stop the self-test and the old setup windows (nothing else of ours may start loops later) =="
+tmux kill-session -t h800fix 2&gt;/dev/null; tmux kill-session -t h800 2&gt;/dev/null; tmux kill-session -t h800loops 2&gt;/dev/null
+pkill -TERM -f "^bash /root/h800_(setup|loops|fix)\.sh|scripts/(verify|run_arm|overnight|cold_start)\.sh" 2&gt;/dev/null
+for p in $(nvidia-smi --query-compute-apps=pid --format=csv,noheader); do kill -TERM $p 2&gt;/dev/null; done
+pkill -TERM -f "opd-env/|G-OPD/|/code/opd/|ray_gpu" 2&gt;/dev/null; sleep 5; pkill -KILL -f "opd-env/|G-OPD/|/code/opd/|ray_gpu" 2&gt;/dev/null
 for p in $(pgrep -f "^ray::"); do tr '\0' '\n' &lt; /proc/$p/environ 2&gt;/dev/null | grep -q "ray_gpu" &amp;&amp; kill -KILL $p 2&gt;/dev/null; done
-for i in $(seq 1 9); do G=$(nvidia-smi --query-compute-apps=pid --format=csv,noheader | grep -c .); [ "$G" = 0 ] &amp;&amp; break; sleep 10; done
-echo "GPU processes now: $G; memory used per card: $(nvidia-smi --query-gpu=memory.used --format=csv,noheader | tr '\n' ' ')"
 rm -rf /tmp/ray_gpu* 2&gt;/dev/null
-echo "== 0. the 10-30 run, read only (copies kept as *.1030) =="
-echo "-- /tmp/g2.txt:"; cat /tmp/g2.txt 2&gt;/dev/null || echo "(missing)"
-for f in verify.log smoke.log; do [ -f $O/logs/$f ] &amp;&amp; [ ! -e $O/logs/$f.1030 ] &amp;&amp; cp -p $O/logs/$f $O/logs/$f.1030; done
-echo "== 1. nothing of ours running, cards idle =="
-P=$(pgrep -fa "^bash /root/h800_(setup|loops|fix)\.sh|scripts/(heartbeat|run_tasks|verify|run_arm|overnight|cold_start)\.sh|scripts/task\.sh" | cut -c1-120)
-G=$(nvidia-smi --query-compute-apps=pid --format=csv,noheader | grep -c .)
-[ -z "$P" ] &amp;&amp; [ "$G" = 0 ] || { echo "STOP: running: ${P:-none}; GPU processes: $G"; exit 1; }
-echo "none; GPU processes 0; tmux: $(tmux ls 2&gt;/dev/null | cut -d: -f1 | tr '\n' ' ')"
-echo "== 2. proxy (values not printed) =="
+for i in $(seq 1 6); do G=$(nvidia-smi --query-compute-apps=pid --format=csv,noheader | grep -c .); [ "$G" = 0 ] &amp;&amp; break; sleep 10; done
+echo "GPU processes: $G; our loops running: $(pgrep -fc 'scripts/(heartbeat|run_tasks).sh')"
+[ "$G" = 0 ] || { echo "STOP: GPU processes still there"; nvidia-smi --query-compute-apps=pid,used_memory --format=csv; exit 1; }
+echo "== C2. prerequisites =="
+[ -s "$TOKEN_FILE" ] || { echo "STOP: token file missing"; exit 1; }
 [ -f /root/h800_proxy.env ] || { echo "STOP: /root/h800_proxy.env missing"; exit 1; }
 . /root/h800_proxy.env
-a=$([ -n "${no_proxy:-}" ] &amp;&amp; echo set || echo MISSING); b=$([ -n "${NO_PROXY:-}" ] &amp;&amp; echo set || echo MISSING); echo "no_proxy $a, NO_PROXY $b"
-if [ $a = MISSING ] || [ $b = MISSING ]; then L="localhost,127.0.0.1,::1,$(hostname),$(hostname -I 2&gt;/dev/null | tr -s ' ' ',' | sed 's/,$//')"
-  printf 'export no_proxy=%s\nexport NO_PROXY=%s\n' "$L" "$L" &gt;&gt; /root/h800_proxy.env; echo "  both added to /root/h800_proxy.env (localhost, 127.0.0.1, ::1, this host's name and addresses)"; fi
-echo "== 3. runbook: the G2 fix (z104a) =="
-git -C $RB pull -q --ff-only || { echo "STOP: git pull failed"; exit 1; }
-grep -q g2_check.py $RB/scripts/verify.sh || { echo "STOP: the clone has no z104a"; exit 1; }
-echo "runbook $(git -C $RB log -1 --format=%h)"
-echo "== 4. control.env: the 80 GB profile, before verify =="
+[ -d $RB/scripts ] &amp;&amp; [ -f $O/paths.env ] || { echo "STOP: runbook or paths.env missing"; exit 1; }
+git -C $RB pull -q --ff-only || echo "note: git pull failed now; the loop retries every 60 s"
+echo "runbook $(git -C $RB log -1 --format=%h); node $(sed -n 's/^export OPD_NODE=//p' $O/paths.env)"
+echo "== C3. settings: dispatch frozen, 80 GB tier 2, main venv until flash-attn is built remotely, heartbeat every 120 s =="
+cd $RB
+for t in $(awk '$1 !~ /^#/ &amp;&amp; $1 != "version:" &amp;&amp; NF &gt; 2 {for (i = 3; i &lt;= NF; i++) {split($i, a, ":"); print a[1]}}' tasks/queue.txt | sort -u); do mkdir -p $O/runs/$t; [ -f $O/runs/$t/.done ] || [ -f $O/runs/$t/.paused ] || echo "seq 0 $(date -u +%FT%TZ) (first start: dispatch frozen)" &gt; $O/runs/$t/.paused; done
 touch $O/control.env
-grep '^export ' $RB/profiles/h800_80g.env | while read -r l; do grep -q "^${l%%=*}=" $O/control.env || echo "$l" &gt;&gt; $O/control.env; done
-echo "control.env: $(sed -n 's/^export //p' $O/control.env | tr '\n' ' ')"
-$O/venv-fa/bin/python -c "import flash_attn" 2&gt;/dev/null &amp;&amp; echo "venv-fa imports flash_attn: the smoke runs on it (VENV=fa)" \
-  || echo "venv-fa not built yet (cold start step 4 builds it): the smoke runs on the main venv (PROBE_ENV VENV=), the other keys as above"
-cat &gt; /root/h800_fix.sh &lt;&lt;'FIXEOF'
-#!/usr/bin/env bash
-set -u
-T=/code/opd; O=$T/run; RB=$T/runbook
-. /root/h800_proxy.env
-export OPD_ROOT=$O XDG_CACHE_HOME=$T/cache UV_CACHE_DIR=$T/cache/uv UV_PYTHON_INSTALL_DIR=$T/tools/python PIP_CACHE_DIR=$T/cache/pip \
+sed -i '/^export VENV=/d' $O/control.env
+grep -qx 'export PREFETCH_PAR=0' $O/control.env || echo 'export PREFETCH_PAR=0' &gt;&gt; $O/control.env
+grep -q '^export FIXED_MICRO_BSZ=' $O/control.env &amp;&amp; sed -i 's/^export FIXED_MICRO_BSZ=.*/export FIXED_MICRO_BSZ=1/' $O/control.env || echo 'export FIXED_MICRO_BSZ=1' &gt;&gt; $O/control.env
+grep -q '^export VLLM_UTIL=' $O/control.env &amp;&amp; sed -i 's/^export VLLM_UTIL=.*/export VLLM_UTIL=0.35/' $O/control.env || echo 'export VLLM_UTIL=0.35' &gt;&gt; $O/control.env
+grep -q '^export GC=' $O/control.env || echo 'export GC=1' &gt;&gt; $O/control.env
+mkdir -p $O/control $O/logs; echo 120 &gt; $O/control/heartbeat_sec
+echo "control.env: $(sed -n 's/^export //p' $O/control.env | tr '\n' ' '); paused $(ls $O/runs/*/.paused 2&gt;/dev/null | wc -l)"
+echo "== C4. start the loops (heartbeat + git pull/control + uploader), nothing dispatches =="
+export OPD_ROOT=$O HF_REPO=yang31210999/opd-lab-b300-pub HF_TOKEN=$(head -1 $TOKEN_FILE | tr -d '[:space:]')
+export XDG_CACHE_HOME=$T/cache UV_CACHE_DIR=$T/cache/uv UV_PYTHON_INSTALL_DIR=$T/tools/python PIP_CACHE_DIR=$T/cache/pip \
        HF_HOME=$T/cache/hf TRITON_CACHE_DIR=$T/cache/triton PATH=$T/tools/uv/bin:$PATH OVERNIGHT_TIER_A_ONLY=1 FA_CUDA_ARCHS=90 \
        PYTHONDONTWRITEBYTECODE=1 VLLM_NO_USAGE_STATS=1
-$O/venv-fa/bin/python -c "import flash_attn" 2&gt;/dev/null || export PROBE_ENV="VENV="
-say() { echo "[fix $(date -u +%H:%MZ)] $*"; }
-say "verify.sh started (about 30-60 min; smoke on $([ -n "${PROBE_ENV:-}" ] &amp;&amp; echo 'the main venv' || echo 'venv-fa'))"
-cd $RB &amp;&amp; bash scripts/verify.sh &gt; $O/logs/verify.log 2&gt;&amp;1
-say "verify: $(grep -oE '(G2|VLLM|SMOKE|UPLOAD_CHECK|CONTROL)[A-Z _]*(PASS|FAIL)[^;)]*' $O/logs/verify.log | tr '\n' ' ')"
-if grep -q "G2 PASS" $O/logs/verify.log &amp;&amp; grep -q "VLLM PASS" $O/logs/verify.log &amp;&amp; grep -q "SMOKE PASS" $O/logs/verify.log; then
-  for i in $(seq 1 10); do sleep 30; G=$(nvidia-smi --query-compute-apps=pid --format=csv,noheader | grep -c .); [ "$G" = 0 ] &amp;&amp; break; done
-  [ "$G" = 0 ] || { say "STOP: three PASS, but $G GPU processes still there 5 min after verify; nothing restarted. Send: nvidia-smi"; exit 1; }
-  tmux kill-session -t h800 2&gt;/dev/null; tmux kill-session -t h800loops 2&gt;/dev/null
-  tmux new-session -d -s h800 '. /root/h800_proxy.env; bash /root/h800_setup.sh 2&gt;&amp;1 | tee -a /root/h800_setup.log; echo EXIT_$? &gt;&gt; /root/h800_setup.log; sleep infinity'
-  tmux new-session -d -s h800loops '. /root/h800_proxy.env; TOKEN_FILE=/root/.hf_token_opd bash /root/h800_loops.sh 2&gt;&amp;1 | tee -a /root/h800_loops.log; sleep infinity'
-  say "three PASS: tmux h800 (setup -&gt; cold start steps 3-7, overnight skipped -&gt; canary PROBE-TAIL) and h800loops (waits for done: health) restarted; about 1-1.5 h"
-else
-  say "STOP: not all three PASS; nothing restarted. Send this output:"
-  cat /tmp/g2.txt; tail -n 40 $O/logs/smoke.log | cut -c1-240; grep -nE "Error|Traceback|OutOfMemory|CUDA out of memory|ray" $O/logs/smoke.log | tail -20 | cut -c1-240
-fi
-FIXEOF
-chmod +x /root/h800_fix.sh
-tmux kill-session -t h800fix 2&gt;/dev/null
-tmux new-session -d -s h800fix 'bash /root/h800_fix.sh 2&gt;&amp;1 | tee -a /root/h800_fix.log; sleep infinity'
-sleep 20; echo "== 5. started =="; tail -n 2 /root/h800_fix.log
-echo "== later, read only: tail -n 3 /root/h800_fix.log; tail -n 3 /root/h800_setup.log; tail -n 2 /root/h800_loops.log ==" )</pre></body>
+setsid nohup bash scripts/heartbeat.sh &gt; $O/logs/heartbeat.log 2&gt;&amp;1 &lt; /dev/null &amp;
+setsid nohup bash scripts/run_tasks.sh &gt; $O/logs/run_tasks.log 2&gt;&amp;1 &lt; /dev/null &amp;
+sleep 90
+echo "== C5. result =="
+echo "loops $(pgrep -fc 'scripts/(heartbeat|run_tasks).sh'), started tasks $(grep -c '^START' $O/logs/run_tasks.log 2&gt;/dev/null), node $(sed -n 's/^export OPD_NODE=//p' $O/paths.env)"
+tail -n 3 $O/logs/heartbeat.log 2&gt;/dev/null | sed -E 's/hf_[A-Za-z0-9]+/hf_***/g' | cut -c1-200; tail -n 2 $O/logs/heartbeat.err 2&gt;/dev/null | cut -c1-200
+echo "== later, read only: tail -n 3 $O/logs/heartbeat.log; tail -n 3 $O/logs/run_tasks.log; cat $O/control/last_pull.json ==" )
+</pre></body>
 </html>
