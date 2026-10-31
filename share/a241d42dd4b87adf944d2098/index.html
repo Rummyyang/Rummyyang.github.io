@@ -10,24 +10,62 @@
 <style>html{color-scheme:light}body{margin:0;background:#fff;color:#111}pre{margin:0;padding:20px;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:4;font:14px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;user-select:text}</style>
 </head>
 <body><pre>( set -u
-# H800: github.com timed out during the setup. Find a working proxy setting on this machine, save it to /root/h800_proxy.env,
-# and restart the setup + loop watcher with it. Read-only except that one env file and the tmux restarts. No proxy value is printed.
-OLD=/m2v_intern/liuwenze/code/opd-run
-C=/root/h800_proxy_candidates.txt; : &gt; $C
-{ for f in /etc/environment /etc/profile /etc/profile.d/*.sh /root/.bashrc /root/.profile /root/.bash_profile /home/*/.bashrc /home/*/.profile $OLD/*.env $OLD/env.sh $OLD/scripts/env.sh; do [ -f "$f" ] &amp;&amp; grep -hoE "(https?_proxy|HTTPS_PROXY|HTTP_PROXY|all_proxy|ALL_PROXY)=['\"]?[^'\" ]+" "$f" 2&gt;/dev/null; done
-  for p in 1 $(pgrep -f "sshd|tmux|bash" | head -20); do tr '\0' '\n' &lt; /proc/$p/environ 2&gt;/dev/null | grep -E "^(https?_proxy|HTTPS_PROXY|HTTP_PROXY|all_proxy|ALL_PROXY)="; done
-  env | grep -E "^(https?_proxy|HTTPS_PROXY|HTTP_PROXY|all_proxy|ALL_PROXY)="; } | sed "s/['\"]//g" | sed -E 's/^[a-zA-Z_]+=//' | sort -u &gt; $C
-echo "proxy candidates found: $(wc -l &lt; $C) (values not shown)"
-GOOD=""
-while read -r u; do [ -n "$u" ] || continue; code=$(https_proxy=$u HTTPS_PROXY=$u curl -sS -o /dev/null -w "%{http_code}" --max-time 20 https://github.com/ 2&gt;/dev/null); hf=$(https_proxy=$u HTTPS_PROXY=$u curl -sS -o /dev/null -w "%{http_code}" --max-time 20 https://huggingface.co/api/models/Qwen/Qwen3-1.7B 2&gt;/dev/null); echo "  candidate $(echo "$u" | cut -c1-8)... github $code hf $hf"; [ "$code" = 200 ] &amp;&amp; [ "$hf" = 200 ] &amp;&amp; { GOOD=$u; break; }; done &lt; $C
-echo "direct: github $(curl -sS -o /dev/null -w '%{http_code}' --max-time 15 https://github.com/ 2&gt;/dev/null) hf $(curl -sS -o /dev/null -w '%{http_code}' --max-time 15 https://huggingface.co/api/models/Qwen/Qwen3-1.7B 2&gt;/dev/null)"
-if [ -z "$GOOD" ]; then echo "NO WORKING PROXY FOUND: send this output; also ask the machine owner how git/pip reach the internet here (proxy host:port)"; exit 1; fi
-NP="localhost,127.0.0.1,::1,$(hostname),$(hostname -I 2&gt;/dev/null | tr -s ' ' ',' | sed 's/,$//')"
-umask 077; printf 'export https_proxy=%s\nexport HTTPS_PROXY=%s\nexport http_proxy=%s\nexport HTTP_PROXY=%s\nexport no_proxy=%s\nexport NO_PROXY=%s\n' "$GOOD" "$GOOD" "$GOOD" "$GOOD" "$NP" "$NP" &gt; /root/h800_proxy.env
-echo "saved /root/h800_proxy.env (github and hf reachable through it)"
-tmux kill-session -t h800 2&gt;/dev/null; tmux kill-session -t h800loops 2&gt;/dev/null
-tmux new-session -d -s h800 '. /root/h800_proxy.env; bash /root/h800_setup.sh 2&gt;&amp;1 | tee -a /root/h800_setup.log; echo EXIT_$? &gt;&gt; /root/h800_setup.log; sleep infinity'
-tmux new-session -d -s h800loops '. /root/h800_proxy.env; TOKEN_FILE=/root/.hf_token_opd bash /root/h800_loops.sh 2&gt;&amp;1 | tee -a /root/h800_loops.log; sleep infinity'
-sleep 40; echo "== setup (last lines) =="; tail -n 8 /root/h800_setup.log; echo "== loops =="; tail -n 2 /root/h800_loops.log )
+T=/code/opd; O=$T/run; RB=$T/runbook
+echo "== 0. the 10-30 run, read only (copies kept as *.1030) =="
+echo "-- /tmp/g2.txt:"; cat /tmp/g2.txt 2&gt;/dev/null || echo "(missing)"
+echo "-- smoke.log, last 40 lines:"; tail -n 40 $O/logs/smoke.log 2&gt;/dev/null | cut -c1-240
+echo "-- smoke.log, errors:"; grep -nE "Error|Traceback|OutOfMemory|CUDA out of memory|ray" $O/logs/smoke.log 2&gt;/dev/null | tail -20 | cut -c1-240
+for f in verify.log smoke.log; do [ -f $O/logs/$f ] &amp;&amp; [ ! -e $O/logs/$f.1030 ] &amp;&amp; cp -p $O/logs/$f $O/logs/$f.1030; done
+echo "== 1. nothing of ours running, cards idle =="
+P=$(pgrep -fa "^bash /root/h800_(setup|loops|fix)\.sh|scripts/(heartbeat|run_tasks|verify|run_arm|overnight|cold_start)\.sh|scripts/task\.sh" | cut -c1-120)
+G=$(nvidia-smi --query-compute-apps=pid --format=csv,noheader | grep -c .)
+[ -z "$P" ] &amp;&amp; [ "$G" = 0 ] || { echo "STOP: running: ${P:-none}; GPU processes: $G"; exit 1; }
+echo "none; GPU processes 0; tmux: $(tmux ls 2&gt;/dev/null | cut -d: -f1 | tr '\n' ' ')"
+echo "== 2. proxy (values not printed) =="
+[ -f /root/h800_proxy.env ] || { echo "STOP: /root/h800_proxy.env missing"; exit 1; }
+. /root/h800_proxy.env
+a=$([ -n "${no_proxy:-}" ] &amp;&amp; echo set || echo MISSING); b=$([ -n "${NO_PROXY:-}" ] &amp;&amp; echo set || echo MISSING); echo "no_proxy $a, NO_PROXY $b"
+if [ $a = MISSING ] || [ $b = MISSING ]; then L="localhost,127.0.0.1,::1,$(hostname),$(hostname -I 2&gt;/dev/null | tr -s ' ' ',' | sed 's/,$//')"
+  printf 'export no_proxy=%s\nexport NO_PROXY=%s\n' "$L" "$L" &gt;&gt; /root/h800_proxy.env; echo "  both added to /root/h800_proxy.env (localhost, 127.0.0.1, ::1, this host's name and addresses)"; fi
+echo "== 3. runbook: the G2 fix (z104a) =="
+git -C $RB pull -q --ff-only || { echo "STOP: git pull failed"; exit 1; }
+grep -q g2_check.py $RB/scripts/verify.sh || { echo "STOP: the clone has no z104a"; exit 1; }
+echo "runbook $(git -C $RB log -1 --format=%h)"
+echo "== 4. control.env: the 80 GB profile, before verify =="
+touch $O/control.env
+grep '^export ' $RB/profiles/h800_80g.env | while read -r l; do grep -q "^${l%%=*}=" $O/control.env || echo "$l" &gt;&gt; $O/control.env; done
+echo "control.env: $(sed -n 's/^export //p' $O/control.env | tr '\n' ' ')"
+$O/venv-fa/bin/python -c "import flash_attn" 2&gt;/dev/null &amp;&amp; echo "venv-fa imports flash_attn: the smoke runs on it (VENV=fa)" \
+  || echo "venv-fa not built yet (cold start step 4 builds it): the smoke runs on the main venv (PROBE_ENV VENV=), the other keys as above"
+cat &gt; /root/h800_fix.sh &lt;&lt;'FIXEOF'
+#!/usr/bin/env bash
+set -u
+T=/code/opd; O=$T/run; RB=$T/runbook
+. /root/h800_proxy.env
+export OPD_ROOT=$O XDG_CACHE_HOME=$T/cache UV_CACHE_DIR=$T/cache/uv UV_PYTHON_INSTALL_DIR=$T/tools/python PIP_CACHE_DIR=$T/cache/pip \
+       HF_HOME=$T/cache/hf TRITON_CACHE_DIR=$T/cache/triton PATH=$T/tools/uv/bin:$PATH OVERNIGHT_TIER_A_ONLY=1 FA_CUDA_ARCHS=90 \
+       PYTHONDONTWRITEBYTECODE=1 VLLM_NO_USAGE_STATS=1
+$O/venv-fa/bin/python -c "import flash_attn" 2&gt;/dev/null || export PROBE_ENV="VENV="
+say() { echo "[fix $(date -u +%H:%MZ)] $*"; }
+say "verify.sh started (about 30-60 min; smoke on $([ -n "${PROBE_ENV:-}" ] &amp;&amp; echo 'the main venv' || echo 'venv-fa'))"
+cd $RB &amp;&amp; bash scripts/verify.sh &gt; $O/logs/verify.log 2&gt;&amp;1
+say "verify: $(grep -oE '(G2|VLLM|SMOKE|UPLOAD_CHECK|CONTROL)[A-Z _]*(PASS|FAIL)[^;)]*' $O/logs/verify.log | tr '\n' ' ')"
+if grep -q "G2 PASS" $O/logs/verify.log &amp;&amp; grep -q "VLLM PASS" $O/logs/verify.log &amp;&amp; grep -q "SMOKE PASS" $O/logs/verify.log; then
+  for i in $(seq 1 10); do sleep 30; G=$(nvidia-smi --query-compute-apps=pid --format=csv,noheader | grep -c .); [ "$G" = 0 ] &amp;&amp; break; done
+  [ "$G" = 0 ] || { say "STOP: three PASS, but $G GPU processes still there 5 min after verify; nothing restarted. Send: nvidia-smi"; exit 1; }
+  tmux kill-session -t h800 2&gt;/dev/null; tmux kill-session -t h800loops 2&gt;/dev/null
+  tmux new-session -d -s h800 '. /root/h800_proxy.env; bash /root/h800_setup.sh 2&gt;&amp;1 | tee -a /root/h800_setup.log; echo EXIT_$? &gt;&gt; /root/h800_setup.log; sleep infinity'
+  tmux new-session -d -s h800loops '. /root/h800_proxy.env; TOKEN_FILE=/root/.hf_token_opd bash /root/h800_loops.sh 2&gt;&amp;1 | tee -a /root/h800_loops.log; sleep infinity'
+  say "three PASS: tmux h800 (setup -&gt; cold start steps 3-7, overnight skipped -&gt; canary PROBE-TAIL) and h800loops (waits for done: health) restarted; about 1-1.5 h"
+else
+  say "STOP: not all three PASS; nothing restarted. Send this output:"
+  cat /tmp/g2.txt; tail -n 40 $O/logs/smoke.log | cut -c1-240; grep -nE "Error|Traceback|OutOfMemory|CUDA out of memory|ray" $O/logs/smoke.log | tail -20 | cut -c1-240
+fi
+FIXEOF
+chmod +x /root/h800_fix.sh
+tmux kill-session -t h800fix 2&gt;/dev/null
+tmux new-session -d -s h800fix 'bash /root/h800_fix.sh 2&gt;&amp;1 | tee -a /root/h800_fix.log; sleep infinity'
+sleep 20; echo "== 5. started =="; tail -n 2 /root/h800_fix.log
+echo "== later, read only: tail -n 3 /root/h800_fix.log; tail -n 3 /root/h800_setup.log; tail -n 2 /root/h800_loops.log ==" )
 </pre></body>
 </html>
