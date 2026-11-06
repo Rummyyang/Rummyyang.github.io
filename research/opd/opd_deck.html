@@ -14,7 +14,7 @@
   --ink:#f2f3f5; --ink-2:#b4bac6; --muted:#7c8494; --grid:rgba(255,255,255,.06); --axis:rgba(255,255,255,.16);
   --accent:#2dd4bf; --accent-2:#f5c451; --glow:rgba(45,212,191,.22);
   --c-think:#7db3ff; --c-p5:#ff7a59; --c-self:#c084fc; --c-p2:#f5c451; --c-rl:#34d399; --c-kl:#2dd4bf; --c-rlb:#9aa3b2; --c-base:#6b7280; --c-i2507:#67e8f9;
-  --c-budget-think:#80b9ff; --c-budget-opd:#ff9857; --c-budget-forced:#f5cf83; --c-budget-rl:#ff627d; --c-budget-direct:#43c6b3; --c-budget-base:#9aa3b2;
+  --c-budget-think:var(--c-think); --c-budget-opd:var(--c-p5); --c-budget-forced:var(--c-p5); --c-budget-rl:#ff9d00; --c-budget-direct:var(--c-p2); --c-budget-base:var(--c-base);
   --shadow:0 24px 60px rgba(0,0,0,.45);
 }
 :root[data-theme="light"]{
@@ -23,7 +23,7 @@
   --ink:#15171a; --ink-2:#4b5159; --muted:#8a9099; --grid:rgba(20,22,26,.07); --axis:rgba(20,22,26,.2);
   --accent:#0d9488; --accent-2:#b7791f; --glow:rgba(13,148,136,.16);
   --c-think:#2563eb; --c-p5:#e4572e; --c-self:#8b5cf6; --c-p2:#d29a1e; --c-rl:#059669; --c-kl:#0d9488; --c-rlb:#64748b; --c-base:#9ca3af; --c-i2507:#0891b2;
-  --c-budget-think:#2563eb; --c-budget-opd:#c45f13; --c-budget-forced:#9e7300; --c-budget-rl:#c12b47; --c-budget-direct:#128478; --c-budget-base:#667384;
+  --c-budget-rl:#f28c00;
   --shadow:0 20px 50px rgba(20,22,26,.10);
 }
 *{box-sizing:border-box}
@@ -75,7 +75,7 @@ svg text{font-family:"Manrope","Noto Sans SC",sans-serif}
 .legend .k{display:inline-block;width:14px;height:0;border-top:2.5px solid var(--kc);border-radius:2px}
 .legend .k.dash{border-top-style:dashed}
 .legend .k.star,#tip .k.star{width:14px;height:14px;border:0;border-radius:0;background:var(--kc);clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 93%,50% 72%,21% 93%,32% 57%,2% 35%,39% 35%)}
-.budget-note{font:400 11px/1.6 "Noto Sans SC",sans-serif;color:var(--ink-2);margin:10px 0 0}
+.budget-note{font:400 11.5px/1.6 "Noto Sans SC",sans-serif;color:var(--ink-2);margin:4px 0 0}
 .budget-note b{font-weight:600;color:var(--ink)}
 .bottom{position:fixed;inset:auto 0 0 0;height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font:500 11.5px/1 "Noto Sans SC",sans-serif;color:var(--muted)}
 .bar{flex:1;height:2px;background:var(--line);margin:0 22px;border-radius:2px;position:relative;overflow:hidden}
@@ -143,12 +143,12 @@ svg text{font-family:"Manrope","Noto Sans SC",sans-serif}
 </section>
 
 <section class="slide" data-title="预算">
-  <div><div class="kicker">03 · Budget</div><h1>会解题，<em>不等于按时交卷</em>。</h1><div class="sub">Qwen3-1.7B · MATH-500 · avg@4 · T=0.6 · 拖动查看各预算</div></div>
+  <div><div class="kicker">03 · Budget</div><h1>会解题，<em>不等于按时交卷</em>。</h1><div class="sub">MATH-500 · 1.7B · avg@4 · T=0.6 · 32K 轨迹按预算截断重判</div></div>
   <div class="body two">
-    <div class="card"><h3>准确率（%）× 生成预算</h3><p class="s">横轴为 tokens（对数刻度）；暖色为思考 OPD 系列</p><div id="c3" class="chart"></div><div class="slider"><span>预算</span><input id="bud" aria-label="生成预算" type="range" min="0" max="4" step="1" value="2"><b id="budv">8K</b></div><p class="budget-note"><b>直接 OPD / 思考 OPD：</b>同一 8B 教师分别用非思考 / 思考模板，学生均用非思考格式。<br><b>自身思考：</b>未蒸馏的 1.7B 开启思考；<b>★ 思考 OPD+RL：</b>思考 OPD 后接纯 GRPO，无 KL 锚定。<br><b>评测：</b>32K 轨迹按预算截断重判；<b>虚线强制交卷：</b>未完成样本另加最多 32 tokens 作答，非严格等预算。</p></div>
+    <div class="card"><h3>准确率（%）× 生成预算</h3><p class="s">对数轴 2K–32K · ★ 思考 OPD+RL</p><div id="c3" class="chart"></div><div class="slider"><span>预算</span><input id="bud" aria-label="生成预算" type="range" min="0" max="4" step="1" value="2"><b id="budv">8K</b></div></div>
     <div class="stack" id="c3cards"></div>
   </div>
-  <div class="foot"><div><b>直接 OPD</b> 约 76% 即饱和；<b>思考 OPD</b> 长预算更强。2K 强制交卷：17.8% → 72.85%；接 RL 后短预算提升，32K 较思考 OPD 低约 3.5 pp。</div><div class="src">BUDA17 · BUDF · BUDA-E12B</div></div>
+  <div class="foot"><div><b>直接 / 思考 OPD：</b>8B 教师用非思考 / 思考模板，学生均非思考；<b>自身思考：</b>原 1.7B 开启思考；<b>★：</b>思考 OPD 后接纯 GRPO。<p class="budget-note">强制交卷：未完成样本另加最多 32 tokens 作答，非严格等预算；2K 准确率 17.8% → 72.85%。</p></div><div class="src">BUDA17 · BUDF · BUDA-E12B</div></div>
 </section>
 
 <section class="slide" data-title="覆盖">
@@ -287,7 +287,7 @@ function lines(id,cats,series,opt){
     const d=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
     if(se.area){el('path',{d:d+` L${pts[pts.length-1][0].toFixed(1)} ${y(ymin)} L${pts[0][0].toFixed(1)} ${y(ymin)} Z`,style:`fill:${cvar(se.entity)};opacity:.08`},svg);}
     el('path',{d,fill:'none','stroke-width':se.w||2.4,'stroke-linejoin':'round','stroke-linecap':'round',style:`stroke:${cvar(se.entity)}${se.glow?';filter:url(#glow'+id+')':''}`,'stroke-dasharray':se.dash||'none'},svg);
-    pts.forEach((p,i)=>{const star=se.marker==='star',style=`fill:${cvar(se.entity)};stroke:var(--surface);stroke-width:1.5`;
+    pts.forEach((p,i)=>{const star=se.marker==='star',style=`fill:${cvar(se.entity)};stroke:var(--surface);stroke-width:1.5${star&&se.glow?';filter:drop-shadow(0 0 3px '+cvar(se.entity)+')':''}`;
       const c=star?el('polygon',{points:'0,-6 1.8,-1.9 5.7,-1.9 2.8,0.8 3.5,4.9 0,2.7 -3.5,4.9 -2.8,0.8 -5.7,-1.9 -1.8,-1.9',transform:`translate(${p[0]} ${p[1]})`,style,'data-marker':'star'},svg):el('circle',{cx:p[0],cy:p[1],r:3,style},svg);
       marks.push({i,c,star,p});});});
   const labs=series.map(s=>{const i=s.v.map((v,k)=>v==null?-1:k).filter(k=>k>=0).pop();return {s,i,y:y(s.v[i])};}).sort((a,b)=>a.y-b.y);
@@ -323,12 +323,12 @@ dumbbell('c2',[
  {name:'4B',pts:[{entity:'think',v:95.65},{entity:'p5',v:95.15},{entity:'self',v:95.8}]}],
  {vmin:70,vmax:100,step:10,short:{think:'自身思考模式',p5:'8B 教师的学生',self:'自蒸馏'}});
 const BUD=['2K','4K','8K','16K','32K'];
-const S3=[{entity:'budget-think',n:'自身思考',v:[32.65,62.90,80.15,88.40,90.40],w:2.8},
- {entity:'budget-opd',n:'思考 OPD',v:[17.80,51.60,75.85,87.15,90.85]},
+const S3=[{entity:'budget-think',n:'自身思考',v:[32.65,62.90,80.15,88.40,90.40],w:2.8,area:true},
+ {entity:'budget-opd',n:'思考 OPD',v:[17.80,51.60,75.85,87.15,90.85],glow:true},
  {entity:'budget-forced',n:'思考 OPD · 强制交卷',v:[72.85,80.60,87.10,90.30,91.15],dash:'6 5'},
  {entity:'budget-direct',n:'直接 OPD',v:[73.25,75.40,75.90,75.90,75.95]},
- {entity:'budget-rl',n:'思考 OPD+RL',v:[76.40,84.40,86.35,87.25,87.30],marker:'star',w:2.8},
- {entity:'budget-base',n:'基座（非思考）',v:[72.80,73.40,73.50,73.50,73.50],dash:'2 5'}];
+ {entity:'budget-rl',n:'思考 OPD+RL',v:[76.40,84.40,86.35,87.25,87.30],marker:'star',w:2.8,glow:true},
+ {entity:'budget-base',n:'基座（非思考）',v:[72.80,73.40,73.50,73.50,73.50]}];
 const cards=document.getElementById('c3cards');
 function renderCards(i){cards.replaceChildren();
   const mk=(l,v,n,hero)=>{const d=document.createElement('div');d.className='stat'+(hero?' hero':'');d.innerHTML=`<div class="l">${l}</div><div class="v">${v}</div><div class="n">${n}</div>`;cards.appendChild(d);};
