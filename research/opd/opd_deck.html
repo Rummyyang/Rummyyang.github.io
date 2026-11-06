@@ -89,6 +89,12 @@ svg text{font-family:"Manrope","Noto Sans SC",sans-serif}
 #c3cards .rl-after{background:linear-gradient(135deg,rgba(255,157,0,.13),transparent 65%),var(--surface);border-color:rgba(255,157,0,.32)}
 #c3cards .rl-after .stage-value,#c3cards .stage-star{color:var(--c-budget-rl)}
 #c3cards .stage-star{text-shadow:0 0 10px rgba(255,157,0,.4)}
+#c3cards .stage-score-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+#c3cards .direct-gain{border:1px solid rgba(255,157,0,.25);border-radius:10px;padding:7px 9px;text-align:right;white-space:nowrap}
+#c3cards .direct-gain b{display:block;font:800 20px/1.15 "Manrope",sans-serif;letter-spacing:-.03em;color:var(--c-budget-rl);font-variant-numeric:tabular-nums}
+#c3cards .direct-gain small{font:600 10px/1 "Manrope",sans-serif;letter-spacing:0;margin-left:3px}
+#c3cards .direct-gain span{display:block;font:400 10px/1.5 "Noto Sans SC",sans-serif;color:var(--ink-2);margin-top:3px}
+
 #c3cards .rl-connector{display:grid;grid-template-columns:36px minmax(0,1fr) auto;align-items:center;gap:9px;padding:11px 13px;color:var(--c-budget-rl)}
 #c3cards .rl-arrow{width:32px;height:64px;filter:drop-shadow(0 0 5px rgba(255,157,0,.28))}
 #c3cards .rl-action{font:600 13px/1.5 "Noto Sans SC",sans-serif;color:var(--ink)}
@@ -355,6 +361,8 @@ const cards=document.getElementById('c3cards');
 function renderCards(i){
   const before=S3[1].v[i],after=S3[4].v[i],delta=Math.round((after-before)*100)/100;
   const fmt=v=>v.toFixed(2),gain=(delta<0?'−':'+')+fmt(Math.abs(delta));
+  const directDelta=Math.round((after-S3[3].v[i])*100)/100;
+  const directGain=(directDelta<0?'−':'+')+fmt(Math.abs(directDelta));
   const direction=delta<0?'loss':'gain';
   const note=i<3?'低预算下作答改善':i===3?'本预算变化较小':'长预算准确率下降';
   cards.innerHTML=`
@@ -371,7 +379,7 @@ function renderCards(i){
     </div>
     <div class="stat rl-stage rl-after">
       <div class="stage-head"><span><span class="stage-star">★</span> 思考 OPD+RL</span><span class="budget-badge">${BUD[i]} 预算 · RL 后</span></div>
-      <div class="stage-value">${fmt(after)}<small>%</small></div>
+      <div class="stage-score-row"><div class="stage-value">${fmt(after)}<small>%</small></div><div class="direct-gain"><b>${directGain}<small>pp</small></b><span>较直接 OPD</span></div></div>
       <div class="stage-ref"><span>参照 · 直接 OPD</span><strong>${fmt(S3[3].v[i])}%</strong></div>
       <div class="stage-ref stage-secondary"><span>基座（非思考）</span><strong>${fmt(S3[5].v[i])}%</strong></div>
     </div>`;
