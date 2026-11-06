@@ -77,6 +77,28 @@ svg text{font-family:"Manrope","Noto Sans SC",sans-serif}
 .legend .k.star,#tip .k.star{width:14px;height:14px;border:0;border-radius:0;background:var(--kc);clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 93%,50% 72%,21% 93%,32% 57%,2% 35%,39% 35%)}
 .budget-note{font:400 11.5px/1.6 "Noto Sans SC",sans-serif;color:var(--ink-2);margin:4px 0 0}
 .budget-note b{font-weight:600;color:var(--ink)}
+#c3cards{display:grid;grid-template-rows:minmax(0,1fr) auto minmax(0,1fr);gap:0}
+#c3cards .rl-stage{padding:18px 20px;gap:0}
+#c3cards .stage-head{display:flex;align-items:center;justify-content:space-between;gap:8px;font:600 13px/1.4 "Noto Sans SC",sans-serif;color:var(--ink)}
+#c3cards .budget-badge{font:600 10px/1 "Noto Sans SC",sans-serif;color:var(--ink-2);border:1px solid var(--line-2);border-radius:99px;padding:5px 8px;white-space:nowrap}
+#c3cards .stage-value{font:800 clamp(36px,4.6vh,52px)/1.12 "Manrope",sans-serif;letter-spacing:-.04em;font-variant-numeric:tabular-nums;margin:10px 0;color:var(--accent)}
+#c3cards .stage-value small{font-size:17px;letter-spacing:0;margin-left:5px;color:var(--ink-2)}
+#c3cards .stage-ref{display:flex;align-items:center;justify-content:space-between;gap:8px;font:400 11.5px/1.6 "Noto Sans SC",sans-serif;color:var(--ink-2)}
+#c3cards .stage-ref strong{font:600 12px/1.6 "Manrope",sans-serif;color:var(--ink);font-variant-numeric:tabular-nums}
+#c3cards .stage-secondary{border-top:1px solid var(--line);margin-top:8px;padding-top:7px}
+#c3cards .rl-after{background:linear-gradient(135deg,rgba(255,157,0,.13),transparent 65%),var(--surface);border-color:rgba(255,157,0,.32)}
+#c3cards .rl-after .stage-value,#c3cards .stage-star{color:var(--c-budget-rl)}
+#c3cards .stage-star{text-shadow:0 0 10px rgba(255,157,0,.4)}
+#c3cards .rl-connector{display:grid;grid-template-columns:36px minmax(0,1fr) auto;align-items:center;gap:9px;padding:11px 13px;color:var(--c-budget-rl)}
+#c3cards .rl-arrow{width:32px;height:64px;filter:drop-shadow(0 0 5px rgba(255,157,0,.28))}
+#c3cards .rl-action{font:600 13px/1.5 "Noto Sans SC",sans-serif;color:var(--ink)}
+#c3cards .rl-detail{font:400 10.5px/1.5 "Noto Sans SC",sans-serif;color:var(--ink-2);margin-top:2px}
+#c3cards .rl-delta{text-align:right;font:800 24px/1.15 "Manrope",sans-serif;letter-spacing:-.03em;white-space:nowrap}
+#c3cards .rl-delta small{font:600 11px/1 "Manrope",sans-serif;letter-spacing:0;margin-left:3px}
+#c3cards .rl-delta-label{display:block;font:400 10px/1.5 "Noto Sans SC",sans-serif;letter-spacing:0;color:var(--ink-2);margin-top:4px}
+#c3cards .rl-connector[data-direction="loss"] .rl-delta{color:var(--ink-2)}
+@media (max-width:900px){#c3cards{grid-template-rows:auto auto auto}#c3cards .rl-stage{min-height:190px}}
+
 .bottom{position:fixed;inset:auto 0 0 0;height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font:500 11.5px/1 "Noto Sans SC",sans-serif;color:var(--muted)}
 .bar{flex:1;height:2px;background:var(--line);margin:0 22px;border-radius:2px;position:relative;overflow:hidden}
 .bar i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:2px;transition:width .4s cubic-bezier(.2,.7,.2,1)}
@@ -330,10 +352,30 @@ const S3=[{entity:'budget-think',n:'自身思考',v:[32.65,62.90,80.15,88.40,90.
  {entity:'budget-rl',n:'思考 OPD+RL',v:[76.40,84.40,86.35,87.25,87.30],marker:'star',w:2.8,glow:true},
  {entity:'budget-base',n:'基座（非思考）',v:[72.80,73.40,73.50,73.50,73.50]}];
 const cards=document.getElementById('c3cards');
-function renderCards(i){cards.replaceChildren();
-  const mk=(l,v,n,hero)=>{const d=document.createElement('div');d.className='stat'+(hero?' hero':'');d.innerHTML=`<div class="l">${l}</div><div class="v">${v}</div><div class="n">${n}</div>`;cards.appendChild(d);};
-  mk('预算 '+BUD[i]+' · 思考 OPD / 自身思考',num(S3[1].v[i])+'<small>/ '+num(S3[0].v[i])+'</small>','思考 OPD 强制交卷后：'+num(S3[2].v[i])+'%',true);
-  mk('预算 '+BUD[i]+' · ★ 思考 OPD+RL / 直接 OPD',num(S3[4].v[i])+'<small>/ '+num(S3[3].v[i])+'</small>','基座（非思考）：'+num(S3[5].v[i])+'%');}
+function renderCards(i){
+  const before=S3[1].v[i],after=S3[4].v[i],delta=Math.round((after-before)*100)/100;
+  const fmt=v=>v.toFixed(2),gain=(delta<0?'−':'+')+fmt(Math.abs(delta));
+  const direction=delta<0?'loss':'gain';
+  const note=i<3?'低预算下作答改善':i===3?'本预算变化较小':'长预算准确率下降';
+  cards.innerHTML=`
+    <div class="stat hero rl-stage rl-before">
+      <div class="stage-head"><span>思考 OPD</span><span class="budget-badge">${BUD[i]} 预算 · RL 前</span></div>
+      <div class="stage-value">${fmt(before)}<small>%</small></div>
+      <div class="stage-ref"><span>参照 · 自身思考</span><strong>${fmt(S3[0].v[i])}%</strong></div>
+      <div class="stage-ref stage-secondary"><span>强制交卷后（另加 ≤32 tokens）</span><strong>${fmt(S3[2].v[i])}%</strong></div>
+    </div>
+    <div class="rl-connector" data-direction="${direction}">
+      <svg class="rl-arrow" viewBox="0 0 32 64" aria-hidden="true"><path d="M16 3V48M4 38L16 51L28 38" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div><div class="rl-action">加入短程 RL</div><div class="rl-detail">纯 GRPO · ${note}</div></div>
+      <div class="rl-delta">${gain}<small>pp</small><span class="rl-delta-label">同预算准确率变化</span></div>
+    </div>
+    <div class="stat rl-stage rl-after">
+      <div class="stage-head"><span><span class="stage-star">★</span> 思考 OPD+RL</span><span class="budget-badge">${BUD[i]} 预算 · RL 后</span></div>
+      <div class="stage-value">${fmt(after)}<small>%</small></div>
+      <div class="stage-ref"><span>参照 · 直接 OPD</span><strong>${fmt(S3[3].v[i])}%</strong></div>
+      <div class="stage-ref stage-secondary"><span>基座（非思考）</span><strong>${fmt(S3[5].v[i])}%</strong></div>
+    </div>`;
+}
 const c3=lines('c3',BUD,S3,{ymin:0,ymax:100,step:20,onFocus:i=>{document.getElementById('bud').value=i;document.getElementById('budv').textContent=BUD[i];renderCards(i);}});
 document.getElementById('bud').addEventListener('input',e=>{const i=+e.target.value;document.getElementById('budv').textContent=BUD[i];c3.focus(i);renderCards(i);});
 renderCards(2);c3.focus(2);
