@@ -1,9 +1,9 @@
 import {renderPhoto} from './photo.js';
-import {STORAGE_KEY,FEATURE_LABELS,emptyState,sanitizeState,profile,recommend,shanghaiDate,preferenceSummary} from './core.mjs';
+import {STORAGE_KEY,FEATURE_LABELS,emptyState,sanitizeState,profile,shanghaiDate,preferenceSummary} from './core.mjs';
 
 const $=s=>document.querySelector(s);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let catalog,state=emptyState(),daily={entries:[]},references={},view='round3',collectionIndices={round2:0,round3:0},groupFilter='all',occasionFilter='all',onlyLikes=false,variant=0,saveWorks=true,toastTimer;
+let catalog,state=emptyState(),daily={entries:[]},references={},view='round3',collectionIndices={round2:0,round3:0},groupFilter='all',occasionFilter='all',onlyLikes=false,saveWorks=true,toastTimer;
 const viewNames=['round3','round2','explore','daily','references','library','profile'];
 const content=$('#content');
 const storage={get(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');}catch{return null;}},set(s){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s));saveWorks=true;}catch{saveWorks=false;toast('浏览器暂时无法保存，请导出选择，避免丢失。');}}};
@@ -19,7 +19,7 @@ function collections(round='round2'){
  const entries=round==='round3'?catalog.round3Collections:catalog.collections;
  return (Array.isArray(entries)?entries:[]).filter(c=>c&&Array.isArray(c.outfitIds)&&c.outfitIds.length===4&&new Set(c.outfitIds).size===4&&c.outfitIds.every(id=>catalog.outfits.some(o=>o.id===id)));
 }
-function preferredView(){return collections('round3').length?'round3':collections('round2').length?'round2':'explore';}
+function preferredView(){return 'daily';}
 function collectionView(round){
  const edits=collections(round),third=round==='round3';
  if(!edits.length){content.innerHTML=heading('THE NEXT EDIT','下一轮，正在准备。','原有搭配和本地选择仍然可以查看。')+'<div class="empty-state"><p>这一轮精选尚未加载。可以先回看原有搭配。</p><div class="button-row" style="justify-content:center"><button class="primary" data-view="'+(third?'round2':'explore')+'">回看上一轮</button><button class="secondary" data-view="library">全部搭配</button></div></div>';return;}
@@ -75,20 +75,16 @@ function explore(){
  '<div class="chapter-bottom"><p>'+escape(g.description)+'<br><strong>'+(choices?'本组 '+choices+' 套想穿':done?'这组已浏览，可随时修改选择':'不必为了完成进度而选喜欢')+'</strong></p><div class="button-row"><button class="secondary" id="previous-group" '+(state.groupIndex===0?'disabled':'')+'>← 上一组</button><button class="primary" id="next-group">'+(state.groupIndex===catalog.groups.length-1?'看我的方向 ↗':'保存并看下一组 →')+'</button></div></div><div class="help-strip">用“想穿”表达自己的生活选择，用“欣赏”收藏好看的灵感。图片为 AI 生成的摄影风格示意；服装细节以搭配清单为准，合身度仍需试穿。</div>';
 }
 function dailyView(){
- const date=shanghaiDate(),entry=(daily.entries||[]).find(e=>e.date===date),fallback=recommend(catalog,state,date,variant);
- let looks=fallback;
- if(entry&&variant===0){
-   const curated=entry.outfitIds.map(id=>catalog.outfits.find(o=>o.id===id)).filter(o=>o&&state.ratings[o.id]!==-1).map(o=>({...o,recommendation:'今日编辑提案'}));
-   const p=profile(catalog,state);
-   looks=[];
-   if(p.liked.length)looks.push(...fallback.slice(0,2));
-   for(const o of curated.concat(fallback))if(looks.length<4&&!looks.some(x=>x.id===o.id))looks.push(o);
- }
- content.innerHTML=heading('A LITTLE INSPIRATION, EVERY DAY','今天，试试这些。','按北京时间更新 · 当前搭配库的每日精选','<span class="daily-date">'+date.replace(/-/g,'.')+'</span>')+
- (entry?'<div class="daily-editorial"><strong>'+escape(entry.headline)+'</strong><p>'+escape(entry.note)+'</p></div>':'<div class="daily-editorial"><strong>沿着喜欢的方向，留一点新鲜感。</strong><p>从现有搭配库按日期和本地偏好挑选。未评价时均衡探索；已标记“不适合”的搭配不会出现在这里。</p></div>')+
- (looks.length?grid(looks,'daily'):'<div class="empty-state"><h3>这批暂时没有合适的。</h3><p>你已经将所有搭配标记为不适合。可以去偏好页修改，或把摘要发回对话，让下一批换一个方向。</p><button class="primary" data-view="profile">查看我的偏好</button></div>')+
- '<div class="chapter-bottom"><p>网站根据本地选择挑选；对话中的每日推荐需要你分享偏好摘要。<br>这里不会自动读取天气、所在城市或博主实时更新。</p><div class="button-row"><button class="secondary" id="reroll">再看一组 ↻</button><button class="primary" data-export>把偏好发回对话 ↗</button></div></div>';
+ const entries=(daily.entries||[]).slice().sort((a,b)=>b.date.localeCompare(a.date));
+ content.innerHTML=heading('THE ARCHIVE','错过的，慢慢看。','每日新增已暂停 · 已发布内容完整保留','共 '+entries.length+' 期 · '+catalog.outfits.length+' 套搭配')+
+ '<div class="archive-intro"><p>这里按日期倒序展开所有往期提案，保留当时的四套搭配和试穿提示。即使后来改过偏好，也能看到原来的内容；标记仍可随时修改。</p><div class="button-row"><button class="primary" data-view="library">浏览全部 '+catalog.outfits.length+' 套 →</button><button class="secondary" data-export>导出偏好摘要 ↗</button></div></div>'+
+ (entries.length?'<nav class="archive-dates" aria-label="跳转到往期日期">'+entries.map(e=>'<button class="secondary" data-archive-date="'+escape(e.date)+'">'+escape(e.date.slice(5).replace('-',' / '))+'</button>').join('')+'</nav>'+entries.map(e=>{
+   const looks=e.outfitIds.map(id=>catalog.outfits.find(o=>o.id===id)).filter(Boolean);
+   return '<section class="archive-entry" id="archive-'+escape(e.date)+'" data-archive-entry="'+escape(e.date)+'" tabindex="-1" aria-labelledby="archive-title-'+escape(e.date)+'"><div class="archive-entry-heading"><time class="daily-date" datetime="'+escape(e.date)+'">'+escape(e.date.replace(/-/g,'.'))+'</time><button class="text-button" data-archive-top>回到日期目录 ↑</button></div><div class="daily-editorial"><h3 id="archive-title-'+escape(e.date)+'">'+escape(e.headline)+'</h3><p>'+escape(e.note)+'</p></div>'+grid(looks,'daily')+'</section>';
+ }).join(''):'<div class="empty-state"><h3>往期提案暂时未能加载。</h3><p>可以刷新页面重试，或先浏览全部搭配。</p><button class="secondary" id="reload">重新加载</button></div>')+
+ '<div class="help-strip">这里只回看已有内容，不按日期生成新组合。第一轮、第二轮、第三轮精选和秀场参考都保留在原入口；需要继续探索时，再回到对话告诉我。</div>';
 }
+
 function library(){
  const filtered=catalog.outfits.filter(o=>(groupFilter==='all'||o.group===groupFilter)&&(occasionFilter==='all'||o.occasion.includes(occasionFilter))&&(!onlyLikes||state.ratings[o.id]===2));
  const occasions=Array.from(new Set(catalog.outfits.flatMap(o=>o.occasion)));
@@ -101,7 +97,7 @@ function profileView(){
  let body='';
  if(!p.liked.length&&!p.admired.length)body='<div class="empty-state"><h3>风格，从一次心动开始。</h3><p>目前还没有“想穿”或“欣赏”的选择。可以继续探索，也可以导出“不适合”的反馈，让下一批换个方向。</p><div class="button-row" style="justify-content:center"><button class="primary" data-view="explore">继续挑选 →</button><button class="secondary" data-export>导出已有反馈</button></div></div>';
  else body='<div class="profile-layout"><div class="profile-panel"><p class="eyebrow">YOUR EARLY DIRECTION</p><h3>'+escape(p.byGroup.slice(0,2).map(g=>g.name).join(' × '))+'</h3><p>'+(p.tentative?'选择还少，这只是暂时倾向。多看几组后再决定。':'这是当前选择形成的方向，仍可随时变化。')+'</p>'+p.byGroup.map(g=>'<div class="preference-item"><span>'+escape(g.name)+'</span><div class="meter"><span style="width:'+Math.min(100,(g.likes*2+g.admired)/8*100)+'%"></span></div><span>'+g.likes+'想穿 '+g.admired+'欣赏</span></div>').join('')+'</div><div><div class="metric"><span>想穿 / 欣赏 / 暂不适合</span><strong>'+p.liked.length+' / '+p.admired.length+' / '+p.negatives.length+'</strong></div>'+
- Object.keys(FEATURE_LABELS).map(k=>'<div class="metric"><span>'+FEATURE_LABELS[k]+'</span><strong>'+(p.liked.length?featureWord(k,p.averages[k]):'先选几套想穿的')+'</strong></div>').join('')+'<p style="font-size:11px;color:var(--muted)">根据搭配的编辑标签粗略归纳，不是身体诊断、精确评分或固定人格。</p><div class="button-row"><button class="primary" data-export>复制偏好摘要 ↗</button><button class="secondary" data-view="daily">看今日提案</button></div></div></div>'+
+ Object.keys(FEATURE_LABELS).map(k=>'<div class="metric"><span>'+FEATURE_LABELS[k]+'</span><strong>'+(p.liked.length?featureWord(k,p.averages[k]):'先选几套想穿的')+'</strong></div>').join('')+'<p style="font-size:11px;color:var(--muted)">根据搭配的编辑标签粗略归纳，不是身体诊断、精确评分或固定人格。</p><div class="button-row"><button class="primary" data-export>复制偏好摘要 ↗</button><button class="secondary" data-view="daily">看往期提案</button></div></div></div>'+
  (p.liked.length?heading('YOUR SAVED LOOKS','这些，你愿意穿出门。','随时可以撤销或更改。')+grid(p.liked,'saved','library-grid'):'');
  content.innerHTML=heading('A STYLE THAT FEELS LIKE YOU','你的选择，正在说话。','已浏览 '+state.visited.length+'/'+catalog.groups.length+' 组 · '+(saveWorks?'偏好保存在本浏览器':'本地保存不可用，请导出备份'))+body+
  heading('PEOPLE TO LEARN FROM','把参考，变成自己的。','下面是风格学习入口；展台方案均为原创，不是这些博主的原图或指定同款。')+
@@ -113,6 +109,7 @@ function navigate(target){if(!viewNames.includes(target))return;view=target;hist
 function updateRating(id,rating){
  if(!catalog.outfits.some(o=>o.id===id))return;
  const restoreFocus=document.activeElement?.dataset.rate===id;
+ const activeCard=view==='daily'?document.activeElement?.closest('[data-card]'):null;
  const previous=state.ratings[id];
  if(previous===rating){delete state.ratings[id];delete state.reasons[id];}else{state.ratings[id]=rating;if(rating!==-1)delete state.reasons[id];}
  persist();
@@ -120,7 +117,7 @@ function updateRating(id,rating){
    document.querySelectorAll('[data-card="'+id+'"]').forEach(card=>{const o=catalog.outfits.find(o=>o.id===id);card.classList.toggle('liked',state.ratings[id]===2);card.querySelector('.rating-row').outerHTML=ratingRow(o);card.querySelector('.reason-select')?.remove();if(state.ratings[id]===-1)card.querySelector('.look-body').insertAdjacentHTML('beforeend',reasonSelect(o));});
  }else render();
  if($('#detail-dialog').open)detail(id,false);
- if(restoreFocus){const root=$('#detail-dialog').open?$('#detail-dialog'):content;root.querySelector('[data-rate="'+id+'"][data-rating="'+rating+'"]')?.focus({preventScroll:true});}
+ if(restoreFocus){const root=$('#detail-dialog').open?$('#detail-dialog'):(activeCard?.isConnected?activeCard:content);root.querySelector('[data-rate="'+id+'"][data-rating="'+rating+'"]')?.focus({preventScroll:true});}
  toast(previous===rating?'已撤销选择':rating===2?'已记下：这套想穿。':rating===1?'已收藏为灵感，不会当作一定想穿。':'已记下，下次推荐会避开这套。');
 }
 function detail(id,open=true){
@@ -166,7 +163,8 @@ document.addEventListener('click',event=>{
    if(state.groupIndex<catalog.groups.length-1){state.groupIndex++;persist();render(true);}else{persist();navigate('profile');}return;
  }
  if(b.id==='previous-group'){state.groupIndex=Math.max(0,state.groupIndex-1);persist();render(true);return;}
- if(b.id==='reroll'){variant++;render();return;}
+ if(b.dataset.archiveDate){const section=document.getElementById('archive-'+b.dataset.archiveDate);section?.focus({preventScroll:true});section?.scrollIntoView({behavior:'auto',block:'start'});return;}
+ if(b.hasAttribute('data-archive-top')){content.focus({preventScroll:true});content.scrollIntoView({behavior:'auto',block:'start'});return;}
  if(b.id==='clear-filters'){groupFilter='all';occasionFilter='all';onlyLikes=false;render();return;}
  if(b.id==='reset-open'){$('#reset-dialog').showModal();return;}
  if(b.id==='confirm-reset'){state=emptyState();collectionIndices={round2:0,round3:0};persist();$('#reset-dialog').close();navigate(preferredView());toast('已重新开始。');return;}
@@ -182,7 +180,7 @@ document.addEventListener('click',event=>{
 });
 document.addEventListener('change',async event=>{
  const el=event.target;
- if(el.dataset.reason){state.reasons[el.dataset.reason]=el.value;persist();return;}
+ if(el.dataset.reason){state.reasons[el.dataset.reason]=el.value;document.querySelectorAll('[data-reason="'+el.dataset.reason+'"]').forEach(select=>{select.value=el.value;});persist();return;}
  if(el.id==='group-filter'){groupFilter=el.value;render();return;}
  if(el.id==='occasion-filter'){occasionFilter=el.value;render();return;}
  if(el.id==='only-likes'){onlyLikes=el.checked;render();return;}
@@ -198,9 +196,6 @@ document.addEventListener('change',async event=>{
  }
 });
 document.querySelectorAll('dialog').forEach(dialog=>dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}}));
-document.addEventListener('visibilitychange',()=>{if(!document.hidden&&view==='daily'&&catalog)render();});
-let displayedDate=shanghaiDate();
-setInterval(()=>{const date=shanghaiDate();if(date!==displayedDate){displayedDate=date;variant=0;if(view==='daily'&&catalog&&!document.hidden)render();}},60000);
 window.addEventListener('storage',event=>{if(event.key===STORAGE_KEY&&catalog){state=sanitizeState(storage.get(),catalog);render();}});
 window.addEventListener('hashchange',()=>{const target=location.hash.slice(1);if(catalog&&viewNames.includes(target)&&target!==view){view=target;render(true);}});
 init();
